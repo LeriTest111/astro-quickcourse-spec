@@ -1,0 +1,328 @@
+---
+import MultipleChoiceFeedback from "../components/interactions/MultipleChoiceFeedback.astro";
+import CenteredMinimalHero from "../components/layout/heroes/CenteredMinimalHero.astro";
+import FloatingCardHero from "../components/layout/heroes/FloatingCardHero.astro";
+import HeroDisplayOptions from "../components/layout/heroes/HeroDisplayOptions.astro";
+import ImageOverlayHero from "../components/layout/heroes/ImageOverlayHero.astro";
+import LearningObjectivesHero from "../components/layout/heroes/LearningObjectivesHero.astro";
+import ScenarioOpenerHero from "../components/layout/heroes/ScenarioOpenerHero.astro";
+import SplitHero from "../components/layout/heroes/SplitHero.astro";
+import ShowcaseLayout from "../layouts/ShowcaseLayout.astro";
+
+const approvedStack = `system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, Helvetica, sans-serif`;
+
+const multipleChoiceExample = {
+  eyebrow: "Interaction pattern",
+  title: "Multiple-choice feedback",
+  prompt:
+    "A learner is choosing the best next action after reading a short customer scenario. Which response keeps the learning conversation focused and useful?",
+  instruction: "Select one answer. Feedback appears immediately below the choices.",
+  options: [
+    {
+      label: "A",
+      text: "Give the learner the correct answer straight away and move on.",
+      isCorrect: false,
+      feedbackTitle: "Not quite",
+      feedback:
+        "This is efficient, but it removes the moment where the learner connects the scenario to the decision.",
+    },
+    {
+      label: "B",
+      text: "Ask the learner to choose an action, then explain why that choice works or misses the mark.",
+      isCorrect: true,
+      feedbackTitle: "Correct",
+      feedback:
+        "This keeps the activity active. The learner makes a decision first, then receives feedback that reinforces the reasoning.",
+    },
+    {
+      label: "C",
+      text: "Show all possible responses with no feedback so the learner can decide privately.",
+      isCorrect: false,
+      feedbackTitle: "Not quite",
+      feedback:
+        "Choice is useful, but feedback is what turns the click into a learning moment.",
+    },
+  ],
+};
+---
+
+<ShowcaseLayout>
+  <section id="layouts" class="showcase-catalogue-section mt-10 scroll-mt-28" aria-labelledby="layouts-heading">
+    <h1 id="layouts-heading" class="showcase-catalogue-section__heading">Layouts</h1>
+    <div class="mt-8">
+      <h2 class="showcase-catalogue-section__subheading">Heroes</h2>
+      <article class="mt-5">
+        <h3 class="showcase-catalogue-section__item-heading">Hero 1: Image overlay hero</h3>
+        <HeroDisplayOptions
+          previewId="hero-1-preview"
+          options={[
+            { part: "eyebrow", label: "Eyebrow" },
+            { part: "summary", label: "Supporting text" },
+            { part: "primary-action", label: "Primary action" },
+            { part: "secondary-action", label: "Secondary action" },
+          ]}
+        />
+        <div class="mt-6">
+          <ImageOverlayHero
+            previewId="hero-1-preview"
+            headingId="hero-1-heading"
+            eyebrow="Module opening"
+            title="Build a routine that works for you."
+            summary="Explore a simple approach, then make it your own."
+            imageSrc="/images/showcase/hero-1.avif"
+            imageAlt="A close-up of a course participant reviewing materials at a desk."
+            actions={[
+              { href: "#assessment-interactions", label: "Begin module" },
+              { href: "#typography", label: "Review guide", variant: "secondary" },
+            ]}
+          />
+        </div>
+      </article>
+
+      <article class="showcase-hero-example mt-10">
+        <div class="showcase-hero-example__heading-row">
+          <h3 class="showcase-catalogue-section__item-heading">Hero 2: Split hero</h3>
+          <span class="showcase-status">In Review</span>
+        </div>
+        <HeroDisplayOptions
+          previewId="hero-2-preview"
+          options={[
+            { part: "eyebrow", label: "Eyebrow" },
+            { part: "summary", label: "Supporting text" },
+            { part: "primary-action", label: "Primary action" },
+            { part: "secondary-action", label: "Secondary action" },
+          ]}
+        />
+        <div class="mt-6">
+          <SplitHero
+            previewId="hero-2-preview"
+            headingId="hero-2-heading"
+            eyebrow="Customer conversations"
+            title="Make each next step clear."
+            summary="A concise course introduction with space for a primary course action and a supporting reference."
+            imageSrc="/images/showcase/hero-1-k-beauty.jpg"
+            imageAlt="A person applying a skincare patch while looking in a bathroom mirror."
+            actions={[
+              { href: "#assessment-interactions", label: "Begin module" },
+              { href: "#typography", label: "Review guide", variant: "secondary" },
+            ]}
+          />
+        </div>
+      </article>
+
+      <article class="showcase-hero-example mt-10">
+        <div class="showcase-hero-example__heading-row">
+          <h3 class="showcase-catalogue-section__item-heading">Hero 3: Centred minimal hero</h3>
+          <span class="showcase-status">In Review</span>
+        </div>
+        <HeroDisplayOptions
+          previewId="hero-3-preview"
+          options={[
+            { part: "eyebrow", label: "Eyebrow" },
+            { part: "summary", label: "Supporting text" },
+            { part: "primary-action", label: "Primary action" },
+            { part: "secondary-action", label: "Secondary action" },
+          ]}
+        />
+        <div class="mt-6">
+          <CenteredMinimalHero
+            previewId="hero-3-preview"
+            headingId="hero-3-heading"
+            eyebrow="Getting started"
+            title="A practical introduction to confident decisions."
+            summary="Use this calm, text-first option when an image does not add useful context to the course opening."
+            actions={[
+              { href: "#display-interactions", label: "Start learning" },
+              { href: "#icons", label: "View resources", variant: "secondary" },
+            ]}
+          />
+        </div>
+      </article>
+
+      <article class="showcase-hero-example mt-10">
+        <div class="showcase-hero-example__heading-row">
+          <h3 class="showcase-catalogue-section__item-heading">Hero 4: Floating card hero</h3>
+          <span class="showcase-status">In Review</span>
+        </div>
+        <HeroDisplayOptions
+          previewId="hero-4-preview"
+          options={[
+            { part: "eyebrow", label: "Eyebrow" },
+            { part: "summary", label: "Supporting text" },
+            { part: "primary-action", label: "Primary action" },
+          ]}
+        />
+        <div class="mt-6">
+          <FloatingCardHero
+            previewId="hero-4-preview"
+            headingId="hero-4-heading"
+            eyebrow="Working together"
+            title="Turn good intentions into a shared plan."
+            summary="A solid content card keeps the opening message readable while a larger image sets the scene."
+            imageSrc="/images/showcase/hero-1.avif"
+            imageAlt="A close-up of a course participant reviewing materials at a desk."
+            actions={[{ href: "#display-interactions", label: "Explore the plan" }]}
+          />
+        </div>
+      </article>
+
+      <article class="showcase-hero-example mt-10">
+        <div class="showcase-hero-example__heading-row">
+          <h3 class="showcase-catalogue-section__item-heading">Hero 5: Learning objectives hero</h3>
+          <span class="showcase-status">In Review</span>
+        </div>
+        <HeroDisplayOptions
+          previewId="hero-5-preview"
+          options={[
+            { part: "eyebrow", label: "Module label" },
+            { part: "summary", label: "Introduction" },
+            { part: "primary-action", label: "Start action" },
+          ]}
+        />
+        <div class="mt-6">
+          <LearningObjectivesHero
+            previewId="hero-5-preview"
+            headingId="hero-5-heading"
+            moduleLabel="Module 02"
+            title="Plan a useful learner conversation."
+            introduction="Set expectations early by showing learners what they will practise and apply."
+            objectives={[
+              "Identify the information that matters most in a short scenario.",
+              "Choose a response that keeps the conversation constructive.",
+              "Explain the reasoning behind a recommended next step.",
+            ]}
+            actions={[{ href: "#assessment-interactions", label: "Start module" }]}
+          />
+        </div>
+      </article>
+
+      <article class="showcase-hero-example mt-10">
+        <div class="showcase-hero-example__heading-row">
+          <h3 class="showcase-catalogue-section__item-heading">Hero 6: Scenario opener hero</h3>
+          <span class="showcase-status">In Review</span>
+        </div>
+        <HeroDisplayOptions
+          previewId="hero-6-preview"
+          options={[
+            { part: "eyebrow", label: "Scenario label" },
+            { part: "summary", label: "Situation description" },
+            { part: "primary-action", label: "Enter action" },
+          ]}
+        />
+        <div class="mt-6">
+          <ScenarioOpenerHero
+            previewId="hero-6-preview"
+            headingId="hero-6-heading"
+            scenarioLabel="Scenario"
+            title="A team member needs a clear answer."
+            situation="You are midway through a busy day when a colleague asks for help with a customer request that has changed at the last minute."
+            challenge="What would you do first to understand the situation and offer useful support?"
+            actions={[{ href: "#assessment-interactions", label: "Enter the scenario" }]}
+          />
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section
+    id="display-interactions"
+    class="showcase-catalogue-section mt-10 scroll-mt-28"
+    aria-labelledby="display-interactions-heading"
+  >
+    <h2 id="display-interactions-heading" class="showcase-catalogue-section__heading">Display interactions</h2>
+    <p class="mt-4 max-w-3xl text-base leading-7 text-base-content/75">
+      These patterns help learners explore supporting information without leaving
+      the flow of the lesson.
+    </p>
+    <div class="mt-6 grid gap-6 lg:grid-cols-2">
+      <article class="alert border border-info/30 bg-info/10 text-base-content">
+        <span class="material-symbols-sharp showcase-icon" aria-hidden="true">info</span>
+        <div>
+          <h3 class="font-semibold">Helpful context</h3>
+          <p class="mt-1">Use a callout when supporting information should be easy to spot while reading.</p>
+        </div>
+      </article>
+      <article class="rounded-box border border-base-300 bg-base-100 p-4">
+        <details class="collapse collapse-arrow border border-base-300 bg-base-100">
+          <summary class="collapse-title font-semibold">Open a supporting detail</summary>
+          <div class="collapse-content">
+            <p>Accordions keep optional context available without making the main lesson feel dense.</p>
+          </div>
+        </details>
+      </article>
+    </div>
+  </section>
+
+  <section
+    id="assessment-interactions"
+    class="showcase-catalogue-section mt-10 scroll-mt-28"
+    aria-labelledby="assessment-interactions-heading"
+  >
+    <h2 id="assessment-interactions-heading" class="showcase-catalogue-section__heading">Assessment interactions</h2>
+    <p class="mt-4 max-w-3xl text-base leading-7 text-base-content/75">
+      This interaction is adapted from the K-Beauty Module 4 activity. It presents
+      a set of choices, records the selected option visually and semantically, and
+      gives immediate feedback in a live region.
+    </p>
+    <div class="mt-6">
+      <MultipleChoiceFeedback {...multipleChoiceExample} />
+    </div>
+  </section>
+
+  <section id="multimedia" class="showcase-catalogue-section mt-10 scroll-mt-28" aria-labelledby="multimedia-heading">
+    <h2 id="multimedia-heading" class="showcase-catalogue-section__heading">Multimedia</h2>
+    <div class="mt-6 grid gap-6 lg:grid-cols-2">
+      <article class="rounded-box border border-base-300 bg-base-100 p-6">
+        <span class="material-symbols-sharp showcase-icon text-3xl text-primary" aria-hidden="true">play_circle</span>
+        <h3 class="mt-3 text-xl font-semibold">Video lesson</h3>
+        <p class="mt-2 text-base-content/70">A responsive player pattern will live here, with captions and a text alternative.</p>
+      </article>
+      <article class="rounded-box border border-base-300 bg-base-100 p-6">
+        <span class="material-symbols-sharp showcase-icon text-3xl text-primary" aria-hidden="true">headphones</span>
+        <h3 class="mt-3 text-xl font-semibold">Audio clip</h3>
+        <p class="mt-2 text-base-content/70">Audio examples will include a transcript and clear playback controls.</p>
+      </article>
+    </div>
+  </section>
+
+  <section
+    id="typography"
+    class="showcase-catalogue-section mt-10 scroll-mt-28"
+    aria-labelledby="typography-heading"
+  >
+    <h2 id="typography-heading" class="showcase-catalogue-section__heading">Typography</h2>
+    <p class="mt-3 max-w-3xl text-base-content/70">The Showcase and future Boilerplate use a native system sans-serif stack. No external text font service, downloaded text font file, or JavaScript font loader is required.</p>
+    <div class="mt-5 rounded-box bg-base-200 p-4">
+      <p class="text-sm font-semibold">Approved stack</p>
+      <code class="mt-2 block whitespace-pre-wrap text-sm">{approvedStack}</code>
+    </div>
+    <div class="learning-prose mt-6">
+      <h1>H1: Course section title</h1>
+      <h2>H2: Lesson topic heading</h2>
+      <h3>H3: Activity or content block heading</h3>
+      <p>This paragraph demonstrates the recommended readable line length for lesson content. Use <strong>bold text</strong> for meaningful emphasis and <em>italic text</em> sparingly.</p>
+      <blockquote>A plain typography foundation makes course content easier to read and easier to rebrand later.</blockquote>
+    </div>
+  </section>
+
+  <section id="icons" class="showcase-catalogue-section mt-10 scroll-mt-28" aria-labelledby="icons-heading">
+    <h2 id="icons-heading" class="showcase-catalogue-section__heading">Icons</h2>
+    <p class="mt-3 max-w-3xl text-base-content/70">Google Material Symbols Sharp is the standard icon family for course controls and supporting visual cues.</p>
+    <div class="mt-6 grid grid-cols-3 gap-3 sm:grid-cols-6">
+      {[
+        ["arrow_forward", "Continue"],
+        ["check_circle", "Correct"],
+        ["info", "Information"],
+        ["play_circle", "Play"],
+        ["menu", "Menu"],
+        ["arrow_upward", "Back to top"],
+      ].map(([icon, label]) => (
+        <div class="flex min-h-28 flex-col items-center justify-center gap-2 rounded-box border border-base-300 bg-base-100 p-3 text-center">
+          <span class="material-symbols-sharp showcase-icon text-3xl text-primary" aria-hidden="true">{icon}</span>
+          <span class="text-xs text-base-content/70">{label}</span>
+        </div>
+      ))}
+    </div>
+    <p class="mt-4 text-sm text-base-content/70">Use the <code>material-symbols-sharp showcase-icon</code> classes and pair icons with text or an accessible label when meaning is not obvious.</p>
+  </section>
+</ShowcaseLayout>

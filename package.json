@@ -1,0 +1,28 @@
+{
+  "name": "astro-quickcourse-spec",
+  "type": "module",
+  "version": "0.1.0",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "build:scorm": "astro build && node scripts/build-scorm.mjs",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@tailwindcss/vite": "^4.2.2",
+    "astro": "^6.1.6",
+    "daisyui": "^5.5.19",
+    "tailwindcss": "^4.2.2"
+  },
+  "scorm": {
+    "courseTitle": "Astro Course Component Showcase",
+    "courseId": "astro-quickcourse-spec",
+    "launchFile": "index.html",
+    "version": "1.2",
+    "completeOnLoad": false
+  }
+}

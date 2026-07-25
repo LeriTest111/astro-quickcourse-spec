@@ -1,0 +1,40 @@
+---
+const navItems = [
+  { label: "Layouts", href: "#layouts" },
+  { label: "Display interactions", href: "#display-interactions" },
+  { label: "Assessment interactions", href: "#assessment-interactions" },
+  { label: "Multimedia", href: "#multimedia" },
+  { label: "Typography", href: "#typography" },
+  { label: "Icons", href: "#icons" },
+];
+---
+
+<header class="showcase-topbar sticky top-3 z-30 mx-auto max-w-7xl">
+  <div class="showcase-topbar__inner">
+    <a class="showcase-brand" href="#layouts" aria-label="Astro Course Component Showcase: layouts">
+      <span class="showcase-logo-badge" aria-hidden="true">
+        <span>SC</span>
+      </span>
+      <span class="showcase-brand__title">Astro Course Component Showcase</span>
+    </a>
+
+    <nav class="showcase-topbar__nav" aria-label="Showcase navigation">
+      <ul>
+        {navItems.map((item) => (
+          <li><a href={item.href}>{item.label}</a></li>
+        ))}
+      </ul>
+    </nav>
+
+    <details class="showcase-topbar__mobile-menu">
+      <summary>Menu</summary>
+      <nav aria-label="Showcase mobile navigation">
+        <ul>
+          {navItems.map((item) => (
+            <li><a href={item.href}>{item.label}</a></li>
+          ))}
+        </ul>
+      </nav>
+    </details>
+  </div>
+</header>

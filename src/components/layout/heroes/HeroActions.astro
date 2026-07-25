@@ -1,0 +1,28 @@
+---
+import type { HeroAction } from "./hero-types";
+
+interface Props {
+  actions: HeroAction[];
+}
+
+const { actions } = Astro.props;
+---
+
+{
+  actions.length > 0 && (
+    <div class="hero-actions" data-hero-actions>
+      {actions.map((action) => (
+        <a
+          class:list={[
+            "hero-action",
+            action.variant === "secondary" && "hero-action--secondary",
+          ]}
+          data-hero-part={action.variant === "secondary" ? "secondary-action" : "primary-action"}
+          href={action.href}
+        >
+          {action.label}
+        </a>
+      ))}
+    </div>
+  )
+}

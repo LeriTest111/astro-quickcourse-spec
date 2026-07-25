@@ -1,0 +1,31 @@
+---
+import HeroActions from "./HeroActions.astro";
+import type { HeroAction } from "./hero-types";
+
+interface Props {
+  previewId: string;
+  headingId: string;
+  moduleLabel: string;
+  title: string;
+  introduction: string;
+  objectives: string[];
+  actions: HeroAction[];
+}
+
+const { previewId, headingId, moduleLabel, title, introduction, objectives, actions } = Astro.props;
+---
+
+<section class="showcase-hero-objectives" data-hero-preview={previewId} aria-labelledby={headingId}>
+  <div class="showcase-hero-objectives__content">
+    <p class="hero-eyebrow" data-hero-part="eyebrow">{moduleLabel}</p>
+    <h4 id={headingId} class="hero-title">{title}</h4>
+    <p class="hero-summary" data-hero-part="summary">{introduction}</p>
+  </div>
+  <div class="showcase-hero-objectives__list-wrap">
+    <h5 class="showcase-hero-objectives__list-heading">By the end of this module, you will be able to:</h5>
+    <ul class="showcase-hero-objectives__list">
+      {objectives.map((objective) => <li>{objective}</li>)}
+    </ul>
+    <HeroActions actions={actions} />
+  </div>
+</section>
