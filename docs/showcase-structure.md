@@ -37,6 +37,12 @@ The landing page should introduce the Showcase without decorative count labels s
 
 Showcase examples may keep component-level names and approval statuses. Eyebrows should be reserved for meaningful context, such as a module number, scenario or content category.
 
+## Showcase Options
+
+Some examples include compact Showcase-only option controls for reviewing variants, such as carousel indicators, carousel slide content and flip-card height modes. These controls live in `src/components/showcase/` and are not part of production Quick Course components.
+
+Production components should receive normal props, content data or slots. Do not copy Showcase option controls into learner-facing courses.
+
 ## Return Message
 
 Course return instructions, including `Return to People Connect to continue`, should be quiet standalone text with suitable spacing. They should not appear inside bordered cards, panels or large CTA containers.

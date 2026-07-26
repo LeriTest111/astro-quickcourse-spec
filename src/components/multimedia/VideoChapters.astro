@@ -1,0 +1,69 @@
+---
+import VideoPlayer from "./VideoPlayer.astro";
+
+interface VideoChapter {
+  title: string;
+  time: number;
+  description?: string;
+}
+
+interface Props {
+  id: string;
+  heading: string;
+  intro?: string;
+  src: string;
+  videoTitle?: string;
+  poster?: string;
+  caption?: string;
+  chapters: VideoChapter[];
+}
+
+const { id, heading, intro, src, videoTitle, poster, caption, chapters } = Astro.props;
+
+function formatTime(seconds: number) {
+  const minutes = Math.floor(seconds / 60);
+  const remaining = Math.floor(seconds % 60).toString().padStart(2, "0");
+  return `${minutes}:${remaining}`;
+}
+---
+
+<section class="qc-video-chapters" data-video-chapters aria-labelledby={`${id}-heading`}>
+  <div class="qc-video-section__header">
+    <h3 id={`${id}-heading`}>{heading}</h3>
+    {intro && <p>{intro}</p>}
+  </div>
+  <div class="qc-video-chapters__layout">
+    <VideoPlayer id={`${id}-video`} src={src} title={videoTitle ?? heading} poster={poster} caption={caption} />
+    <ol class="qc-video-chapters__list" aria-label="Video chapters">
+      {chapters.map((chapter, index) => (
+        <li>
+          <button type="button" data-video-chapter data-time={chapter.time} aria-pressed={index === 0 ? "true" : "false"}>
+            <span>{formatTime(chapter.time)}</span>
+            <strong>{chapter.title}</strong>
+            {chapter.description && <small>{chapter.description}</small>}
+          </button>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll("[data-video-chapters]").forEach((root) => {
+    if (root.dataset.videoChaptersReady === "true") return;
+    root.dataset.videoChaptersReady = "true";
+
+    const video = root.querySelector("video");
+    const buttons = [...root.querySelectorAll("[data-video-chapter]")];
+
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => {
+        if (!(video instanceof HTMLVideoElement) || !(button instanceof HTMLElement)) return;
+        const time = Number(button.dataset.time ?? 0);
+        video.currentTime = Math.max(0, Math.min(time, Number.isFinite(video.duration) ? video.duration : time));
+        buttons.forEach((item) => item.setAttribute("aria-pressed", item === button ? "true" : "false"));
+        video.focus({ preventScroll: true });
+      });
+    });
+  });
+</script>

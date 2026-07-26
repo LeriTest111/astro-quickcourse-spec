@@ -1,6 +1,6 @@
 # Display Interactions
 
-All display interactions are marked `In Review` until the project team approves them. These components help learners reveal, compare or navigate information. They do not score answers, determine correctness, track attempts or call SCORM.
+All nine display interactions are marked `In Review` until the project team approves them. These components help learners reveal, compare or navigate information. They do not score answers, determine correctness, track attempts or call SCORM. Before-and-After Reveal has been removed from the library until a stronger Quick Course use case emerges.
 
 Use brief, purposeful animation only when it clarifies a state change. Motion should use small opacity or transform changes, never autoplay content, and must respect `prefers-reduced-motion`.
 
@@ -14,7 +14,7 @@ Recommended use: optional explanations, FAQs, definitions and reference notes.
 
 Content structure or props: heading, intro, items with title, content, optional icon or media, single-open or multiple-open mode and optional default-open item.
 
-Interaction behaviour: native `details` and `summary` provide the baseline; small scoped JavaScript closes sibling items in single-open mode.
+Interaction behaviour: native `details` and `summary` provide the baseline; small scoped JavaScript closes sibling items in single-open mode. Content reveal uses restrained opacity, vertical movement and indicator rotation.
 
 Keyboard behaviour: native summary controls are keyboard operable.
 
@@ -76,17 +76,17 @@ Keyboard behaviour: buttons are in normal focus order and use `aria-expanded`.
 
 Responsive behaviour: cards stack on mobile and form a small grid on wider screens.
 
-Accessibility considerations: does not rely on hover or 3D transforms.
+Accessibility considerations: does not rely on hover. The default visual treatment uses a 3D flip, while reduced-motion users get a simple content swap.
 
-JavaScript requirements: required for reveal state.
+JavaScript requirements: required for reveal state, face visibility and height measurement.
 
 Suitable use cases: compact checks for understanding without scoring.
 
 Misuse to avoid: long back content that belongs in a panel or accordion.
 
-Customizable properties: icons, images and copy.
+Customizable properties: icons, images, copy and `heightMode`.
 
-Standardized properties: button-based reveal, neutral card styling and a short state-change animation that does not rely on hover.
+Standardized properties: button-based reveal, neutral card styling, real flip animation and `heightMode: "equal" | "content"`.
 
 ## Carousel
 
@@ -96,9 +96,9 @@ Purpose: move through a small set of related slides.
 
 Recommended use: two to eight compact examples, images or mixed-content panels.
 
-Content structure or props: stable id, slides with title, body, optional image, alt text and caption.
+Content structure or props: stable id, slide type, title, body, image, alt text, caption, attribution, action, indicator style, slide-count visibility and arrow position.
 
-Interaction behaviour: Previous and Next arrows sit at the slide edges, centred indicators sit below the slide and direct slide controls update the visible slide.
+Interaction behaviour: Previous and Next arrows sit at or beside the slide edges, indicators sit inside the carousel frame near the bottom and direct slide controls update the visible slide.
 
 Keyboard behaviour: controls are buttons; inactive slides are hidden from keyboard users after enhancement.
 
@@ -108,13 +108,13 @@ Accessibility considerations: no autoplay, live status text and disabled control
 
 JavaScript requirements: required for slide navigation.
 
-Suitable use cases: small example sets and related visual panels.
+Suitable use cases: small example sets, product highlights, images with captions, short tips, quotes and related visual panels.
 
-Misuse to avoid: long required procedures that should remain visible.
+Misuse to avoid: essential long-form content, important procedures, content learners must compare simultaneously or large slide sets.
 
-Customizable properties: slides, captions and images.
+Customizable properties: `indicatorStyle: "dots" | "numbers" | "none"`, `showSlideCount`, `arrowPosition: "overlay" | "outside"` and slide content.
 
-Standardized properties: conventional carousel arrows, centred indicators, slide count text, no autoplay and explicit controls.
+Standardized properties: one reusable carousel engine, supported slide types `image`, `text`, `image-text`, `quote` and `card`, no autoplay and explicit controls.
 
 ## Click-to-Reveal Hotspots
 
@@ -200,43 +200,15 @@ Customizable properties: steps, notes, warnings and images.
 
 Standardized properties: visible step numbers, action-led labels, active state and restrained panel animation.
 
-## Before-and-After Reveal
-
-Approval status: In Review
-
-Purpose: compare two visual states.
-
-Recommended use: visual improvements, safety comparisons and before/after examples.
-
-Content structure or props: before image, after image, labels, alt text and caption.
-
-Interaction behaviour: enhanced slider reveals the after image; side-by-side fallback remains in the markup.
-
-Keyboard behaviour: range input supports keyboard arrows.
-
-Responsive behaviour: image aspect ratio is preserved and fallback stacks on mobile.
-
-Accessibility considerations: labels and caption explain the difference in text.
-
-JavaScript requirements: minimal range-input enhancement.
-
-Suitable use cases: visual state comparison.
-
-Misuse to avoid: scoring correctness or relying only on spatial position.
-
-Customizable properties: labels, images and caption.
-
-Standardized properties: accessible range control and no autoplay.
-
 ## Expandable Image
 
 Approval status: In Review
 
-Purpose: inspect a larger image, diagram, product or infographic.
+Purpose: display a relatively small inline image and let the learner inspect a substantially larger version.
 
-Recommended use: images that contain useful detail but should not dominate the page.
+Recommended use: product details, diagrams, infographics, screenshots, labels, maps, floor plans and technical illustrations.
 
-Content structure or props: thumbnail or image, alt text, caption, expand label and optional extended description.
+Content structure or props: image source, optional thumbnail source, alt text, short caption, expand label and thumbnail size.
 
 Interaction behaviour: a named expand button opens a centred native dialog with a significantly larger image.
 
@@ -244,15 +216,15 @@ Keyboard behaviour: opening uses a real button, Escape closes the dialog and foc
 
 Responsive behaviour: the thumbnail stays contained in the page, while the expanded image fits within the viewport and dialog content can scroll.
 
-Accessibility considerations: dialog has an accessible label and an obvious close control.
+Accessibility considerations: dialog has an accessible label and an obvious close control. Supporting explanatory text belongs in Supporting-Detail Modal, not in the image modal.
 
 JavaScript requirements: required for dialog opening and focus return.
 
 Suitable use cases: diagrams, product details and infographics.
 
-Misuse to avoid: opening automatically or using the image click as the only trigger.
+Misuse to avoid: opening automatically, using the image click as the only trigger or placing large explanatory text in the image dialog.
 
-Customizable properties: image source, thumbnail, caption and description.
+Customizable properties: image source, thumbnail, caption, expand label and thumbnail size.
 
 Standardized properties: thumbnail treatment, centred native dialog, obvious close control, Escape support and focus return.
 

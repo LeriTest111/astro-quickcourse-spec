@@ -14,12 +14,13 @@ interface Props {
   heading?: string;
   intro?: string;
   cards: FlipCard[];
+  heightMode?: "equal" | "content";
 }
 
-const { id, heading, intro, cards } = Astro.props;
+const { id, heading, intro, cards, heightMode = "equal" } = Astro.props;
 ---
 
-<section class="di-block" aria-labelledby={heading ? `${id}-heading` : undefined}>
+<section id={id} class="di-block" aria-labelledby={heading ? `${id}-heading` : undefined}>
   {
     heading && (
       <div class="di-block__header">
@@ -28,18 +29,22 @@ const { id, heading, intro, cards } = Astro.props;
       </div>
     )
   }
-  <div class="di-flip-grid">
+  <div id={`${id}-grid`} class={`di-flip-grid di-flip-grid--height-${heightMode}`} data-flip-grid data-flip-height-mode={heightMode}>
     {cards.map((card, index) => (
       <article class="di-flip-card" data-flip-card>
-        <div class="di-flip-card__front" id={`${id}-front-${index}`}>
-          {card.frontImage && <img src={card.frontImage} alt={card.frontImageAlt ?? ""} loading="lazy" />}
-          {card.frontIcon && <span class="material-symbols-sharp showcase-icon" aria-hidden="true">{card.frontIcon}</span>}
-          <h4>{card.frontHeading}</h4>
-          {card.frontText && <p>{card.frontText}</p>}
-        </div>
-        <div class="di-flip-card__back" id={`${id}-back-${index}`}>
-          <h4>{card.backHeading}</h4>
-          <p>{card.backText}</p>
+        <div class="di-flip-card__stage">
+          <div class="di-flip-card__inner">
+            <div class="di-flip-card__face di-flip-card__front" id={`${id}-front-${index}`} data-flip-face="front">
+              {card.frontImage && <img src={card.frontImage} alt={card.frontImageAlt ?? ""} loading="lazy" />}
+              {card.frontIcon && <span class="material-symbols-sharp showcase-icon" aria-hidden="true">{card.frontIcon}</span>}
+              <h4>{card.frontHeading}</h4>
+              {card.frontText && <p>{card.frontText}</p>}
+            </div>
+            <div class="di-flip-card__face di-flip-card__back" id={`${id}-back-${index}`} data-flip-face="back" aria-hidden="true">
+              <h4>{card.backHeading}</h4>
+              <p>{card.backText}</p>
+            </div>
+          </div>
         </div>
         <button
           type="button"
@@ -56,23 +61,59 @@ const { id, heading, intro, cards } = Astro.props;
 </section>
 
 <script>
-  document.querySelectorAll("[data-flip-card]").forEach((card) => {
-    if (card.dataset.flipReady === "true") return;
-    card.dataset.flipReady = "true";
+  document.querySelectorAll("[data-flip-grid]").forEach((grid) => {
+    if (grid.dataset.flipGridReady === "true") return;
+    grid.dataset.flipGridReady = "true";
 
-    const button = card.querySelector("[data-flip-toggle]");
-    const front = card.querySelector(".di-flip-card__front");
-    const back = card.querySelector(".di-flip-card__back");
+    const cards = [...grid.querySelectorAll("[data-flip-card]")];
 
-    if (back) back.hidden = true;
+    function measureCard(card) {
+      const stage = card.querySelector(".di-flip-card__stage");
+      const front = card.querySelector("[data-flip-face='front']");
+      const back = card.querySelector("[data-flip-face='back']");
+      if (!stage || !front || !back) return 0;
+      return Math.max(front.scrollHeight, back.scrollHeight);
+    }
 
-    button?.addEventListener("click", () => {
-      const expanded = button.getAttribute("aria-expanded") === "true";
-      button.setAttribute("aria-expanded", expanded ? "false" : "true");
-      button.textContent = expanded ? "Reveal detail" : "Show prompt";
-      card.classList.toggle("is-revealed", !expanded);
-      if (front) front.hidden = !expanded;
-      if (back) back.hidden = expanded;
+    function updateHeights() {
+      const mode = grid.dataset.flipHeightMode ?? "equal";
+      const narrow = window.matchMedia("(max-width: 639px)").matches;
+      const equalHeight = Math.max(...cards.map(measureCard));
+
+      cards.forEach((card) => {
+        const stage = card.querySelector(".di-flip-card__stage");
+        const front = card.querySelector("[data-flip-face='front']");
+        const back = card.querySelector("[data-flip-face='back']");
+        if (!stage || !front || !back) return;
+
+        const revealed = card.classList.contains("is-revealed");
+        const activeFace = revealed ? back : front;
+        const contentHeight = Math.max(activeFace.scrollHeight, 1);
+        stage.style.setProperty("--flip-card-height", `${mode === "equal" && !narrow ? equalHeight : contentHeight}px`);
+      });
+    }
+
+    cards.forEach((card) => {
+      if (card.dataset.flipReady === "true") return;
+      card.dataset.flipReady = "true";
+
+      const button = card.querySelector("[data-flip-toggle]");
+      const front = card.querySelector("[data-flip-face='front']");
+      const back = card.querySelector("[data-flip-face='back']");
+
+      button?.addEventListener("click", () => {
+        const expanded = button.getAttribute("aria-expanded") === "true";
+        button.setAttribute("aria-expanded", expanded ? "false" : "true");
+        button.textContent = expanded ? "Reveal detail" : "Show prompt";
+        card.classList.toggle("is-revealed", !expanded);
+        front?.setAttribute("aria-hidden", expanded ? "false" : "true");
+        back?.setAttribute("aria-hidden", expanded ? "true" : "false");
+        updateHeights();
+      });
     });
+
+    grid.addEventListener("showcase-options-change", () => updateHeights());
+    window.addEventListener("resize", updateHeights);
+    updateHeights();
   });
 </script>

@@ -1,0 +1,37 @@
+---
+interface VideoTrack {
+  src: string;
+  srclang: string;
+  label: string;
+  default?: boolean;
+}
+
+interface Props {
+  id: string;
+  src: string;
+  title?: string;
+  poster?: string;
+  caption?: string;
+  tracks?: VideoTrack[];
+  preload?: "none" | "metadata" | "auto";
+}
+
+const { id, src, title, poster, caption, tracks = [], preload = "metadata" } = Astro.props;
+---
+
+<figure class="qc-video-player">
+  <video
+    id={id}
+    controls
+    preload={preload}
+    poster={poster}
+    aria-label={title}
+  >
+    <source src={src} type="video/mp4" />
+    {tracks.map((track) => (
+      <track kind="captions" src={track.src} srclang={track.srclang} label={track.label} default={track.default} />
+    ))}
+    Your browser does not support the video element.
+  </video>
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>

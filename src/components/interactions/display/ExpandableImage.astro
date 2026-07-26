@@ -6,7 +6,7 @@ interface Props {
   thumbnailSrc?: string;
   caption?: string;
   expandLabel?: string;
-  description?: string;
+  thumbnailSize?: "small" | "medium";
 }
 
 const {
@@ -15,12 +15,12 @@ const {
   imageAlt,
   thumbnailSrc,
   caption,
-  expandLabel = "Expand image",
-  description,
+  expandLabel = "View larger image",
+  thumbnailSize = "medium",
 } = Astro.props;
 ---
 
-<figure class="di-expandable-image" data-expandable-image>
+<figure class={`di-expandable-image di-expandable-image--${thumbnailSize}`} data-expandable-image>
   <div class="di-expandable-image__thumb">
     <img src={thumbnailSrc ?? imageSrc} alt={imageAlt} loading="lazy" />
     <button class="di-expandable-image__open" type="button" data-expand-image-open>
@@ -36,7 +36,6 @@ const {
       </button>
       <img src={imageSrc} alt={imageAlt} loading="lazy" />
       {caption && <p class="di-dialog__caption">{caption}</p>}
-      {description && <p>{description}</p>}
     </div>
   </dialog>
 </figure>

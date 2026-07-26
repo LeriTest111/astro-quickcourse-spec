@@ -1,0 +1,52 @@
+---
+import VideoPlayer from "./VideoPlayer.astro";
+
+interface Props {
+  id: string;
+  heading: string;
+  intro?: string;
+  src: string;
+  videoTitle?: string;
+  poster?: string;
+  caption?: string;
+  transcriptHeading?: string;
+  transcript: string[];
+  expandable?: boolean;
+}
+
+const {
+  id,
+  heading,
+  intro,
+  src,
+  videoTitle,
+  poster,
+  caption,
+  transcriptHeading = "Transcript excerpt",
+  transcript,
+  expandable = false,
+} = Astro.props;
+---
+
+<section class="qc-video-transcript" aria-labelledby={`${id}-heading`}>
+  <div class="qc-video-section__header">
+    <h3 id={`${id}-heading`}>{heading}</h3>
+    {intro && <p>{intro}</p>}
+  </div>
+  <VideoPlayer id={`${id}-video`} src={src} title={videoTitle ?? heading} poster={poster} caption={caption} />
+  {
+    expandable ? (
+      <details class="qc-video-transcript__details" open>
+        <summary>{transcriptHeading}</summary>
+        <div class="qc-video-transcript__body">
+          {transcript.map((paragraph) => <p>{paragraph}</p>)}
+        </div>
+      </details>
+    ) : (
+      <section class="qc-video-transcript__body" aria-label={transcriptHeading}>
+        <h4>{transcriptHeading}</h4>
+        {transcript.map((paragraph) => <p>{paragraph}</p>)}
+      </section>
+    )
+  }
+</section>

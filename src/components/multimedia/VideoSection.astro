@@ -1,0 +1,35 @@
+---
+import VideoPlayer from "./VideoPlayer.astro";
+
+interface VideoTrack {
+  src: string;
+  srclang: string;
+  label: string;
+  default?: boolean;
+}
+
+interface Props {
+  id: string;
+  heading?: string;
+  intro?: string;
+  src: string;
+  title?: string;
+  poster?: string;
+  caption?: string;
+  tracks?: VideoTrack[];
+}
+
+const { id, heading, intro, src, title, poster, caption, tracks = [] } = Astro.props;
+---
+
+<section class="qc-video-section" aria-labelledby={heading ? `${id}-heading` : undefined}>
+  {
+    heading && (
+      <div class="qc-video-section__header">
+        <h3 id={`${id}-heading`}>{heading}</h3>
+        {intro && <p>{intro}</p>}
+      </div>
+    )
+  }
+  <VideoPlayer id={`${id}-video`} src={src} title={title ?? heading} poster={poster} caption={caption} tracks={tracks} />
+</section>

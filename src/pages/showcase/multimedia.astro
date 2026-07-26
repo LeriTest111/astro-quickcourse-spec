@@ -1,7 +1,15 @@
 ---
 import ShowcaseLayout from "../../layouts/ShowcaseLayout.astro";
 import ShowcasePageHeader from "../../components/showcase/ShowcasePageHeader.astro";
+import ShowcaseSection from "../../components/showcase/ShowcaseSection.astro";
 import ShowcaseExample from "../../components/showcase/ShowcaseExample.astro";
+import ShowcaseNotes from "../../components/showcase/ShowcaseNotes.astro";
+import VideoSection from "../../components/multimedia/VideoSection.astro";
+import VideoWithText from "../../components/multimedia/VideoWithText.astro";
+import VideoTranscript from "../../components/multimedia/VideoTranscript.astro";
+import VideoChapters from "../../components/multimedia/VideoChapters.astro";
+
+const sampleVideo = "/media/showcase/big-buck-bunny-10s.mp4";
 ---
 
 <ShowcaseLayout
@@ -11,24 +19,85 @@ import ShowcaseExample from "../../components/showcase/ShowcaseExample.astro";
 >
   <ShowcasePageHeader
     title="Multimedia"
-    description="Responsive media treatments for future video, audio, image and embedded-media patterns."
+    description="Responsive media treatments for video, audio, image and embedded-media patterns in single-page Quick Courses."
   />
 
-  <div class="showcase-example-stack mt-8">
-    <ShowcaseExample id="video-lesson" title="Video lesson placeholder" purpose="Reserves the pattern space for captioned video with a text alternative.">
-      <article class="rounded-box border border-base-300 bg-base-100 p-6">
-        <span class="material-symbols-sharp showcase-icon text-3xl text-primary" aria-hidden="true">play_circle</span>
-        <h2 class="mt-3 text-xl font-semibold">Video lesson</h2>
-        <p class="mt-2 text-base-content/70">A responsive player pattern will live here, with captions and a text alternative.</p>
-      </article>
-    </ShowcaseExample>
+  <div class="showcase-section-stack mt-10">
+    <ShowcaseSection id="video-patterns" title="Video" description="Native video patterns using local sample media. The Big Buck Bunny clip is demonstration media for player behaviour, not course content.">
+      <div class="showcase-example-stack">
+        <ShowcaseExample id="standard-video" title="Standard Video" purpose="Provides a simple responsive native video section for most Quick Courses.">
+          <VideoSection
+            id="standard-sample-video"
+            heading="Sample media player"
+            intro="Use the native browser controls by default. Production videos should include accurate captions and a transcript."
+            src={sampleVideo}
+            title="Big Buck Bunny sample video"
+            caption="Sample MP4 used only to demonstrate local video playback."
+          />
+          <ShowcaseNotes>
+            <p>No autoplay, loop or custom player library is used. The component supports local poster and caption-track props.</p>
+          </ShowcaseNotes>
+        </ShowcaseExample>
 
-    <ShowcaseExample id="audio-clip" title="Audio clip placeholder" purpose="Reserves the pattern space for audio with a transcript and clear controls.">
-      <article class="rounded-box border border-base-300 bg-base-100 p-6">
-        <span class="material-symbols-sharp showcase-icon text-3xl text-primary" aria-hidden="true">headphones</span>
-        <h2 class="mt-3 text-xl font-semibold">Audio clip</h2>
-        <p class="mt-2 text-base-content/70">Audio examples will include a transcript and clear playback controls.</p>
-      </article>
-    </ShowcaseExample>
+        <ShowcaseExample id="video-with-supporting-text" title="Video with Supporting Text" purpose="Pairs a short video with concise instructions or key points.">
+          <VideoWithText
+            id="supported-sample-video"
+            heading="Before learners watch"
+            intro="Use supporting text for context, not for a full article beside a small video."
+            src={sampleVideo}
+            videoTitle="Big Buck Bunny sample video with supporting text"
+            caption="Sample MP4 used only to demonstrate a video-and-text layout."
+            points={[
+              "Tell learners what to look for before they press play.",
+              "Keep the supporting list short enough to scan.",
+              "Provide captions and transcript assets for production media.",
+            ]}
+            action={{ href: "#video-with-transcript", label: "Review transcript pattern" }}
+          />
+          <ShowcaseNotes>
+            <p>On mobile, the text appears before the video so learners get context before playback.</p>
+          </ShowcaseNotes>
+        </ShowcaseExample>
+
+        <ShowcaseExample id="video-with-transcript" title="Video with Transcript" purpose="Keeps a searchable text alternative available without playing the video.">
+          <VideoTranscript
+            id="transcript-sample-video"
+            heading="Video with transcript excerpt"
+            intro="This demonstrates transcript placement. It is not a full transcript of the sample film."
+            src={sampleVideo}
+            videoTitle="Big Buck Bunny sample video with transcript excerpt"
+            caption="Sample MP4 used only to demonstrate transcript layout."
+            transcriptHeading="Demonstration transcript excerpt"
+            expandable={true}
+            transcript={[
+              "Demonstration media: A short animated sample clip is shown for testing the native video player and transcript layout.",
+              "Production note: Replace this excerpt with an accurate transcript for the actual instructional video.",
+            ]}
+          />
+          <ShowcaseNotes>
+            <p>The transcript uses text in the page, so it remains available without playback and without JavaScript.</p>
+          </ShowcaseNotes>
+        </ShowcaseExample>
+
+        <ShowcaseExample id="video-with-chapters" title="Video with Chapters" purpose="Lets learners jump to meaningful points in a longer instructional video without replacing native controls.">
+          <VideoChapters
+            id="chaptered-sample-video"
+            heading="Video with chapter buttons"
+            intro="Chapter buttons seek within the local sample clip and leave normal playback controls available."
+            src={sampleVideo}
+            videoTitle="Big Buck Bunny sample video with chapter buttons"
+            caption="Sample MP4 used only to demonstrate chapter seeking."
+            chapters={[
+              { title: "Opening frame", time: 0, description: "Start of the 10-second sample clip." },
+              { title: "Early action", time: 3, description: "A safe chapter point within the clip duration." },
+              { title: "Closing moment", time: 7, description: "A later chapter point before the clip ends." },
+            ]}
+          />
+          <ShowcaseNotes>
+            <p>Chapter buttons seek to valid times and do not autoplay the video after selection.</p>
+          </ShowcaseNotes>
+        </ShowcaseExample>
+      </div>
+    </ShowcaseSection>
   </div>
 </ShowcaseLayout>

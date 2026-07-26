@@ -1,10 +1,22 @@
 ---
+type CarouselSlideType = "image" | "text" | "image-text" | "quote" | "card";
+type IndicatorStyle = "dots" | "numbers" | "none";
+type ArrowPosition = "overlay" | "outside";
+
 interface CarouselSlide {
-  title: string;
-  body: string;
+  type?: CarouselSlideType;
+  title?: string;
+  body?: string;
   image?: string;
   imageAlt?: string;
   caption?: string;
+  attribution?: string;
+  icon?: string;
+  action?: {
+    label: string;
+    href: string;
+  };
+  contentGroup?: string;
 }
 
 interface Props {
@@ -12,12 +24,31 @@ interface Props {
   heading?: string;
   intro?: string;
   slides: CarouselSlide[];
+  indicatorStyle?: IndicatorStyle;
+  showSlideCount?: boolean;
+  arrowPosition?: ArrowPosition;
 }
 
-const { id, heading, intro, slides } = Astro.props;
+const {
+  id,
+  heading,
+  intro,
+  slides,
+  indicatorStyle = "dots",
+  showSlideCount = true,
+  arrowPosition = "overlay",
+} = Astro.props;
 ---
 
-<section class="di-block di-carousel" data-carousel aria-labelledby={heading ? `${id}-heading` : undefined}>
+<section
+  id={id}
+  class={`di-block di-carousel di-carousel--arrows-${arrowPosition}`}
+  data-carousel
+  data-carousel-indicator-style={indicatorStyle}
+  data-carousel-show-count={showSlideCount ? "true" : "false"}
+  data-carousel-arrow-position={arrowPosition}
+  aria-labelledby={heading ? `${id}-heading` : undefined}
+>
   {
     heading && (
       <div class="di-block__header">
@@ -32,33 +63,66 @@ const { id, heading, intro, slides } = Astro.props;
     </button>
     <div class="di-carousel__viewport" aria-live="polite">
       {slides.map((slide, index) => (
-        <article class="di-carousel__slide" data-slide aria-label={`Slide ${index + 1} of ${slides.length}`}>
-          {slide.image && (
+        <article class={`di-carousel__slide di-carousel__slide--${slide.type ?? "image-text"}`} data-slide data-slide-group={slide.contentGroup ?? slide.type ?? "mixed"} aria-label={`Slide ${index + 1} of ${slides.length}`}>
+          {(slide.type ?? "image-text") === "image" && slide.image && (
             <figure>
               <img src={slide.image} alt={slide.imageAlt ?? ""} loading={index === 0 ? "eager" : "lazy"} />
               {slide.caption && <figcaption>{slide.caption}</figcaption>}
             </figure>
           )}
-          <div>
-            <h4>{slide.title}</h4>
-            <p>{slide.body}</p>
-          </div>
+          {(slide.type ?? "image-text") === "text" && (
+            <div class="di-carousel__text">
+              {slide.title && <h4>{slide.title}</h4>}
+              {slide.body && <p>{slide.body}</p>}
+              {slide.action && <a class="di-secondary-button" href={slide.action.href}>{slide.action.label}</a>}
+            </div>
+          )}
+          {(slide.type ?? "image-text") === "image-text" && (
+            <>
+              {slide.image && (
+                <figure>
+                  <img src={slide.image} alt={slide.imageAlt ?? ""} loading={index === 0 ? "eager" : "lazy"} />
+                  {slide.caption && <figcaption>{slide.caption}</figcaption>}
+                </figure>
+              )}
+              <div class="di-carousel__text">
+                {slide.title && <h4>{slide.title}</h4>}
+                {slide.body && <p>{slide.body}</p>}
+                {slide.action && <a class="di-secondary-button" href={slide.action.href}>{slide.action.label}</a>}
+              </div>
+            </>
+          )}
+          {(slide.type ?? "image-text") === "quote" && (
+            <blockquote class="di-carousel__quote">
+              {slide.body && <p>{slide.body}</p>}
+              {slide.attribution && <cite>{slide.attribution}</cite>}
+            </blockquote>
+          )}
+          {(slide.type ?? "image-text") === "card" && (
+            <div class="di-carousel__card">
+              {slide.icon && <span class="material-symbols-sharp showcase-icon" aria-hidden="true">{slide.icon}</span>}
+              {slide.image && <img src={slide.image} alt={slide.imageAlt ?? ""} loading={index === 0 ? "eager" : "lazy"} />}
+              {slide.title && <h4>{slide.title}</h4>}
+              {slide.body && <p>{slide.body}</p>}
+              {slide.action && <a class="di-secondary-button" href={slide.action.href}>{slide.action.label}</a>}
+            </div>
+          )}
         </article>
       ))}
     </div>
     <button class="di-carousel__arrow di-carousel__arrow--next" type="button" aria-label="Next slide" data-carousel-next>
       <span class="material-symbols-sharp showcase-icon" aria-hidden="true">chevron_right</span>
     </button>
-  </div>
-  <div class="di-carousel__footer">
-    <div class="di-carousel__dots" aria-label="Choose slide">
-      {slides.map((slide, index) => (
-        <button type="button" data-carousel-dot aria-label={`Show slide ${index + 1}: ${slide.title}`}>
-          <span class="sr-only">Slide </span>{index + 1}
-        </button>
-      ))}
+    <div class="di-carousel__controls" data-carousel-controls>
+      <div class="di-carousel__dots" aria-label="Choose slide" data-carousel-indicators>
+        {slides.map((slide, index) => (
+          <button type="button" data-carousel-dot data-dot-group={slide.contentGroup ?? slide.type ?? "mixed"} aria-label={`Show slide ${index + 1}${slide.title ? `: ${slide.title}` : ""}`}>
+            <span class="sr-only">Slide </span><span data-dot-label>{index + 1}</span>
+          </button>
+        ))}
+      </div>
+      <p data-carousel-status>1 of {slides.length}</p>
     </div>
-    <p data-carousel-status>1 of {slides.length}</p>
   </div>
 </section>
 
@@ -72,18 +136,50 @@ const { id, heading, intro, slides } = Astro.props;
     const next = carousel.querySelector("[data-carousel-next]");
     const dots = [...carousel.querySelectorAll("[data-carousel-dot]")];
     const status = carousel.querySelector("[data-carousel-status]");
+    const indicators = carousel.querySelector("[data-carousel-indicators]");
     let current = 0;
 
+    function getVisibleSlides() {
+      const contentFilter = carousel.dataset.carouselContent;
+      return slides.filter((slide) => !contentFilter || contentFilter === "mixed" || slide.dataset.slideGroup === contentFilter);
+    }
+
     function render() {
+      const indicatorStyle = carousel.dataset.carouselIndicatorStyle ?? "dots";
+      const showCount = carousel.dataset.carouselShowCount !== "false";
+      const arrowPosition = carousel.dataset.carouselArrowPosition ?? "overlay";
+      carousel.classList.toggle("di-carousel--arrows-overlay", arrowPosition === "overlay");
+      carousel.classList.toggle("di-carousel--arrows-outside", arrowPosition === "outside");
+
+      const visibleSlides = getVisibleSlides();
+      if (current > visibleSlides.length - 1) current = Math.max(0, visibleSlides.length - 1);
+
       slides.forEach((slide, index) => {
-        slide.hidden = index !== current;
-        slide.toggleAttribute("inert", index !== current);
-        slide.classList.toggle("is-active", index === current);
+        const visibleIndex = visibleSlides.indexOf(slide);
+        const isActive = visibleIndex === current;
+        const isInSet = visibleIndex !== -1;
+        slide.hidden = !isInSet || !isActive;
+        slide.toggleAttribute("inert", !isInSet || !isActive);
+        slide.classList.toggle("is-active", isActive);
       });
-      dots.forEach((dot, index) => dot.setAttribute("aria-current", index === current ? "true" : "false"));
+      let visibleDotIndex = 0;
+      dots.forEach((dot, index) => {
+        const slide = slides[index];
+        const isInSet = visibleSlides.includes(slide);
+        dot.hidden = !isInSet || indicatorStyle === "none";
+        if (!isInSet) return;
+        dot.classList.toggle("is-numbered", indicatorStyle === "numbers");
+        dot.querySelector("[data-dot-label]").textContent = indicatorStyle === "numbers" ? `${visibleDotIndex + 1}` : "";
+        dot.setAttribute("aria-current", visibleDotIndex === current ? "true" : "false");
+        visibleDotIndex += 1;
+      });
+      if (indicators) indicators.hidden = indicatorStyle === "none";
       if (previous) previous.disabled = current === 0;
-      if (next) next.disabled = current === slides.length - 1;
-      if (status) status.textContent = `${current + 1} of ${slides.length}`;
+      if (next) next.disabled = current === visibleSlides.length - 1;
+      if (status) {
+        status.hidden = !showCount;
+        status.textContent = `${current + 1} of ${visibleSlides.length}`;
+      }
     }
 
     previous?.addEventListener("click", () => {
@@ -92,15 +188,21 @@ const { id, heading, intro, slides } = Astro.props;
     });
 
     next?.addEventListener("click", () => {
-      current = Math.min(slides.length - 1, current + 1);
+      current = Math.min(getVisibleSlides().length - 1, current + 1);
       render();
     });
 
     dots.forEach((dot, index) => {
       dot.addEventListener("click", () => {
-        current = index;
+        const slide = slides[index];
+        current = getVisibleSlides().indexOf(slide);
         render();
       });
+    });
+
+    carousel.addEventListener("showcase-options-change", () => {
+      current = 0;
+      render();
     });
 
     render();

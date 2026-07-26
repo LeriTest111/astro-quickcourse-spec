@@ -5,6 +5,7 @@ import ShowcaseAnchorNav from "../../components/showcase/ShowcaseAnchorNav.astro
 import ShowcaseSection from "../../components/showcase/ShowcaseSection.astro";
 import ShowcaseExample from "../../components/showcase/ShowcaseExample.astro";
 import ShowcaseNotes from "../../components/showcase/ShowcaseNotes.astro";
+import ExampleOptions from "../../components/showcase/ExampleOptions.astro";
 import Accordion from "../../components/interactions/display/Accordion.astro";
 import Tabs from "../../components/interactions/display/Tabs.astro";
 import FlipCards from "../../components/interactions/display/FlipCards.astro";
@@ -12,7 +13,6 @@ import Carousel from "../../components/interactions/display/Carousel.astro";
 import HotspotReveal from "../../components/interactions/display/HotspotReveal.astro";
 import Timeline from "../../components/interactions/display/Timeline.astro";
 import ProcessExplorer from "../../components/interactions/display/ProcessExplorer.astro";
-import BeforeAfterReveal from "../../components/interactions/display/BeforeAfterReveal.astro";
 import ExpandableImage from "../../components/interactions/display/ExpandableImage.astro";
 import DetailModal from "../../components/interactions/display/DetailModal.astro";
 import { displayInteractionAnchors } from "../../data/showcase";
@@ -68,6 +68,22 @@ const neutralImage = "/images/showcase/hero-1.avif";
         </ShowcaseExample>
 
         <ShowcaseExample id="flip-cards" title="Flip Cards" purpose="Lets learners reveal a short second layer such as a benefit, fact or explanation.">
+          <ExampleOptions
+            targetId="feature-benefit-cards-grid"
+            options={[
+              {
+                id: "height-mode",
+                label: "Card height",
+                type: "segmented",
+                value: "equal",
+                targetAttribute: "flipHeightMode",
+                options: [
+                  { label: "Equal", value: "equal" },
+                  { label: "Content", value: "content" },
+                ],
+              },
+            ]}
+          />
           <FlipCards
             id="feature-benefit-cards"
             heading="Turn features into customer benefits"
@@ -177,12 +193,76 @@ const neutralImage = "/images/showcase/hero-1.avif";
         </ShowcaseExample>
 
         <ShowcaseExample id="carousel" title="Carousel" purpose="Moves through a small set of related slides without autoplay.">
+          <ExampleOptions
+            targetId="service-carousel"
+            options={[
+              {
+                id: "indicator-style",
+                label: "Indicator style",
+                type: "select",
+                value: "dots",
+                targetAttribute: "carouselIndicatorStyle",
+                options: [
+                  { label: "Dots", value: "dots" },
+                  { label: "Numbers", value: "numbers" },
+                  { label: "None", value: "none" },
+                ],
+              },
+              {
+                id: "slide-content",
+                label: "Slide content",
+                type: "select",
+                value: "mixed",
+                targetAttribute: "carouselContent",
+                options: [
+                  { label: "Mixed", value: "mixed" },
+                  { label: "Image", value: "image" },
+                  { label: "Text", value: "text" },
+                  { label: "Image + text", value: "image-text" },
+                ],
+              },
+              {
+                id: "arrow-position",
+                label: "Arrow position",
+                type: "segmented",
+                value: "overlay",
+                targetAttribute: "carouselArrowPosition",
+                options: [
+                  { label: "Overlay", value: "overlay" },
+                  { label: "Outside", value: "outside" },
+                ],
+              },
+              {
+                id: "show-slide-count",
+                label: "Show slide count",
+                type: "toggle",
+                value: true,
+                targetAttribute: "carouselShowCount",
+              },
+            ]}
+          />
           <Carousel
             id="service-carousel"
             heading="Three service moments"
             intro="Carousels are best for compact related examples. They should not hide long required procedures."
             slides={[
               {
+                type: "image",
+                contentGroup: "image",
+                image: neutralImage,
+                imageAlt: "A learner reviewing notes for a customer conversation.",
+                caption: "Sample image slide using local media.",
+              },
+              {
+                type: "text",
+                contentGroup: "text",
+                title: "Keep the message short",
+                body: "Text-only carousel slides work best for short tips, key messages and small groups of related examples.",
+                action: { href: "#accordion", label: "Review reveal patterns" },
+              },
+              {
+                type: "image-text",
+                contentGroup: "image-text",
                 title: "Opening the conversation",
                 body: "Start with the customer goal and acknowledge any urgency before asking for more detail.",
                 image: neutralImage,
@@ -190,18 +270,17 @@ const neutralImage = "/images/showcase/hero-1.avif";
                 caption: "Moment 1",
               },
               {
-                title: "Explaining the option",
-                body: "Choose the simplest accurate explanation and connect it to the customer's stated need.",
-                image: neutralImage,
-                imageAlt: "A learner reviewing notes for a customer conversation.",
-                caption: "Moment 2",
+                type: "quote",
+                contentGroup: "mixed",
+                body: "A useful carousel feels like a small set of connected ideas, not a place to hide required reading.",
+                attribution: "Quick Course design note",
               },
               {
-                title: "Closing with confidence",
-                body: "Confirm the next action, timing and where the customer can check progress.",
-                image: neutralImage,
-                imageAlt: "A learner reviewing notes for a customer conversation.",
-                caption: "Moment 3",
+                type: "card",
+                contentGroup: "mixed",
+                icon: "tips_and_updates",
+                title: "Use direct controls",
+                body: "Learners should always have obvious Previous and Next buttons. Swipe can only be an enhancement.",
               },
             ]}
           />
@@ -248,37 +327,19 @@ const neutralImage = "/images/showcase/hero-1.avif";
       </div>
     </ShowcaseSection>
 
-    <ShowcaseSection id="explore-visual-content" title="Explore visual content" description="Patterns for comparing or inspecting images and diagrams.">
+    <ShowcaseSection id="explore-visual-content" title="Explore visual content" description="Patterns for inspecting images and diagrams.">
       <div class="showcase-example-stack">
-        <ShowcaseExample id="before-after-reveal" title="Before-and-After Reveal" purpose="Compares two visual states with an accessible range control.">
-          <BeforeAfterReveal
-            id="workspace-before-after"
-            heading="Compare the improved setup"
-            intro="The range input works with keyboard arrows and a side-by-side fallback remains available without scripting."
-            beforeImage={neutralImage}
-            beforeAlt="Workspace before improvement, used as a neutral comparison example."
-            afterImage={neutralImage}
-            afterAlt="Workspace after improvement, used as a neutral comparison example."
-            beforeLabel="Before"
-            afterLabel="After"
-            caption="Describe the important difference in text so meaning is not only visual."
-          />
-          <ShowcaseNotes>
-            <p>Use this for visual states, not for correctness scoring. The explanatory caption should name the learning point.</p>
-          </ShowcaseNotes>
-        </ShowcaseExample>
-
         <ShowcaseExample id="expandable-image" title="Expandable Image" purpose="Opens a larger image view for inspection using a native dialog.">
           <ExpandableImage
             id="diagram-expanded-view"
             imageSrc={neutralImage}
             imageAlt="A detailed workspace diagram used as a neutral inspection example."
-            caption="Inspect the setup before answering scenario questions elsewhere in the course."
-            expandLabel="Expand the workspace diagram"
-            description="Use the expanded view when learners need to inspect a diagram, product detail or infographic more closely."
+            caption="Small preview image. Open the modal when the learner needs a closer look."
+            expandLabel="View larger image"
+            thumbnailSize="small"
           />
           <ShowcaseNotes>
-            <p>The dialog moves focus to the close control and returns focus to the opening button after closing.</p>
+            <p>Use this only when the inline image is a preview and the modal version is meaningfully larger. Supporting text belongs in a detail modal.</p>
           </ShowcaseNotes>
         </ShowcaseExample>
       </div>
