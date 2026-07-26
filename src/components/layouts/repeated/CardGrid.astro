@@ -1,0 +1,64 @@
+---
+import type { HeadingLevel } from "../layout-types";
+
+interface CardGridItem {
+  title: string;
+  description: string;
+  image?: string;
+  imageAlt?: string;
+  icon?: string;
+  href?: string;
+  label?: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  heading?: string;
+  intro?: string;
+  headingLevel?: HeadingLevel;
+  columns?: 2 | 3 | 4;
+  cards: CardGridItem[];
+}
+
+const { eyebrow, heading, intro, headingLevel = 2, columns = 3, cards } = Astro.props;
+const HeadingTag = `h${headingLevel}` as const;
+const columnClass = {
+  2: "md:grid-cols-2",
+  3: "md:grid-cols-2 xl:grid-cols-3",
+  4: "md:grid-cols-2 xl:grid-cols-4",
+}[columns];
+---
+
+<section class="qc-section">
+  {
+    heading && (
+      <div class="qc-section-header">
+        {eyebrow && <p class="qc-eyebrow">{eyebrow}</p>}
+        <HeadingTag class="qc-section-title">{heading}</HeadingTag>
+        {intro && <p class="qc-section-intro">{intro}</p>}
+      </div>
+    )
+  }
+  <div class={`grid gap-5 ${columnClass}`}>
+    {cards.map((card) => {
+      const content = (
+        <>
+          {card.image && <img class="qc-card-grid__image" src={card.image} alt={card.imageAlt ?? ""} loading="lazy" />}
+          {card.icon && <span class="material-symbols-sharp showcase-icon text-primary" aria-hidden="true">{card.icon}</span>}
+          {card.label && <p class="qc-mini-label">{card.label}</p>}
+          <h3>{card.title}</h3>
+          <p>{card.description}</p>
+        </>
+      );
+
+      return card.href ? (
+        <a class="qc-card-grid__card qc-card-grid__card--link" href={card.href}>
+          {content}
+        </a>
+      ) : (
+        <article class="qc-card-grid__card">{content}</article>
+      );
+    })}
+  </div>
+</section>
+

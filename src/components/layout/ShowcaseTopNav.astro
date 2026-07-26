@@ -1,0 +1,48 @@
+---
+import { showcaseCategories } from "../../data/showcase";
+
+interface Props {
+  activeCategory?: string;
+}
+
+const { activeCategory = "home" } = Astro.props;
+const navItems = [{ label: "Home", href: "/", slug: "home" }, ...showcaseCategories];
+---
+
+<header class="showcase-topbar sticky top-3 z-30 mx-auto max-w-7xl">
+  <div class="showcase-topbar__inner">
+    <a class="showcase-brand" href="/" aria-label="Astro Quick Course Showcase home">
+      <span class="showcase-logo-badge" aria-hidden="true">
+        <span>QC</span>
+      </span>
+      <span class="showcase-brand__title">Astro Quick Course Showcase</span>
+    </a>
+
+    <nav class="showcase-topbar__nav" aria-label="Showcase navigation">
+      <ul>
+        {navItems.map((item) => (
+          <li>
+            <a href={item.href} aria-current={item.slug === activeCategory ? "page" : undefined}>
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+
+    <details class="showcase-topbar__mobile-menu">
+      <summary>Menu</summary>
+      <nav aria-label="Showcase mobile navigation">
+        <ul>
+          {navItems.map((item) => (
+            <li>
+              <a href={item.href} aria-current={item.slug === activeCategory ? "page" : undefined}>
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </details>
+  </div>
+</header>

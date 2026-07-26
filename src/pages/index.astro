@@ -1,0 +1,35 @@
+---
+import ShowcaseLayout from "../layouts/ShowcaseLayout.astro";
+import ShowcasePageHeader from "../components/showcase/ShowcasePageHeader.astro";
+import StatusBadge from "../components/showcase/StatusBadge.astro";
+import { showcaseCategories } from "../data/showcase";
+---
+
+<ShowcaseLayout
+  pageTitle="Astro Quick Course Showcase"
+  description="A concise index for reviewing reusable Quick Course component categories."
+  activeCategory="home"
+>
+  <ShowcasePageHeader
+    title="Astro Quick Course Showcase"
+    description="Use this index to jump into the component categories that support fast, single-page Quick Course builds. The Showcase can use multiple pages for review and maintenance; production Quick Courses remain single-page experiences."
+    count="6 categories"
+  />
+
+  <section class="showcase-landing-grid mt-8" aria-label="Showcase categories">
+    {showcaseCategories.map((category) => (
+      <a class="showcase-category-card" href={category.href}>
+        <div>
+          <p class="qc-mini-label">{category.count} {category.count === 1 ? "example" : "examples"}</p>
+          <h2>{category.label}</h2>
+          <p>{category.description}</p>
+        </div>
+        <div class="showcase-category-card__footer">
+          {category.status && <StatusBadge status={category.status} />}
+          <span class="material-symbols-sharp showcase-icon" aria-hidden="true">arrow_forward</span>
+        </div>
+      </a>
+    ))}
+  </section>
+</ShowcaseLayout>
+

@@ -1,0 +1,501 @@
+---
+import ShowcaseLayout from "../../layouts/ShowcaseLayout.astro";
+import ShowcasePageHeader from "../../components/showcase/ShowcasePageHeader.astro";
+import ShowcaseAnchorNav from "../../components/showcase/ShowcaseAnchorNav.astro";
+import ShowcaseSection from "../../components/showcase/ShowcaseSection.astro";
+import ShowcaseExample from "../../components/showcase/ShowcaseExample.astro";
+import ShowcaseNotes from "../../components/showcase/ShowcaseNotes.astro";
+import CenteredMinimalHero from "../../components/layout/heroes/CenteredMinimalHero.astro";
+import FloatingCardHero from "../../components/layout/heroes/FloatingCardHero.astro";
+import HeroDisplayOptions from "../../components/layout/heroes/HeroDisplayOptions.astro";
+import ImageOverlayHero from "../../components/layout/heroes/ImageOverlayHero.astro";
+import LearningObjectivesHero from "../../components/layout/heroes/LearningObjectivesHero.astro";
+import ScenarioOpenerHero from "../../components/layout/heroes/ScenarioOpenerHero.astro";
+import SplitHero from "../../components/layout/heroes/SplitHero.astro";
+import ReadableTextSection from "../../components/layouts/content/ReadableTextSection.astro";
+import TextImageSplit from "../../components/layouts/content/TextImageSplit.astro";
+import TwoColumnContent from "../../components/layouts/content/TwoColumnContent.astro";
+import CardGrid from "../../components/layouts/repeated/CardGrid.astro";
+import ProductFeatureList from "../../components/layouts/repeated/ProductFeatureList.astro";
+import FeatureListVisual from "../../components/layouts/repeated/FeatureListVisual.astro";
+import NumberedProcess from "../../components/layouts/process/NumberedProcess.astro";
+import ComparisonLayout from "../../components/layouts/process/ComparisonLayout.astro";
+import ImageGrid from "../../components/layouts/visual/ImageGrid.astro";
+import QuoteKeyMessage from "../../components/layouts/visual/QuoteKeyMessage.astro";
+import CallToActionSection from "../../components/layouts/opener-closer/CallToActionSection.astro";
+import SectionDivider from "../../components/layouts/opener-closer/SectionDivider.astro";
+import SummarySection from "../../components/layouts/opener-closer/SummarySection.astro";
+import StickySectionNavigation from "../../components/layouts/advanced/StickySectionNavigation.astro";
+import { layoutAnchors } from "../../data/showcase";
+
+const neutralImage = "/images/showcase/hero-1.avif";
+
+const productExamples = [
+  {
+    name: "Compact service plan",
+    statement: "A short plan for teams that need a simple, repeatable support option.",
+    imageSrc: neutralImage,
+    imageAlt: "A participant reviewing notes and planning a short learning activity.",
+    features: ["One-page overview", "Clear escalation step", "Printable checklist"],
+    benefits: ["Easy to explain in a short conversation", "Keeps the recommendation consistent"],
+    tip: "Lead with the customer need, then match the plan to that need.",
+    recommend: "Use when a customer wants predictable support without a complex setup.",
+  },
+  {
+    name: "Extended guidance pack",
+    statement: "A deeper option for learners who need examples, practice prompts and reference notes.",
+    imageSrc: neutralImage,
+    imageAlt: "A participant reviewing notes and planning a short learning activity.",
+    features: ["Scenario prompts", "Manager coaching notes", "Follow-up reference"],
+    benefits: ["Useful for onboarding", "Supports practice after the course"],
+    caution: "Avoid presenting every supporting note during the first explanation.",
+  },
+];
+
+const stickyItems = [
+  { label: "Prepare", href: "#sticky-prepare" },
+  { label: "Practise", href: "#sticky-practise" },
+  { label: "Apply", href: "#sticky-apply" },
+];
+---
+
+<ShowcaseLayout
+  pageTitle="Layouts | Astro Quick Course Showcase"
+  description="Reusable layout patterns for arranging single-page Quick Course content."
+  activeCategory="layouts"
+>
+  <ShowcasePageHeader
+    eyebrow="Showcase category"
+    title="Layouts"
+    description="Reusable structural patterns for arranging content inside single-page Quick Courses. Layouts may contain placeholders for later interactions, but interaction behaviour belongs in the relevant interaction categories."
+    count="6 heroes + 14 layout patterns"
+  />
+
+  <div class="mt-6">
+    <ShowcaseAnchorNav items={layoutAnchors} />
+  </div>
+
+  <div class="showcase-section-stack mt-10">
+    <ShowcaseSection id="heroes" title="Heroes" description="Existing module and course opener variants.">
+      <div class="showcase-example-stack">
+        <ShowcaseExample id="image-overlay-hero" title="Hero 1: Image overlay hero" purpose="Opens a course with strong local imagery and readable overlay text.">
+          <HeroDisplayOptions
+            previewId="hero-1-preview"
+            options={[
+              { part: "eyebrow", label: "Eyebrow" },
+              { part: "summary", label: "Supporting text" },
+              { part: "primary-action", label: "Primary action" },
+              { part: "secondary-action", label: "Secondary action" },
+            ]}
+          />
+          <div class="mt-6">
+            <ImageOverlayHero
+              previewId="hero-1-preview"
+              headingId="hero-1-heading"
+              eyebrow="Module opening"
+              title="Build a routine that works for your team."
+              summary="Explore a simple approach, then decide how to adapt it for your daily work."
+              imageSrc={neutralImage}
+              imageAlt="A course participant reviewing materials at a desk."
+              actions={[
+                { href: "/showcase/assessment-interactions", label: "Begin module" },
+                { href: "/showcase/typography", label: "Review guide", variant: "secondary" },
+              ]}
+            />
+          </div>
+        </ShowcaseExample>
+
+        <ShowcaseExample id="split-hero" title="Hero 2: Split hero" purpose="Balances a concise course introduction with a supporting local image.">
+          <HeroDisplayOptions
+            previewId="hero-2-preview"
+            options={[
+              { part: "eyebrow", label: "Eyebrow" },
+              { part: "summary", label: "Supporting text" },
+              { part: "primary-action", label: "Primary action" },
+              { part: "secondary-action", label: "Secondary action" },
+            ]}
+          />
+          <div class="mt-6">
+            <SplitHero
+              previewId="hero-2-preview"
+              headingId="hero-2-heading"
+              eyebrow="Customer conversations"
+              title="Make each next step clear."
+              summary="A practical opener with room for a primary action and a supporting reference."
+              imageSrc={neutralImage}
+              imageAlt="A course participant reviewing materials at a desk."
+              actions={[
+                { href: "/showcase/assessment-interactions", label: "Begin module" },
+                { href: "/showcase/typography", label: "Review guide", variant: "secondary" },
+              ]}
+            />
+          </div>
+        </ShowcaseExample>
+
+        <ShowcaseExample id="centered-minimal-hero" title="Hero 3: Centred minimal hero" purpose="Introduces a course when imagery would not add useful context.">
+          <HeroDisplayOptions
+            previewId="hero-3-preview"
+            options={[
+              { part: "eyebrow", label: "Eyebrow" },
+              { part: "summary", label: "Supporting text" },
+              { part: "primary-action", label: "Primary action" },
+              { part: "secondary-action", label: "Secondary action" },
+            ]}
+          />
+          <div class="mt-6">
+            <CenteredMinimalHero
+              previewId="hero-3-preview"
+              headingId="hero-3-heading"
+              eyebrow="Getting started"
+              title="A practical introduction to confident decisions."
+              summary="Use this calm, text-first option when the course opening needs focus and speed."
+              actions={[
+                { href: "/showcase/display-interactions", label: "Start learning" },
+                { href: "/showcase/icons", label: "View resources", variant: "secondary" },
+              ]}
+            />
+          </div>
+        </ShowcaseExample>
+
+        <ShowcaseExample id="floating-card-hero" title="Hero 4: Floating card hero" purpose="Keeps the message readable while a larger image provides course context.">
+          <HeroDisplayOptions
+            previewId="hero-4-preview"
+            options={[
+              { part: "eyebrow", label: "Eyebrow" },
+              { part: "summary", label: "Supporting text" },
+              { part: "primary-action", label: "Primary action" },
+            ]}
+          />
+          <div class="mt-6">
+            <FloatingCardHero
+              previewId="hero-4-preview"
+              headingId="hero-4-heading"
+              eyebrow="Working together"
+              title="Turn good intentions into a shared plan."
+              summary="A solid content card keeps the opening message readable on top of visual context."
+              imageSrc={neutralImage}
+              imageAlt="A course participant reviewing materials at a desk."
+              actions={[{ href: "/showcase/display-interactions", label: "Explore the plan" }]}
+            />
+          </div>
+        </ShowcaseExample>
+
+        <ShowcaseExample id="learning-objectives-hero" title="Hero 5: Learning objectives hero" purpose="Sets expectations by showing the learner what they will practise and apply.">
+          <HeroDisplayOptions
+            previewId="hero-5-preview"
+            options={[
+              { part: "eyebrow", label: "Module label" },
+              { part: "summary", label: "Introduction" },
+              { part: "primary-action", label: "Start action" },
+            ]}
+          />
+          <div class="mt-6">
+            <LearningObjectivesHero
+              previewId="hero-5-preview"
+              headingId="hero-5-heading"
+              moduleLabel="Module 02"
+              title="Plan a useful learner conversation."
+              introduction="Set expectations early by showing learners what they will practise and apply."
+              objectives={[
+                "Identify the information that matters most in a short scenario.",
+                "Choose a response that keeps the conversation constructive.",
+                "Explain the reasoning behind a recommended next step.",
+              ]}
+              actions={[{ href: "/showcase/assessment-interactions", label: "Start module" }]}
+            />
+          </div>
+        </ShowcaseExample>
+
+        <ShowcaseExample id="scenario-opener-hero" title="Hero 6: Scenario opener hero" purpose="Starts a scenario by presenting the situation and learner challenge.">
+          <HeroDisplayOptions
+            previewId="hero-6-preview"
+            options={[
+              { part: "eyebrow", label: "Scenario label" },
+              { part: "summary", label: "Situation description" },
+              { part: "primary-action", label: "Enter action" },
+            ]}
+          />
+          <div class="mt-6">
+            <ScenarioOpenerHero
+              previewId="hero-6-preview"
+              headingId="hero-6-heading"
+              scenarioLabel="Scenario"
+              title="A team member needs a clear answer."
+              situation="You are midway through a busy day when a colleague asks for help with a customer request that has changed at the last minute."
+              challenge="What would you do first to understand the situation and offer useful support?"
+              actions={[{ href: "/showcase/assessment-interactions", label: "Enter the scenario" }]}
+            />
+          </div>
+        </ShowcaseExample>
+      </div>
+    </ShowcaseSection>
+
+    <ShowcaseSection id="content-sections" title="Content sections" description="Text-first and mixed-content arrangements for lesson body sections.">
+      <div class="showcase-example-stack">
+        <ShowcaseExample id="readable-text-section" title="Readable Text Section" purpose="A dependable text-first layout for policies, procedures and explanation-heavy content.">
+          <ReadableTextSection
+            eyebrow="Service standards"
+            heading="Handle a delayed request with clarity"
+            intro="Use a narrow reading width when the learner needs to absorb detail without scanning across a wide page."
+            headingLevel={4}
+          >
+            <p>Start by acknowledging the delay and naming the next step you can take immediately. Avoid promising a result before you have checked the account notes or stock status.</p>
+            <ul>
+              <li>Confirm what the customer has already tried.</li>
+              <li>Explain what you will check and how long it should take.</li>
+              <li>Offer a clear follow-up path before ending the conversation.</li>
+            </ul>
+            <div slot="callout" class="qc-callout">
+              <strong>Useful phrase:</strong> "I can check that for you now and confirm the next available option."
+            </div>
+          </ReadableTextSection>
+        </ShowcaseExample>
+
+        <ShowcaseExample id="text-image-split" title="Text and Image Split" purpose="Pairs core learning text with an image while preserving reading order on smaller screens.">
+          <TextImageSplit
+            eyebrow="Digital security"
+            heading="Pause before approving a request"
+            description="A split layout works well when an image supports the concept without replacing the instruction."
+            headingLevel={4}
+            imageSrc={neutralImage}
+            imageAlt="A learner reviewing notes beside a laptop."
+            imageCaption="Use images to support the learning point, not to carry essential text."
+            actions={[
+              { href: "#two-column-content", label: "Compare responses" },
+              { href: "/showcase/assessment-interactions", label: "Try a knowledge check", variant: "secondary" },
+            ]}
+          >
+            <p>Before approving a payment, password reset or account change, check whether the request matches the normal process. A short pause prevents rushed decisions.</p>
+          </TextImageSplit>
+        </ShowcaseExample>
+
+        <ShowcaseExample id="two-column-content" title="Two-Column Content" purpose="Places two related concepts side by side without assuming equal text length.">
+          <TwoColumnContent
+            eyebrow="Customer support"
+            heading="What the customer says and how you respond"
+            intro="Use paired columns for comparisons where both sides need equal attention."
+            headingLevel={4}
+            left={{
+              eyebrow: "Customer says",
+              icon: "record_voice_over",
+              heading: "I need this sorted today.",
+              body: "The customer is asking for urgency and certainty. They may not need every process detail.",
+              points: ["Acknowledge urgency", "Confirm the required outcome"],
+            }}
+            right={{
+              eyebrow: "You respond",
+              icon: "support_agent",
+              heading: "I’ll check the quickest available route.",
+              body: "A useful response names the action you will take and sets a realistic expectation.",
+              points: ["State your next step", "Avoid vague reassurance"],
+            }}
+          />
+        </ShowcaseExample>
+      </div>
+    </ShowcaseSection>
+
+    <ShowcaseSection id="repeated-content" title="Repeated content" description="Reusable grids and repeated item structures.">
+      <div class="showcase-example-stack">
+        <ShowcaseExample id="card-grid" title="Card Grid" purpose="Displays repeated topics, benefits, products or module options with a consistent card model.">
+          <CardGrid
+            heading="Choose the right support path"
+            intro="Cards can be links when they navigate to a useful destination, or plain blocks when they only summarise information."
+            headingLevel={4}
+            columns={3}
+            cards={[
+              {
+                icon: "chat",
+                label: "Conversation",
+                title: "Clarify the need",
+                description: "Ask one focused question before recommending a next step.",
+                href: "#text-image-split",
+              },
+              {
+                icon: "inventory_2",
+                label: "Product",
+                title: "Match the option",
+                description: "Choose the product or service that fits the customer’s stated priority.",
+              },
+              {
+                icon: "task_alt",
+                label: "Follow-up",
+                title: "Confirm the outcome",
+                description: "Close with the action taken and what happens next.",
+              },
+            ]}
+          />
+        </ShowcaseExample>
+
+        <ShowcaseExample id="product-feature" title="Product Feature" purpose="Supports product-knowledge courses with configurable feature, benefit and recommendation labels.">
+          <ProductFeatureList
+            heading="Compare support options"
+            intro="Product rows can alternate on desktop and stack cleanly on mobile."
+            headingLevel={4}
+            products={productExamples}
+          />
+        </ShowcaseExample>
+
+        <ShowcaseExample id="feature-list-visual" title="Feature List with Supporting Visual" purpose="Pairs a secondary visual with a semantic feature list.">
+          <FeatureListVisual
+            eyebrow="Leadership"
+            heading="Make feedback easier to act on"
+            intro="Use this layout when the list is the learning content and the visual supports the mood or context."
+            headingLevel={4}
+            imageSrc={neutralImage}
+            imageAlt="A learner reviewing notes in preparation for a coaching conversation."
+            features={[
+              { icon: "target", title: "Name the behaviour", description: "Describe what happened without turning it into a character judgement." },
+              { icon: "forum", title: "Ask for context", description: "Leave room for the other person to explain constraints or trade-offs." },
+              { icon: "event_available", title: "Agree a next step", description: "Close with one practical action and a time to review it." },
+            ]}
+            tip="Keep the supporting visual secondary so the feature list remains the main instructional content."
+          />
+        </ShowcaseExample>
+      </div>
+    </ShowcaseSection>
+
+    <ShowcaseSection id="processes-comparisons" title="Processes and comparisons" description="Layouts for order, sequence, alternatives and trade-offs.">
+      <div class="showcase-example-stack">
+        <ShowcaseExample id="numbered-process" title="Numbered Process" purpose="Shows two to eight sequential steps using semantic ordered-list markup.">
+          <NumberedProcess
+            eyebrow="Operational process"
+            heading="Escalate a priority request"
+            intro="A vertical process is the safest default for long descriptions and small screens."
+            headingLevel={4}
+            orientation="horizontal"
+            steps={[
+              { icon: "search", title: "Check the record", description: "Review notes, dates and the latest customer update before taking action." },
+              { icon: "rule", title: "Choose the route", description: "Match the issue to the correct support path and confirm any required approvals." },
+              { icon: "send", title: "Confirm the update", description: "Tell the customer what changed, who owns the next step and when to expect progress." },
+            ]}
+          />
+        </ShowcaseExample>
+
+        <ShowcaseExample id="comparison-layout" title="Comparison Layout" purpose="Compares options without using colour alone to signal the recommended choice.">
+          <ComparisonLayout
+            eyebrow="Payment options"
+            heading="Choose the clearest explanation"
+            intro="Use comparison cards when learners need to understand the difference between two approaches."
+            headingLevel={4}
+            options={[
+              {
+                label: "Option A",
+                icon: "remove_circle",
+                title: "Lead with the process",
+                description: "Explains every internal step before confirming what the customer needs to do.",
+                points: ["Can feel thorough", "May overwhelm a short conversation"],
+              },
+              {
+                label: "Option B",
+                icon: "check_circle",
+                title: "Lead with the customer action",
+                description: "Starts with the customer's next step, then adds only the detail needed to complete it.",
+                recommended: true,
+                points: ["Clearer in the moment", "Keeps the conversation focused"],
+              },
+            ]}
+          />
+        </ShowcaseExample>
+      </div>
+    </ShowcaseSection>
+
+    <ShowcaseSection id="visual-layouts" title="Visual layouts" description="Static image and message arrangements without interaction behaviour.">
+      <div class="showcase-example-stack">
+        <ShowcaseExample id="image-grid" title="Image Gallery or Visual Grid" purpose="Arranges static visual content with captions and stable aspect ratios.">
+          <ImageGrid
+            heading="Inspect common workspace signals"
+            intro="This layout is static. Future click-to-expand behaviour belongs in Display interactions."
+            headingLevel={4}
+            variant="featured"
+            images={[
+              { src: neutralImage, alt: "A learner reviewing materials at a desk.", caption: "Primary example" },
+              { src: neutralImage, alt: "A learner reviewing materials at a desk.", caption: "Supporting view" },
+              { src: neutralImage, alt: "A learner reviewing materials at a desk.", caption: "Detail view" },
+            ]}
+          />
+        </ShowcaseExample>
+
+        <ShowcaseExample id="quote-key-message" title="Quote or Key Message" purpose="Creates a visual pause for a quotation, customer insight or guiding principle.">
+          <QuoteKeyMessage
+            message="Clear guidance is easier to follow when the learner knows what to do next, not just what to remember."
+            attribution="Quick Course design principle"
+            source="Internal pattern library"
+            context="Use quotation semantics only for genuine quoted material. Use the statement version for ordinary emphasis."
+          />
+        </ShowcaseExample>
+      </div>
+    </ShowcaseSection>
+
+    <ShowcaseSection id="openers-closers" title="Openers and closers" description="Compact section starts, learner actions and structured recaps.">
+      <div class="showcase-example-stack">
+        <ShowcaseExample id="call-to-action-section" title="Call-to-Action Section" purpose="Prompts a learner to take one clear next action using explicit link labels.">
+          <CallToActionSection
+            eyebrow="Next activity"
+            heading="Practise the conversation out loud"
+            description="Pair with a colleague and take turns explaining the next step in less than one minute."
+            headingLevel={4}
+            primaryAction={{ href: "/showcase/assessment-interactions", label: "Start the practice check" }}
+            secondaryAction={{ href: "#summary-section", label: "Review the recap" }}
+            icon="record_voice_over"
+          />
+        </ShowcaseExample>
+
+        <ShowcaseExample id="section-divider" title="Section Divider or Chapter Opener" purpose="Separates major sections inside a long single-page Quick Course without creating another page-level H1.">
+          <SectionDivider
+            sectionNumber="02"
+            eyebrow="Apply"
+            heading="Move from explanation to practice"
+            introduction="The next section asks learners to use the guidance in a short workplace scenario."
+            progressLabel="About 4 minutes remaining"
+            headingLevel={4}
+          />
+        </ShowcaseExample>
+
+        <ShowcaseExample id="summary-section" title="Summary Layout" purpose="Closes a section or course with concise takeaways and an optional next step.">
+          <SummarySection
+            heading="What to remember"
+            intro="End with the actions a learner can carry into their next real conversation."
+            headingLevel={4}
+            icon="task_alt"
+            takeaways={[
+              "Start with the customer’s priority.",
+              "Match the option to that priority.",
+              "Confirm one clear next step before closing.",
+            ]}
+            checklist={["The action is specific.", "The owner is clear.", "The timing is realistic."]}
+            nextStep="Use the checklist before sending your next customer update."
+            action={{ href: "#advanced-layouts", label: "View advanced layout" }}
+          />
+        </ShowcaseExample>
+      </div>
+    </ShowcaseSection>
+
+    <ShowcaseSection id="advanced-layouts" title="Advanced layouts" description="Optional layouts for unusually long single-page courses.">
+      <div class="showcase-example-stack">
+        <ShowcaseExample id="sticky-side-navigation" title="Sticky Side Navigation" purpose="Adds optional section navigation for long single-page courses while keeping anchor links functional without JavaScript.">
+          <div class="qc-sticky-layout">
+            <StickySectionNavigation items={stickyItems} activeHref="#sticky-prepare" />
+            <div class="qc-sticky-layout__content">
+              <section id="sticky-prepare" class="scroll-mt-28">
+                <h4>Prepare</h4>
+                <p>Review the scenario, identify the decision point and check whether the learner needs a reference before starting.</p>
+              </section>
+              <section id="sticky-practise" class="scroll-mt-28">
+                <h4>Practise</h4>
+                <p>Ask the learner to choose a response, compare it with a recommended approach and explain the reason for the difference.</p>
+              </section>
+              <section id="sticky-apply" class="scroll-mt-28">
+                <h4>Apply</h4>
+                <p>Close with one workplace action, a time to use it and a prompt to share questions with a manager or facilitator.</p>
+              </section>
+            </div>
+          </div>
+          <ShowcaseNotes title="Advanced layout note">
+            <p>Use this only for unusually long single-page Quick Courses. The Showcase category navigation remains separate from this course-content navigation.</p>
+          </ShowcaseNotes>
+        </ShowcaseExample>
+      </div>
+    </ShowcaseSection>
+  </div>
+</ShowcaseLayout>
+

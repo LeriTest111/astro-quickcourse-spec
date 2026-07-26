@@ -1,0 +1,23 @@
+---
+interface Item {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  label?: string;
+  items: Item[];
+}
+
+const { label = "Section index", items } = Astro.props;
+---
+
+<nav class="showcase-anchor-nav" aria-label={label}>
+  <p>{label}</p>
+  <ul>
+    {items.map((item) => (
+      <li><a href={item.href}>{item.label}</a></li>
+    ))}
+  </ul>
+</nav>
+

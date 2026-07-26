@@ -1,0 +1,73 @@
+---
+import type { HeadingLevel, LayoutAction } from "../layout-types";
+
+interface Props {
+  eyebrow?: string;
+  heading: string;
+  description?: string;
+  headingLevel?: HeadingLevel;
+  imageSrc: string;
+  imageAlt: string;
+  imageCaption?: string;
+  imagePosition?: "left" | "right";
+  balance?: "50-50" | "60-40" | "40-60";
+  mobileImageFirst?: boolean;
+  actions?: LayoutAction[];
+}
+
+const {
+  eyebrow,
+  heading,
+  description,
+  headingLevel = 2,
+  imageSrc,
+  imageAlt,
+  imageCaption,
+  imagePosition = "right",
+  balance = "50-50",
+  mobileImageFirst = false,
+  actions = [],
+} = Astro.props;
+
+const HeadingTag = `h${headingLevel}` as const;
+const balanceClass = {
+  "50-50": "lg:grid-cols-2",
+  "60-40": "lg:grid-cols-[1.15fr_0.85fr]",
+  "40-60": "lg:grid-cols-[0.85fr_1.15fr]",
+}[balance];
+const textOrder = imagePosition === "left" ? "lg:order-2" : "";
+const imageOrder = `${imagePosition === "left" ? "lg:order-1" : ""} ${mobileImageFirst ? "order-first" : ""}`;
+---
+
+<section class={`qc-split grid gap-8 ${balanceClass} items-center`}>
+  <div class={`qc-split__content ${textOrder}`}>
+    {eyebrow && <p class="qc-eyebrow">{eyebrow}</p>}
+    <HeadingTag class="qc-section-title">{heading}</HeadingTag>
+    {description && <p class="qc-section-intro">{description}</p>}
+    <div class="qc-prose">
+      <slot />
+    </div>
+    {
+      actions.length > 0 && (
+        <div class="qc-actions">
+          {actions.map((action) => (
+            <a
+              class={`qc-action ${action.variant === "secondary" ? "qc-action--secondary" : "qc-action--primary"}`}
+              href={action.href}
+              target={action.external ? "_blank" : undefined}
+              rel={action.external ? "noreferrer" : undefined}
+            >
+              {action.label}
+              {action.external && <span class="sr-only"> opens in a new tab</span>}
+            </a>
+          ))}
+        </div>
+      )
+    }
+  </div>
+  <figure class={`qc-media-frame ${imageOrder}`}>
+    <img src={imageSrc} alt={imageAlt} loading="lazy" />
+    {imageCaption && <figcaption>{imageCaption}</figcaption>}
+  </figure>
+</section>
+

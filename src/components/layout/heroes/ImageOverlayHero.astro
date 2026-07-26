@@ -1,0 +1,28 @@
+---
+import HeroActions from "./HeroActions.astro";
+import type { HeroAction } from "./hero-types";
+
+interface Props {
+  previewId: string;
+  headingId: string;
+  eyebrow?: string;
+  title: string;
+  summary: string;
+  imageSrc: string;
+  imageAlt: string;
+  actions?: HeroAction[];
+}
+
+const { previewId, headingId, eyebrow, title, summary, imageSrc, imageAlt, actions = [] } = Astro.props;
+---
+
+<section class="showcase-hero showcase-hero--overlay" data-hero-preview={previewId} aria-labelledby={headingId}>
+  <img class="showcase-hero__image" src={imageSrc} alt={imageAlt} />
+  <div class="showcase-hero__overlay" aria-hidden="true"></div>
+  <div class="showcase-hero__content">
+    {eyebrow && <p class="showcase-hero__eyebrow" data-hero-part="eyebrow">{eyebrow}</p>}
+    <h4 id={headingId} class="showcase-hero__title">{title}</h4>
+    <p class="showcase-hero__summary" data-hero-part="summary">{summary}</p>
+    <HeroActions actions={actions} />
+  </div>
+</section>

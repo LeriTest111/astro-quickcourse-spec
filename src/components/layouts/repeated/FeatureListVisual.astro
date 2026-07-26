@@ -1,0 +1,57 @@
+---
+import type { HeadingLevel, LayoutAction, IconTextItem } from "../layout-types";
+
+interface Props {
+  eyebrow?: string;
+  heading: string;
+  intro?: string;
+  headingLevel?: HeadingLevel;
+  imageSrc: string;
+  imageAlt: string;
+  imagePosition?: "left" | "right";
+  features: IconTextItem[];
+  tip?: string;
+  action?: LayoutAction;
+}
+
+const {
+  eyebrow,
+  heading,
+  intro,
+  headingLevel = 2,
+  imageSrc,
+  imageAlt,
+  imagePosition = "right",
+  features,
+  tip,
+  action,
+} = Astro.props;
+const HeadingTag = `h${headingLevel}` as const;
+const imageOrder = imagePosition === "left" ? "lg:order-1" : "";
+const contentOrder = imagePosition === "left" ? "lg:order-2" : "";
+---
+
+<section class="qc-feature-visual grid gap-8 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+  <div class={`qc-feature-visual__content ${contentOrder}`}>
+    {eyebrow && <p class="qc-eyebrow">{eyebrow}</p>}
+    <HeadingTag class="qc-section-title">{heading}</HeadingTag>
+    {intro && <p class="qc-section-intro">{intro}</p>}
+    <ul class="qc-feature-list">
+      {features.map((feature) => (
+        <li>
+          {feature.icon && <span class="material-symbols-sharp showcase-icon" aria-hidden="true">{feature.icon}</span>}
+          <div>
+            <h3>{feature.title}</h3>
+            {feature.description && <p>{feature.description}</p>}
+          </div>
+        </li>
+      ))}
+    </ul>
+    {tip && <p class="qc-note">{tip}</p>}
+    {action && <a class="qc-action qc-action--primary" href={action.href}>{action.label}</a>}
+  </div>
+  <figure class={`qc-media-frame ${imageOrder}`}>
+    <img src={imageSrc} alt={imageAlt} loading="lazy" />
+  </figure>
+</section>
+

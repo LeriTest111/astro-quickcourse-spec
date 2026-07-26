@@ -1,0 +1,77 @@
+---
+import type { HeadingLevel, LayoutAction } from "../layout-types";
+
+interface LabelSet {
+  features?: string;
+  benefits?: string;
+  tip?: string;
+  recommend?: string;
+  caution?: string;
+}
+
+interface Props {
+  name: string;
+  statement: string;
+  imageSrc: string;
+  imageAlt: string;
+  features?: string[];
+  benefits?: string[];
+  tip?: string;
+  recommend?: string;
+  caution?: string;
+  labels?: LabelSet;
+  action?: LayoutAction;
+  compact?: boolean;
+  imagePosition?: "left" | "right";
+  headingLevel?: HeadingLevel;
+}
+
+const {
+  name,
+  statement,
+  imageSrc,
+  imageAlt,
+  features = [],
+  benefits = [],
+  tip,
+  recommend,
+  caution,
+  labels = {},
+  action,
+  compact = false,
+  imagePosition = "left",
+  headingLevel = 3,
+} = Astro.props;
+
+const HeadingTag = `h${headingLevel}` as const;
+const imageOrder = imagePosition === "right" ? "md:order-2" : "";
+---
+
+<article class={`qc-product-feature ${compact ? "qc-product-feature--compact" : ""}`}>
+  <div class={`qc-product-feature__media ${imageOrder}`}>
+    <img src={imageSrc} alt={imageAlt} loading="lazy" />
+  </div>
+  <div class="qc-product-feature__content">
+    <HeadingTag>{name}</HeadingTag>
+    <p class="qc-section-intro">{statement}</p>
+    <div class="qc-product-feature__lists">
+      {features.length > 0 && (
+        <div>
+          <p class="qc-mini-label">{labels.features ?? "Key features"}</p>
+          <ul>{features.map((item) => <li>{item}</li>)}</ul>
+        </div>
+      )}
+      {benefits.length > 0 && (
+        <div>
+          <p class="qc-mini-label">{labels.benefits ?? "Benefits"}</p>
+          <ul>{benefits.map((item) => <li>{item}</li>)}</ul>
+        </div>
+      )}
+    </div>
+    {tip && <p class="qc-note"><strong>{labels.tip ?? "Tip"}:</strong> {tip}</p>}
+    {recommend && <p class="qc-note"><strong>{labels.recommend ?? "When to recommend"}:</strong> {recommend}</p>}
+    {caution && <p class="qc-note qc-note--caution"><strong>{labels.caution ?? "Caution"}:</strong> {caution}</p>}
+    {action && <a class="qc-action qc-action--secondary" href={action.href}>{action.label}</a>}
+  </div>
+</article>
+

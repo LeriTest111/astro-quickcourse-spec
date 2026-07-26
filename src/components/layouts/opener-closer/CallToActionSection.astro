@@ -1,0 +1,45 @@
+---
+import type { HeadingLevel, LayoutAction } from "../layout-types";
+
+interface Props {
+  eyebrow?: string;
+  heading: string;
+  description?: string;
+  headingLevel?: HeadingLevel;
+  primaryAction: LayoutAction;
+  secondaryAction?: LayoutAction;
+  icon?: string;
+  imageSrc?: string;
+  imageAlt?: string;
+  variant?: "compact" | "prominent";
+}
+
+const {
+  eyebrow,
+  heading,
+  description,
+  headingLevel = 2,
+  primaryAction,
+  secondaryAction,
+  icon,
+  imageSrc,
+  imageAlt = "",
+  variant = "prominent",
+} = Astro.props;
+const HeadingTag = `h${headingLevel}` as const;
+---
+
+<section class={`qc-cta qc-cta--${variant}`}>
+  <div>
+    {eyebrow && <p class="qc-eyebrow">{eyebrow}</p>}
+    <HeadingTag class="qc-section-title">{heading}</HeadingTag>
+    {description && <p class="qc-section-intro">{description}</p>}
+    <div class="qc-actions">
+      <a class="qc-action qc-action--primary" href={primaryAction.href}>{primaryAction.label}</a>
+      {secondaryAction && <a class="qc-action qc-action--secondary" href={secondaryAction.href}>{secondaryAction.label}</a>}
+    </div>
+  </div>
+  {icon && <span class="material-symbols-sharp showcase-icon qc-cta__icon" aria-hidden="true">{icon}</span>}
+  {imageSrc && <img class="qc-cta__image" src={imageSrc} alt={imageAlt} loading="lazy" />}
+</section>
+

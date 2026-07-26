@@ -1,0 +1,36 @@
+---
+import type { HeadingLevel } from "../layout-types";
+
+interface Props {
+  sectionNumber?: string;
+  eyebrow?: string;
+  heading: string;
+  introduction?: string;
+  progressLabel?: string;
+  imageSrc?: string;
+  imageAlt?: string;
+  headingLevel?: HeadingLevel;
+}
+
+const { sectionNumber, eyebrow, heading, introduction, progressLabel, imageSrc, imageAlt = "", headingLevel = 2 } = Astro.props;
+const HeadingTag = `h${headingLevel}` as const;
+---
+
+<section class="qc-section-divider" aria-label={heading}>
+  <div class="qc-section-divider__copy">
+    {(sectionNumber || eyebrow) && (
+      <p class="qc-eyebrow">{sectionNumber && <span>{sectionNumber}</span>} {eyebrow}</p>
+    )}
+    <HeadingTag>{heading}</HeadingTag>
+    {introduction && <p>{introduction}</p>}
+    {progressLabel && <p class="qc-mini-label">{progressLabel}</p>}
+  </div>
+  {
+    imageSrc ? (
+      <img src={imageSrc} alt={imageAlt} loading="lazy" />
+    ) : (
+      <div class="qc-section-divider__block" aria-hidden="true"></div>
+    )
+  }
+</section>
+

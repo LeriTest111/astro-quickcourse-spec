@@ -1,0 +1,42 @@
+---
+import ShowcaseLayout from "../../layouts/ShowcaseLayout.astro";
+import ShowcasePageHeader from "../../components/showcase/ShowcasePageHeader.astro";
+import ShowcaseExample from "../../components/showcase/ShowcaseExample.astro";
+
+const icons = [
+  ["arrow_forward", "Continue"],
+  ["check_circle", "Correct"],
+  ["info", "Information"],
+  ["play_circle", "Play"],
+  ["menu", "Menu"],
+  ["arrow_upward", "Back to top"],
+];
+---
+
+<ShowcaseLayout
+  pageTitle="Icons | Astro Quick Course Showcase"
+  description="Icon usage examples for Quick Courses."
+  activeCategory="icons"
+>
+  <ShowcasePageHeader
+    eyebrow="Showcase category"
+    title="Icons"
+    description="Material Symbols Sharp examples for course controls and supporting visual cues."
+    count="6 examples"
+  />
+
+  <div class="showcase-example-stack mt-8">
+    <ShowcaseExample id="icon-set" title="Core icon examples" purpose="Shows the standard icon class and accessible pairing with visible labels.">
+      <div class="grid grid-cols-3 gap-3 sm:grid-cols-6">
+        {icons.map(([icon, label]) => (
+          <div class="flex min-h-28 flex-col items-center justify-center gap-2 rounded-box border border-base-300 bg-base-100 p-3 text-center">
+            <span class="material-symbols-sharp showcase-icon text-3xl text-primary" aria-hidden="true">{icon}</span>
+            <span class="text-xs text-base-content/70">{label}</span>
+          </div>
+        ))}
+      </div>
+      <p class="mt-4 text-sm text-base-content/70">Use the <code>material-symbols-sharp showcase-icon</code> classes and pair icons with text or an accessible label when meaning is not obvious.</p>
+    </ShowcaseExample>
+  </div>
+</ShowcaseLayout>
+

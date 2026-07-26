@@ -1,0 +1,28 @@
+---
+import StatusBadge from "./StatusBadge.astro";
+
+interface Props {
+  id: string;
+  title: string;
+  purpose: string;
+  status?: string;
+}
+
+const { id, title, purpose, status = "In Review" } = Astro.props;
+---
+
+<article id={id} class="showcase-example scroll-mt-28" aria-labelledby={`${id}-heading`}>
+  <div class="showcase-example__header">
+    <div>
+      <h3 id={`${id}-heading`} class="showcase-catalogue-section__item-heading">
+        <a href={`#${id}`}>{title}</a>
+      </h3>
+      <p>{purpose}</p>
+    </div>
+    <StatusBadge status={status} />
+  </div>
+  <div class="showcase-example__preview">
+    <slot />
+  </div>
+</article>
+

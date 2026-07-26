@@ -1,0 +1,41 @@
+---
+import type { HeadingLevel, LayoutAction } from "../layout-types";
+
+interface Props {
+  heading: string;
+  intro?: string;
+  headingLevel?: HeadingLevel;
+  takeaways: string[];
+  checklist?: string[];
+  nextStep?: string;
+  action?: LayoutAction;
+  icon?: string;
+  variant?: "section" | "course";
+}
+
+const { heading, intro, headingLevel = 2, takeaways, checklist = [], nextStep, action, icon, variant = "section" } = Astro.props;
+const HeadingTag = `h${headingLevel}` as const;
+---
+
+<section class={`qc-summary qc-summary--${variant}`}>
+  <div class="qc-summary__header">
+    {icon && <span class="material-symbols-sharp showcase-icon text-primary" aria-hidden="true">{icon}</span>}
+    <HeadingTag class="qc-section-title">{heading}</HeadingTag>
+    {intro && <p class="qc-section-intro">{intro}</p>}
+  </div>
+  <div class="qc-summary__body">
+    <div>
+      <p class="qc-mini-label">Key takeaways</p>
+      <ul>{takeaways.map((item) => <li>{item}</li>)}</ul>
+    </div>
+    {checklist.length > 0 && (
+      <div>
+        <p class="qc-mini-label">Ready checklist</p>
+        <ul>{checklist.map((item) => <li>{item}</li>)}</ul>
+      </div>
+    )}
+  </div>
+  {nextStep && <p class="qc-note">{nextStep}</p>}
+  {action && <a class="qc-action qc-action--primary" href={action.href}>{action.label}</a>}
+</section>
+

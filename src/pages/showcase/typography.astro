@@ -1,0 +1,41 @@
+---
+import ShowcaseLayout from "../../layouts/ShowcaseLayout.astro";
+import ShowcasePageHeader from "../../components/showcase/ShowcasePageHeader.astro";
+import ShowcaseExample from "../../components/showcase/ShowcaseExample.astro";
+
+const approvedStack = `system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, Helvetica, sans-serif`;
+---
+
+<ShowcaseLayout
+  pageTitle="Typography | Astro Quick Course Showcase"
+  description="Typography standards for Quick Courses."
+  activeCategory="typography"
+>
+  <ShowcasePageHeader
+    eyebrow="Showcase category"
+    title="Typography"
+    description="Native system font guidance and readable prose standards for reusable course content."
+    count="1 standard"
+  />
+
+  <div class="showcase-example-stack mt-8">
+    <ShowcaseExample id="type-scale" title="Approved system type stack" purpose="Demonstrates headings, paragraphs, lists, links and quotation styling without external text fonts.">
+      <p class="max-w-3xl text-base-content/70">The Showcase and future Boilerplate use a native system sans-serif stack. No external text font service, downloaded text font file, or JavaScript font loader is required.</p>
+      <div class="mt-5 rounded-box bg-base-200 p-4">
+        <p class="text-sm font-semibold">Approved stack</p>
+        <code class="mt-2 block whitespace-pre-wrap text-sm">{approvedStack}</code>
+      </div>
+      <div class="learning-prose mt-6">
+        <h2>H2: Lesson topic heading</h2>
+        <h3>H3: Activity or content block heading</h3>
+        <p>This paragraph demonstrates the recommended readable line length for lesson content. Use <strong>bold text</strong> for meaningful emphasis and <em>italic text</em> sparingly.</p>
+        <ul>
+          <li>Keep list items short enough to scan.</li>
+          <li>Use links with meaningful labels, such as <a href="/showcase/layouts">review layout patterns</a>.</li>
+        </ul>
+        <blockquote>A plain typography foundation makes course content easier to read and easier to rebrand later.</blockquote>
+      </div>
+    </ShowcaseExample>
+  </div>
+</ShowcaseLayout>
+

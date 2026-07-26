@@ -1,0 +1,10 @@
+---
+interface Props {
+  status?: string;
+}
+
+const { status = "In Review" } = Astro.props;
+---
+
+<span class="showcase-status">{status}</span>
+

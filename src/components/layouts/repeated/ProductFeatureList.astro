@@ -1,0 +1,48 @@
+---
+import ProductFeature from "./ProductFeature.astro";
+import type { HeadingLevel } from "../layout-types";
+
+interface Product {
+  name: string;
+  statement: string;
+  imageSrc: string;
+  imageAlt: string;
+  features?: string[];
+  benefits?: string[];
+  tip?: string;
+  recommend?: string;
+  caution?: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  heading: string;
+  intro?: string;
+  products: Product[];
+  headingLevel?: HeadingLevel;
+  compact?: boolean;
+  alternate?: boolean;
+}
+
+const { eyebrow, heading, intro, products, headingLevel = 2, compact = false, alternate = true } = Astro.props;
+const HeadingTag = `h${headingLevel}` as const;
+---
+
+<section class="qc-section">
+  <div class="qc-section-header">
+    {eyebrow && <p class="qc-eyebrow">{eyebrow}</p>}
+    <HeadingTag class="qc-section-title">{heading}</HeadingTag>
+    {intro && <p class="qc-section-intro">{intro}</p>}
+  </div>
+  <div class="grid gap-5">
+    {products.map((product, index) => (
+      <ProductFeature
+        {...product}
+        compact={compact}
+        imagePosition={alternate && index % 2 === 1 ? "right" : "left"}
+        headingLevel={headingLevel + 1 > 6 ? 6 : headingLevel + 1}
+      />
+    ))}
+  </div>
+</section>
+

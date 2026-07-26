@@ -1,0 +1,44 @@
+---
+import type { HeadingLevel, LayoutAction } from "../layout-types";
+
+interface Props {
+  eyebrow?: string;
+  heading: string;
+  intro?: string;
+  headingLevel?: HeadingLevel;
+  width?: "readable" | "wide";
+  primaryAction?: LayoutAction;
+}
+
+const {
+  eyebrow,
+  heading,
+  intro,
+  headingLevel = 2,
+  width = "readable",
+  primaryAction,
+} = Astro.props;
+
+const HeadingTag = `h${headingLevel}` as const;
+const widthClass = width === "wide" ? "max-w-5xl" : "max-w-[70ch]";
+---
+
+<section class={`qc-readable-section ${widthClass}`} aria-labelledby={`${Astro.props.heading.toLowerCase().replaceAll(" ", "-")}-heading`}>
+  {eyebrow && <p class="qc-eyebrow">{eyebrow}</p>}
+  <HeadingTag id={`${Astro.props.heading.toLowerCase().replaceAll(" ", "-")}-heading`} class="qc-section-title">{heading}</HeadingTag>
+  {intro && <p class="qc-section-intro">{intro}</p>}
+  <div class="qc-prose">
+    <slot />
+  </div>
+  <slot name="callout" />
+  {
+    primaryAction && (
+      <div class="qc-actions">
+        <a class="qc-action qc-action--primary" href={primaryAction.href}>
+          {primaryAction.label}
+        </a>
+      </div>
+    )
+  }
+</section>
+

@@ -1,0 +1,18 @@
+---
+interface Props {
+  id: string;
+  title: string;
+  description?: string;
+}
+
+const { id, title, description } = Astro.props;
+---
+
+<section id={id} class="showcase-catalogue-section scroll-mt-28" aria-labelledby={`${id}-heading`}>
+  <div class="showcase-section-header">
+    <h2 id={`${id}-heading`} class="showcase-catalogue-section__subheading">{title}</h2>
+    {description && <p>{description}</p>}
+  </div>
+  <slot />
+</section>
+

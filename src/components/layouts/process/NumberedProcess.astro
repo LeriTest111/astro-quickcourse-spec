@@ -1,0 +1,45 @@
+---
+import type { HeadingLevel } from "../layout-types";
+
+interface ProcessStep {
+  title: string;
+  description: string;
+  icon?: string;
+  note?: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  heading: string;
+  intro?: string;
+  steps: ProcessStep[];
+  headingLevel?: HeadingLevel;
+  orientation?: "vertical" | "horizontal";
+}
+
+const { eyebrow, heading, intro, steps, headingLevel = 2, orientation = "vertical" } = Astro.props;
+const HeadingTag = `h${headingLevel}` as const;
+const listClass = orientation === "horizontal" ? "qc-process-list qc-process-list--horizontal" : "qc-process-list";
+---
+
+<section class="qc-section">
+  <div class="qc-section-header">
+    {eyebrow && <p class="qc-eyebrow">{eyebrow}</p>}
+    <HeadingTag class="qc-section-title">{heading}</HeadingTag>
+    {intro && <p class="qc-section-intro">{intro}</p>}
+  </div>
+  <ol class={listClass}>
+    {steps.map((step, index) => (
+      <li>
+        <span class="qc-process-list__number">{index + 1}</span>
+        <div>
+          {step.icon && <span class="material-symbols-sharp showcase-icon text-primary" aria-hidden="true">{step.icon}</span>}
+          <h3>{step.title}</h3>
+          <p>{step.description}</p>
+          {step.note && <p class="qc-note">{step.note}</p>}
+        </div>
+      </li>
+    ))}
+  </ol>
+</section>
+

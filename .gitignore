@@ -1,0 +1,7 @@
+dist/
+.astro/
+node_modules/
+.DS_Store
+*.zip
+*.log
+npm-debug.log*

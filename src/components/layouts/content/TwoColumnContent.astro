@@ -1,0 +1,58 @@
+---
+import type { HeadingLevel } from "../layout-types";
+
+interface Column {
+  eyebrow?: string;
+  icon?: string;
+  heading: string;
+  body: string;
+  points?: string[];
+}
+
+interface Props {
+  eyebrow?: string;
+  heading: string;
+  intro?: string;
+  headingLevel?: HeadingLevel;
+  left: Column;
+  right: Column;
+  balance?: "equal" | "left-wide" | "right-wide";
+}
+
+const { eyebrow, heading, intro, headingLevel = 2, left, right, balance = "equal" } = Astro.props;
+const HeadingTag = `h${headingLevel}` as const;
+const gridClass = {
+  equal: "lg:grid-cols-2",
+  "left-wide": "lg:grid-cols-[1.15fr_0.85fr]",
+  "right-wide": "lg:grid-cols-[0.85fr_1.15fr]",
+}[balance];
+const columns = [left, right];
+---
+
+<section class="qc-section">
+  <div class="qc-section-header">
+    {eyebrow && <p class="qc-eyebrow">{eyebrow}</p>}
+    <HeadingTag class="qc-section-title">{heading}</HeadingTag>
+    {intro && <p class="qc-section-intro">{intro}</p>}
+  </div>
+  <div class={`grid gap-5 ${gridClass}`}>
+    {columns.map((column) => (
+      <article class="qc-column-block">
+        {(column.eyebrow || column.icon) && (
+          <div class="flex items-center gap-2">
+            {column.icon && <span class="material-symbols-sharp showcase-icon text-primary" aria-hidden="true">{column.icon}</span>}
+            {column.eyebrow && <p class="qc-mini-label">{column.eyebrow}</p>}
+          </div>
+        )}
+        <h3>{column.heading}</h3>
+        <p>{column.body}</p>
+        {column.points && (
+          <ul>
+            {column.points.map((point) => <li>{point}</li>)}
+          </ul>
+        )}
+      </article>
+    ))}
+  </div>
+</section>
+

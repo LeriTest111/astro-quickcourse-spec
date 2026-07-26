@@ -1,0 +1,119 @@
+---
+const {
+  eyebrow = "Knowledge check",
+  title = "Multiple-choice feedback",
+  prompt,
+  instruction = "Choose one option to see feedback.",
+  options = [],
+} = Astro.props;
+---
+
+<article class="mcq-feedback" data-mcq-feedback>
+  <div class="mcq-feedback__header">
+    <p class="mcq-feedback__eyebrow">{eyebrow}</p>
+    <h3>{title}</h3>
+    {prompt && <p>{prompt}</p>}
+    <p class="mcq-feedback__instruction">{instruction}</p>
+  </div>
+
+  <div class="mcq-feedback__options" role="group" aria-label={title}>
+    {options.map((option) => (
+      <button
+        type="button"
+        class="mcq-feedback__option"
+        aria-pressed="false"
+        data-mcq-option
+        data-correct={option.isCorrect ? "true" : "false"}
+        data-feedback-title={option.feedbackTitle}
+        data-feedback-body={option.feedback}
+      >
+        <span class="material-symbols-sharp showcase-icon mcq-feedback__option-icon" aria-hidden="true" data-mcq-option-icon>
+          radio_button_unchecked
+        </span>
+        <span class="mcq-feedback__option-copy">
+          {option.label && <span class="mcq-feedback__option-label">{option.label}</span>}
+          <span>{option.text}</span>
+        </span>
+      </button>
+    ))}
+  </div>
+
+  <div
+    class="mcq-feedback__response"
+    data-mcq-response
+    data-state="idle"
+    aria-live="polite"
+    role="status"
+    hidden
+  >
+    <span class="material-symbols-sharp showcase-icon mcq-feedback__response-icon" aria-hidden="true" data-mcq-response-icon>
+      info
+    </span>
+    <div>
+      <p class="mcq-feedback__response-title" data-mcq-response-title></p>
+      <p class="mcq-feedback__response-body" data-mcq-response-body></p>
+    </div>
+  </div>
+</article>
+
+<script>
+  function initialiseMultipleChoiceFeedback(activity) {
+    if (activity.dataset.mcqInitialised === "true") {
+      return;
+    }
+
+    activity.dataset.mcqInitialised = "true";
+
+    const options = activity.querySelectorAll("[data-mcq-option]");
+    const response = activity.querySelector("[data-mcq-response]");
+    const responseTitle = activity.querySelector("[data-mcq-response-title]");
+    const responseBody = activity.querySelector("[data-mcq-response-body]");
+    const responseIcon = activity.querySelector("[data-mcq-response-icon]");
+
+    options.forEach((option) => {
+      option.addEventListener("click", () => {
+        const isCorrect = option.dataset.correct === "true";
+
+        options.forEach((item) => {
+          item.classList.remove("is-selected", "is-correct", "is-incorrect");
+          item.setAttribute("aria-pressed", "false");
+          const icon = item.querySelector("[data-mcq-option-icon]");
+
+          if (icon) {
+            icon.textContent = "radio_button_unchecked";
+          }
+        });
+
+        option.classList.add("is-selected", isCorrect ? "is-correct" : "is-incorrect");
+        option.setAttribute("aria-pressed", "true");
+
+        const optionIcon = option.querySelector("[data-mcq-option-icon]");
+
+        if (optionIcon) {
+          optionIcon.textContent = isCorrect ? "check_circle" : "cancel";
+        }
+
+        if (responseTitle) {
+          responseTitle.textContent = option.dataset.feedbackTitle ?? "";
+        }
+
+        if (responseBody) {
+          responseBody.textContent = option.dataset.feedbackBody ?? "";
+        }
+
+        if (responseIcon) {
+          responseIcon.textContent = isCorrect ? "check_circle" : "error";
+        }
+
+        if (response) {
+          response.dataset.state = isCorrect ? "correct" : "incorrect";
+          response.hidden = false;
+        }
+      });
+    });
+  }
+
+  document
+    .querySelectorAll("[data-mcq-feedback]")
+    .forEach((activity) => initialiseMultipleChoiceFeedback(activity));
+</script>

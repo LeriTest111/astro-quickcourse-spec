@@ -1,0 +1,88 @@
+---
+import type { HeadingLevel } from "../layout-types";
+
+interface ComparisonOption {
+  label: string;
+  title: string;
+  description: string;
+  icon?: string;
+  recommended?: boolean;
+  points?: string[];
+}
+
+interface ComparisonRow {
+  feature: string;
+  values: string[];
+}
+
+interface Props {
+  eyebrow?: string;
+  heading: string;
+  intro?: string;
+  headingLevel?: HeadingLevel;
+  options: ComparisonOption[];
+  rows?: ComparisonRow[];
+  variant?: "cards" | "table";
+}
+
+const { eyebrow, heading, intro, headingLevel = 2, options, rows = [], variant = "cards" } = Astro.props;
+const HeadingTag = `h${headingLevel}` as const;
+---
+
+<section class="qc-section">
+  <div class="qc-section-header">
+    {eyebrow && <p class="qc-eyebrow">{eyebrow}</p>}
+    <HeadingTag class="qc-section-title">{heading}</HeadingTag>
+    {intro && <p class="qc-section-intro">{intro}</p>}
+  </div>
+  {
+    variant === "table" && rows.length > 0 ? (
+      <div class="qc-comparison-table-wrap">
+        <table class="qc-comparison-table">
+          <caption class="sr-only">{heading}</caption>
+          <thead>
+            <tr>
+              <th scope="col">Feature</th>
+              {options.map((option) => <th scope="col">{option.title}</th>)}
+            </tr>
+          </thead>
+          <tbody>
+            {rows.map((row) => (
+              <tr>
+                <th scope="row">{row.feature}</th>
+                {row.values.map((value) => <td>{value}</td>)}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <div class="qc-comparison-stack">
+          {options.map((option, optionIndex) => (
+            <article class={option.recommended ? "is-recommended" : ""}>
+              <p class="qc-mini-label">{option.label}</p>
+              <h3>{option.title}</h3>
+              {rows.map((row) => (
+                <p><strong>{row.feature}:</strong> {row.values[optionIndex]}</p>
+              ))}
+            </article>
+          ))}
+        </div>
+      </div>
+    ) : (
+      <div class="qc-comparison-cards">
+        {options.map((option) => (
+          <article class={option.recommended ? "is-recommended" : ""}>
+            <div class="flex items-center gap-2">
+              {option.icon && <span class="material-symbols-sharp showcase-icon text-primary" aria-hidden="true">{option.icon}</span>}
+              <p class="qc-mini-label">{option.label}</p>
+            </div>
+            <h3>{option.title}</h3>
+            <p>{option.description}</p>
+            {option.recommended && <p class="qc-recommendation">Recommended option</p>}
+            {option.points && <ul>{option.points.map((point) => <li>{point}</li>)}</ul>}
+          </article>
+        ))}
+      </div>
+    )
+  }
+</section>
+

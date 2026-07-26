@@ -1,0 +1,64 @@
+---
+import ShowcaseLayout from "../../layouts/ShowcaseLayout.astro";
+import ShowcasePageHeader from "../../components/showcase/ShowcasePageHeader.astro";
+import ShowcaseExample from "../../components/showcase/ShowcaseExample.astro";
+import MultipleChoiceFeedback from "../../components/interactions/MultipleChoiceFeedback.astro";
+
+const multipleChoiceExample = {
+  eyebrow: "Knowledge check",
+  title: "Multiple-choice feedback",
+  prompt:
+    "A learner is choosing the best next action after reading a short customer scenario. Which response keeps the learning conversation focused and useful?",
+  instruction: "Select one answer. Feedback appears immediately below the choices.",
+  options: [
+    {
+      label: "A",
+      text: "Give the learner the correct answer straight away and move on.",
+      isCorrect: false,
+      feedbackTitle: "Not quite",
+      feedback:
+        "This is efficient, but it removes the moment where the learner connects the scenario to the decision.",
+    },
+    {
+      label: "B",
+      text: "Ask the learner to choose an action, then explain why that choice works or misses the mark.",
+      isCorrect: true,
+      feedbackTitle: "Correct",
+      feedback:
+        "This keeps the activity active. The learner makes a decision first, then receives feedback that reinforces the reasoning.",
+    },
+    {
+      label: "C",
+      text: "Show all possible responses with no feedback so the learner can decide privately.",
+      isCorrect: false,
+      feedbackTitle: "Not quite",
+      feedback:
+        "Choice is useful, but feedback is what turns the click into a learning moment.",
+    },
+  ],
+};
+---
+
+<ShowcaseLayout
+  pageTitle="Assessment Interactions | Astro Quick Course Showcase"
+  description="Assessment interaction examples for Quick Courses."
+  activeCategory="assessment-interactions"
+>
+  <ShowcasePageHeader
+    eyebrow="Showcase category"
+    title="Assessment Interactions"
+    description="Knowledge checks and evaluative interactions that ask learners to respond, then provide feedback."
+    count="1 example"
+  />
+
+  <div class="showcase-example-stack mt-8">
+    <ShowcaseExample
+      id="multiple-choice-feedback"
+      title="Multiple-choice feedback"
+      purpose="Presents choices, records selection state and gives immediate feedback in a polite live region."
+    >
+      <MultipleChoiceFeedback {...multipleChoiceExample} />
+    </ShowcaseExample>
+  </div>
+</ShowcaseLayout>
+

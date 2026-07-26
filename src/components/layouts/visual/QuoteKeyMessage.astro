@@ -1,0 +1,53 @@
+---
+import type { HeadingLevel } from "../layout-types";
+
+interface Props {
+  message: string;
+  attribution?: string;
+  role?: string;
+  source?: string;
+  context?: string;
+  isQuote?: boolean;
+  backgroundImage?: string;
+  backgroundAlt?: string;
+  heading?: string;
+  headingLevel?: HeadingLevel;
+}
+
+const {
+  message,
+  attribution,
+  role,
+  source,
+  context,
+  isQuote = true,
+  backgroundImage,
+  backgroundAlt = "",
+  heading,
+  headingLevel = 2,
+} = Astro.props;
+const HeadingTag = `h${headingLevel}` as const;
+---
+
+<section class={`qc-key-message ${backgroundImage ? "qc-key-message--image" : ""}`}>
+  {backgroundImage && <img src={backgroundImage} alt={backgroundAlt} loading="lazy" />}
+  <div class="qc-key-message__content">
+    {heading && <HeadingTag class="qc-section-title">{heading}</HeadingTag>}
+    {
+      isQuote ? (
+        <blockquote>
+          <p>{message}</p>
+          {(attribution || source) && (
+            <footer>
+              <cite>{attribution}{role && `, ${role}`}{source && `, ${source}`}</cite>
+            </footer>
+          )}
+        </blockquote>
+      ) : (
+        <p class="qc-key-message__statement">{message}</p>
+      )
+    }
+    {context && <p class="qc-key-message__context">{context}</p>}
+  </div>
+</section>
+

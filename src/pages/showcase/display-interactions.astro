@@ -1,0 +1,48 @@
+---
+import ShowcaseLayout from "../../layouts/ShowcaseLayout.astro";
+import ShowcasePageHeader from "../../components/showcase/ShowcasePageHeader.astro";
+import ShowcaseExample from "../../components/showcase/ShowcaseExample.astro";
+---
+
+<ShowcaseLayout
+  pageTitle="Display Interactions | Astro Quick Course Showcase"
+  description="Display interaction examples for Quick Courses."
+  activeCategory="display-interactions"
+>
+  <ShowcasePageHeader
+    eyebrow="Showcase category"
+    title="Display Interactions"
+    description="Patterns for revealing supporting information while keeping the main lesson flow easy to scan."
+    count="2 examples"
+  />
+
+  <div class="showcase-example-stack mt-8">
+    <ShowcaseExample
+      id="context-callout"
+      title="Context callout"
+      purpose="Highlights supporting information that should be visible without becoming the main lesson."
+    >
+      <article class="alert border border-info/30 bg-info/10 text-base-content">
+        <span class="material-symbols-sharp showcase-icon" aria-hidden="true">info</span>
+        <div>
+          <h2 class="text-lg font-semibold">Helpful context</h2>
+          <p class="mt-1">Use a callout when supporting information should be easy to spot while reading.</p>
+        </div>
+      </article>
+    </ShowcaseExample>
+
+    <ShowcaseExample
+      id="supporting-detail"
+      title="Supporting detail accordion"
+      purpose="Keeps optional detail available without making the main content feel dense."
+    >
+      <details class="collapse collapse-arrow border border-base-300 bg-base-100">
+        <summary class="collapse-title font-semibold">Open a supporting detail</summary>
+        <div class="collapse-content">
+          <p>Accordions are best for optional context, definitions or references that a learner may need only once.</p>
+        </div>
+      </details>
+    </ShowcaseExample>
+  </div>
+</ShowcaseLayout>
+
