@@ -4,6 +4,10 @@ All new reusable layouts are marked `In Review` until the project team approves 
 
 Eyebrows are optional. Use them only when the label adds context that the heading does not already provide, such as `Module 2`, `Scenario`, `Section 3`, `Product knowledge` or a meaningful content category. Most components and examples should work well without an eyebrow.
 
+Showcase page labels and counts should stay restrained. Do not add page-level component counts, visible `Section index` headings or example-count eyebrows to make a page feel complete. Category pages may keep quiet anchor navigation, and major groups should be separated through spacing, dividers and subtle neutral surface changes.
+
+Sticky Side Navigation has been removed from the reusable layout library and Showcase. Production Quick Courses should remain single-page experiences with navigation that targets topics or section anchors within the same page.
+
 ## Existing Heroes
 
 Status: In Review

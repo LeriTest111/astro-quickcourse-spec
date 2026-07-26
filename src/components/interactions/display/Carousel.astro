@@ -26,31 +26,39 @@ const { id, heading, intro, slides } = Astro.props;
       </div>
     )
   }
-  <div class="di-carousel__viewport" aria-live="polite">
-    {slides.map((slide, index) => (
-      <article class="di-carousel__slide" data-slide aria-label={`Slide ${index + 1} of ${slides.length}`}>
-        {slide.image && (
-          <figure>
-            <img src={slide.image} alt={slide.imageAlt ?? ""} loading={index === 0 ? "eager" : "lazy"} />
-            {slide.caption && <figcaption>{slide.caption}</figcaption>}
-          </figure>
-        )}
-        <div>
-          <h4>{slide.title}</h4>
-          <p>{slide.body}</p>
-        </div>
-      </article>
-    ))}
+  <div class="di-carousel__frame">
+    <button class="di-carousel__arrow di-carousel__arrow--prev" type="button" aria-label="Previous slide" data-carousel-prev>
+      <span class="material-symbols-sharp showcase-icon" aria-hidden="true">chevron_left</span>
+    </button>
+    <div class="di-carousel__viewport" aria-live="polite">
+      {slides.map((slide, index) => (
+        <article class="di-carousel__slide" data-slide aria-label={`Slide ${index + 1} of ${slides.length}`}>
+          {slide.image && (
+            <figure>
+              <img src={slide.image} alt={slide.imageAlt ?? ""} loading={index === 0 ? "eager" : "lazy"} />
+              {slide.caption && <figcaption>{slide.caption}</figcaption>}
+            </figure>
+          )}
+          <div>
+            <h4>{slide.title}</h4>
+            <p>{slide.body}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+    <button class="di-carousel__arrow di-carousel__arrow--next" type="button" aria-label="Next slide" data-carousel-next>
+      <span class="material-symbols-sharp showcase-icon" aria-hidden="true">chevron_right</span>
+    </button>
   </div>
-  <div class="di-carousel__controls">
-    <button class="di-secondary-button" type="button" data-carousel-prev>Previous</button>
-    <p data-carousel-status>Slide 1 of {slides.length}</p>
-    <button class="di-secondary-button" type="button" data-carousel-next>Next</button>
-  </div>
-  <div class="di-carousel__dots" aria-label="Choose slide">
-    {slides.map((slide, index) => (
-      <button type="button" data-carousel-dot aria-label={`Show slide ${index + 1}: ${slide.title}`}>{index + 1}</button>
-    ))}
+  <div class="di-carousel__footer">
+    <div class="di-carousel__dots" aria-label="Choose slide">
+      {slides.map((slide, index) => (
+        <button type="button" data-carousel-dot aria-label={`Show slide ${index + 1}: ${slide.title}`}>
+          <span class="sr-only">Slide </span>{index + 1}
+        </button>
+      ))}
+    </div>
+    <p data-carousel-status>1 of {slides.length}</p>
   </div>
 </section>
 
@@ -70,11 +78,12 @@ const { id, heading, intro, slides } = Astro.props;
       slides.forEach((slide, index) => {
         slide.hidden = index !== current;
         slide.toggleAttribute("inert", index !== current);
+        slide.classList.toggle("is-active", index === current);
       });
       dots.forEach((dot, index) => dot.setAttribute("aria-current", index === current ? "true" : "false"));
       if (previous) previous.disabled = current === 0;
       if (next) next.disabled = current === slides.length - 1;
-      if (status) status.textContent = `Slide ${current + 1} of ${slides.length}`;
+      if (status) status.textContent = `${current + 1} of ${slides.length}`;
     }
 
     previous?.addEventListener("click", () => {
@@ -97,4 +106,3 @@ const { id, heading, intro, slides } = Astro.props;
     render();
   });
 </script>
-

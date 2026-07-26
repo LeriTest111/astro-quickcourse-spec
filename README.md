@@ -8,6 +8,8 @@ The Showcase is the living visual catalogue used to review reusable course compo
 
 Production Quick Courses remain single-page learning experiences. The future Boilerplate repository should contain the approved reusable components, layouts, utilities, styles, and configuration without Showcase demo pages or placeholder content.
 
+In this Showcase, top navigation links open separate category pages for review, governance and maintenance. In production Quick Courses, the same navigation pattern should link to topics or section anchors within the single learner page.
+
 ## Technology Stack
 
 - Astro
@@ -72,6 +74,12 @@ scripts/
 Knowledge checks are currently marked `In Review`.
 Typography is currently marked `In Review`.
 Hero and layout patterns are currently marked `In Review`.
+
+## Showcase Interface Notes
+
+The Showcase keeps page chrome quiet so the reusable examples remain the focus. The landing page avoids decorative count badges, category cards use titles and short descriptions instead of example-count eyebrows, and category pages keep local anchor links without a visible `Section index` heading.
+
+Major component groups use stronger spacing, dividers and subtle neutral surface changes instead of heavy cards around every example. The course return message, such as `Return to People Connect to continue`, should render as understated standalone text rather than a boxed call-to-action.
 
 ## Typography Standard
 

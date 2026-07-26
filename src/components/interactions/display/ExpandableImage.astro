@@ -21,11 +21,16 @@ const {
 ---
 
 <figure class="di-expandable-image" data-expandable-image>
-  <img src={thumbnailSrc ?? imageSrc} alt={imageAlt} loading="lazy" />
+  <div class="di-expandable-image__thumb">
+    <img src={thumbnailSrc ?? imageSrc} alt={imageAlt} loading="lazy" />
+    <button class="di-expandable-image__open" type="button" data-expand-image-open>
+      <span class="material-symbols-sharp showcase-icon" aria-hidden="true">open_in_full</span>
+      <span>{expandLabel}</span>
+    </button>
+  </div>
   {caption && <figcaption>{caption}</figcaption>}
-  <button class="di-secondary-button" type="button" data-expand-image-open>{expandLabel}</button>
-  <dialog class="di-dialog" id={id} aria-label={expandLabel} data-expand-image-dialog>
-    <div class="di-dialog__inner">
+  <dialog class="di-dialog di-dialog--image" id={id} aria-label={expandLabel} data-expand-image-dialog>
+    <div class="di-dialog__inner di-dialog__inner--image">
       <button class="di-dialog__close" type="button" data-dialog-close aria-label="Close expanded image">
         <span class="material-symbols-sharp showcase-icon" aria-hidden="true">close</span>
       </button>
@@ -59,4 +64,3 @@ const {
     dialog?.addEventListener("close", () => openButton?.focus());
   });
 </script>
-

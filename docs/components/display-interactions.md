@@ -2,6 +2,8 @@
 
 All display interactions are marked `In Review` until the project team approves them. These components help learners reveal, compare or navigate information. They do not score answers, determine correctness, track attempts or call SCORM.
 
+Use brief, purposeful animation only when it clarifies a state change. Motion should use small opacity or transform changes, never autoplay content, and must respect `prefers-reduced-motion`.
+
 ## Accordion
 
 Approval status: In Review
@@ -28,7 +30,7 @@ Misuse to avoid: hiding essential instructions that every learner must read.
 
 Customizable properties: item count, icons, media, open mode and default item.
 
-Standardized properties: neutral borders, visible focus and no height animation.
+Standardized properties: neutral borders, visible focus, native disclosure behaviour and restrained reveal motion.
 
 ## Tabs
 
@@ -84,7 +86,7 @@ Misuse to avoid: long back content that belongs in a panel or accordion.
 
 Customizable properties: icons, images and copy.
 
-Standardized properties: button-based reveal and neutral card styling.
+Standardized properties: button-based reveal, neutral card styling and a short state-change animation that does not rely on hover.
 
 ## Carousel
 
@@ -96,11 +98,11 @@ Recommended use: two to eight compact examples, images or mixed-content panels.
 
 Content structure or props: stable id, slides with title, body, optional image, alt text and caption.
 
-Interaction behaviour: Previous, Next and direct slide controls update the visible slide.
+Interaction behaviour: Previous and Next arrows sit at the slide edges, centred indicators sit below the slide and direct slide controls update the visible slide.
 
 Keyboard behaviour: controls are buttons; inactive slides are hidden from keyboard users after enhancement.
 
-Responsive behaviour: slide content stacks safely and avoids horizontal page overflow.
+Responsive behaviour: slide content stacks safely, edge arrows remain touch-sized and the component avoids horizontal page overflow.
 
 Accessibility considerations: no autoplay, live status text and disabled controls at the ends.
 
@@ -112,7 +114,7 @@ Misuse to avoid: long required procedures that should remain visible.
 
 Customizable properties: slides, captions and images.
 
-Standardized properties: no autoplay and explicit controls.
+Standardized properties: conventional carousel arrows, centred indicators, slide count text, no autoplay and explicit controls.
 
 ## Click-to-Reveal Hotspots
 
@@ -146,17 +148,17 @@ Standardized properties: touch-sized controls and selected-state text.
 
 Approval status: In Review
 
-Purpose: explore milestones or stages in chronological order.
+Purpose: explore dated or milestone-led events in chronological order.
 
-Recommended use: customer journeys, onboarding milestones and operational timelines.
+Recommended use: customer journeys, onboarding milestones, company history and operational timelines where the key question is when events happened.
 
 Content structure or props: ordered events with label, title, description, optional detail and optional image.
 
-Interaction behaviour: event buttons reveal expanded event detail.
+Interaction behaviour: date or milestone buttons sit on a chronological line and reveal expanded event detail.
 
 Keyboard behaviour: event markers are buttons in chronological order.
 
-Responsive behaviour: vertical fallback with wider multi-column marker layout where space permits.
+Responsive behaviour: vertical chronological list on mobile with a horizontal marker sequence where space permits.
 
 Accessibility considerations: sequence is preserved with ordered-list markup and labels.
 
@@ -164,23 +166,23 @@ JavaScript requirements: required for selected event display.
 
 Suitable use cases: compact chronology with optional details.
 
-Misuse to avoid: relying on lines alone to communicate order.
+Misuse to avoid: using it for action-led procedures or relying on lines alone to communicate order.
 
 Customizable properties: labels, details and images.
 
-Standardized properties: ordered structure and visible selected state.
+Standardized properties: ordered structure, prominent date or milestone labels, visible selected state and restrained detail animation.
 
 ## Process Explorer
 
 Approval status: In Review
 
-Purpose: inspect process steps one at a time.
+Purpose: inspect action-led process steps one at a time.
 
-Recommended use: processes that need richer step detail than a static numbered layout.
+Recommended use: procedures that need richer step detail than a static numbered layout, especially where the learner needs to know what action happens next.
 
 Content structure or props: three to eight steps with title, summary, detail, optional tip, warning or image.
 
-Interaction behaviour: direct step selectors and Previous/Next controls update the active step.
+Interaction behaviour: numbered step selectors and Previous/Next controls update the active step.
 
 Keyboard behaviour: selectors and controls are standard buttons with disabled states where appropriate.
 
@@ -192,11 +194,11 @@ JavaScript requirements: required for active-step state.
 
 Suitable use cases: customer-service workflows and operational procedures.
 
-Misuse to avoid: forcing learners to complete steps before navigation.
+Misuse to avoid: styling procedural actions as a date-led timeline or forcing learners to complete steps before navigation.
 
 Customizable properties: steps, notes, warnings and images.
 
-Standardized properties: visible step number and active state.
+Standardized properties: visible step numbers, action-led labels, active state and restrained panel animation.
 
 ## Before-and-After Reveal
 
@@ -236,11 +238,11 @@ Recommended use: images that contain useful detail but should not dominate the p
 
 Content structure or props: thumbnail or image, alt text, caption, expand label and optional extended description.
 
-Interaction behaviour: native dialog opens the larger view.
+Interaction behaviour: a named expand button opens a centred native dialog with a significantly larger image.
 
 Keyboard behaviour: opening uses a real button, Escape closes the dialog and focus returns to the trigger.
 
-Responsive behaviour: the expanded image fits within the viewport and dialog content can scroll.
+Responsive behaviour: the thumbnail stays contained in the page, while the expanded image fits within the viewport and dialog content can scroll.
 
 Accessibility considerations: dialog has an accessible label and an obvious close control.
 
@@ -252,7 +254,7 @@ Misuse to avoid: opening automatically or using the image click as the only trig
 
 Customizable properties: image source, thumbnail, caption and description.
 
-Standardized properties: native dialog and focus return.
+Standardized properties: thumbnail treatment, centred native dialog, obvious close control, Escape support and focus return.
 
 ## Supporting-Detail Modal or Panel
 
@@ -280,5 +282,4 @@ Misuse to avoid: essential content, assessment questions or vague trigger labels
 
 Customizable properties: trigger, heading, content, image and action.
 
-Standardized properties: native dialog, explicit close control and neutral styling.
-
+Standardized properties: native dialog, explicit close control, neutral styling, Escape support and focus return.

@@ -70,6 +70,7 @@ const { id, heading, intro, cards } = Astro.props;
       const expanded = button.getAttribute("aria-expanded") === "true";
       button.setAttribute("aria-expanded", expanded ? "false" : "true");
       button.textContent = expanded ? "Reveal detail" : "Show prompt";
+      card.classList.toggle("is-revealed", !expanded);
       if (front) front.hidden = !expanded;
       if (back) back.hidden = expanded;
     });

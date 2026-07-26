@@ -4,7 +4,7 @@
 
 The Astro Quick Course Showcase is the living visual catalogue for reusable Astro course components. It is separate from the future Boilerplate repository so examples, documentation, review notes and placeholder sections do not ship inside new production courses.
 
-The Showcase uses multiple category pages for review and maintenance. This does not change the product principle: production Quick Courses remain single-page learning experiences.
+The Showcase uses multiple category pages for review, governance and maintenance. This does not change the product principle: production Quick Courses remain single-page learning experiences.
 
 ## Source Boundaries
 
@@ -14,7 +14,7 @@ The Showcase uses multiple category pages for review and maintenance. This does 
 - The Showcase landing page lives at `src/pages/index.astro`.
 - Category pages live in `src/pages/showcase/`.
 - Showcase-only page chrome lives in `src/components/showcase/`.
-- Page-level Showcase navigation is handled by the top navbar using category routes.
+- Page-level Showcase navigation is handled by the top navbar using category routes. In production Quick Courses, this navigation pattern should target topics or anchors inside the same course page.
 - The Layouts category also provides same-page section anchors for direct review links.
 - Showcase data lives in `src/data/` until a fuller content strategy is approved.
 - Component documentation lives in `docs/components/`.
@@ -63,4 +63,3 @@ The future Boilerplate should be creatable by removing:
 - Example course data.
 
 Reusable components, layouts, styles, utilities and SCORM boundaries should remain functional after those files are removed.
-
