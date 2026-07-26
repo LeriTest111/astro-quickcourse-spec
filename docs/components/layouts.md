@@ -2,6 +2,8 @@
 
 All new reusable layouts are marked `In Review` until the project team approves them. The components are neutral, Astro-only, responsive and suitable for composition inside a single-page production Quick Course.
 
+Eyebrows are optional. Use them only when the label adds context that the heading does not already provide, such as `Module 2`, `Scenario`, `Section 3`, `Product knowledge` or a meaningful content category. Most components and examples should work well without an eyebrow.
+
 ## Existing Heroes
 
 Status: In Review
@@ -18,7 +20,7 @@ Status: In Review
 
 Purpose: dependable text-first layout for policies, explanations and procedures.
 
-Content model or props: eyebrow, heading, intro, rich content slot, callout slot, optional primary action and readable or wide width.
+Content model or props: optional eyebrow, heading, intro, rich content slot, callout slot, optional primary action and readable or wide width.
 
 Responsive behaviour: keeps the default reading width near 65ch to 70ch and avoids fixed heights.
 
@@ -38,7 +40,7 @@ Status: In Review
 
 Purpose: pair instructional text with a supporting image.
 
-Content model or props: eyebrow, heading, description, content slot, actions, local image, alt text and caption.
+Content model or props: optional eyebrow, heading, description, content slot, actions, local image, alt text and caption.
 
 Responsive behaviour: stacks on mobile and supports image-left or image-right desktop layout.
 
@@ -218,7 +220,7 @@ Status: In Review
 
 Purpose: prompt one clear next learner action.
 
-Content model or props: eyebrow, heading, description, primary action, secondary action, icon or image.
+Content model or props: optional eyebrow, heading, description, primary action, secondary action, icon or image.
 
 Responsive behaviour: actions wrap or stack naturally.
 
@@ -271,24 +273,3 @@ Misuse to avoid: adding answer checking or completion behaviour here.
 Customizable properties: course or section variant, icon, next step and action.
 
 Standardized properties: concise scannable structure.
-
-## Sticky Side Navigation
-
-Status: In Review
-
-Purpose: provide optional section navigation for unusually long single-page courses.
-
-Content model or props: list of section anchor links and optional active item.
-
-Responsive behaviour: sticky sidebar on desktop and select control on mobile.
-
-Accessibility considerations: anchor links work without JavaScript; active-section tracking is progressive enhancement.
-
-Suitable use cases: long policy courses, multi-part onboarding and reference-heavy lessons.
-
-Misuse to avoid: using it as Showcase category navigation or normal production multi-page navigation.
-
-Customizable properties: link list, nav label and active item.
-
-Standardized properties: keyboard-accessible links, reduced-motion respect and no scroll hijacking.
-

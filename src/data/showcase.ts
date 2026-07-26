@@ -13,16 +13,16 @@ export const showcaseCategories: ShowcaseCategory[] = [
     slug: "layouts",
     href: "/showcase/layouts",
     description: "Structural page patterns for arranging course content.",
-    count: 20,
-    status: "20 in review",
+    count: 19,
+    status: "19 in review",
   },
   {
     label: "Display interactions",
     slug: "display-interactions",
     href: "/showcase/display-interactions",
     description: "Expandable and exploratory patterns that reveal supporting information.",
-    count: 2,
-    status: "Examples in review",
+    count: 10,
+    status: "10 in review",
   },
   {
     label: "Assessment interactions",
@@ -65,6 +65,10 @@ export const layoutAnchors = [
   { label: "Processes and comparisons", href: "#processes-comparisons" },
   { label: "Visual layouts", href: "#visual-layouts" },
   { label: "Openers and closers", href: "#openers-closers" },
-  { label: "Advanced layouts", href: "#advanced-layouts" },
 ];
 
+export const displayInteractionAnchors = [
+  { label: "Reveal content", href: "#reveal-content" },
+  { label: "Navigate related content", href: "#navigate-related-content" },
+  { label: "Explore visual content", href: "#explore-visual-content" },
+];

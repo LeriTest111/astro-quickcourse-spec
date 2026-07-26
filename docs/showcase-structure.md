@@ -28,7 +28,6 @@ The Layouts page also includes stable anchor links for direct review:
 - `#processes-comparisons`
 - `#visual-layouts`
 - `#openers-closers`
-- `#advanced-layouts`
 
 ## Future Recipes
 
@@ -37,4 +36,3 @@ Complete course recipes can be added later under routes such as `/showcase/recip
 ## Boilerplate Boundary
 
 Showcase-only pages, badges, example labels and documentation live in `src/pages/showcase/`, `src/components/showcase/` and `docs/`. Reusable course components remain in `src/components/`, `src/layouts/`, `src/utils/` and `src/styles/`.
-

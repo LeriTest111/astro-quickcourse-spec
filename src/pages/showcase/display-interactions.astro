@@ -1,48 +1,289 @@
 ---
 import ShowcaseLayout from "../../layouts/ShowcaseLayout.astro";
 import ShowcasePageHeader from "../../components/showcase/ShowcasePageHeader.astro";
+import ShowcaseAnchorNav from "../../components/showcase/ShowcaseAnchorNav.astro";
+import ShowcaseSection from "../../components/showcase/ShowcaseSection.astro";
 import ShowcaseExample from "../../components/showcase/ShowcaseExample.astro";
+import ShowcaseNotes from "../../components/showcase/ShowcaseNotes.astro";
+import Accordion from "../../components/interactions/display/Accordion.astro";
+import Tabs from "../../components/interactions/display/Tabs.astro";
+import FlipCards from "../../components/interactions/display/FlipCards.astro";
+import Carousel from "../../components/interactions/display/Carousel.astro";
+import HotspotReveal from "../../components/interactions/display/HotspotReveal.astro";
+import Timeline from "../../components/interactions/display/Timeline.astro";
+import ProcessExplorer from "../../components/interactions/display/ProcessExplorer.astro";
+import BeforeAfterReveal from "../../components/interactions/display/BeforeAfterReveal.astro";
+import ExpandableImage from "../../components/interactions/display/ExpandableImage.astro";
+import DetailModal from "../../components/interactions/display/DetailModal.astro";
+import { displayInteractionAnchors } from "../../data/showcase";
+
+const neutralImage = "/images/showcase/hero-1.avif";
 ---
 
 <ShowcaseLayout
   pageTitle="Display Interactions | Astro Quick Course Showcase"
-  description="Display interaction examples for Quick Courses."
+  description="Reusable display interaction examples for Quick Courses."
   activeCategory="display-interactions"
 >
   <ShowcasePageHeader
-    eyebrow="Showcase category"
     title="Display Interactions"
-    description="Patterns for revealing supporting information while keeping the main lesson flow easy to scan."
-    count="2 examples"
+    description="Reusable patterns that help learners reveal, compare and move through information without scoring answers or sending assessment results."
+    count="10 interactions"
   />
 
-  <div class="showcase-example-stack mt-8">
-    <ShowcaseExample
-      id="context-callout"
-      title="Context callout"
-      purpose="Highlights supporting information that should be visible without becoming the main lesson."
-    >
-      <article class="alert border border-info/30 bg-info/10 text-base-content">
-        <span class="material-symbols-sharp showcase-icon" aria-hidden="true">info</span>
-        <div>
-          <h2 class="text-lg font-semibold">Helpful context</h2>
-          <p class="mt-1">Use a callout when supporting information should be easy to spot while reading.</p>
-        </div>
-      </article>
-    </ShowcaseExample>
+  <div class="mt-6">
+    <ShowcaseAnchorNav items={displayInteractionAnchors} />
+  </div>
 
-    <ShowcaseExample
-      id="supporting-detail"
-      title="Supporting detail accordion"
-      purpose="Keeps optional detail available without making the main content feel dense."
-    >
-      <details class="collapse collapse-arrow border border-base-300 bg-base-100">
-        <summary class="collapse-title font-semibold">Open a supporting detail</summary>
-        <div class="collapse-content">
-          <p>Accordions are best for optional context, definitions or references that a learner may need only once.</p>
-        </div>
-      </details>
-    </ShowcaseExample>
+  <div class="showcase-section-stack mt-10">
+    <ShowcaseSection id="reveal-content" title="Reveal content" description="Patterns for optional details, secondary layers and supporting context.">
+      <div class="showcase-example-stack">
+        <ShowcaseExample id="accordion" title="Accordion" purpose="Reveals supporting answers without showing every detail at once.">
+          <Accordion
+            id="customer-question-accordion"
+            heading="Common customer questions"
+            intro="Use accordions for optional explanations, not essential instructions that everyone must read."
+            allowMultiple={false}
+            defaultOpenIndex={0}
+            items={[
+              {
+                title: "Why was I charged this amount?",
+                content: "Start by confirming the date, service period and any fees shown on the account. Then explain the total in plain language.",
+                icon: "receipt_long",
+              },
+              {
+                title: "When will the payment reflect?",
+                content: "Give the expected processing window and tell the customer where they can check the latest status.",
+                icon: "schedule",
+              },
+              {
+                title: "What happens if the payment fails?",
+                content: "Explain the retry path, any notification they will receive and what action they can take to avoid delays.",
+                icon: "error",
+              },
+            ]}
+          />
+          <ShowcaseNotes>
+            <p>Avoid accordions when all content is required reading. In that case, keep the information visible in the main flow.</p>
+          </ShowcaseNotes>
+        </ShowcaseExample>
+
+        <ShowcaseExample id="flip-cards" title="Flip Cards" purpose="Lets learners reveal a short second layer such as a benefit, fact or explanation.">
+          <FlipCards
+            id="feature-benefit-cards"
+            heading="Turn features into customer benefits"
+            intro="Each card uses a button, so the reveal works with keyboard and touch instead of hover."
+            cards={[
+              {
+                frontIcon: "power_settings_new",
+                frontHeading: "Feature: Automatic shut-off",
+                frontText: "What does this feature do for the customer?",
+                backHeading: "Benefit",
+                backText: "It gives the customer added peace of mind and helps reduce unnecessary power use.",
+              },
+              {
+                frontIcon: "verified_user",
+                frontHeading: "Feature: Account alerts",
+                frontText: "What problem does this solve?",
+                backHeading: "Benefit",
+                backText: "It helps the customer spot unusual activity early and respond before the issue grows.",
+              },
+              {
+                frontIcon: "construction",
+                frontHeading: "Feature: Tool-free setup",
+                frontText: "Why might this matter?",
+                backHeading: "Benefit",
+                backText: "It reduces setup friction for customers who need the product ready quickly.",
+              },
+            ]}
+          />
+          <ShowcaseNotes>
+            <p>Keep back content short. If the explanation needs several paragraphs, use an accordion or detail panel instead.</p>
+          </ShowcaseNotes>
+        </ShowcaseExample>
+
+        <ShowcaseExample id="hotspot-reveal" title="Click-to-Reveal Hotspots" purpose="Lets learners select marked image regions and read the associated detail.">
+          <HotspotReveal
+            id="workspace-hotspots"
+            heading="Inspect the workspace setup"
+            intro="Hotspots use real buttons and repeat the detail in text so the learning point is not only visual."
+            imageSrc={neutralImage}
+            imageAlt="A desk setup used as a neutral workspace inspection example."
+            hotspots={[
+              {
+                label: "1",
+                name: "Customer notes",
+                x: 34,
+                y: 44,
+                title: "Keep notes visible",
+                description: "Place the active customer notes where they can be checked before giving an update.",
+              },
+              {
+                label: "2",
+                name: "Reference checklist",
+                x: 62,
+                y: 37,
+                title: "Use a short checklist",
+                description: "A visible checklist helps the learner confirm the next step without searching through a long guide.",
+              },
+              {
+                label: "3",
+                name: "Clear workspace",
+                x: 75,
+                y: 68,
+                title: "Remove distractions",
+                description: "A clear workspace reduces the chance of mixing customer details or missing an important step.",
+              },
+            ]}
+          />
+          <ShowcaseNotes>
+            <p>Use percentage positions so hotspots scale with the image. Provide a mobile list so precise pointer movement is never required.</p>
+          </ShowcaseNotes>
+        </ShowcaseExample>
+
+        <ShowcaseExample id="detail-modal" title="Supporting-Detail Modal or Panel" purpose="Opens optional supporting information without changing the main lesson flow.">
+          <DetailModal
+            id="policy-detail-dialog"
+            triggerLabel="Read the policy details"
+            heading="Refund timing policy"
+            content="Refunds should be explained as an expected processing window, not a guaranteed same-day outcome. Tell the customer what has been submitted, when it was submitted and where they can check the next update."
+            imageSrc={neutralImage}
+            imageAlt="A learner reviewing policy notes at a desk."
+            action={{ href: "#accordion", label: "Review customer questions" }}
+          />
+          <ShowcaseNotes>
+            <p>Use a modal for optional reference material. Do not hide essential instructions or assessment questions inside a modal.</p>
+          </ShowcaseNotes>
+        </ShowcaseExample>
+      </div>
+    </ShowcaseSection>
+
+    <ShowcaseSection id="navigate-related-content" title="Navigate related content" description="Patterns for switching between related panels, stages or small slide sets.">
+      <div class="showcase-example-stack">
+        <ShowcaseExample id="tabs" title="Tabs" purpose="Switches between related content panels without leaving the section.">
+          <Tabs
+            id="conversation-tabs"
+            heading="Understand the conversation"
+            intro="Use tabs for related peer content, not for steps that must be read in sequence."
+            tabs={[
+              { label: "Listen", icon: "hearing", content: "Let the customer finish the concern before offering a solution. Listen for the outcome they need, not only the problem they describe." },
+              { label: "Clarify", icon: "help", content: "Ask one focused question to confirm the missing information. Avoid turning the conversation into an interrogation." },
+              { label: "Explain", icon: "forum", content: "Use plain language and name the next step. Skip internal terminology unless the customer needs it." },
+              { label: "Confirm", icon: "task_alt", content: "Close by confirming the action, owner and timing so the customer knows what will happen next." },
+            ]}
+          />
+          <ShowcaseNotes>
+            <p>Tabs support arrow, Home and End key navigation. Keep labels short enough to scan on mobile.</p>
+          </ShowcaseNotes>
+        </ShowcaseExample>
+
+        <ShowcaseExample id="carousel" title="Carousel" purpose="Moves through a small set of related slides without autoplay.">
+          <Carousel
+            id="service-carousel"
+            heading="Three service moments"
+            intro="Carousels are best for compact related examples. They should not hide long required procedures."
+            slides={[
+              {
+                title: "Opening the conversation",
+                body: "Start with the customer goal and acknowledge any urgency before asking for more detail.",
+                image: neutralImage,
+                imageAlt: "A learner reviewing notes for a customer conversation.",
+                caption: "Moment 1",
+              },
+              {
+                title: "Explaining the option",
+                body: "Choose the simplest accurate explanation and connect it to the customer's stated need.",
+                image: neutralImage,
+                imageAlt: "A learner reviewing notes for a customer conversation.",
+                caption: "Moment 2",
+              },
+              {
+                title: "Closing with confidence",
+                body: "Confirm the next action, timing and where the customer can check progress.",
+                image: neutralImage,
+                imageAlt: "A learner reviewing notes for a customer conversation.",
+                caption: "Moment 3",
+              },
+            ]}
+          />
+          <ShowcaseNotes>
+            <p>The carousel does not autoplay. Previous and Next controls expose disabled states at the ends.</p>
+          </ShowcaseNotes>
+        </ShowcaseExample>
+
+        <ShowcaseExample id="process-explorer" title="Process Explorer" purpose="Lets learners inspect one process step at a time without treating navigation as assessment progress.">
+          <ProcessExplorer
+            id="customer-concern-process"
+            heading="Responding to a customer concern"
+            intro="Use this when a visible sequence needs richer detail than a static numbered process."
+            steps={[
+              { title: "Acknowledge", summary: "Name the concern.", detail: "Show the customer you understand the issue before moving to policy or process detail.", tip: "Use a short acknowledgement in your own words." },
+              { title: "Clarify", summary: "Find the missing detail.", detail: "Ask for the one piece of information needed to choose the correct route.", warning: "Avoid asking questions already answered in the account notes." },
+              { title: "Explain", summary: "Describe the path.", detail: "Give the next action and the reason for it in plain language." },
+              { title: "Resolve", summary: "Take action.", detail: "Complete the action you can own, or hand over with clear context." },
+              { title: "Confirm", summary: "Close the loop.", detail: "Restate the action, timing and where the customer can get an update." },
+            ]}
+          />
+          <ShowcaseNotes>
+            <p>Use the static Numbered Process layout when every step should stay visible at once.</p>
+          </ShowcaseNotes>
+        </ShowcaseExample>
+
+        <ShowcaseExample id="timeline" title="Timeline" purpose="Lets learners select chronological milestones and read expanded detail.">
+          <Timeline
+            id="order-journey-timeline"
+            heading="A customer order journey"
+            intro="Timeline markers are keyboard-operable buttons and the ordered list preserves the sequence."
+            events={[
+              { label: "1", title: "Order placed", description: "The customer receives confirmation that the order has been captured.", detail: "At this point, avoid promising dispatch until payment and stock checks are complete." },
+              { label: "2", title: "Payment confirmed", description: "The payment clears and the order can move into preparation.", detail: "If payment is pending, explain the expected timing and where the customer can check status." },
+              { label: "3", title: "Order prepared", description: "The item is checked, packed and matched to the correct delivery details." },
+              { label: "4", title: "Order dispatched", description: "The customer receives tracking details or a delivery update." },
+              { label: "5", title: "Order delivered", description: "The customer receives the item and any follow-up guidance." },
+            ]}
+          />
+          <ShowcaseNotes>
+            <p>Do not rely on a connecting line to communicate sequence; the ordered list and labels carry the order.</p>
+          </ShowcaseNotes>
+        </ShowcaseExample>
+      </div>
+    </ShowcaseSection>
+
+    <ShowcaseSection id="explore-visual-content" title="Explore visual content" description="Patterns for comparing or inspecting images and diagrams.">
+      <div class="showcase-example-stack">
+        <ShowcaseExample id="before-after-reveal" title="Before-and-After Reveal" purpose="Compares two visual states with an accessible range control.">
+          <BeforeAfterReveal
+            id="workspace-before-after"
+            heading="Compare the improved setup"
+            intro="The range input works with keyboard arrows and a side-by-side fallback remains available without scripting."
+            beforeImage={neutralImage}
+            beforeAlt="Workspace before improvement, used as a neutral comparison example."
+            afterImage={neutralImage}
+            afterAlt="Workspace after improvement, used as a neutral comparison example."
+            beforeLabel="Before"
+            afterLabel="After"
+            caption="Describe the important difference in text so meaning is not only visual."
+          />
+          <ShowcaseNotes>
+            <p>Use this for visual states, not for correctness scoring. The explanatory caption should name the learning point.</p>
+          </ShowcaseNotes>
+        </ShowcaseExample>
+
+        <ShowcaseExample id="expandable-image" title="Expandable Image" purpose="Opens a larger image view for inspection using a native dialog.">
+          <ExpandableImage
+            id="diagram-expanded-view"
+            imageSrc={neutralImage}
+            imageAlt="A detailed workspace diagram used as a neutral inspection example."
+            caption="Inspect the setup before answering scenario questions elsewhere in the course."
+            expandLabel="Expand the workspace diagram"
+            description="Use the expanded view when learners need to inspect a diagram, product detail or infographic more closely."
+          />
+          <ShowcaseNotes>
+            <p>The dialog moves focus to the close control and returns focus to the opening button after closing.</p>
+          </ShowcaseNotes>
+        </ShowcaseExample>
+      </div>
+    </ShowcaseSection>
   </div>
 </ShowcaseLayout>
 

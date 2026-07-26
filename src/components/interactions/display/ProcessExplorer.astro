@@ -1,0 +1,90 @@
+---
+interface ProcessStep {
+  title: string;
+  summary: string;
+  detail: string;
+  tip?: string;
+  warning?: string;
+  image?: string;
+  imageAlt?: string;
+}
+
+interface Props {
+  id: string;
+  heading?: string;
+  intro?: string;
+  steps: ProcessStep[];
+}
+
+const { id, heading, intro, steps } = Astro.props;
+---
+
+<section class="di-block di-process" data-process-explorer aria-labelledby={heading ? `${id}-heading` : undefined}>
+  {
+    heading && (
+      <div class="di-block__header">
+        <h3 id={`${id}-heading`}>{heading}</h3>
+        {intro && <p>{intro}</p>}
+      </div>
+    )
+  }
+  <ol class="di-process__steps">
+    {steps.map((step, index) => (
+      <li>
+        <button type="button" aria-current={index === 0 ? "step" : undefined} aria-controls={`${id}-step-${index}`} data-process-button>
+          <span>{index + 1}</span>
+          <strong>{step.title}</strong>
+          <small>{step.summary}</small>
+        </button>
+      </li>
+    ))}
+  </ol>
+  <div class="di-process__panels">
+    {steps.map((step, index) => (
+      <article id={`${id}-step-${index}`} data-process-panel>
+        {step.image && <img src={step.image} alt={step.imageAlt ?? ""} loading="lazy" />}
+        <p class="di-kicker">Step {index + 1}</p>
+        <h4>{step.title}</h4>
+        <p>{step.detail}</p>
+        {step.tip && <p class="di-note"><strong>Tip:</strong> {step.tip}</p>}
+        {step.warning && <p class="di-note di-note--warning"><strong>Watch for:</strong> {step.warning}</p>}
+      </article>
+    ))}
+  </div>
+  <div class="di-process__controls">
+    <button class="di-secondary-button" type="button" data-process-prev>Previous step</button>
+    <button class="di-secondary-button" type="button" data-process-next>Next step</button>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll("[data-process-explorer]").forEach((root) => {
+    if (root.dataset.processReady === "true") return;
+    root.dataset.processReady = "true";
+
+    const buttons = [...root.querySelectorAll("[data-process-button]")];
+    const panels = [...root.querySelectorAll("[data-process-panel]")];
+    const previous = root.querySelector("[data-process-prev]");
+    const next = root.querySelector("[data-process-next]");
+    let current = 0;
+
+    function activate(index) {
+      current = Math.max(0, Math.min(index, panels.length - 1));
+      buttons.forEach((button, buttonIndex) => {
+        if (buttonIndex === current) button.setAttribute("aria-current", "step");
+        else button.removeAttribute("aria-current");
+      });
+      panels.forEach((panel, panelIndex) => {
+        panel.hidden = panelIndex !== current;
+      });
+      if (previous) previous.disabled = current === 0;
+      if (next) next.disabled = current === panels.length - 1;
+    }
+
+    buttons.forEach((button, index) => button.addEventListener("click", () => activate(index)));
+    previous?.addEventListener("click", () => activate(current - 1));
+    next?.addEventListener("click", () => activate(current + 1));
+    activate(0);
+  });
+</script>
+

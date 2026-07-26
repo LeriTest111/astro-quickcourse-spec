@@ -1,0 +1,77 @@
+---
+interface FlipCard {
+  frontHeading: string;
+  frontText?: string;
+  frontIcon?: string;
+  frontImage?: string;
+  frontImageAlt?: string;
+  backHeading: string;
+  backText: string;
+}
+
+interface Props {
+  id: string;
+  heading?: string;
+  intro?: string;
+  cards: FlipCard[];
+}
+
+const { id, heading, intro, cards } = Astro.props;
+---
+
+<section class="di-block" aria-labelledby={heading ? `${id}-heading` : undefined}>
+  {
+    heading && (
+      <div class="di-block__header">
+        <h3 id={`${id}-heading`}>{heading}</h3>
+        {intro && <p>{intro}</p>}
+      </div>
+    )
+  }
+  <div class="di-flip-grid">
+    {cards.map((card, index) => (
+      <article class="di-flip-card" data-flip-card>
+        <div class="di-flip-card__front" id={`${id}-front-${index}`}>
+          {card.frontImage && <img src={card.frontImage} alt={card.frontImageAlt ?? ""} loading="lazy" />}
+          {card.frontIcon && <span class="material-symbols-sharp showcase-icon" aria-hidden="true">{card.frontIcon}</span>}
+          <h4>{card.frontHeading}</h4>
+          {card.frontText && <p>{card.frontText}</p>}
+        </div>
+        <div class="di-flip-card__back" id={`${id}-back-${index}`}>
+          <h4>{card.backHeading}</h4>
+          <p>{card.backText}</p>
+        </div>
+        <button
+          type="button"
+          class="di-secondary-button"
+          aria-expanded="false"
+          aria-controls={`${id}-back-${index}`}
+          data-flip-toggle
+        >
+          Reveal detail
+        </button>
+      </article>
+    ))}
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll("[data-flip-card]").forEach((card) => {
+    if (card.dataset.flipReady === "true") return;
+    card.dataset.flipReady = "true";
+
+    const button = card.querySelector("[data-flip-toggle]");
+    const front = card.querySelector(".di-flip-card__front");
+    const back = card.querySelector(".di-flip-card__back");
+
+    if (back) back.hidden = true;
+
+    button?.addEventListener("click", () => {
+      const expanded = button.getAttribute("aria-expanded") === "true";
+      button.setAttribute("aria-expanded", expanded ? "false" : "true");
+      button.textContent = expanded ? "Reveal detail" : "Show prompt";
+      if (front) front.hidden = !expanded;
+      if (back) back.hidden = expanded;
+    });
+  });
+</script>

@@ -1,0 +1,59 @@
+---
+import type { LayoutAction } from "../../layouts/layout-types";
+
+interface Props {
+  id: string;
+  triggerLabel: string;
+  heading: string;
+  content: string;
+  imageSrc?: string;
+  imageAlt?: string;
+  action?: LayoutAction;
+}
+
+const { id, triggerLabel, heading, content, imageSrc, imageAlt = "", action } = Astro.props;
+---
+
+<div class="di-detail-modal" data-detail-modal>
+  <button class="di-primary-button" type="button" data-detail-open>{triggerLabel}</button>
+  <dialog class="di-dialog" id={id} aria-labelledby={`${id}-heading`} data-detail-dialog>
+    <div class="di-dialog__inner">
+      <button class="di-dialog__close" type="button" data-dialog-close aria-label="Close detail panel">
+        <span class="material-symbols-sharp showcase-icon" aria-hidden="true">close</span>
+      </button>
+      {imageSrc && <img src={imageSrc} alt={imageAlt} loading="lazy" />}
+      <h3 id={`${id}-heading`}>{heading}</h3>
+      <p>{content}</p>
+      {action && <a class="di-secondary-button" href={action.href}>{action.label}</a>}
+    </div>
+  </dialog>
+</div>
+
+<script>
+  document.querySelectorAll("[data-detail-modal]").forEach((root) => {
+    if (root.dataset.detailModalReady === "true") return;
+    root.dataset.detailModalReady = "true";
+
+    const openButton = root.querySelector("[data-detail-open]");
+    const dialog = root.querySelector("[data-detail-dialog]");
+    const closeButton = root.querySelector("[data-dialog-close]");
+
+    openButton?.addEventListener("click", () => {
+      if (dialog instanceof HTMLDialogElement) {
+        dialog.showModal();
+        closeButton?.focus();
+      }
+    });
+
+    closeButton?.addEventListener("click", () => {
+      if (dialog instanceof HTMLDialogElement) dialog.close();
+    });
+
+    dialog?.addEventListener("click", (event) => {
+      if (event.target === dialog && dialog instanceof HTMLDialogElement) dialog.close();
+    });
+
+    dialog?.addEventListener("close", () => openButton?.focus());
+  });
+</script>
+

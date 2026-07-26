@@ -1,0 +1,62 @@
+---
+interface Props {
+  id: string;
+  imageSrc: string;
+  imageAlt: string;
+  thumbnailSrc?: string;
+  caption?: string;
+  expandLabel?: string;
+  description?: string;
+}
+
+const {
+  id,
+  imageSrc,
+  imageAlt,
+  thumbnailSrc,
+  caption,
+  expandLabel = "Expand image",
+  description,
+} = Astro.props;
+---
+
+<figure class="di-expandable-image" data-expandable-image>
+  <img src={thumbnailSrc ?? imageSrc} alt={imageAlt} loading="lazy" />
+  {caption && <figcaption>{caption}</figcaption>}
+  <button class="di-secondary-button" type="button" data-expand-image-open>{expandLabel}</button>
+  <dialog class="di-dialog" id={id} aria-label={expandLabel} data-expand-image-dialog>
+    <div class="di-dialog__inner">
+      <button class="di-dialog__close" type="button" data-dialog-close aria-label="Close expanded image">
+        <span class="material-symbols-sharp showcase-icon" aria-hidden="true">close</span>
+      </button>
+      <img src={imageSrc} alt={imageAlt} loading="lazy" />
+      {caption && <p class="di-dialog__caption">{caption}</p>}
+      {description && <p>{description}</p>}
+    </div>
+  </dialog>
+</figure>
+
+<script>
+  document.querySelectorAll("[data-expandable-image]").forEach((root) => {
+    if (root.dataset.expandableReady === "true") return;
+    root.dataset.expandableReady = "true";
+
+    const openButton = root.querySelector("[data-expand-image-open]");
+    const dialog = root.querySelector("[data-expand-image-dialog]");
+    const closeButton = root.querySelector("[data-dialog-close]");
+
+    openButton?.addEventListener("click", () => {
+      if (dialog instanceof HTMLDialogElement) {
+        dialog.showModal();
+        closeButton?.focus();
+      }
+    });
+
+    closeButton?.addEventListener("click", () => {
+      if (dialog instanceof HTMLDialogElement) dialog.close();
+    });
+
+    dialog?.addEventListener("close", () => openButton?.focus());
+  });
+</script>
+

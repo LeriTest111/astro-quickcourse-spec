@@ -1,0 +1,71 @@
+---
+interface AccordionItem {
+  title: string;
+  content: string;
+  icon?: string;
+  mediaSrc?: string;
+  mediaAlt?: string;
+}
+
+interface Props {
+  id?: string;
+  heading?: string;
+  intro?: string;
+  items: AccordionItem[];
+  allowMultiple?: boolean;
+  defaultOpenIndex?: number;
+}
+
+const {
+  id = `accordion-${Math.random().toString(36).slice(2, 9)}`,
+  heading,
+  intro,
+  items,
+  allowMultiple = true,
+  defaultOpenIndex,
+} = Astro.props;
+---
+
+<section class="di-block" aria-labelledby={heading ? `${id}-heading` : undefined}>
+  {
+    heading && (
+      <div class="di-block__header">
+        <h3 id={`${id}-heading`}>{heading}</h3>
+        {intro && <p>{intro}</p>}
+      </div>
+    )
+  }
+  <div class="di-accordion" data-accordion data-allow-multiple={allowMultiple ? "true" : "false"}>
+    {items.map((item, index) => (
+      <details class="di-accordion__item" open={defaultOpenIndex === index}>
+        <summary>
+          {item.icon && <span class="material-symbols-sharp showcase-icon" aria-hidden="true">{item.icon}</span>}
+          <span>{item.title}</span>
+        </summary>
+        <div class="di-accordion__content">
+          {item.mediaSrc && <img src={item.mediaSrc} alt={item.mediaAlt ?? ""} loading="lazy" />}
+          <p>{item.content}</p>
+        </div>
+      </details>
+    ))}
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll("[data-accordion]").forEach((accordion) => {
+    if (accordion.dataset.accordionReady === "true") return;
+    accordion.dataset.accordionReady = "true";
+
+    if (accordion.dataset.allowMultiple === "true") return;
+
+    accordion.querySelectorAll("details").forEach((item) => {
+      item.addEventListener("toggle", () => {
+        if (!item.open) return;
+        accordion.querySelectorAll("details").forEach((other) => {
+          if (other !== item) other.removeAttribute("open");
+        });
+      });
+    });
+  });
+</script>
+

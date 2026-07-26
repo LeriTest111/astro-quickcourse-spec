@@ -1,0 +1,67 @@
+---
+interface TimelineEvent {
+  label: string;
+  title: string;
+  description: string;
+  detail?: string;
+  image?: string;
+  imageAlt?: string;
+}
+
+interface Props {
+  id: string;
+  heading?: string;
+  intro?: string;
+  events: TimelineEvent[];
+}
+
+const { id, heading, intro, events } = Astro.props;
+---
+
+<section class="di-block di-timeline" data-timeline aria-labelledby={heading ? `${id}-heading` : undefined}>
+  {
+    heading && (
+      <div class="di-block__header">
+        <h3 id={`${id}-heading`}>{heading}</h3>
+        {intro && <p>{intro}</p>}
+      </div>
+    )
+  }
+  <ol class="di-timeline__list">
+    {events.map((event, index) => (
+      <li>
+        <button type="button" aria-expanded={index === 0 ? "true" : "false"} aria-controls={`${id}-event-${index}`} data-timeline-button>
+          <span class="di-kicker">{event.label}</span>
+          <span>{event.title}</span>
+        </button>
+        <article id={`${id}-event-${index}`} class="di-timeline__detail" data-timeline-panel>
+          {event.image && <img src={event.image} alt={event.imageAlt ?? ""} loading="lazy" />}
+          <h4>{event.title}</h4>
+          <p>{event.description}</p>
+          {event.detail && <p>{event.detail}</p>}
+        </article>
+      </li>
+    ))}
+  </ol>
+</section>
+
+<script>
+  document.querySelectorAll("[data-timeline]").forEach((root) => {
+    if (root.dataset.timelineReady === "true") return;
+    root.dataset.timelineReady = "true";
+
+    const buttons = [...root.querySelectorAll("[data-timeline-button]")];
+    const panels = [...root.querySelectorAll("[data-timeline-panel]")];
+
+    function activate(index) {
+      buttons.forEach((button, buttonIndex) => button.setAttribute("aria-expanded", buttonIndex === index ? "true" : "false"));
+      panels.forEach((panel, panelIndex) => {
+        panel.hidden = panelIndex !== index;
+      });
+    }
+
+    buttons.forEach((button, index) => button.addEventListener("click", () => activate(index)));
+    activate(0);
+  });
+</script>
+

@@ -4,7 +4,6 @@ import ShowcasePageHeader from "../../components/showcase/ShowcasePageHeader.ast
 import ShowcaseAnchorNav from "../../components/showcase/ShowcaseAnchorNav.astro";
 import ShowcaseSection from "../../components/showcase/ShowcaseSection.astro";
 import ShowcaseExample from "../../components/showcase/ShowcaseExample.astro";
-import ShowcaseNotes from "../../components/showcase/ShowcaseNotes.astro";
 import CenteredMinimalHero from "../../components/layout/heroes/CenteredMinimalHero.astro";
 import FloatingCardHero from "../../components/layout/heroes/FloatingCardHero.astro";
 import HeroDisplayOptions from "../../components/layout/heroes/HeroDisplayOptions.astro";
@@ -25,7 +24,6 @@ import QuoteKeyMessage from "../../components/layouts/visual/QuoteKeyMessage.ast
 import CallToActionSection from "../../components/layouts/opener-closer/CallToActionSection.astro";
 import SectionDivider from "../../components/layouts/opener-closer/SectionDivider.astro";
 import SummarySection from "../../components/layouts/opener-closer/SummarySection.astro";
-import StickySectionNavigation from "../../components/layouts/advanced/StickySectionNavigation.astro";
 import { layoutAnchors } from "../../data/showcase";
 
 const neutralImage = "/images/showcase/hero-1.avif";
@@ -52,11 +50,6 @@ const productExamples = [
   },
 ];
 
-const stickyItems = [
-  { label: "Prepare", href: "#sticky-prepare" },
-  { label: "Practise", href: "#sticky-practise" },
-  { label: "Apply", href: "#sticky-apply" },
-];
 ---
 
 <ShowcaseLayout
@@ -65,10 +58,9 @@ const stickyItems = [
   activeCategory="layouts"
 >
   <ShowcasePageHeader
-    eyebrow="Showcase category"
     title="Layouts"
     description="Reusable structural patterns for arranging content inside single-page Quick Courses. Layouts may contain placeholders for later interactions, but interaction behaviour belongs in the relevant interaction categories."
-    count="6 heroes + 14 layout patterns"
+    count="6 heroes + 13 layout patterns"
   />
 
   <div class="mt-6">
@@ -92,7 +84,7 @@ const stickyItems = [
             <ImageOverlayHero
               previewId="hero-1-preview"
               headingId="hero-1-heading"
-              eyebrow="Module opening"
+              eyebrow="Module 1"
               title="Build a routine that works for your team."
               summary="Explore a simple approach, then decide how to adapt it for your daily work."
               imageSrc={neutralImage}
@@ -109,7 +101,6 @@ const stickyItems = [
           <HeroDisplayOptions
             previewId="hero-2-preview"
             options={[
-              { part: "eyebrow", label: "Eyebrow" },
               { part: "summary", label: "Supporting text" },
               { part: "primary-action", label: "Primary action" },
               { part: "secondary-action", label: "Secondary action" },
@@ -119,7 +110,6 @@ const stickyItems = [
             <SplitHero
               previewId="hero-2-preview"
               headingId="hero-2-heading"
-              eyebrow="Customer conversations"
               title="Make each next step clear."
               summary="A practical opener with room for a primary action and a supporting reference."
               imageSrc={neutralImage}
@@ -136,7 +126,6 @@ const stickyItems = [
           <HeroDisplayOptions
             previewId="hero-3-preview"
             options={[
-              { part: "eyebrow", label: "Eyebrow" },
               { part: "summary", label: "Supporting text" },
               { part: "primary-action", label: "Primary action" },
               { part: "secondary-action", label: "Secondary action" },
@@ -146,7 +135,6 @@ const stickyItems = [
             <CenteredMinimalHero
               previewId="hero-3-preview"
               headingId="hero-3-heading"
-              eyebrow="Getting started"
               title="A practical introduction to confident decisions."
               summary="Use this calm, text-first option when the course opening needs focus and speed."
               actions={[
@@ -161,7 +149,6 @@ const stickyItems = [
           <HeroDisplayOptions
             previewId="hero-4-preview"
             options={[
-              { part: "eyebrow", label: "Eyebrow" },
               { part: "summary", label: "Supporting text" },
               { part: "primary-action", label: "Primary action" },
             ]}
@@ -170,7 +157,6 @@ const stickyItems = [
             <FloatingCardHero
               previewId="hero-4-preview"
               headingId="hero-4-heading"
-              eyebrow="Working together"
               title="Turn good intentions into a shared plan."
               summary="A solid content card keeps the opening message readable on top of visual context."
               imageSrc={neutralImage}
@@ -271,7 +257,6 @@ const stickyItems = [
 
         <ShowcaseExample id="two-column-content" title="Two-Column Content" purpose="Places two related concepts side by side without assuming equal text length.">
           <TwoColumnContent
-            eyebrow="Customer support"
             heading="What the customer says and how you respond"
             intro="Use paired columns for comparisons where both sides need equal attention."
             headingLevel={4}
@@ -337,7 +322,6 @@ const stickyItems = [
 
         <ShowcaseExample id="feature-list-visual" title="Feature List with Supporting Visual" purpose="Pairs a secondary visual with a semantic feature list.">
           <FeatureListVisual
-            eyebrow="Leadership"
             heading="Make feedback easier to act on"
             intro="Use this layout when the list is the learning content and the visual supports the mood or context."
             headingLevel={4}
@@ -358,7 +342,6 @@ const stickyItems = [
       <div class="showcase-example-stack">
         <ShowcaseExample id="numbered-process" title="Numbered Process" purpose="Shows two to eight sequential steps using semantic ordered-list markup.">
           <NumberedProcess
-            eyebrow="Operational process"
             heading="Escalate a priority request"
             intro="A vertical process is the safest default for long descriptions and small screens."
             headingLevel={4}
@@ -430,7 +413,6 @@ const stickyItems = [
       <div class="showcase-example-stack">
         <ShowcaseExample id="call-to-action-section" title="Call-to-Action Section" purpose="Prompts a learner to take one clear next action using explicit link labels.">
           <CallToActionSection
-            eyebrow="Next activity"
             heading="Practise the conversation out loud"
             description="Pair with a colleague and take turns explaining the next step in less than one minute."
             headingLevel={4}
@@ -464,38 +446,10 @@ const stickyItems = [
             ]}
             checklist={["The action is specific.", "The owner is clear.", "The timing is realistic."]}
             nextStep="Use the checklist before sending your next customer update."
-            action={{ href: "#advanced-layouts", label: "View advanced layout" }}
+            action={{ href: "/showcase/display-interactions", label: "Explore display interactions" }}
           />
-        </ShowcaseExample>
-      </div>
-    </ShowcaseSection>
-
-    <ShowcaseSection id="advanced-layouts" title="Advanced layouts" description="Optional layouts for unusually long single-page courses.">
-      <div class="showcase-example-stack">
-        <ShowcaseExample id="sticky-side-navigation" title="Sticky Side Navigation" purpose="Adds optional section navigation for long single-page courses while keeping anchor links functional without JavaScript.">
-          <div class="qc-sticky-layout">
-            <StickySectionNavigation items={stickyItems} activeHref="#sticky-prepare" />
-            <div class="qc-sticky-layout__content">
-              <section id="sticky-prepare" class="scroll-mt-28">
-                <h4>Prepare</h4>
-                <p>Review the scenario, identify the decision point and check whether the learner needs a reference before starting.</p>
-              </section>
-              <section id="sticky-practise" class="scroll-mt-28">
-                <h4>Practise</h4>
-                <p>Ask the learner to choose a response, compare it with a recommended approach and explain the reason for the difference.</p>
-              </section>
-              <section id="sticky-apply" class="scroll-mt-28">
-                <h4>Apply</h4>
-                <p>Close with one workplace action, a time to use it and a prompt to share questions with a manager or facilitator.</p>
-              </section>
-            </div>
-          </div>
-          <ShowcaseNotes title="Advanced layout note">
-            <p>Use this only for unusually long single-page Quick Courses. The Showcase category navigation remains separate from this course-content navigation.</p>
-          </ShowcaseNotes>
         </ShowcaseExample>
       </div>
     </ShowcaseSection>
   </div>
 </ShowcaseLayout>
-

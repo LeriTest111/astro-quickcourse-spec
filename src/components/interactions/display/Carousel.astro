@@ -1,0 +1,100 @@
+---
+interface CarouselSlide {
+  title: string;
+  body: string;
+  image?: string;
+  imageAlt?: string;
+  caption?: string;
+}
+
+interface Props {
+  id: string;
+  heading?: string;
+  intro?: string;
+  slides: CarouselSlide[];
+}
+
+const { id, heading, intro, slides } = Astro.props;
+---
+
+<section class="di-block di-carousel" data-carousel aria-labelledby={heading ? `${id}-heading` : undefined}>
+  {
+    heading && (
+      <div class="di-block__header">
+        <h3 id={`${id}-heading`}>{heading}</h3>
+        {intro && <p>{intro}</p>}
+      </div>
+    )
+  }
+  <div class="di-carousel__viewport" aria-live="polite">
+    {slides.map((slide, index) => (
+      <article class="di-carousel__slide" data-slide aria-label={`Slide ${index + 1} of ${slides.length}`}>
+        {slide.image && (
+          <figure>
+            <img src={slide.image} alt={slide.imageAlt ?? ""} loading={index === 0 ? "eager" : "lazy"} />
+            {slide.caption && <figcaption>{slide.caption}</figcaption>}
+          </figure>
+        )}
+        <div>
+          <h4>{slide.title}</h4>
+          <p>{slide.body}</p>
+        </div>
+      </article>
+    ))}
+  </div>
+  <div class="di-carousel__controls">
+    <button class="di-secondary-button" type="button" data-carousel-prev>Previous</button>
+    <p data-carousel-status>Slide 1 of {slides.length}</p>
+    <button class="di-secondary-button" type="button" data-carousel-next>Next</button>
+  </div>
+  <div class="di-carousel__dots" aria-label="Choose slide">
+    {slides.map((slide, index) => (
+      <button type="button" data-carousel-dot aria-label={`Show slide ${index + 1}: ${slide.title}`}>{index + 1}</button>
+    ))}
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll("[data-carousel]").forEach((carousel) => {
+    if (carousel.dataset.carouselReady === "true") return;
+    carousel.dataset.carouselReady = "true";
+
+    const slides = [...carousel.querySelectorAll("[data-slide]")];
+    const previous = carousel.querySelector("[data-carousel-prev]");
+    const next = carousel.querySelector("[data-carousel-next]");
+    const dots = [...carousel.querySelectorAll("[data-carousel-dot]")];
+    const status = carousel.querySelector("[data-carousel-status]");
+    let current = 0;
+
+    function render() {
+      slides.forEach((slide, index) => {
+        slide.hidden = index !== current;
+        slide.toggleAttribute("inert", index !== current);
+      });
+      dots.forEach((dot, index) => dot.setAttribute("aria-current", index === current ? "true" : "false"));
+      if (previous) previous.disabled = current === 0;
+      if (next) next.disabled = current === slides.length - 1;
+      if (status) status.textContent = `Slide ${current + 1} of ${slides.length}`;
+    }
+
+    previous?.addEventListener("click", () => {
+      current = Math.max(0, current - 1);
+      render();
+    });
+
+    next?.addEventListener("click", () => {
+      current = Math.min(slides.length - 1, current + 1);
+      render();
+    });
+
+    dots.forEach((dot, index) => {
+      dot.addEventListener("click", () => {
+        current = index;
+        render();
+      });
+    });
+
+    render();
+  });
+</script>
+
