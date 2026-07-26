@@ -1,22 +1,19 @@
 ---
-type CarouselSlideType = "image" | "text" | "image-text" | "quote" | "card";
+type CarouselContentType = "image" | "text" | "image-text";
 type IndicatorStyle = "dots" | "numbers" | "none";
 type ArrowPosition = "overlay" | "outside";
 
 interface CarouselSlide {
-  type?: CarouselSlideType;
+  type?: CarouselContentType;
   title?: string;
   body?: string;
   image?: string;
   imageAlt?: string;
   caption?: string;
-  attribution?: string;
-  icon?: string;
   action?: {
     label: string;
     href: string;
   };
-  contentGroup?: string;
 }
 
 interface Props {
@@ -24,6 +21,7 @@ interface Props {
   heading?: string;
   intro?: string;
   slides: CarouselSlide[];
+  contentType?: CarouselContentType;
   indicatorStyle?: IndicatorStyle;
   showSlideCount?: boolean;
   arrowPosition?: ArrowPosition;
@@ -34,6 +32,7 @@ const {
   heading,
   intro,
   slides,
+  contentType,
   indicatorStyle = "dots",
   showSlideCount = true,
   arrowPosition = "overlay",
@@ -44,6 +43,7 @@ const {
   id={id}
   class={`di-block di-carousel di-carousel--arrows-${arrowPosition}`}
   data-carousel
+  data-carousel-content={contentType}
   data-carousel-indicator-style={indicatorStyle}
   data-carousel-show-count={showSlideCount ? "true" : "false"}
   data-carousel-arrow-position={arrowPosition}
@@ -63,7 +63,7 @@ const {
     </button>
     <div class="di-carousel__viewport" aria-live="polite">
       {slides.map((slide, index) => (
-        <article class={`di-carousel__slide di-carousel__slide--${slide.type ?? "image-text"}`} data-slide data-slide-group={slide.contentGroup ?? slide.type ?? "mixed"} aria-label={`Slide ${index + 1} of ${slides.length}`}>
+        <article class={`di-carousel__slide di-carousel__slide--${slide.type ?? "image-text"}`} data-slide data-slide-group={slide.type ?? "image-text"} aria-label={`Slide ${index + 1} of ${slides.length}`}>
           {(slide.type ?? "image-text") === "image" && slide.image && (
             <figure>
               <img src={slide.image} alt={slide.imageAlt ?? ""} loading={index === 0 ? "eager" : "lazy"} />
@@ -92,21 +92,6 @@ const {
               </div>
             </>
           )}
-          {(slide.type ?? "image-text") === "quote" && (
-            <blockquote class="di-carousel__quote">
-              {slide.body && <p>{slide.body}</p>}
-              {slide.attribution && <cite>{slide.attribution}</cite>}
-            </blockquote>
-          )}
-          {(slide.type ?? "image-text") === "card" && (
-            <div class="di-carousel__card">
-              {slide.icon && <span class="material-symbols-sharp showcase-icon" aria-hidden="true">{slide.icon}</span>}
-              {slide.image && <img src={slide.image} alt={slide.imageAlt ?? ""} loading={index === 0 ? "eager" : "lazy"} />}
-              {slide.title && <h4>{slide.title}</h4>}
-              {slide.body && <p>{slide.body}</p>}
-              {slide.action && <a class="di-secondary-button" href={slide.action.href}>{slide.action.label}</a>}
-            </div>
-          )}
         </article>
       ))}
     </div>
@@ -116,7 +101,7 @@ const {
     <div class="di-carousel__controls" data-carousel-controls>
       <div class="di-carousel__dots" aria-label="Choose slide" data-carousel-indicators>
         {slides.map((slide, index) => (
-          <button type="button" data-carousel-dot data-dot-group={slide.contentGroup ?? slide.type ?? "mixed"} aria-label={`Show slide ${index + 1}${slide.title ? `: ${slide.title}` : ""}`}>
+          <button type="button" data-carousel-dot data-dot-group={slide.type ?? "image-text"} aria-label={`Show slide ${index + 1}${slide.title ? `: ${slide.title}` : ""}`}>
             <span class="sr-only">Slide </span><span data-dot-label>{index + 1}</span>
           </button>
         ))}
@@ -141,7 +126,7 @@ const {
 
     function getVisibleSlides() {
       const contentFilter = carousel.dataset.carouselContent;
-      return slides.filter((slide) => !contentFilter || contentFilter === "mixed" || slide.dataset.slideGroup === contentFilter);
+      return slides.filter((slide) => !contentFilter || slide.dataset.slideGroup === contentFilter);
     }
 
     function render() {

@@ -1,4 +1,6 @@
 ---
+import PreviewOptions from "../../showcase/PreviewOptions.astro";
+
 type DisplayOption = {
   part: "eyebrow" | "summary" | "primary-action" | "secondary-action";
   label: string;
@@ -13,51 +15,14 @@ interface Props {
 const { previewId, options } = Astro.props;
 ---
 
-<details class="hero-display-options" data-hero-controls data-hero-target={previewId}>
-  <summary>
-    <span>Display options</span>
-    <span class="material-symbols-sharp showcase-icon" aria-hidden="true">expand_more</span>
-  </summary>
-  <div class="hero-display-options__choices" role="group" aria-label="Hero display options">
-    {options.map((option) => (
-      <label class="hero-display-options__option">
-        <input
-          type="checkbox"
-          data-hero-option={option.part}
-          checked={option.checked ?? true}
-        />
-        <span>{option.label}</span>
-      </label>
-    ))}
-  </div>
-</details>
-
-<script>
-  function updateHeroPreview(controlGroup: HTMLElement) {
-    const previewId = controlGroup.dataset.heroTarget;
-    const preview = previewId ? document.querySelector<HTMLElement>(`[data-hero-preview="${previewId}"]`) : null;
-
-    if (!preview) return;
-
-    controlGroup.querySelectorAll<HTMLInputElement>("[data-hero-option]").forEach((input) => {
-      const part = input.dataset.heroOption;
-      if (!part) return;
-
-      preview.querySelectorAll<HTMLElement>(`[data-hero-part="${part}"]`).forEach((element) => {
-        element.hidden = !input.checked;
-      });
-    });
-
-    preview.querySelectorAll<HTMLElement>("[data-hero-actions]").forEach((actions) => {
-      const visibleActions = Array.from(actions.querySelectorAll<HTMLElement>("[data-hero-part]")).some(
-        (action) => !action.hidden,
-      );
-      actions.hidden = !visibleActions;
-    });
-  }
-
-  document.querySelectorAll<HTMLElement>("[data-hero-controls]").forEach((controlGroup) => {
-    updateHeroPreview(controlGroup);
-    controlGroup.addEventListener("change", () => updateHeroPreview(controlGroup));
-  });
-</script>
+<PreviewOptions
+  targetId={`hero-preview-${previewId}`}
+  targetSelector={`[data-hero-preview="${previewId}"]`}
+  options={options.map((option) => ({
+    id: option.part,
+    label: option.label,
+    type: "toggle",
+    value: option.checked ?? true,
+    targetPart: option.part,
+  }))}
+/>

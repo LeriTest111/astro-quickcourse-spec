@@ -68,15 +68,15 @@ Purpose: reveal a short second layer of related information.
 
 Recommended use: term/definition, feature/benefit, myth/fact and question/explanation pairs.
 
-Content structure or props: card front heading, optional front text, icon or image, back heading and back text.
+Content structure or props: card front heading, optional front text, icon or image, back heading, back text and height mode.
 
-Interaction behaviour: each card has a real reveal button and toggles between prompt and detail.
+Interaction behaviour: the whole card is a real button. Learners click, tap, press Enter or press Space to flip between prompt and detail.
 
-Keyboard behaviour: buttons are in normal focus order and use `aria-expanded`.
+Keyboard behaviour: each card is in normal focus order and uses `aria-pressed` to communicate state.
 
 Responsive behaviour: cards stack on mobile and form a small grid on wider screens.
 
-Accessibility considerations: does not rely on hover. The default visual treatment uses a 3D flip, while reduced-motion users get a simple content swap.
+Accessibility considerations: does not rely on hover. Do not place nested links, buttons or controls inside a flip card. The default visual treatment uses a 3D flip, while reduced-motion users get a simple content swap.
 
 JavaScript requirements: required for reveal state, face visibility and height measurement.
 
@@ -86,7 +86,7 @@ Misuse to avoid: long back content that belongs in a panel or accordion.
 
 Customizable properties: icons, images, copy and `heightMode`.
 
-Standardized properties: button-based reveal, neutral card styling, real flip animation and `heightMode: "equal" | "content"`.
+Standardized properties: full-card button reveal, decorative Material `sync` icon, neutral card styling, real flip animation and `heightMode: "equal" | "content"`.
 
 ## Carousel
 
@@ -94,9 +94,9 @@ Approval status: In Review
 
 Purpose: move through a small set of related slides.
 
-Recommended use: two to eight compact examples, images or mixed-content panels.
+Recommended use: two to eight consistently structured image, text or image-and-text slides.
 
-Content structure or props: stable id, slide type, title, body, image, alt text, caption, attribution, action, indicator style, slide-count visibility and arrow position.
+Content structure or props: stable id, content type, slides, title, body, image, alt text, caption, action, indicator style, slide-count visibility and arrow position.
 
 Interaction behaviour: Previous and Next arrows sit at or beside the slide edges, indicators sit inside the carousel frame near the bottom and direct slide controls update the visible slide.
 
@@ -108,13 +108,13 @@ Accessibility considerations: no autoplay, live status text and disabled control
 
 JavaScript requirements: required for slide navigation.
 
-Suitable use cases: small example sets, product highlights, images with captions, short tips, quotes and related visual panels.
+Suitable use cases: product highlights, related images, short tips, short examples and consistently structured image-and-text slides.
 
-Misuse to avoid: essential long-form content, important procedures, content learners must compare simultaneously or large slide sets.
+Misuse to avoid: essential long-form content, important procedures, content learners must compare simultaneously, unrelated mixed content types or large slide sets.
 
 Customizable properties: `indicatorStyle: "dots" | "numbers" | "none"`, `showSlideCount`, `arrowPosition: "overlay" | "outside"` and slide content.
 
-Standardized properties: one reusable carousel engine, supported slide types `image`, `text`, `image-text`, `quote` and `card`, no autoplay and explicit controls.
+Standardized properties: one reusable carousel engine, supported content modes `image`, `text` and `image-text`, no mixed mode, no autoplay and explicit controls.
 
 ## Click-to-Reveal Hotspots
 
@@ -126,13 +126,13 @@ Recommended use: workspace inspections, product diagrams and visual checklists.
 
 Content structure or props: base image, alt text and two to six hotspots with label, accessible name, percentage position, title and description.
 
-Interaction behaviour: hotspot buttons and a mobile control list activate detail panels.
+Interaction behaviour: image hotspot buttons and the right-hand text control list activate the same detail panels.
 
 Keyboard behaviour: all hotspot controls are real buttons.
 
-Responsive behaviour: positions scale with the image and mobile controls do not require precise pointer movement.
+Responsive behaviour: positions scale with the image; on mobile the text controls stack below the image and become the primary fallback.
 
-Accessibility considerations: detail text repeats the meaning so it is not only visual.
+Accessibility considerations: detail text repeats the meaning so it is not only visual. Do not add a third duplicate row of hotspot buttons.
 
 JavaScript requirements: required for selected state and panel switching.
 
@@ -142,7 +142,7 @@ Misuse to avoid: responsive image-map coordinates or hover-only markers.
 
 Customizable properties: positions, labels and detail content.
 
-Standardized properties: touch-sized controls and selected-state text.
+Standardized properties: touch-sized image controls, synchronized text controls and selected-state text.
 
 ## Timeline
 
@@ -214,9 +214,9 @@ Interaction behaviour: a named expand button opens a centred native dialog with 
 
 Keyboard behaviour: opening uses a real button, Escape closes the dialog and focus returns to the trigger.
 
-Responsive behaviour: the thumbnail stays contained in the page, while the expanded image fits within the viewport and dialog content can scroll.
+Responsive behaviour: the thumbnail stays small in the page, while the expanded image fits within the viewport without cropping or distortion.
 
-Accessibility considerations: dialog has an accessible label and an obvious close control. Supporting explanatory text belongs in Supporting-Detail Modal, not in the image modal.
+Accessibility considerations: dialog has an accessible label and an obvious overlaid close control. The dialog contains only the image and Close button. Supporting explanatory text belongs in Supporting-Detail Modal, not in the image modal.
 
 JavaScript requirements: required for dialog opening and focus return.
 
@@ -226,7 +226,13 @@ Misuse to avoid: opening automatically, using the image click as the only trigge
 
 Customizable properties: image source, thumbnail, caption, expand label and thumbnail size.
 
-Standardized properties: thumbnail treatment, centred native dialog, obvious close control, Escape support and focus return.
+Standardized properties: small thumbnail treatment, image-only centred native dialog, overlaid close control, Escape support and focus return.
+
+## Cursor Policy
+
+Use `cursor: pointer` for genuine click targets such as links, enabled buttons, summaries, carousel controls, hotspots, tabs, timeline selectors, process controls, flip cards and modal triggers.
+
+Do not use pointer cursor to make static content look interactive. Semantic controls, keyboard support, visible focus states, accessible names and adequate target sizes remain mandatory.
 
 ## Supporting-Detail Modal or Panel
 

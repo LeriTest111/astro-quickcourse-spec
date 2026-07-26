@@ -5,7 +5,7 @@ import ShowcaseAnchorNav from "../../components/showcase/ShowcaseAnchorNav.astro
 import ShowcaseSection from "../../components/showcase/ShowcaseSection.astro";
 import ShowcaseExample from "../../components/showcase/ShowcaseExample.astro";
 import ShowcaseNotes from "../../components/showcase/ShowcaseNotes.astro";
-import ExampleOptions from "../../components/showcase/ExampleOptions.astro";
+import PreviewOptions from "../../components/showcase/PreviewOptions.astro";
 import Accordion from "../../components/interactions/display/Accordion.astro";
 import Tabs from "../../components/interactions/display/Tabs.astro";
 import FlipCards from "../../components/interactions/display/FlipCards.astro";
@@ -68,7 +68,7 @@ const neutralImage = "/images/showcase/hero-1.avif";
         </ShowcaseExample>
 
         <ShowcaseExample id="flip-cards" title="Flip Cards" purpose="Lets learners reveal a short second layer such as a benefit, fact or explanation.">
-          <ExampleOptions
+          <PreviewOptions
             targetId="feature-benefit-cards-grid"
             options={[
               {
@@ -193,7 +193,7 @@ const neutralImage = "/images/showcase/hero-1.avif";
         </ShowcaseExample>
 
         <ShowcaseExample id="carousel" title="Carousel" purpose="Moves through a small set of related slides without autoplay.">
-          <ExampleOptions
+          <PreviewOptions
             targetId="service-carousel"
             options={[
               {
@@ -212,10 +212,9 @@ const neutralImage = "/images/showcase/hero-1.avif";
                 id: "slide-content",
                 label: "Slide content",
                 type: "select",
-                value: "mixed",
+                value: "image",
                 targetAttribute: "carouselContent",
                 options: [
-                  { label: "Mixed", value: "mixed" },
                   { label: "Image", value: "image" },
                   { label: "Text", value: "text" },
                   { label: "Image + text", value: "image-text" },
@@ -245,24 +244,43 @@ const neutralImage = "/images/showcase/hero-1.avif";
             id="service-carousel"
             heading="Three service moments"
             intro="Carousels are best for compact related examples. They should not hide long required procedures."
+            contentType="image"
             slides={[
               {
                 type: "image",
-                contentGroup: "image",
                 image: neutralImage,
-                imageAlt: "A learner reviewing notes for a customer conversation.",
-                caption: "Sample image slide using local media.",
+                imageAlt: "A learner reviewing notes before a customer conversation.",
+                caption: "Preparation",
+              },
+              {
+                type: "image",
+                image: neutralImage,
+                imageAlt: "A neutral workspace image used to demonstrate a second image slide.",
+                caption: "Conversation",
+              },
+              {
+                type: "image",
+                image: neutralImage,
+                imageAlt: "A neutral workspace image used to demonstrate a third image slide.",
+                caption: "Follow-up",
               },
               {
                 type: "text",
-                contentGroup: "text",
-                title: "Keep the message short",
-                body: "Text-only carousel slides work best for short tips, key messages and small groups of related examples.",
-                action: { href: "#accordion", label: "Review reveal patterns" },
+                title: "Listen first",
+                body: "Let the customer describe the outcome they need before suggesting the next step.",
+              },
+              {
+                type: "text",
+                title: "Use plain language",
+                body: "Choose the simplest accurate explanation and avoid internal process terms.",
+              },
+              {
+                type: "text",
+                title: "Close the loop",
+                body: "Confirm the action, timing and where the customer can check progress.",
               },
               {
                 type: "image-text",
-                contentGroup: "image-text",
                 title: "Opening the conversation",
                 body: "Start with the customer goal and acknowledge any urgency before asking for more detail.",
                 image: neutralImage,
@@ -270,17 +288,20 @@ const neutralImage = "/images/showcase/hero-1.avif";
                 caption: "Moment 1",
               },
               {
-                type: "quote",
-                contentGroup: "mixed",
-                body: "A useful carousel feels like a small set of connected ideas, not a place to hide required reading.",
-                attribution: "Quick Course design note",
+                type: "image-text",
+                title: "Explaining the option",
+                body: "Connect the option to the customer's stated need and name any timing expectation.",
+                image: neutralImage,
+                imageAlt: "A neutral workspace image used for an explanation example.",
+                caption: "Moment 2",
               },
               {
-                type: "card",
-                contentGroup: "mixed",
-                icon: "tips_and_updates",
-                title: "Use direct controls",
-                body: "Learners should always have obvious Previous and Next buttons. Swipe can only be an enhancement.",
+                type: "image-text",
+                title: "Confirming the outcome",
+                body: "Restate what will happen next and where the learner or customer can find the update.",
+                image: neutralImage,
+                imageAlt: "A neutral workspace image used for a confirmation example.",
+                caption: "Moment 3",
               },
             ]}
           />
@@ -335,7 +356,7 @@ const neutralImage = "/images/showcase/hero-1.avif";
             imageSrc={neutralImage}
             imageAlt="A detailed workspace diagram used as a neutral inspection example."
             caption="Small preview image. Open the modal when the learner needs a closer look."
-            expandLabel="View larger image"
+            triggerLabel="View larger image"
             thumbnailSize="small"
           />
           <ShowcaseNotes>

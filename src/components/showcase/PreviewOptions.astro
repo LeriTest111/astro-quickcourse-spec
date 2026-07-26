@@ -1,0 +1,127 @@
+---
+type OptionItem = {
+  label: string;
+  value: string;
+};
+
+type ExampleOption = {
+  id: string;
+  label: string;
+  type: "select" | "segmented" | "toggle";
+  value: string | boolean;
+  targetAttribute?: string;
+  targetPart?: string;
+  options?: OptionItem[];
+};
+
+interface Props {
+  targetId: string;
+  targetSelector?: string;
+  label?: string;
+  options: ExampleOption[];
+}
+
+const { targetId, targetSelector, label = "Preview options", options } = Astro.props;
+---
+
+<details class="showcase-preview-options" data-preview-options data-preview-options-target={targetId} data-preview-options-selector={targetSelector}>
+  <summary>
+    <span class="material-symbols-sharp showcase-icon" aria-hidden="true">tune</span>
+    <span>{label}</span>
+    <span class="material-symbols-sharp showcase-icon showcase-preview-options__chevron" aria-hidden="true">expand_more</span>
+  </summary>
+  <form class="showcase-preview-options__form" aria-label={label}>
+    {options.map((option) => (
+      <div class="showcase-preview-options__group" data-preview-option-group>
+        <span class="showcase-preview-options__label">{option.label}</span>
+        {option.type === "select" && (
+          <label>
+            <span class="sr-only">{option.label}</span>
+            <select data-preview-option={option.id} data-target-attribute={option.targetAttribute} data-target-part={option.targetPart}>
+              {option.options?.map((item) => (
+                <option value={item.value} selected={item.value === option.value}>{item.label}</option>
+              ))}
+            </select>
+          </label>
+        )}
+        {option.type === "segmented" && (
+          <div class="showcase-preview-options__segmented" role="radiogroup" aria-label={option.label}>
+            {option.options?.map((item) => (
+              <label>
+                <input
+                  type="radio"
+                  name={`${targetId}-${option.id}`}
+                  value={item.value}
+                  data-preview-option={option.id}
+                  data-target-attribute={option.targetAttribute}
+                  data-target-part={option.targetPart}
+                  checked={item.value === option.value}
+                />
+                <span>{item.label}</span>
+              </label>
+            ))}
+          </div>
+        )}
+        {option.type === "toggle" && (
+          <label class="showcase-preview-options__toggle">
+            <input
+              type="checkbox"
+              data-preview-option={option.id}
+              data-target-attribute={option.targetAttribute}
+              data-target-part={option.targetPart}
+              checked={Boolean(option.value)}
+            />
+            <span>{option.label}</span>
+          </label>
+        )}
+      </div>
+    ))}
+  </form>
+</details>
+
+<script>
+  document.querySelectorAll("[data-preview-options]").forEach((root) => {
+    if (root.dataset.previewOptionsReady === "true") return;
+    root.dataset.previewOptionsReady = "true";
+
+    const form = root.querySelector("form");
+    const targetId = root.dataset.previewOptionsTarget;
+    const targetSelector = root.dataset.previewOptionsSelector;
+    const target = targetSelector ? document.querySelector(targetSelector) : targetId ? document.getElementById(targetId) : null;
+    if (!target) return;
+
+    function applyOptions() {
+      form?.querySelectorAll("[data-preview-option]").forEach((control) => {
+        const attribute = control.dataset.targetAttribute;
+        const part = control.dataset.targetPart;
+
+        if (control instanceof HTMLInputElement && control.type === "radio" && !control.checked) return;
+
+        const value = control instanceof HTMLInputElement && control.type === "checkbox"
+          ? String(control.checked)
+            : control instanceof HTMLInputElement || control instanceof HTMLSelectElement
+              ? control.value
+              : "";
+
+        if (attribute) target.dataset[attribute] = value;
+        if (part) {
+          target.querySelectorAll(`[data-hero-part="${part}"]`).forEach((element) => {
+            element.hidden = value !== "true";
+          });
+        }
+      });
+
+      target.querySelectorAll("[data-hero-actions]").forEach((actions) => {
+        const visibleActions = Array.from(actions.querySelectorAll("[data-hero-part]")).some(
+          (action) => !action.hidden,
+        );
+        actions.hidden = !visibleActions;
+      });
+
+      target.dispatchEvent(new CustomEvent("showcase-options-change"));
+    }
+
+    form?.addEventListener("change", applyOptions);
+    applyOptions();
+  });
+</script>

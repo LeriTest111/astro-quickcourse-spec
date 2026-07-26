@@ -49,6 +49,18 @@ textarea {
   font: inherit;
 }
 
+a[href],
+button:not(:disabled),
+summary,
+[data-clickable="true"] {
+  cursor: pointer;
+}
+
+button:disabled,
+[aria-disabled="true"] {
+  cursor: not-allowed;
+}
+
 h1,
 h2,
 h3,
@@ -206,85 +218,6 @@ dialog::backdrop {
   line-height: 1;
   padding: 0.45rem 0.6rem;
   text-transform: uppercase;
-}
-
-.hero-display-options {
-  width: fit-content;
-  margin-top: 1rem;
-  position: relative;
-}
-
-.hero-display-options summary {
-  display: inline-flex;
-  min-height: 2.25rem;
-  align-items: center;
-  gap: 0.35rem;
-  border: 1px solid #d1d5db;
-  border-radius: 0.4rem;
-  background: #ffffff;
-  color: #374151;
-  cursor: pointer;
-  font-size: 0.875rem;
-  font-weight: 700;
-  list-style: none;
-  padding: 0.35rem 0.6rem;
-}
-
-.hero-display-options summary::-webkit-details-marker {
-  display: none;
-}
-
-.hero-display-options summary:hover {
-  border-color: #6b7280;
-  background: #f9fafb;
-}
-
-.hero-display-options[open] summary .showcase-icon {
-  transform: rotate(180deg);
-}
-
-.hero-display-options summary .showcase-icon {
-  color: #6b7280;
-  font-size: 1.1rem;
-  transition: transform 160ms ease;
-}
-
-.hero-display-options__choices {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 0.5rem;
-  border: 1px solid #d1d5db;
-  border-radius: 0.5rem;
-  background: #ffffff;
-  padding: 0.5rem;
-  box-shadow: 0 10px 24px rgba(15, 23, 42, 0.08);
-}
-
-.hero-display-options__option {
-  display: inline-flex;
-  min-height: 2.25rem;
-  align-items: center;
-  gap: 0.45rem;
-  border: 1px solid #d1d5db;
-  border-radius: 0.4rem;
-  background: #ffffff;
-  color: #374151;
-  cursor: pointer;
-  font-size: 0.875rem;
-  font-weight: 600;
-  padding: 0.35rem 0.6rem;
-}
-
-.hero-display-options__option:hover {
-  border-color: #6b7280;
-  background: #f9fafb;
-}
-
-.hero-display-options__option input {
-  width: 1rem;
-  height: 1rem;
-  accent-color: #111827;
 }
 
 .showcase-hero,
@@ -1154,29 +1087,64 @@ dialog::backdrop {
   min-width: 0;
 }
 
-.showcase-example-options {
+.showcase-preview-options {
+  width: fit-content;
+  max-width: 100%;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  background: #f1f5f9;
+}
+
+.showcase-preview-options summary {
+  display: inline-flex;
+  min-height: 2.5rem;
+  align-items: center;
+  gap: 0.45rem;
+  color: #334155;
+  font-size: 0.9rem;
+  font-weight: 800;
+  list-style: none;
+  padding: 0.5rem 0.75rem;
+}
+
+.showcase-preview-options summary::-webkit-details-marker {
+  display: none;
+}
+
+.showcase-preview-options[open] {
+  background: #eef2ff;
+  border-color: #c7d2fe;
+}
+
+.showcase-preview-options__chevron {
+  transition: transform 160ms ease;
+}
+
+.showcase-preview-options[open] .showcase-preview-options__chevron {
+  transform: rotate(180deg);
+}
+
+.showcase-preview-options__form {
   display: flex;
   flex-wrap: wrap;
   align-items: end;
   gap: 0.85rem;
-  border: 1px solid #d1d5db;
-  border-radius: 0.5rem;
-  background: #f8fafc;
+  border-top: 1px solid #cbd5e1;
   padding: 0.8rem;
 }
 
-.showcase-example-options__group {
+.showcase-preview-options__group {
   display: grid;
   gap: 0.35rem;
 }
 
-.showcase-example-options__label {
+.showcase-preview-options__label {
   color: #334155;
   font-size: 0.85rem;
   font-weight: 800;
 }
 
-.showcase-example-options select {
+.showcase-preview-options select {
   min-height: 2.5rem;
   border: 1px solid #cbd5e1;
   border-radius: 0.45rem;
@@ -1186,7 +1154,7 @@ dialog::backdrop {
   padding-inline: 0.65rem;
 }
 
-.showcase-example-options__segmented {
+.showcase-preview-options__segmented {
   display: inline-flex;
   flex-wrap: wrap;
   gap: 0.25rem;
@@ -1196,8 +1164,8 @@ dialog::backdrop {
   padding: 0.2rem;
 }
 
-.showcase-example-options__segmented label,
-.showcase-example-options__toggle {
+.showcase-preview-options__segmented label,
+.showcase-preview-options__toggle {
   position: relative;
   display: inline-flex;
   min-height: 2.25rem;
@@ -1208,27 +1176,27 @@ dialog::backdrop {
   font-weight: 800;
 }
 
-.showcase-example-options__segmented input {
+.showcase-preview-options__segmented input {
   position: absolute;
   opacity: 0;
 }
 
-.showcase-example-options__segmented span {
+.showcase-preview-options__segmented span {
   border-radius: 0.35rem;
   padding: 0.45rem 0.65rem;
 }
 
-.showcase-example-options__segmented input:checked + span {
+.showcase-preview-options__segmented input:checked + span {
   background: #111827;
   color: #ffffff;
 }
 
-.showcase-example-options__segmented input:focus-visible + span {
+.showcase-preview-options__segmented input:focus-visible + span {
   outline: 3px solid #93c5fd;
   outline-offset: 2px;
 }
 
-.showcase-example-options__toggle {
+.showcase-preview-options__toggle {
   min-height: 2.5rem;
   border: 1px solid #cbd5e1;
   border-radius: 0.45rem;
@@ -1952,13 +1920,29 @@ dialog::backdrop {
 
 .di-flip-card {
   display: grid;
+  width: 100%;
   gap: 1rem;
   align-content: space-between;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  padding: 0;
   perspective: 1100px;
+  text-align: left;
 }
 
 .di-flip-card.is-revealed {
   transform: none;
+}
+
+.di-flip-card:hover .di-flip-card__face {
+  border-color: #94a3b8;
+  box-shadow: 0 14px 28px rgba(15, 23, 42, 0.08);
+}
+
+.di-flip-card:focus-visible {
+  outline: 3px solid #2563eb;
+  outline-offset: 4px;
 }
 
 .di-flip-card__stage {
@@ -1989,6 +1973,7 @@ dialog::backdrop {
   background: #ffffff;
   backface-visibility: hidden;
   padding: 1.25rem;
+  padding-top: 2.5rem;
   transition:
     border-color 160ms ease,
     box-shadow 160ms ease;
@@ -2013,6 +1998,19 @@ dialog::backdrop {
 .di-flip-card .showcase-icon {
   color: #2563eb;
   font-size: 2rem;
+}
+
+.di-flip-card__flip-icon {
+  position: absolute;
+  top: 0.85rem;
+  right: 0.85rem;
+  color: #64748b !important;
+  font-size: 1.2rem !important;
+  transition: transform 220ms ease;
+}
+
+.di-flip-card.is-revealed .di-flip-card__flip-icon {
+  transform: rotate(180deg);
 }
 
 .di-carousel {
@@ -2042,8 +2040,7 @@ dialog::backdrop {
   aspect-ratio: 16 / 9;
 }
 
-.di-carousel figcaption,
-.di-dialog__caption {
+.di-carousel figcaption {
   margin-top: 0.5rem;
   color: #64748b;
   font-size: 0.9rem;
@@ -2177,34 +2174,9 @@ dialog::backdrop {
   align-items: center;
 }
 
-.di-carousel__text,
-.di-carousel__card,
-.di-carousel__quote {
+.di-carousel__text {
   display: grid;
   gap: 0.8rem;
-}
-
-.di-carousel__quote {
-  align-content: center;
-  min-height: 17rem;
-  color: #111827;
-  font-size: clamp(1.35rem, 3vw, 2rem);
-  font-weight: 800;
-  line-height: 1.25;
-}
-
-.di-carousel__quote cite {
-  color: #64748b;
-  font-size: 0.95rem;
-  font-style: normal;
-}
-
-.di-carousel__card {
-  max-width: 30rem;
-  border: 1px solid #d1d5db;
-  border-radius: 0.5rem;
-  background: #f8fafc;
-  padding: 1.25rem;
 }
 
 .di-process__controls {
@@ -2250,19 +2222,51 @@ dialog::backdrop {
   background: #2563eb;
 }
 
-.di-hotspots__mobile-controls {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-}
-
-.di-hotspots__mobile-controls button[aria-pressed="true"] {
-  border-color: #111827;
-  background: #111827;
-  color: #ffffff;
-}
-
 .di-hotspots__details {
+  display: grid;
+  gap: 1rem;
+}
+
+.di-hotspots__text-controls {
+  display: grid;
+  gap: 0.5rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.di-hotspots__text-controls button {
+  display: grid;
+  width: 100%;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.65rem;
+  align-items: center;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  background: #ffffff;
+  color: #111827;
+  padding: 0.8rem;
+  text-align: left;
+}
+
+.di-hotspots__text-controls button[aria-pressed="true"] {
+  border-color: #2563eb;
+  background: #f8fafc;
+  box-shadow: inset 0 0 0 2px rgba(37, 99, 235, 0.16);
+}
+
+.di-hotspots__text-controls button span {
+  display: grid;
+  width: 2rem;
+  height: 2rem;
+  place-items: center;
+  border-radius: 999px;
+  background: #1f2937;
+  color: #ffffff;
+  font-weight: 900;
+}
+
+.di-hotspots__panels {
   display: grid;
   gap: 1rem;
 }
@@ -2421,7 +2425,12 @@ dialog::backdrop {
 }
 
 .di-dialog--image {
-  width: min(76rem, calc(100vw - 2rem));
+  width: auto;
+  max-width: 95vw;
+  max-height: 90vh;
+  overflow: hidden;
+  background: transparent;
+  border-radius: 0.35rem;
 }
 
 .di-dialog::backdrop {
@@ -2440,6 +2449,16 @@ dialog::backdrop {
 
 .di-dialog__inner--image {
   justify-items: center;
+}
+
+.di-dialog--image > img {
+  display: block;
+  width: auto;
+  max-width: 95vw;
+  height: auto;
+  max-height: 90vh;
+  border-radius: 0.35rem;
+  object-fit: contain;
 }
 
 .di-dialog__inner img {
@@ -2465,6 +2484,15 @@ dialog::backdrop {
   border-radius: 999px;
   background: #ffffff;
   color: #111827;
+}
+
+.di-dialog__close--overlay {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  border-color: rgba(255, 255, 255, 0.8);
+  background: rgba(17, 24, 39, 0.86);
+  color: #ffffff;
 }
 
 .qc-video-section,

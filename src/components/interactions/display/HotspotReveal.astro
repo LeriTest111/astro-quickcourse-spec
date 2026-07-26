@@ -39,6 +39,7 @@ const { id, heading, intro, imageSrc, imageAlt, hotspots } = Astro.props;
           style={`--x: ${hotspot.x}%; --y: ${hotspot.y}%`}
           aria-pressed={index === 0 ? "true" : "false"}
           aria-controls={`${id}-hotspot-${index}`}
+          data-hotspot-index={index}
           data-hotspot-button
         >
           <span aria-hidden="true">{hotspot.label}</span>
@@ -46,27 +47,32 @@ const { id, heading, intro, imageSrc, imageAlt, hotspots } = Astro.props;
         </button>
       ))}
     </div>
-    <div class="di-hotspots__mobile-controls" aria-label="Hotspot list">
-      {hotspots.map((hotspot, index) => (
-        <button
-          type="button"
-          class="di-secondary-button"
-          aria-pressed={index === 0 ? "true" : "false"}
-          aria-controls={`${id}-hotspot-${index}`}
-          data-hotspot-button
-        >
-          {hotspot.name}
-        </button>
-      ))}
-    </div>
     <div class="di-hotspots__details">
-      {hotspots.map((hotspot, index) => (
-        <article id={`${id}-hotspot-${index}`} data-hotspot-panel>
-          <p class="di-kicker">{hotspot.label}</p>
-          <h4>{hotspot.title}</h4>
-          <p>{hotspot.description}</p>
-        </article>
-      ))}
+      <ol class="di-hotspots__text-controls" aria-label="Hotspot details">
+        {hotspots.map((hotspot, index) => (
+          <li>
+            <button
+              type="button"
+              aria-pressed={index === 0 ? "true" : "false"}
+              aria-controls={`${id}-hotspot-${index}`}
+              data-hotspot-index={index}
+              data-hotspot-button
+            >
+              <span>{hotspot.label}</span>
+              <strong>{hotspot.name}</strong>
+            </button>
+          </li>
+        ))}
+      </ol>
+      <div class="di-hotspots__panels">
+        {hotspots.map((hotspot, index) => (
+          <article id={`${id}-hotspot-${index}`} data-hotspot-panel>
+            <p class="di-kicker">{hotspot.label}</p>
+            <h4>{hotspot.title}</h4>
+            <p>{hotspot.description}</p>
+          </article>
+        ))}
+      </div>
     </div>
   </div>
 </section>
@@ -80,16 +86,16 @@ const { id, heading, intro, imageSrc, imageAlt, hotspots } = Astro.props;
     const panels = [...root.querySelectorAll("[data-hotspot-panel]")];
 
     function activate(index) {
-      buttons.forEach((button, buttonIndex) => {
-        button.setAttribute("aria-pressed", buttonIndex % panels.length === index ? "true" : "false");
+      buttons.forEach((button) => {
+        button.setAttribute("aria-pressed", Number(button.dataset.hotspotIndex) === index ? "true" : "false");
       });
       panels.forEach((panel, panelIndex) => {
         panel.hidden = panelIndex !== index;
       });
     }
 
-    buttons.forEach((button, buttonIndex) => {
-      button.addEventListener("click", () => activate(buttonIndex % panels.length));
+    buttons.forEach((button) => {
+      button.addEventListener("click", () => activate(Number(button.dataset.hotspotIndex ?? 0)));
     });
 
     activate(0);

@@ -1,42 +1,49 @@
 ---
 interface Props {
   id: string;
-  imageSrc: string;
-  imageAlt: string;
+  imageSrc?: string;
+  fullImageSrc?: string;
+  imageAlt?: string;
+  alt?: string;
   thumbnailSrc?: string;
   caption?: string;
   expandLabel?: string;
+  triggerLabel?: string;
   thumbnailSize?: "small" | "medium";
 }
 
 const {
   id,
   imageSrc,
+  fullImageSrc,
   imageAlt,
+  alt,
   thumbnailSrc,
   caption,
   expandLabel = "View larger image",
+  triggerLabel,
   thumbnailSize = "medium",
 } = Astro.props;
+
+const resolvedImageSrc = fullImageSrc ?? imageSrc ?? "";
+const resolvedAlt = alt ?? imageAlt ?? "";
+const resolvedLabel = triggerLabel ?? expandLabel;
 ---
 
 <figure class={`di-expandable-image di-expandable-image--${thumbnailSize}`} data-expandable-image>
   <div class="di-expandable-image__thumb">
-    <img src={thumbnailSrc ?? imageSrc} alt={imageAlt} loading="lazy" />
+    <img src={thumbnailSrc ?? resolvedImageSrc} alt={resolvedAlt} loading="lazy" />
     <button class="di-expandable-image__open" type="button" data-expand-image-open>
       <span class="material-symbols-sharp showcase-icon" aria-hidden="true">open_in_full</span>
-      <span>{expandLabel}</span>
+      <span>{resolvedLabel}</span>
     </button>
   </div>
   {caption && <figcaption>{caption}</figcaption>}
-  <dialog class="di-dialog di-dialog--image" id={id} aria-label={expandLabel} data-expand-image-dialog>
-    <div class="di-dialog__inner di-dialog__inner--image">
-      <button class="di-dialog__close" type="button" data-dialog-close aria-label="Close expanded image">
-        <span class="material-symbols-sharp showcase-icon" aria-hidden="true">close</span>
-      </button>
-      <img src={imageSrc} alt={imageAlt} loading="lazy" />
-      {caption && <p class="di-dialog__caption">{caption}</p>}
-    </div>
+  <dialog class="di-dialog di-dialog--image" id={id} aria-label={resolvedLabel} data-expand-image-dialog>
+    <button class="di-dialog__close di-dialog__close--overlay" type="button" data-dialog-close aria-label="Close expanded image">
+      <span class="material-symbols-sharp showcase-icon" aria-hidden="true">close</span>
+    </button>
+    <img src={resolvedImageSrc} alt={resolvedAlt} loading="lazy" />
   </dialog>
 </figure>
 
