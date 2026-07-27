@@ -2,12 +2,15 @@
 import "../styles/global.css";
 import ShowcaseTopNav from "../components/layout/ShowcaseTopNav.astro";
 import CourseFooter from "../components/course/footer/CourseFooter.astro";
+import { showcaseMode, showcaseModeIdentity } from "../data/showcase-registry";
 
 const {
   pageTitle = "Astro Quick Course Showcase",
   description = "A neutral visual reference for reusable Astro course components.",
   activeCategory = "home",
 } = Astro.props;
+
+const modeIdentity = showcaseModeIdentity[showcaseMode];
 ---
 
 <!doctype html>
@@ -36,6 +39,12 @@ const {
       </div>
 
       <main id="main-content" class="mx-auto max-w-7xl px-4 py-8">
+        <aside class="showcase-mode-banner" aria-label="Showcase build mode">
+          <div>
+            <p>{modeIdentity.title}</p>
+            <span>{modeIdentity.description}</span>
+          </div>
+        </aside>
         <slot />
       </main>
 

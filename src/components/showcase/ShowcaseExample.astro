@@ -1,5 +1,6 @@
 ---
 import StatusBadge from "./StatusBadge.astro";
+import { formatShowcaseStatus, getShowcaseItem, shouldShowShowcaseItem } from "../../data/showcase-registry";
 
 interface Props {
   id: string;
@@ -8,21 +9,27 @@ interface Props {
   status?: string;
 }
 
-const { id, title, purpose, status = "In Review" } = Astro.props;
+const { id, title, purpose, status } = Astro.props;
+const registryItem = getShowcaseItem(id);
+const shouldRender = registryItem ? shouldShowShowcaseItem(registryItem) : true;
+const displayStatus = registryItem ? formatShowcaseStatus(registryItem.status) : status ?? "In Review";
 ---
 
-<article id={id} class="showcase-example scroll-mt-28" aria-labelledby={`${id}-heading`}>
-  <div class="showcase-example__header">
-    <div>
-      <h3 id={`${id}-heading`} class="showcase-catalogue-section__item-heading">
-        <a href={`#${id}`}>{title}</a>
-      </h3>
-      <p>{purpose}</p>
-    </div>
-    <StatusBadge status={status} />
-  </div>
-  <div class="showcase-example__preview">
-    <slot />
-  </div>
-</article>
-
+{
+  shouldRender && (
+    <article id={id} class="showcase-example scroll-mt-28" aria-labelledby={`${id}-heading`}>
+      <div class="showcase-example__header">
+        <div>
+          <h3 id={`${id}-heading`} class="showcase-catalogue-section__item-heading">
+            <a href={`#${id}`}>{title}</a>
+          </h3>
+          <p>{purpose}</p>
+        </div>
+        <StatusBadge status={displayStatus} />
+      </div>
+      <div class="showcase-example__preview">
+        <slot />
+      </div>
+    </article>
+  )
+}

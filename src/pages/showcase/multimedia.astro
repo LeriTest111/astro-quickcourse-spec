@@ -4,12 +4,15 @@ import ShowcasePageHeader from "../../components/showcase/ShowcasePageHeader.ast
 import ShowcaseSection from "../../components/showcase/ShowcaseSection.astro";
 import ShowcaseExample from "../../components/showcase/ShowcaseExample.astro";
 import ShowcaseNotes from "../../components/showcase/ShowcaseNotes.astro";
+import ShowcaseEmptyState from "../../components/showcase/ShowcaseEmptyState.astro";
 import VideoSection from "../../components/multimedia/VideoSection.astro";
 import VideoWithText from "../../components/multimedia/VideoWithText.astro";
 import VideoTranscript from "../../components/multimedia/VideoTranscript.astro";
 import VideoChapters from "../../components/multimedia/VideoChapters.astro";
+import { getVisibleShowcaseItems } from "../../data/showcase-registry";
 
 const sampleVideo = "/media/showcase/big-buck-bunny-10s.mp4";
+const hasVisibleItems = getVisibleShowcaseItems("multimedia").length > 0;
 ---
 
 <ShowcaseLayout
@@ -23,7 +26,8 @@ const sampleVideo = "/media/showcase/big-buck-bunny-10s.mp4";
   />
 
   <div class="showcase-section-stack mt-10">
-    <ShowcaseSection id="video-patterns" title="Video" description="Native video patterns using local sample media. The Big Buck Bunny clip is demonstration media for player behaviour, not course content.">
+    {!hasVisibleItems && <ShowcaseEmptyState />}
+    {hasVisibleItems && <ShowcaseSection id="video-patterns" title="Video" description="Native video patterns using local sample media. The Big Buck Bunny clip is demonstration media for player behaviour, not course content.">
       <div class="showcase-example-stack">
         <ShowcaseExample id="standard-video" title="Standard Video" purpose="Provides a simple responsive native video section for most Quick Courses.">
           <VideoSection
@@ -98,6 +102,6 @@ const sampleVideo = "/media/showcase/big-buck-bunny-10s.mp4";
           </ShowcaseNotes>
         </ShowcaseExample>
       </div>
-    </ShowcaseSection>
+    </ShowcaseSection>}
   </div>
 </ShowcaseLayout>

@@ -5,6 +5,7 @@ import ShowcaseAnchorNav from "../../components/showcase/ShowcaseAnchorNav.astro
 import ShowcaseSection from "../../components/showcase/ShowcaseSection.astro";
 import ShowcaseExample from "../../components/showcase/ShowcaseExample.astro";
 import ShowcaseNotes from "../../components/showcase/ShowcaseNotes.astro";
+import ShowcaseEmptyState from "../../components/showcase/ShowcaseEmptyState.astro";
 import PreviewOptions from "../../components/showcase/PreviewOptions.astro";
 import Accordion from "../../components/interactions/display/Accordion.astro";
 import Tabs from "../../components/interactions/display/Tabs.astro";
@@ -16,8 +17,19 @@ import ProcessExplorer from "../../components/interactions/display/ProcessExplor
 import ExpandableImage from "../../components/interactions/display/ExpandableImage.astro";
 import DetailModal from "../../components/interactions/display/DetailModal.astro";
 import { displayInteractionAnchors } from "../../data/showcase";
+import { getShowcaseItem, isShowcaseItemVisible } from "../../data/showcase-registry";
 
 const neutralImage = "/images/showcase/hero-1.avif";
+const visible = (id: string) => isShowcaseItemVisible(id);
+const status = (id: string) => getShowcaseItem(id)?.status;
+const sectionItems = {
+  "reveal-content": ["accordion", "flip-cards", "hotspot-reveal", "detail-modal"],
+  "navigate-related-content": ["tabs", "carousel", "process-explorer", "timeline"],
+  "explore-visual-content": ["expandable-image"],
+};
+const sectionVisible = (id: keyof typeof sectionItems) => sectionItems[id].some((itemId) => visible(itemId));
+const visibleAnchors = displayInteractionAnchors.filter((anchor) => sectionVisible(anchor.href.slice(1) as keyof typeof sectionItems));
+const hasVisibleItems = Object.keys(sectionItems).some((id) => sectionVisible(id as keyof typeof sectionItems));
 ---
 
 <ShowcaseLayout
@@ -30,14 +42,18 @@ const neutralImage = "/images/showcase/hero-1.avif";
     description="Reusable patterns that help learners reveal, compare and move through information without scoring answers or sending assessment results."
   />
 
-  <div class="mt-6">
-    <ShowcaseAnchorNav items={displayInteractionAnchors} />
-  </div>
+  {visibleAnchors.length > 0 && (
+    <div class="mt-6">
+      <ShowcaseAnchorNav items={visibleAnchors} />
+    </div>
+  )}
 
   <div class="showcase-section-stack mt-10">
-    <ShowcaseSection id="reveal-content" title="Reveal content" description="Patterns for optional details, secondary layers and supporting context.">
+    {!hasVisibleItems && <ShowcaseEmptyState />}
+
+    {sectionVisible("reveal-content") && <ShowcaseSection id="reveal-content" title="Reveal content" description="Patterns for optional details, secondary layers and supporting context.">
       <div class="showcase-example-stack">
-        <ShowcaseExample id="accordion" title="Accordion" purpose="Reveals supporting answers without showing every detail at once.">
+        {visible("accordion") && <ShowcaseExample id="accordion" title="Accordion" purpose="Reveals supporting answers without showing every detail at once." status={status("accordion")}>
           <Accordion
             id="customer-question-accordion"
             heading="Common customer questions"
@@ -65,9 +81,9 @@ const neutralImage = "/images/showcase/hero-1.avif";
           <ShowcaseNotes>
             <p>Avoid accordions when all content is required reading. In that case, keep the information visible in the main flow.</p>
           </ShowcaseNotes>
-        </ShowcaseExample>
+        </ShowcaseExample>}
 
-        <ShowcaseExample id="flip-cards" title="Flip Cards" purpose="Lets learners reveal a short second layer such as a benefit, fact or explanation.">
+        {visible("flip-cards") && <ShowcaseExample id="flip-cards" title="Flip Cards" purpose="Lets learners reveal a short second layer such as a benefit, fact or explanation." status={status("flip-cards")}>
           <PreviewOptions
             targetId="feature-benefit-cards-grid"
             options={[
@@ -115,9 +131,9 @@ const neutralImage = "/images/showcase/hero-1.avif";
           <ShowcaseNotes>
             <p>Keep back content short. If the explanation needs several paragraphs, use an accordion or detail panel instead.</p>
           </ShowcaseNotes>
-        </ShowcaseExample>
+        </ShowcaseExample>}
 
-        <ShowcaseExample id="hotspot-reveal" title="Click-to-Reveal Hotspots" purpose="Lets learners select marked image regions and read the associated detail.">
+        {visible("hotspot-reveal") && <ShowcaseExample id="hotspot-reveal" title="Click-to-Reveal Hotspots" purpose="Lets learners select marked image regions and read the associated detail." status={status("hotspot-reveal")}>
           <HotspotReveal
             id="workspace-hotspots"
             heading="Inspect the workspace setup"
@@ -154,9 +170,9 @@ const neutralImage = "/images/showcase/hero-1.avif";
           <ShowcaseNotes>
             <p>Use percentage positions so hotspots scale with the image. Provide a mobile list so precise pointer movement is never required.</p>
           </ShowcaseNotes>
-        </ShowcaseExample>
+        </ShowcaseExample>}
 
-        <ShowcaseExample id="detail-modal" title="Supporting-Detail Modal or Panel" purpose="Opens optional supporting information without changing the main lesson flow.">
+        {visible("detail-modal") && <ShowcaseExample id="detail-modal" title="Supporting-Detail Modal or Panel" purpose="Opens optional supporting information without changing the main lesson flow." status={status("detail-modal")}>
           <DetailModal
             id="policy-detail-dialog"
             triggerLabel="Read the policy details"
@@ -169,13 +185,13 @@ const neutralImage = "/images/showcase/hero-1.avif";
           <ShowcaseNotes>
             <p>Use a modal for optional reference material. Do not hide essential instructions or assessment questions inside a modal.</p>
           </ShowcaseNotes>
-        </ShowcaseExample>
+        </ShowcaseExample>}
       </div>
-    </ShowcaseSection>
+    </ShowcaseSection>}
 
-    <ShowcaseSection id="navigate-related-content" title="Navigate related content" description="Patterns for switching between related panels, stages or small slide sets.">
+    {sectionVisible("navigate-related-content") && <ShowcaseSection id="navigate-related-content" title="Navigate related content" description="Patterns for switching between related panels, stages or small slide sets.">
       <div class="showcase-example-stack">
-        <ShowcaseExample id="tabs" title="Tabs" purpose="Switches between related content panels without leaving the section.">
+        {visible("tabs") && <ShowcaseExample id="tabs" title="Tabs" purpose="Switches between related content panels without leaving the section." status={status("tabs")}>
           <Tabs
             id="conversation-tabs"
             heading="Understand the conversation"
@@ -190,9 +206,9 @@ const neutralImage = "/images/showcase/hero-1.avif";
           <ShowcaseNotes>
             <p>Tabs support arrow, Home and End key navigation. Keep labels short enough to scan on mobile.</p>
           </ShowcaseNotes>
-        </ShowcaseExample>
+        </ShowcaseExample>}
 
-        <ShowcaseExample id="carousel" title="Carousel" purpose="Moves through a small set of related slides without autoplay.">
+        {visible("carousel") && <ShowcaseExample id="carousel" title="Carousel" purpose="Moves through a small set of related slides without autoplay." status={status("carousel")}>
           <PreviewOptions
             targetId="service-carousel"
             options={[
@@ -308,9 +324,9 @@ const neutralImage = "/images/showcase/hero-1.avif";
           <ShowcaseNotes>
             <p>The carousel does not autoplay. Previous and Next controls expose disabled states at the ends.</p>
           </ShowcaseNotes>
-        </ShowcaseExample>
+        </ShowcaseExample>}
 
-        <ShowcaseExample id="process-explorer" title="Process Explorer" purpose="Lets learners inspect one process step at a time without treating navigation as assessment progress.">
+        {visible("process-explorer") && <ShowcaseExample id="process-explorer" title="Process Explorer" purpose="Lets learners inspect one process step at a time without treating navigation as assessment progress." status={status("process-explorer")}>
           <ProcessExplorer
             id="customer-concern-process"
             heading="Responding to a customer concern"
@@ -326,9 +342,9 @@ const neutralImage = "/images/showcase/hero-1.avif";
           <ShowcaseNotes>
             <p>Use the static Numbered Process layout when every step should stay visible at once.</p>
           </ShowcaseNotes>
-        </ShowcaseExample>
+        </ShowcaseExample>}
 
-        <ShowcaseExample id="timeline" title="Timeline" purpose="Lets learners select chronological milestones and read expanded detail.">
+        {visible("timeline") && <ShowcaseExample id="timeline" title="Timeline" purpose="Lets learners select chronological milestones and read expanded detail." status={status("timeline")}>
           <Timeline
             id="order-journey-timeline"
             heading="A customer order journey"
@@ -344,13 +360,13 @@ const neutralImage = "/images/showcase/hero-1.avif";
           <ShowcaseNotes>
             <p>Do not rely on a connecting line to communicate sequence; the ordered list and labels carry the order.</p>
           </ShowcaseNotes>
-        </ShowcaseExample>
+        </ShowcaseExample>}
       </div>
-    </ShowcaseSection>
+    </ShowcaseSection>}
 
-    <ShowcaseSection id="explore-visual-content" title="Explore visual content" description="Patterns for inspecting images and diagrams.">
+    {sectionVisible("explore-visual-content") && <ShowcaseSection id="explore-visual-content" title="Explore visual content" description="Patterns for inspecting images and diagrams.">
       <div class="showcase-example-stack">
-        <ShowcaseExample id="expandable-image" title="Expandable Image" purpose="Opens a larger image view for inspection using a native dialog.">
+        {visible("expandable-image") && <ShowcaseExample id="expandable-image" title="Expandable Image" purpose="Opens a larger image view for inspection using a native dialog." status={status("expandable-image")}>
           <ExpandableImage
             id="diagram-expanded-view"
             imageSrc={neutralImage}
@@ -362,8 +378,8 @@ const neutralImage = "/images/showcase/hero-1.avif";
           <ShowcaseNotes>
             <p>Use this only when the inline image is a preview and the modal version is meaningfully larger. Supporting text belongs in a detail modal.</p>
           </ShowcaseNotes>
-        </ShowcaseExample>
+        </ShowcaseExample>}
       </div>
-    </ShowcaseSection>
+    </ShowcaseSection>}
   </div>
 </ShowcaseLayout>

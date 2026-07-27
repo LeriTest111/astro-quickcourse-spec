@@ -36,6 +36,15 @@ npm run dev
 | `npm run build:scorm` | Build and inject SCORM runtime/manifest |
 | `npm run preview` | Preview the built site |
 
+## Showcase Build Modes
+
+This repository uses one `main` branch for both Showcase outputs. `SHOWCASE_MODE` controls visibility at Astro build time:
+
+- `working`: default for local development; shows Draft, In Review, Approved and Deprecated items.
+- `approved`: shows only items with `status: "approved"` in `src/data/showcase-registry.ts`.
+
+The variable is read with `import.meta.env.SHOWCASE_MODE` and is not exposed to browser JavaScript. See `docs/showcase-build-modes.md` for Netlify setup and approval workflow notes.
+
 ## Folder Structure
 
 ```text

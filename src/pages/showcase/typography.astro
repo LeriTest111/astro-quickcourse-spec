@@ -2,8 +2,11 @@
 import ShowcaseLayout from "../../layouts/ShowcaseLayout.astro";
 import ShowcasePageHeader from "../../components/showcase/ShowcasePageHeader.astro";
 import ShowcaseExample from "../../components/showcase/ShowcaseExample.astro";
+import ShowcaseEmptyState from "../../components/showcase/ShowcaseEmptyState.astro";
+import { getVisibleShowcaseItems } from "../../data/showcase-registry";
 
 const approvedStack = `system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, Helvetica, sans-serif`;
+const hasVisibleItems = getVisibleShowcaseItems("typography").length > 0;
 ---
 
 <ShowcaseLayout
@@ -17,7 +20,8 @@ const approvedStack = `system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
   />
 
   <div class="showcase-example-stack mt-8">
-    <ShowcaseExample id="type-scale" title="Approved system type stack" purpose="Demonstrates headings, paragraphs, lists, links and quotation styling without external text fonts.">
+    {!hasVisibleItems && <ShowcaseEmptyState />}
+    <ShowcaseExample id="type-scale" title="System type stack" purpose="Demonstrates headings, paragraphs, lists, links and quotation styling without external text fonts.">
       <p class="max-w-3xl text-base-content/70">The Showcase and future Boilerplate use a native system sans-serif stack. No external text font service, downloaded text font file, or JavaScript font loader is required.</p>
       <div class="mt-5 rounded-box bg-base-200 p-4">
         <p class="text-sm font-semibold">Approved stack</p>

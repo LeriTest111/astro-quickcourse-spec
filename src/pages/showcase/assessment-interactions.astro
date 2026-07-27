@@ -2,7 +2,9 @@
 import ShowcaseLayout from "../../layouts/ShowcaseLayout.astro";
 import ShowcasePageHeader from "../../components/showcase/ShowcasePageHeader.astro";
 import ShowcaseExample from "../../components/showcase/ShowcaseExample.astro";
+import ShowcaseEmptyState from "../../components/showcase/ShowcaseEmptyState.astro";
 import MultipleChoiceFeedback from "../../components/interactions/MultipleChoiceFeedback.astro";
+import { getVisibleShowcaseItems } from "../../data/showcase-registry";
 
 const multipleChoiceExample = {
   eyebrow: "Knowledge check",
@@ -37,6 +39,7 @@ const multipleChoiceExample = {
     },
   ],
 };
+const hasVisibleItems = getVisibleShowcaseItems("assessment-interactions").length > 0;
 ---
 
 <ShowcaseLayout
@@ -50,6 +53,7 @@ const multipleChoiceExample = {
   />
 
   <div class="showcase-example-stack mt-8">
+    {!hasVisibleItems && <ShowcaseEmptyState />}
     <ShowcaseExample
       id="multiple-choice-feedback"
       title="Multiple-choice feedback"

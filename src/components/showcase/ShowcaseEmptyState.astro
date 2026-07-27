@@ -1,0 +1,12 @@
+---
+interface Props {
+  message?: string;
+}
+
+const { message = "No components in this category have been approved yet." } = Astro.props;
+---
+
+<div class="showcase-empty-state" role="status">
+  <span class="material-symbols-sharp showcase-icon" aria-hidden="true">inventory_2</span>
+  <p>{message}</p>
+</div>

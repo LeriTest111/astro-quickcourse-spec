@@ -2,6 +2,8 @@
 import ShowcaseLayout from "../../layouts/ShowcaseLayout.astro";
 import ShowcasePageHeader from "../../components/showcase/ShowcasePageHeader.astro";
 import ShowcaseExample from "../../components/showcase/ShowcaseExample.astro";
+import ShowcaseEmptyState from "../../components/showcase/ShowcaseEmptyState.astro";
+import { getVisibleShowcaseItems } from "../../data/showcase-registry";
 
 const icons = [
   ["arrow_forward", "Continue"],
@@ -11,6 +13,7 @@ const icons = [
   ["menu", "Menu"],
   ["arrow_upward", "Back to top"],
 ];
+const hasVisibleItems = getVisibleShowcaseItems("icons").length > 0;
 ---
 
 <ShowcaseLayout
@@ -24,6 +27,7 @@ const icons = [
   />
 
   <div class="showcase-example-stack mt-8">
+    {!hasVisibleItems && <ShowcaseEmptyState />}
     <ShowcaseExample id="icon-set" title="Core icon examples" purpose="Shows the standard icon class and accessible pairing with visible labels.">
       <div class="grid grid-cols-3 gap-3 sm:grid-cols-6">
         {icons.map(([icon, label]) => (

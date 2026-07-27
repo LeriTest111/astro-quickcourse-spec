@@ -1,5 +1,6 @@
 ---
 import { showcaseCategories } from "../../data/showcase";
+import { showcaseMode, showcaseModeIdentity } from "../../data/showcase-registry";
 
 interface Props {
   activeCategory?: string;
@@ -7,15 +8,16 @@ interface Props {
 
 const { activeCategory = "home" } = Astro.props;
 const navItems = [{ label: "Home", href: "/", slug: "home" }, ...showcaseCategories];
+const modeIdentity = showcaseModeIdentity[showcaseMode];
 ---
 
 <header class="showcase-topbar sticky top-3 z-30 mx-auto max-w-7xl">
   <div class="showcase-topbar__inner">
-    <a class="showcase-brand" href="/" aria-label="Astro Quick Course Showcase home">
+    <a class="showcase-brand" href="/" aria-label={`${modeIdentity.title} home`}>
       <span class="showcase-logo-badge" aria-hidden="true">
         <span>QC</span>
       </span>
-      <span class="showcase-brand__title">Astro Quick Course Showcase</span>
+      <span class="showcase-brand__title">{modeIdentity.title}</span>
     </a>
 
     <nav class="showcase-topbar__nav" aria-label="Showcase navigation">

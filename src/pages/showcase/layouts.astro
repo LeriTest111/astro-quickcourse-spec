@@ -4,6 +4,7 @@ import ShowcasePageHeader from "../../components/showcase/ShowcasePageHeader.ast
 import ShowcaseAnchorNav from "../../components/showcase/ShowcaseAnchorNav.astro";
 import ShowcaseSection from "../../components/showcase/ShowcaseSection.astro";
 import ShowcaseExample from "../../components/showcase/ShowcaseExample.astro";
+import ShowcaseEmptyState from "../../components/showcase/ShowcaseEmptyState.astro";
 import CenteredMinimalHero from "../../components/layout/heroes/CenteredMinimalHero.astro";
 import FloatingCardHero from "../../components/layout/heroes/FloatingCardHero.astro";
 import HeroDisplayOptions from "../../components/layout/heroes/HeroDisplayOptions.astro";
@@ -25,8 +26,21 @@ import CallToActionSection from "../../components/layouts/opener-closer/CallToAc
 import SectionDivider from "../../components/layouts/opener-closer/SectionDivider.astro";
 import SummarySection from "../../components/layouts/opener-closer/SummarySection.astro";
 import { layoutAnchors } from "../../data/showcase";
+import { isShowcaseItemVisible } from "../../data/showcase-registry";
 
 const neutralImage = "/images/showcase/hero-1.avif";
+const visible = (id: string) => isShowcaseItemVisible(id);
+const sectionItems = {
+  heroes: ["image-overlay-hero", "split-hero", "centered-minimal-hero", "floating-card-hero", "learning-objectives-hero", "scenario-opener-hero"],
+  "content-sections": ["readable-text-section", "text-image-split", "two-column-content"],
+  "repeated-content": ["card-grid", "product-feature", "feature-list-visual"],
+  "processes-comparisons": ["numbered-process", "comparison-layout"],
+  "visual-layouts": ["image-grid", "quote-key-message"],
+  "openers-closers": ["call-to-action-section", "section-divider", "summary-section"],
+};
+const sectionVisible = (id: keyof typeof sectionItems) => sectionItems[id].some((itemId) => visible(itemId));
+const visibleLayoutAnchors = layoutAnchors.filter((anchor) => sectionVisible(anchor.href.slice(1) as keyof typeof sectionItems));
+const hasVisibleItems = Object.keys(sectionItems).some((id) => sectionVisible(id as keyof typeof sectionItems));
 
 const productExamples = [
   {
@@ -62,12 +76,16 @@ const productExamples = [
     description="Reusable structural patterns for arranging content inside single-page Quick Courses. Layouts may contain placeholders for later interactions, but interaction behaviour belongs in the relevant interaction categories."
   />
 
-  <div class="mt-6">
-    <ShowcaseAnchorNav items={layoutAnchors} />
-  </div>
+  {visibleLayoutAnchors.length > 0 && (
+    <div class="mt-6">
+      <ShowcaseAnchorNav items={visibleLayoutAnchors} />
+    </div>
+  )}
 
   <div class="showcase-section-stack mt-10">
-    <ShowcaseSection id="heroes" title="Heroes" description="Existing module and course opener variants.">
+    {!hasVisibleItems && <ShowcaseEmptyState />}
+
+    {sectionVisible("heroes") && <ShowcaseSection id="heroes" title="Heroes" description="Existing module and course opener variants.">
       <div class="showcase-example-stack">
         <ShowcaseExample id="image-overlay-hero" title="Hero 1: Image overlay hero" purpose="Opens a course with strong local imagery and readable overlay text.">
           <HeroDisplayOptions
@@ -213,9 +231,9 @@ const productExamples = [
           </div>
         </ShowcaseExample>
       </div>
-    </ShowcaseSection>
+    </ShowcaseSection>}
 
-    <ShowcaseSection id="content-sections" title="Content sections" description="Text-first and mixed-content arrangements for lesson body sections.">
+    {sectionVisible("content-sections") && <ShowcaseSection id="content-sections" title="Content sections" description="Text-first and mixed-content arrangements for lesson body sections.">
       <div class="showcase-example-stack">
         <ShowcaseExample id="readable-text-section" title="Readable Text Section" purpose="A dependable text-first layout for policies, procedures and explanation-heavy content.">
           <ReadableTextSection
@@ -276,9 +294,9 @@ const productExamples = [
           />
         </ShowcaseExample>
       </div>
-    </ShowcaseSection>
+    </ShowcaseSection>}
 
-    <ShowcaseSection id="repeated-content" title="Repeated content" description="Reusable grids and repeated item structures.">
+    {sectionVisible("repeated-content") && <ShowcaseSection id="repeated-content" title="Repeated content" description="Reusable grids and repeated item structures.">
       <div class="showcase-example-stack">
         <ShowcaseExample id="card-grid" title="Card Grid" purpose="Displays repeated topics, benefits, products or module options with a consistent card model.">
           <CardGrid
@@ -335,9 +353,9 @@ const productExamples = [
           />
         </ShowcaseExample>
       </div>
-    </ShowcaseSection>
+    </ShowcaseSection>}
 
-    <ShowcaseSection id="processes-comparisons" title="Processes and comparisons" description="Layouts for order, sequence, alternatives and trade-offs.">
+    {sectionVisible("processes-comparisons") && <ShowcaseSection id="processes-comparisons" title="Processes and comparisons" description="Layouts for order, sequence, alternatives and trade-offs.">
       <div class="showcase-example-stack">
         <ShowcaseExample id="numbered-process" title="Numbered Process" purpose="Shows two to eight sequential steps using semantic ordered-list markup.">
           <NumberedProcess
@@ -379,9 +397,9 @@ const productExamples = [
           />
         </ShowcaseExample>
       </div>
-    </ShowcaseSection>
+    </ShowcaseSection>}
 
-    <ShowcaseSection id="visual-layouts" title="Visual layouts" description="Static image and message arrangements without interaction behaviour.">
+    {sectionVisible("visual-layouts") && <ShowcaseSection id="visual-layouts" title="Visual layouts" description="Static image and message arrangements without interaction behaviour.">
       <div class="showcase-example-stack">
         <ShowcaseExample id="image-grid" title="Image Gallery or Visual Grid" purpose="Arranges static visual content with captions and stable aspect ratios.">
           <ImageGrid
@@ -406,9 +424,9 @@ const productExamples = [
           />
         </ShowcaseExample>
       </div>
-    </ShowcaseSection>
+    </ShowcaseSection>}
 
-    <ShowcaseSection id="openers-closers" title="Openers and closers" description="Compact section starts, learner actions and structured recaps.">
+    {sectionVisible("openers-closers") && <ShowcaseSection id="openers-closers" title="Openers and closers" description="Compact section starts, learner actions and structured recaps.">
       <div class="showcase-example-stack">
         <ShowcaseExample id="call-to-action-section" title="Call-to-Action Section" purpose="Prompts a learner to take one clear next action using explicit link labels.">
           <CallToActionSection
@@ -449,6 +467,6 @@ const productExamples = [
           />
         </ShowcaseExample>
       </div>
-    </ShowcaseSection>
+    </ShowcaseSection>}
   </div>
 </ShowcaseLayout>

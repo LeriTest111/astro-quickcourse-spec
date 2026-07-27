@@ -4,7 +4,10 @@ interface Props {
 }
 
 const { status = "In Review" } = Astro.props;
+const label = status
+  .split("-")
+  .map((part) => part[0]?.toUpperCase() + part.slice(1))
+  .join(" ");
 ---
 
-<span class="showcase-status">{status}</span>
-
+<span class="showcase-status">{label}</span>

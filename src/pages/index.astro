@@ -2,6 +2,14 @@
 import ShowcaseLayout from "../layouts/ShowcaseLayout.astro";
 import ShowcasePageHeader from "../components/showcase/ShowcasePageHeader.astro";
 import { showcaseCategories } from "../data/showcase";
+import { getVisibleShowcaseItems, showcaseMode, showcaseModeIdentity } from "../data/showcase-registry";
+import type { ShowcaseCategory as RegisteredShowcaseCategory } from "../data/showcase-registry";
+
+const modeIdentity = showcaseModeIdentity[showcaseMode];
+const categoryCards = showcaseCategories.map((category) => ({
+  ...category,
+  visibleItemCount: getVisibleShowcaseItems(category.slug as RegisteredShowcaseCategory).length,
+}));
 ---
 
 <ShowcaseLayout
@@ -10,16 +18,19 @@ import { showcaseCategories } from "../data/showcase";
   activeCategory="home"
 >
   <ShowcasePageHeader
-    title="Astro Quick Course Showcase"
+    title={modeIdentity.title}
     description="Use this Showcase to review the building blocks for fast, single-page Quick Courses. In the Showcase, the navbar links open separate category pages to make review, governance and maintenance easier. In production Quick Courses, the same navigation pattern will link to topics and section anchors within the single course page."
   />
 
   <section class="showcase-landing-grid mt-8" aria-label="Showcase categories">
-    {showcaseCategories.map((category) => (
+    {categoryCards.map((category) => (
       <a class="showcase-category-card" href={category.href}>
         <div>
           <h2>{category.label}</h2>
           <p>{category.description}</p>
+          <p class="showcase-category-card__mode-note">
+            {category.visibleItemCount > 0 ? `${category.visibleItemCount} visible in this mode` : "No approved items yet"}
+          </p>
         </div>
         <div class="showcase-category-card__footer">
           <span class="material-symbols-sharp showcase-icon" aria-hidden="true">arrow_forward</span>

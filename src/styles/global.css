@@ -220,6 +220,42 @@ dialog::backdrop {
   text-transform: uppercase;
 }
 
+.showcase-mode-banner {
+  margin-bottom: 1.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  background: #ffffff;
+  padding: 0.9rem 1rem;
+}
+
+.showcase-mode-banner p {
+  margin: 0;
+  color: #111827;
+  font-weight: 800;
+}
+
+.showcase-mode-banner span {
+  color: #64748b;
+  font-size: 0.95rem;
+}
+
+.showcase-empty-state {
+  display: flex;
+  min-height: 8rem;
+  align-items: center;
+  gap: 0.75rem;
+  border: 1px dashed #cbd5e1;
+  border-radius: 0.5rem;
+  background: #ffffff;
+  color: #475569;
+  padding: 1.25rem;
+}
+
+.showcase-empty-state p {
+  margin: 0;
+  font-weight: 700;
+}
+
 .showcase-hero,
 .showcase-hero-split,
 .showcase-hero-minimal,
@@ -989,6 +1025,12 @@ dialog::backdrop {
 .showcase-category-card p:not(.qc-mini-label) {
   margin-top: 0.5rem;
   color: #4b5563;
+}
+
+.showcase-category-card__mode-note {
+  color: #64748b !important;
+  font-size: 0.9rem;
+  font-weight: 700;
 }
 
 .showcase-category-card__footer {
