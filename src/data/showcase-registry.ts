@@ -1,5 +1,5 @@
 export type ShowcaseMode = "working" | "approved";
-export type ShowcaseStatus = "draft" | "in-review" | "approved" | "deprecated";
+export type ShowcaseStatus = "idea" | "concept" | "draft" | "in-review" | "approved" | "deprecated";
 export type ShowcaseCategory =
   | "layouts"
   | "display-interactions"
@@ -13,7 +13,14 @@ export interface ShowcaseRegistryItem {
   name: string;
   category: ShowcaseCategory;
   status: ShowcaseStatus;
-  version: string;
+  version?: string;
+  description?: string;
+  proposedUse?: string;
+  notes?: string;
+  approvedOn?: string;
+  deprecatedReason?: string;
+  replacementId?: string;
+  hasExample?: boolean;
 }
 
 export const showcaseMode: ShowcaseMode = import.meta.env.SHOWCASE_MODE === "approved" ? "approved" : "working";
@@ -21,13 +28,40 @@ export const showcaseMode: ShowcaseMode = import.meta.env.SHOWCASE_MODE === "app
 export const showcaseModeIdentity = {
   working: {
     title: "Working Showcase",
-    description: "Includes draft and in-review components.",
+    description: "Includes proposed ideas, early concepts, drafts and items under review.",
   },
   approved: {
     title: "Approved Quick Course Kit",
     description: "Contains signed-off components ready for use.",
   },
 } satisfies Record<ShowcaseMode, { title: string; description: string }>;
+
+export const statusOrder: ShowcaseStatus[] = [
+  "idea",
+  "concept",
+  "draft",
+  "in-review",
+  "approved",
+  "deprecated",
+];
+
+export const statusLabels: Record<ShowcaseStatus, string> = {
+  idea: "Idea",
+  concept: "Concept",
+  draft: "Draft",
+  "in-review": "In Review",
+  approved: "Approved",
+  deprecated: "Deprecated",
+};
+
+export const statusTones: Record<ShowcaseStatus, string> = {
+  idea: "neutral",
+  concept: "concept",
+  draft: "draft",
+  "in-review": "review",
+  approved: "approved",
+  deprecated: "deprecated",
+};
 
 export const showcaseRegistry: ShowcaseRegistryItem[] = [
   { id: "image-overlay-hero", name: "Image overlay hero", category: "layouts", status: "in-review", version: "0.1.0" },
@@ -52,6 +86,17 @@ export const showcaseRegistry: ShowcaseRegistryItem[] = [
   { id: "accordion", name: "Accordion", category: "display-interactions", status: "in-review", version: "0.1.0" },
   { id: "flip-cards", name: "Flip Cards", category: "display-interactions", status: "in-review", version: "0.1.0" },
   { id: "hotspot-reveal", name: "Click-to-Reveal Hotspots", category: "display-interactions", status: "in-review", version: "0.1.0" },
+  {
+    id: "guided-product-explorer",
+    name: "Guided Product Explorer",
+    category: "display-interactions",
+    status: "concept",
+    version: "0.1.0",
+    description: "An early experiment for exploring a product through selectable feature regions.",
+    proposedUse: "Product knowledge courses where learners need to connect visible product areas with practical customer benefits.",
+    notes: "Showcase-only concept entry. Behaviour, styling and accessibility are not final.",
+    hasExample: false,
+  },
   { id: "detail-modal", name: "Supporting-Detail Modal or Panel", category: "display-interactions", status: "in-review", version: "0.1.0" },
   { id: "tabs", name: "Tabs", category: "display-interactions", status: "in-review", version: "0.1.0" },
   { id: "carousel", name: "Carousel", category: "display-interactions", status: "in-review", version: "0.1.0" },
@@ -59,6 +104,16 @@ export const showcaseRegistry: ShowcaseRegistryItem[] = [
   { id: "timeline", name: "Timeline", category: "display-interactions", status: "in-review", version: "0.1.0" },
   { id: "expandable-image", name: "Expandable Image", category: "display-interactions", status: "in-review", version: "0.1.0" },
   { id: "multiple-choice-feedback", name: "Multiple-choice feedback", category: "assessment-interactions", status: "in-review", version: "0.1.0" },
+  {
+    id: "drag-and-drop",
+    name: "Drag and Drop",
+    category: "assessment-interactions",
+    status: "idea",
+    description: "Allow learners to sort items into groups or place them in a sequence.",
+    proposedUse: "Sorting products, process steps or behaviours before receiving assessment feedback.",
+    notes: "Showcase-only idea entry. No working component or prototype exists yet.",
+    hasExample: false,
+  },
   { id: "standard-video", name: "Standard Video", category: "multimedia", status: "in-review", version: "0.1.0" },
   { id: "video-with-supporting-text", name: "Video with Supporting Text", category: "multimedia", status: "in-review", version: "0.1.0" },
   { id: "video-with-transcript", name: "Video with Transcript", category: "multimedia", status: "in-review", version: "0.1.0" },
@@ -85,8 +140,21 @@ export function getVisibleShowcaseItems(category?: ShowcaseCategory, mode: Showc
 }
 
 export function formatShowcaseStatus(status: ShowcaseStatus) {
-  return status
-    .split("-")
-    .map((part) => part[0].toUpperCase() + part.slice(1))
-    .join(" ");
+  return statusLabels[status];
+}
+
+export function getShowcaseStatusTone(status: ShowcaseStatus) {
+  return statusTones[status];
+}
+
+export function hasWorkingExample(item: ShowcaseRegistryItem) {
+  return item.hasExample ?? !["idea", "concept"].includes(item.status);
+}
+
+export function isProposalOnlyItem(item: ShowcaseRegistryItem) {
+  return !hasWorkingExample(item);
+}
+
+export function getVisibleProposalItems(category?: ShowcaseCategory, mode: ShowcaseMode = showcaseMode) {
+  return getVisibleShowcaseItems(category, mode).filter(isProposalOnlyItem);
 }

@@ -3,8 +3,9 @@ import ShowcaseLayout from "../../layouts/ShowcaseLayout.astro";
 import ShowcasePageHeader from "../../components/showcase/ShowcasePageHeader.astro";
 import ShowcaseExample from "../../components/showcase/ShowcaseExample.astro";
 import ShowcaseEmptyState from "../../components/showcase/ShowcaseEmptyState.astro";
+import ProposalCard from "../../components/showcase/ProposalCard.astro";
 import MultipleChoiceFeedback from "../../components/interactions/MultipleChoiceFeedback.astro";
-import { getVisibleShowcaseItems } from "../../data/showcase-registry";
+import { getShowcaseItem, getVisibleShowcaseItems, isShowcaseItemVisible } from "../../data/showcase-registry";
 
 const multipleChoiceExample = {
   eyebrow: "Knowledge check",
@@ -40,6 +41,7 @@ const multipleChoiceExample = {
   ],
 };
 const hasVisibleItems = getVisibleShowcaseItems("assessment-interactions").length > 0;
+const dragAndDropIdea = getShowcaseItem("drag-and-drop");
 ---
 
 <ShowcaseLayout
@@ -61,5 +63,6 @@ const hasVisibleItems = getVisibleShowcaseItems("assessment-interactions").lengt
     >
       <MultipleChoiceFeedback {...multipleChoiceExample} />
     </ShowcaseExample>
+    {dragAndDropIdea && isShowcaseItemVisible("drag-and-drop") && <ProposalCard item={dragAndDropIdea} />}
   </div>
 </ShowcaseLayout>

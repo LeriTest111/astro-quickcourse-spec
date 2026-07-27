@@ -25,14 +25,20 @@ Showcase item metadata lives in `src/data/showcase-registry.ts`.
 
 Supported statuses:
 
+- `idea`
+- `concept`
 - `draft`
 - `in-review`
 - `approved`
 - `deprecated`
 
-Working mode renders all registered items. Approved mode renders only items with `status: "approved"`.
+Working mode renders all registered items across the full lifecycle. Approved mode renders only items with `status: "approved"`.
 
-New items should begin as `draft` or `in-review`. Changing an item to `approved` in the registry causes it to appear in the approved build the next time that site builds.
+New items may begin as `idea`, `concept`, `draft` or `in-review`, depending on how mature the proposal is. Changing an item to `approved` in the registry causes it to appear in the approved build the next time that site builds.
+
+Idea and Concept entries may exist without production component imports. Use Showcase-only proposal cards for these entries so the Working Showcase can record unfinished proposals without implying a component is available.
+
+The workflow guide at `/showcase/workflow/` appears in both build modes so all readers can understand the process. It is linked from the Showcase homepage and is not included in the main component-category navbar.
 
 ## Empty States
 
@@ -46,4 +52,4 @@ Unapproved examples are filtered during the Astro build and are not rendered int
 
 ## Boilerplate Boundary
 
-Approval metadata is Showcase-only. Do not place registry metadata, approval badges or build-mode logic inside reusable production Quick Course components.
+Approval metadata is Showcase-only. Do not place registry metadata, approval badges, proposal cards or build-mode logic inside reusable production Quick Course components.

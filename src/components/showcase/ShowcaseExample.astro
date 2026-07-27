@@ -1,18 +1,20 @@
 ---
 import StatusBadge from "./StatusBadge.astro";
-import { formatShowcaseStatus, getShowcaseItem, shouldShowShowcaseItem } from "../../data/showcase-registry";
+import { getShowcaseItem, shouldShowShowcaseItem } from "../../data/showcase-registry";
+import type { ShowcaseStatus } from "../../data/showcase-registry";
 
 interface Props {
   id: string;
   title: string;
   purpose: string;
-  status?: string;
+  status?: ShowcaseStatus;
 }
 
 const { id, title, purpose, status } = Astro.props;
 const registryItem = getShowcaseItem(id);
 const shouldRender = registryItem ? shouldShowShowcaseItem(registryItem) : true;
-const displayStatus = registryItem ? formatShowcaseStatus(registryItem.status) : status ?? "In Review";
+const displayStatus: ShowcaseStatus = registryItem ? registryItem.status : status ?? "in-review";
+const replacement = registryItem?.replacementId ? getShowcaseItem(registryItem.replacementId) : undefined;
 ---
 
 {
@@ -27,6 +29,17 @@ const displayStatus = registryItem ? formatShowcaseStatus(registryItem.status) :
         </div>
         <StatusBadge status={displayStatus} />
       </div>
+      {registryItem?.status === "deprecated" && (
+        <div class="showcase-deprecated-note">
+          <p>This component should not be used for new Quick Courses.</p>
+          {registryItem.deprecatedReason && <p>{registryItem.deprecatedReason}</p>}
+          {replacement && (
+            <p>
+              Use <a href={`#${replacement.id}`}>{replacement.name}</a> instead.
+            </p>
+          )}
+        </div>
+      )}
       <div class="showcase-example__preview">
         <slot />
       </div>

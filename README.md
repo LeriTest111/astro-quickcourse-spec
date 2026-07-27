@@ -40,10 +40,16 @@ npm run dev
 
 This repository uses one `main` branch for both Showcase outputs. `SHOWCASE_MODE` controls visibility at Astro build time:
 
-- `working`: default for local development; shows Draft, In Review, Approved and Deprecated items.
+- `working`: default for local development; shows Idea, Concept, Draft, In Review, Approved and Deprecated items.
 - `approved`: shows only items with `status: "approved"` in `src/data/showcase-registry.ts`.
 
-The variable is read with `import.meta.env.SHOWCASE_MODE` and is not exposed to browser JavaScript. See `docs/showcase-build-modes.md` for Netlify setup and approval workflow notes.
+The variable is read with `import.meta.env.SHOWCASE_MODE` and is not exposed to browser JavaScript. See `docs/showcase-build-modes.md` and `docs/component-approval-process.md` for Netlify setup and approval workflow notes.
+
+## Workflow Guide
+
+The Showcase includes a plain-language governance page at `/showcase/workflow/`. It explains how the Working Showcase, Approved Quick Course Kit, statuses, visual-design input, `SHOWCASE_MODE` and the future Boilerplate fit together.
+
+The page is linked from a restrained supporting section on the Showcase homepage. It is intentionally not part of the main component-category navbar and must not be copied into production Quick Courses or the learner-facing Boilerplate.
 
 ## Folder Structure
 
@@ -75,10 +81,12 @@ scripts/
 
 ## Component Approval Status
 
-- Draft: early internal build.
-- In review: ready for project-team review.
-- Approved: accepted for future Boilerplate promotion.
-- Deprecated: retained only for legacy reference.
+- Idea: proposed but not yet designed or developed.
+- Concept: early experiment; behaviour, styling and accessibility may change.
+- Draft: active development and not ready for formal review.
+- In Review: ready for project-team review but still subject to change.
+- Approved: signed off for production Quick Courses and future Boilerplate promotion.
+- Deprecated: retained in the Working Showcase for reference, but not for new courses.
 
 Knowledge checks are currently marked `In Review`.
 Typography is currently marked `In Review`.
@@ -116,11 +124,12 @@ The Showcase uses Google Material Symbols Sharp for interface icons. Use the sha
 
 ## Proposing A New Component
 
-1. Add the reusable component under the correct `src/components/` category.
-2. Add neutral demo data and a section example to the appropriate `src/pages/showcase/` category page.
-3. Document the component under `docs/components/`.
-4. Mark it as Draft or In review.
-5. Confirm build, responsive behaviour, keyboard access, and accessibility basics.
+1. Add an Idea or Concept entry to `src/data/showcase-registry.ts`.
+2. Use a Showcase-only proposal card when no component or prototype exists yet.
+3. Add a reusable component under the correct `src/components/` category only when implementation begins.
+4. Add neutral demo data and a section example to the appropriate `src/pages/showcase/` category page when there is a real example.
+5. Document the component under `docs/components/`.
+6. Move it to Draft or In Review only when that status accurately reflects the work.
 
 ## Approving A Component
 

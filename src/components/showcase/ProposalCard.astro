@@ -1,0 +1,76 @@
+---
+import StatusBadge from "./StatusBadge.astro";
+import {
+  formatShowcaseStatus,
+  getShowcaseItem,
+  getShowcaseStatusTone,
+  shouldShowShowcaseItem,
+} from "../../data/showcase-registry";
+import type { ShowcaseRegistryItem } from "../../data/showcase-registry";
+
+interface Props {
+  item: ShowcaseRegistryItem;
+}
+
+const { item } = Astro.props;
+const replacement = item.replacementId ? getShowcaseItem(item.replacementId) : undefined;
+const shouldRender = shouldShowShowcaseItem(item);
+const statusMessage =
+  item.status === "idea"
+    ? "This pattern has been proposed but has not yet been designed or developed."
+    : item.status === "concept"
+      ? "This is an early experiment. Behaviour, styling and accessibility are not yet final."
+      : item.status === "deprecated"
+        ? "This component should not be used for new Quick Courses."
+        : "This Showcase item does not currently have a production-ready component example.";
+---
+
+{
+  shouldRender && (
+    <article
+      id={item.id}
+      class="showcase-proposal-card scroll-mt-28"
+      data-status={item.status}
+      data-tone={getShowcaseStatusTone(item.status)}
+      aria-labelledby={`${item.id}-heading`}
+    >
+      <div class="showcase-proposal-card__header">
+        <div>
+          <p class="showcase-proposal-card__label">{formatShowcaseStatus(item.status)}</p>
+          <h3 id={`${item.id}-heading`} class="showcase-catalogue-section__item-heading">
+            <a href={`#${item.id}`}>{item.name}</a>
+          </h3>
+        </div>
+        <StatusBadge status={item.status} />
+      </div>
+
+      <div class="showcase-proposal-card__body">
+        <p class="showcase-proposal-card__message">{statusMessage}</p>
+        {item.description && <p>{item.description}</p>}
+        {item.proposedUse && (
+          <p>
+            <strong>Suggested learning use:</strong>{" "}
+            {item.proposedUse}
+          </p>
+        )}
+        {item.notes && (
+          <p>
+            <strong>Notes:</strong>{" "}
+            {item.notes}
+          </p>
+        )}
+        {item.deprecatedReason && (
+          <p>
+            <strong>Deprecated reason:</strong>{" "}
+            {item.deprecatedReason}
+          </p>
+        )}
+        {replacement && (
+          <p>
+            <strong>Recommended replacement:</strong> <a href={`#${replacement.id}`}>{replacement.name}</a>
+          </p>
+        )}
+      </div>
+    </article>
+  )
+}

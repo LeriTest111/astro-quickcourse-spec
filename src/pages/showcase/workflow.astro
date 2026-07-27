@@ -1,0 +1,323 @@
+---
+import ShowcaseLayout from "../../layouts/ShowcaseLayout.astro";
+import ShowcasePageHeader from "../../components/showcase/ShowcasePageHeader.astro";
+import ShowcaseAnchorNav from "../../components/showcase/ShowcaseAnchorNav.astro";
+import StatusBadge from "../../components/showcase/StatusBadge.astro";
+import { showcaseMode, statusLabels, statusOrder } from "../../data/showcase-registry";
+import type { ShowcaseStatus } from "../../data/showcase-registry";
+
+const modeIntro =
+  showcaseMode === "approved"
+    ? "You are viewing the Approved Quick Course Kit. It contains signed-off components ready for production use."
+    : "You are viewing the Working Showcase. It includes ideas, experiments, drafts and components under review.";
+
+const workflowAnchors = [
+  { label: "Project", href: "#project" },
+  { label: "Two views", href: "#two-views" },
+  { label: "Statuses", href: "#statuses" },
+  { label: "Approval", href: "#approval" },
+  { label: "Design input", href: "#designers" },
+  { label: "Builds", href: "#builds" },
+  { label: "Boilerplate", href: "#boilerplate" },
+  { label: "FAQ", href: "#faq" },
+];
+
+const statusDescriptions: Record<ShowcaseStatus, string> = {
+  idea: "A suggestion that has not yet been designed or built.",
+  concept: "An early experiment or prototype. Behaviour, styling and accessibility may still change significantly.",
+  draft: "A component actively being developed. It may still have incomplete behaviour, responsive design, documentation or accessibility work.",
+  "in-review": "A functional component ready for structured review by visual designers and the project team.",
+  approved: "A signed-off component suitable for production Quick Courses. Only Approved items appear in the Approved Quick Course Kit.",
+  deprecated: "A component that should no longer be used for new Quick Courses, but may remain visible for migration or history.",
+};
+
+const approvalSteps = [
+  "A visual designer or project-team member proposes an Idea.",
+  "The team decides whether it is worth exploring.",
+  "A Concept or early prototype is created.",
+  "The component becomes a Draft during development.",
+  "It moves to In Review when ready for structured feedback.",
+  "Visual designers, developers and the project team review it.",
+  "Required changes are completed.",
+  "The project team signs the component off.",
+  "Its status changes to Approved.",
+  "It appears in the Approved Quick Course Kit after the next approved build.",
+  "It may later become Deprecated if replaced or no longer suitable.",
+];
+
+const designerInputs = [
+  "The name of the proposed component.",
+  "The learner problem it solves.",
+  "The intended learning use.",
+  "A sketch, example or reference where available.",
+  "Expected interaction behaviour.",
+  "Whether a similar existing component could be extended instead.",
+  "Any accessibility or mobile considerations already identified.",
+];
+
+const boilerplateExclusions = [
+  "Status badges",
+  "Preview Options controls",
+  "Showcase navigation",
+  "Proposal cards",
+  "Workflow documentation",
+  "In Review labels",
+  "Showcase example content",
+];
+
+const faqItems = [
+  {
+    question: "Why are there two websites?",
+    answer: "One supports experimentation and review, while the other shows only signed-off components.",
+  },
+  {
+    question: "Are they two separate projects?",
+    answer: "No. They use the same repository, branch and component code.",
+  },
+  {
+    question: "Does an item in the Working Showcase mean we may use it?",
+    answer: "Not unless its status is Approved.",
+  },
+  {
+    question: "What makes something appear in the Approved Kit?",
+    answer: "Its registry status must be Approved, and the Approved site must rebuild.",
+  },
+  {
+    question: "Can an Approved component still change?",
+    answer: "Yes, but significant changes should go through the Working Showcase and approval process again.",
+  },
+  {
+    question: "Why does the Showcase use multiple pages while Quick Courses use one page?",
+    answer: "The Showcase needs category pages for maintenance and review. Learner-facing Quick Courses remain single-page experiences.",
+  },
+  {
+    question: "What is SHOWCASE_MODE?",
+    answer: "It is the build setting that tells the same code whether to display all workflow statuses or Approved items only.",
+  },
+  {
+    question: "Where should a new idea be submitted?",
+    answer: "Use the project team's agreed contribution channel. Include the learning use, learner problem and any sketches or references.",
+  },
+];
+---
+
+<ShowcaseLayout
+  pageTitle="How the Quick Course Kit Works | Astro Quick Course Showcase"
+  description="Plain-language workflow and governance guide for the Quick Course Kit."
+  activeCategory="workflow"
+>
+  <a class="showcase-back-link" href="/">
+    <span class="material-symbols-sharp showcase-icon" aria-hidden="true">arrow_back</span>
+    Back to Showcase home
+  </a>
+
+  <ShowcasePageHeader
+    title="Quick Course Kit Workflow and Governance"
+    description="How ideas, components, review decisions and the two Showcase websites fit together."
+  />
+
+  <div class="showcase-workflow-mode" role="note">
+    <span class="material-symbols-sharp showcase-icon" aria-hidden="true">
+      {showcaseMode === "approved" ? "verified" : "route"}
+    </span>
+    <p>{modeIntro}</p>
+  </div>
+
+  <div class="mt-6">
+    <ShowcaseAnchorNav items={workflowAnchors} />
+  </div>
+
+  <div class="showcase-workflow-page mt-10">
+    <section id="project" class="showcase-workflow-section scroll-mt-28" aria-labelledby="project-heading">
+      <h2 id="project-heading">What This Project Is</h2>
+      <p>
+        The Quick Course Kit is a reusable collection of layouts, interactions and course patterns used to build fast,
+        consistent and flexible single-page learning experiences. Quick Courses are intended to be produced rapidly,
+        often within approximately two working days.
+      </p>
+      <p>
+        The Kit gives the team shared building blocks for layouts, display interactions, assessment interactions,
+        multimedia, typography and icons. It creates consistency without forcing every course to look identical. The
+        Showcase is where these reusable patterns are proposed, tested, reviewed and governed over time.
+      </p>
+    </section>
+
+    <section id="two-views" class="showcase-workflow-section scroll-mt-28" aria-labelledby="two-views-heading">
+      <h2 id="two-views-heading">The Two Showcase Views</h2>
+      <div class="showcase-workflow-comparison">
+        <article>
+          <h3>Working Showcase</h3>
+          <p>
+            The Working Showcase is the collaborative environment. It can include Ideas, Concepts, Drafts, items In
+            Review, Approved items and Deprecated references.
+          </p>
+          <p>It may contain unfinished work. Appearance here does not mean a pattern is approved for production use.</p>
+        </article>
+        <article>
+          <h3>Approved Quick Course Kit</h3>
+          <p>
+            The Approved Quick Course Kit shows Approved items only. Draft, experimental and deprecated items are
+            excluded from its generated pages.
+          </p>
+          <p>It is the controlled view used when deciding what may be included in production Quick Courses.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="statuses" class="showcase-workflow-section scroll-mt-28" aria-labelledby="statuses-heading">
+      <h2 id="statuses-heading">Component Status Lifecycle</h2>
+      <p>
+        A typical item moves from Idea to Concept, Draft, In Review, Approved and eventually Deprecated if it is
+        replaced. This sequence is guidance, not a strict technical rule.
+      </p>
+      <ol class="showcase-workflow-status-flow" aria-label="Component status lifecycle">
+        {statusOrder.map((status) => (
+          <li>
+            <StatusBadge status={status} />
+            <span>{statusLabels[status]}</span>
+          </li>
+        ))}
+      </ol>
+      <div class="showcase-workflow-status-grid">
+        {statusOrder.map((status) => (
+          <article>
+            <StatusBadge status={status} />
+            <h3>{statusLabels[status]}</h3>
+            <p>{statusDescriptions[status]}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section id="approval" class="showcase-workflow-section scroll-mt-28" aria-labelledby="approval-heading">
+      <h2 id="approval-heading">How an Idea Becomes Approved</h2>
+      <ol class="showcase-workflow-steps">
+        {approvalSteps.map((step) => <li>{step}</li>)}
+      </ol>
+      <p>
+        Not every Idea needs to become Approved. Some ideas may be removed, paused or replaced before they become
+        Concepts.
+      </p>
+    </section>
+
+    <section id="designers" class="showcase-workflow-section scroll-mt-28" aria-labelledby="designers-heading">
+      <h2 id="designers-heading">How Visual Designers Contribute</h2>
+      <p>
+        Visual designers help review layouts and interactions, propose new component ideas, improve visual hierarchy,
+        recommend interaction behaviour and identify where existing patterns are too restrictive.
+      </p>
+      <p>When submitting an Idea, include:</p>
+      <ul class="showcase-workflow-list">
+        {designerInputs.map((item) => <li>{item}</li>)}
+      </ul>
+      <p class="showcase-workflow-callout">
+        An idea appearing in the Working Showcase is not automatically approved for production use.
+      </p>
+    </section>
+
+    <section id="builds" class="showcase-workflow-section scroll-mt-28" aria-labelledby="builds-heading">
+      <h2 id="builds-heading">How the Two Websites Are Created</h2>
+      <p>
+        Both websites are built from the same GitHub repository, the same main branch and the same component code. The
+        difference is a build setting that tells each website which statuses it should display.
+      </p>
+      <div class="showcase-workflow-diagram" aria-label="One shared source produces two builds">
+        <div>
+          <strong>One shared GitHub codebase</strong>
+          <span>main branch</span>
+        </div>
+        <div>
+          <strong>Working build</strong>
+          <span>Shows all statuses</span>
+        </div>
+        <div>
+          <strong>Approved build</strong>
+          <span>Shows Approved only</span>
+        </div>
+      </div>
+      <p>
+        Components are not copied manually. Bug fixes, styling and shared behaviour stay in one source of truth.
+      </p>
+    </section>
+
+    <section id="environment" class="showcase-workflow-section scroll-mt-28" aria-labelledby="environment-heading">
+      <h2 id="environment-heading">What SHOWCASE_MODE Does</h2>
+      <p>
+        An environment variable is a setting supplied to the same code when it builds. It allows the code to behave
+        differently without creating separate copies of the project.
+      </p>
+      <div class="showcase-workflow-comparison showcase-workflow-comparison--compact">
+        <article>
+          <h3>SHOWCASE_MODE=working</h3>
+          <p>Shows Idea, Concept, Draft, In Review, Approved and Deprecated items.</p>
+        </article>
+        <article>
+          <h3>SHOWCASE_MODE=approved</h3>
+          <p>Shows Approved items only.</p>
+        </article>
+      </div>
+      <p>
+        The code is the same machine. SHOWCASE_MODE is the switch that tells the machine which view to produce. Each
+        Netlify site stores its own value, and local development defaults to Working mode.
+      </p>
+    </section>
+
+    <section id="approved-changes" class="showcase-workflow-section scroll-mt-28" aria-labelledby="approved-changes-heading">
+      <h2 id="approved-changes-heading">What Locked Means</h2>
+      <p>
+        Approved means the current version has been signed off for production use. It does not mean a component can
+        never change.
+      </p>
+      <p>
+        Proposed improvements should first be developed and reviewed through the Working Showcase. Significant changes
+        should return to Draft or In Review, then be signed off before becoming the new approved standard.
+      </p>
+    </section>
+
+    <section id="boilerplate" class="showcase-workflow-section scroll-mt-28" aria-labelledby="boilerplate-heading">
+      <h2 id="boilerplate-heading">Relationship to the Production Boilerplate</h2>
+      <div class="showcase-workflow-comparison showcase-workflow-comparison--three">
+        <article>
+          <h3>Showcase</h3>
+          <p>Used for review, demonstration, governance, documentation and comparing component options.</p>
+        </article>
+        <article>
+          <h3>Approved Quick Course Kit</h3>
+          <p>Used for viewing signed-off patterns and confirming what is approved.</p>
+        </article>
+        <article>
+          <h3>Production Boilerplate</h3>
+          <p>Used to start a real Quick Course with reusable production components.</p>
+        </article>
+      </div>
+      <p>The production Boilerplate must not contain:</p>
+      <ul class="showcase-workflow-list">
+        {boilerplateExclusions.map((item) => <li>{item}</li>)}
+      </ul>
+    </section>
+
+    <section id="principles" class="showcase-workflow-section scroll-mt-28" aria-labelledby="principles-heading">
+      <h2 id="principles-heading">Important Quick Course Principles</h2>
+      <p>
+        The Showcase is multi-page for project review. A production Quick Course is single-page, and its navigation
+        links move the learner to topics within that page.
+      </p>
+      <p>
+        Showcase pages, proposal cards, status badges, preview controls and workflow documentation are governance
+        tools. They do not belong in learner-facing course builds.
+      </p>
+    </section>
+
+    <section id="faq" class="showcase-workflow-section scroll-mt-28" aria-labelledby="faq-heading">
+      <h2 id="faq-heading">Frequently Asked Questions</h2>
+      <div class="showcase-workflow-faq">
+        {faqItems.map((item) => (
+          <details>
+            <summary>{item.question}</summary>
+            <p>{item.answer}</p>
+          </details>
+        ))}
+      </div>
+    </section>
+  </div>
+</ShowcaseLayout>

@@ -1,13 +1,14 @@
 ---
+import { formatShowcaseStatus, getShowcaseStatusTone } from "../../data/showcase-registry";
+import type { ShowcaseStatus } from "../../data/showcase-registry";
+
 interface Props {
-  status?: string;
+  status?: ShowcaseStatus;
 }
 
-const { status = "In Review" } = Astro.props;
-const label = status
-  .split("-")
-  .map((part) => part[0]?.toUpperCase() + part.slice(1))
-  .join(" ");
+const { status = "in-review" } = Astro.props;
+const label = formatShowcaseStatus(status);
+const tone = getShowcaseStatusTone(status);
 ---
 
-<span class="showcase-status">{label}</span>
+<span class="showcase-status" data-status={status} data-tone={tone}>{label}</span>

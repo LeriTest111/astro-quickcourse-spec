@@ -6,6 +6,7 @@ import ShowcaseSection from "../../components/showcase/ShowcaseSection.astro";
 import ShowcaseExample from "../../components/showcase/ShowcaseExample.astro";
 import ShowcaseNotes from "../../components/showcase/ShowcaseNotes.astro";
 import ShowcaseEmptyState from "../../components/showcase/ShowcaseEmptyState.astro";
+import ProposalCard from "../../components/showcase/ProposalCard.astro";
 import PreviewOptions from "../../components/showcase/PreviewOptions.astro";
 import Accordion from "../../components/interactions/display/Accordion.astro";
 import Tabs from "../../components/interactions/display/Tabs.astro";
@@ -22,8 +23,9 @@ import { getShowcaseItem, isShowcaseItemVisible } from "../../data/showcase-regi
 const neutralImage = "/images/showcase/hero-1.avif";
 const visible = (id: string) => isShowcaseItemVisible(id);
 const status = (id: string) => getShowcaseItem(id)?.status;
+const guidedProductExplorer = getShowcaseItem("guided-product-explorer");
 const sectionItems = {
-  "reveal-content": ["accordion", "flip-cards", "hotspot-reveal", "detail-modal"],
+  "reveal-content": ["accordion", "flip-cards", "hotspot-reveal", "guided-product-explorer", "detail-modal"],
   "navigate-related-content": ["tabs", "carousel", "process-explorer", "timeline"],
   "explore-visual-content": ["expandable-image"],
 };
@@ -171,6 +173,8 @@ const hasVisibleItems = Object.keys(sectionItems).some((id) => sectionVisible(id
             <p>Use percentage positions so hotspots scale with the image. Provide a mobile list so precise pointer movement is never required.</p>
           </ShowcaseNotes>
         </ShowcaseExample>}
+
+        {guidedProductExplorer && visible("guided-product-explorer") && <ProposalCard item={guidedProductExplorer} />}
 
         {visible("detail-modal") && <ShowcaseExample id="detail-modal" title="Supporting-Detail Modal or Panel" purpose="Opens optional supporting information without changing the main lesson flow." status={status("detail-modal")}>
           <DetailModal

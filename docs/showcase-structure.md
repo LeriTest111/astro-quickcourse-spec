@@ -15,12 +15,15 @@ Production Quick Courses remain single-page experiences. The Showcase routes are
 - `/showcase/multimedia`: video, audio, image and embed patterns.
 - `/showcase/typography`: type stack and readable content standards.
 - `/showcase/icons`: icon examples and usage guidance.
+- `/showcase/workflow/`: plain-language governance guide for the Quick Course Kit process.
 
 ## Navigation
 
 Shared Showcase navigation lives outside production-course navigation. In the Showcase, navbar links open separate category pages and use `aria-current="page"` for the active category. In production Quick Courses, the same navigation pattern should link to topics or section anchors within the single course page.
 
 Category pages may include quiet local anchor links for direct review. These links do not need a visible `Section index` heading or page-level component counts.
+
+The workflow page is intentionally not included in the main navbar because it is supporting project-governance content, not a component category. It is linked from the Showcase homepage and appears in both Working and Approved builds.
 
 The Layouts page includes stable anchor links such as:
 
@@ -36,6 +39,12 @@ The Layouts page includes stable anchor links such as:
 The landing page should introduce the Showcase without decorative count labels such as `6 categories`, and category cards should not use example-count eyebrows such as `19 examples`. Page headers should stay concise, while major component groups can be separated with spacing, dividers and subtle neutral surface changes.
 
 Showcase examples may keep component-level names and approval statuses. Eyebrows should be reserved for meaningful context, such as a module number, scenario or content category.
+
+The Working Showcase may include proposal-only Idea and Concept cards. These cards are review and governance UI, not learner-facing production components. They should not include fake demos, disabled demo buttons or unavailable controls.
+
+The Approved Quick Course Kit uses the same pages and production components, but build-time filtering removes Idea, Concept, Draft, In Review and Deprecated items from the generated HTML.
+
+The workflow page explains this process in plain language for visual designers, instructional designers, developers, project-team members, reviewers and approvers. It explains `SHOWCASE_MODE` without assuming technical background.
 
 ## Preview Options
 
@@ -59,4 +68,4 @@ Complete course recipes can be added later under routes such as `/showcase/recip
 
 ## Boilerplate Boundary
 
-Showcase-only pages, badges, example labels and documentation live in `src/pages/showcase/`, `src/components/showcase/` and `docs/`. Reusable course components remain in `src/components/`, `src/layouts/`, `src/utils/` and `src/styles/`.
+Showcase-only pages, badges, proposal cards, workflow guidance, example labels and documentation live in `src/pages/showcase/`, `src/components/showcase/` and `docs/`. Reusable course components remain in `src/components/`, `src/layouts/`, `src/utils/` and `src/styles/`.

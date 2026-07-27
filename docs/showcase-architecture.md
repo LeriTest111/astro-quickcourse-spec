@@ -13,7 +13,8 @@ The Showcase uses multiple category pages for review, governance and maintenance
 - Reusable utilities live in `src/utils/`.
 - The Showcase landing page lives at `src/pages/index.astro`.
 - Category pages live in `src/pages/showcase/`.
-- Showcase-only page chrome lives in `src/components/showcase/`.
+- The workflow governance page lives at `src/pages/showcase/workflow.astro` and is linked from the homepage, not the main navbar.
+- Showcase-only page chrome, status badges and proposal cards live in `src/components/showcase/`.
 - Page-level Showcase navigation is handled by the top navbar using category routes. In production Quick Courses, this navigation pattern should target topics or anchors inside the same course page.
 - The Layouts category also provides same-page section anchors for direct review links.
 - Showcase data lives in `src/data/` until a fuller content strategy is approved.
@@ -36,21 +37,22 @@ src/pages/showcase/                Showcase category pages
 src/utils/scorm/                   Runtime-facing SCORM utility wrappers
 ```
 
-## Approval Status
+## Showcase Status
 
-Components should use one of these statuses:
+Showcase items should use one of these statuses:
 
-- Draft: early internal build, not ready for review.
-- In review: implemented enough for team review and testing.
-- Approved: accepted by the project team for future Boilerplate promotion.
+- Idea: proposed but not yet designed or developed.
+- Concept: early experiment that may change substantially.
+- Draft: active development, not ready for formal review.
+- In Review: implemented enough for structured team review and testing.
+- Approved: signed off by the project team for production Quick Courses and future Boilerplate promotion.
 - Deprecated: no longer recommended for new courses.
 
-Current statuses:
+The intended lifecycle is Idea, Concept, Draft, In Review, Approved and Deprecated. This is guidance rather than an enforced sequence.
 
-- Knowledge checks are `In Review`.
-- Typography is `In Review`.
-- Hero variants are `In Review`.
-- New reusable layout patterns are `In Review`.
+Current implemented examples are mostly `In Review`. The registry may also contain proposal-only Idea and Concept entries without component imports.
+
+Only `Approved` items appear in the Approved Quick Course Kit. All statuses remain visible in the Working Showcase.
 
 ## Boilerplate Compatibility
 
@@ -59,6 +61,7 @@ The future Boilerplate should be creatable by removing:
 - Showcase-only pages from `src/pages/index.astro` and `src/pages/showcase/`.
 - Showcase-only components from `src/components/showcase/`.
 - Showcase-specific docs.
+- Workflow governance guidance.
 - Placeholder category cards.
 - Example course data.
 
