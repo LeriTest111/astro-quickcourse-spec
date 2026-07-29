@@ -34,17 +34,30 @@ function formatTime(seconds: number) {
   </div>
   <div class="qc-video-chapters__layout">
     <VideoPlayer id={`${id}-video`} src={src} title={videoTitle ?? heading} poster={poster} caption={caption} />
-    <ol class="qc-video-chapters__list" aria-label="Video chapters">
-      {chapters.map((chapter, index) => (
-        <li>
-          <button type="button" data-video-chapter data-time={chapter.time} aria-pressed={index === 0 ? "true" : "false"}>
-            <span>{formatTime(chapter.time)}</span>
-            <strong>{chapter.title}</strong>
-            {chapter.description && <small>{chapter.description}</small>}
-          </button>
-        </li>
-      ))}
-    </ol>
+    <aside class="qc-video-chapters__panel" aria-labelledby={`${id}-chapters-heading`}>
+      <div class="qc-video-chapters__panel-header">
+        <h4 id={`${id}-chapters-heading`}>Chapters</h4>
+        <p>Select a chapter to jump to that point without changing the current play or pause state.</p>
+      </div>
+      <ol class="qc-video-chapters__list" data-video-chapter-list aria-label="Video chapters">
+        {chapters.map((chapter, index) => (
+          <li>
+            <button
+              type="button"
+              data-video-chapter
+              data-time={chapter.time}
+              aria-current={index === 0 ? "true" : undefined}
+            >
+              <span class="qc-video-chapters__time">{formatTime(chapter.time)}</span>
+              <span class="qc-video-chapters__copy">
+                <strong>{chapter.title}</strong>
+                {chapter.description && <small>{chapter.description}</small>}
+              </span>
+            </button>
+          </li>
+        ))}
+      </ol>
+    </aside>
   </div>
 </section>
 
@@ -54,16 +67,71 @@ function formatTime(seconds: number) {
     root.dataset.videoChaptersReady = "true";
 
     const video = root.querySelector("video");
+    const list = root.querySelector("[data-video-chapter-list]");
     const buttons = [...root.querySelectorAll("[data-video-chapter]")];
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let activeIndex = 0;
 
-    buttons.forEach((button) => {
+    function ensureVisible(button) {
+      if (!(list instanceof HTMLElement) || !(button instanceof HTMLElement)) return;
+
+      const top = button.offsetTop;
+      const bottom = top + button.offsetHeight;
+      const visibleTop = list.scrollTop;
+      const visibleBottom = visibleTop + list.clientHeight;
+      let nextTop = null;
+
+      if (top < visibleTop) nextTop = top;
+      if (bottom > visibleBottom) nextTop = bottom - list.clientHeight;
+
+      if (nextTop !== null) {
+        list.scrollTo({
+          top: Math.max(0, nextTop),
+          behavior: prefersReducedMotion ? "auto" : "smooth",
+        });
+      }
+    }
+
+    function setActiveChapter(nextIndex, options = {}) {
+      if (nextIndex === activeIndex && !options.force) return;
+      activeIndex = nextIndex;
+
+      buttons.forEach((item, index) => {
+        if (index === activeIndex) {
+          item.setAttribute("aria-current", "true");
+        } else {
+          item.removeAttribute("aria-current");
+        }
+      });
+
+      if (options.scroll !== false) ensureVisible(buttons[activeIndex]);
+    }
+
+    function getChapterIndexForTime(currentTime) {
+      return buttons.reduce((current, button, index) => {
+        const time = Number(button.dataset.time ?? 0);
+        return Number.isFinite(time) && time <= currentTime ? index : current;
+      }, 0);
+    }
+
+    buttons.forEach((button, index) => {
       button.addEventListener("click", () => {
         if (!(video instanceof HTMLVideoElement) || !(button instanceof HTMLElement)) return;
         const time = Number(button.dataset.time ?? 0);
+        const wasPlaying = !video.paused && !video.ended;
+
         video.currentTime = Math.max(0, Math.min(time, Number.isFinite(video.duration) ? video.duration : time));
-        buttons.forEach((item) => item.setAttribute("aria-pressed", item === button ? "true" : "false"));
-        video.focus({ preventScroll: true });
+        setActiveChapter(index, { force: true });
+
+        if (wasPlaying) {
+          video.play().catch(() => {});
+        }
       });
+    });
+
+    video?.addEventListener("timeupdate", () => {
+      if (!(video instanceof HTMLVideoElement)) return;
+      setActiveChapter(getChapterIndexForTime(video.currentTime));
     });
   });
 </script>

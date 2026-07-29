@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">Neutral video poster</title>
+  <desc id="desc">A neutral demonstration poster for Showcase video examples.</desc>
+  <rect width="1280" height="720" fill="#172033"/>
+  <rect x="72" y="72" width="1136" height="576" rx="28" fill="#f8fafc"/>
+  <rect x="118" y="118" width="1044" height="470" rx="18" fill="#e5e7eb"/>
+  <circle cx="640" cy="353" r="76" fill="#2563eb"/>
+  <path d="M618 308v90l76-45z" fill="#ffffff"/>
+  <rect x="118" y="614" width="308" height="12" rx="6" fill="#2563eb"/>
+  <rect x="446" y="614" width="236" height="12" rx="6" fill="#94a3b8"/>
+  <rect x="702" y="614" width="180" height="12" rx="6" fill="#94a3b8"/>
+</svg>

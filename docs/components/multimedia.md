@@ -1,12 +1,18 @@
 # Multimedia Patterns
 
-All video patterns are marked `In Review` until the project team approves them. They use local media, native HTML video controls and no third-party player library.
+Multimedia patterns use local media, native HTML video controls and no third-party player library. Standard Video and Video with Chapters are currently prepared for Visual Design and Instructional Design review. Other video patterns remain Draft or Concept for later review.
 
 ## Shared Video Policy
 
 Use the native `<video>` element with `controls`, `preload="metadata"` and no autoplay. Do not loop or mute-autoplay by default, do not hide native controls, and do not automatically enter fullscreen.
 
-Production videos require accurate captions and a transcript. The reusable player supports caption tracks through WebVTT files, but this Showcase does not invent full captions for the Big Buck Bunny sample. Poster image support is included in the API; no poster frame was extracted in this environment.
+The shared player requests `controlslist="nodownload"` and `disablepictureinpicture` so browsers can hide Download and Picture-in-Picture where they support those native-control restrictions. Browser support varies, so do not claim every browser will show an identical menu. Playback speed and fullscreen remain controlled by the browser.
+
+Production videos require accurate captions and a transcript. The reusable player supports caption tracks through WebVTT files, but this Showcase does not invent full captions for the Big Buck Bunny sample.
+
+Poster images are optional, but strongly recommended when the opening frame is black, blank or visually unsuitable. A 16:9 poster around 1280 x 720 is a suitable default for 16:9 video. WebP or a sensibly compressed JPEG is preferred for production, with essential titles and instructions kept in real page text outside the image.
+
+When no poster is supplied, the native browser fallback is used. This Showcase does not implement one-second poster extraction, runtime canvas frame capture, FFmpeg processing or build-time poster generation. Automatic poster generation may be considered later as part of the course-generation or build workflow.
 
 Local media should live under `public/media/` or another approved local asset path. Remote video URLs should not be used for static or SCORM-compatible Quick Course delivery unless the project team approves that hosting model.
 
@@ -16,31 +22,19 @@ Approval status: In Review
 
 Purpose: provide a simple responsive video section suitable for most Quick Courses.
 
-Recommended use: short lesson videos, demonstrations and scenario clips.
+Recommended use: short lesson videos, introductions, brand messages, focused demonstrations and scenario clips where internal navigation is unnecessary.
 
 Content structure or props: optional heading, intro, video source, title, poster, caption and caption tracks.
 
-Interaction behaviour: native controls only; no autoplay.
+Interaction behaviour: native controls only; no autoplay. Download and Picture-in-Picture are requested off through native attributes, with browser-dependent support.
 
 Accessibility considerations: provide meaningful title text, captions and a transcript for production media.
 
 Misuse to avoid: decorative background video or videos that start automatically.
 
-## Video with Supporting Text
-
-Approval status: In Review
-
-Purpose: pair a video with concise context, instructions or key points.
-
-Recommended use: tell learners what to watch for before they play a clip.
-
-Responsive behaviour: text and video sit side by side on wider screens and stack on mobile with the introduction before the video.
-
-Misuse to avoid: placing long reading content beside a small video.
-
 ## Video with Transcript
 
-Approval status: In Review
+Approval status: Concept
 
 Purpose: keep a searchable text alternative available without playing the video.
 
@@ -60,8 +54,10 @@ Purpose: let learners jump to meaningful points in a longer instructional video.
 
 Content structure or props: video source and chapter items with title, start time and optional description.
 
-Interaction behaviour: chapter buttons set `video.currentTime` and keep native playback controls available. Selecting a chapter does not autoplay the video.
+Interaction behaviour: chapter buttons set `video.currentTime` and keep native playback controls available. Selecting a chapter preserves the learner's current play or pause state. The active chapter updates as the video plays or seeks backwards.
 
-Accessibility considerations: chapter controls are real buttons with visible timestamps and selected state.
+Responsive behaviour: the video and chapter panel sit side by side on wider screens. Long chapter lists scroll inside the chapter panel while the heading remains visible. On mobile, the chapter panel stacks below the video and uses a practical internal scroll area.
 
-Misuse to avoid: replacing native controls with a complex custom player or using chapter timestamps outside the actual media duration.
+Accessibility considerations: chapter controls are real buttons with visible timestamps, clear accessible names, visible focus states and an active state that is not communicated by colour alone. Chapter navigation does not replace captions, transcripts or audio description where required.
+
+Misuse to avoid: replacing native controls with a complex custom player, using chapter timestamps outside the actual media duration or using vague chapter titles such as `Part 1`.

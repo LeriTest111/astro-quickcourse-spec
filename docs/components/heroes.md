@@ -1,6 +1,6 @@
 # Hero Variants
 
-Status: In Review
+Status: Draft
 
 ## Purpose
 

@@ -50,7 +50,7 @@ Showcase items should use one of these statuses:
 
 The intended lifecycle is Idea, Concept, Draft, In Review, Approved and Deprecated. This is guidance rather than an enforced sequence.
 
-Current implemented examples are mostly `In Review`. The registry may also contain proposal-only Idea and Concept entries without component imports.
+Current implemented examples are mostly `Draft`, with selected items marked `Concept` for further review. The registry may also contain proposal-only Idea entries without component imports.
 
 Only `Approved` items appear in the Approved Quick Course Kit. All statuses remain visible in the Working Showcase.
 

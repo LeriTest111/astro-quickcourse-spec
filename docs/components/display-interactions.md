@@ -1,12 +1,12 @@
 # Display Interactions
 
-All nine display interactions are marked `In Review` until the project team approves them. These components help learners reveal, compare or navigate information. They do not score answers, determine correctness, track attempts or call SCORM. Before-and-After Reveal has been removed from the library until a stronger Quick Course use case emerges.
+Display interactions currently sit in Draft, Concept or Idea while the project team reviews which patterns should progress. These components help learners reveal, compare or navigate information. They do not score answers, determine correctness, track attempts or call SCORM. Before-and-After Reveal has been removed from the library until a stronger Quick Course use case emerges.
 
 Use brief, purposeful animation only when it clarifies a state change. Motion should use small opacity or transform changes, never autoplay content, and must respect `prefers-reduced-motion`.
 
 ## Accordion
 
-Approval status: In Review
+Approval status: Draft
 
 Purpose: reveal supporting content without displaying every detail at once.
 
@@ -34,7 +34,7 @@ Standardized properties: neutral borders, visible focus, native disclosure behav
 
 ## Tabs
 
-Approval status: In Review
+Approval status: Draft
 
 Purpose: switch between related content panels without leaving the section.
 
@@ -62,7 +62,7 @@ Standardized properties: predictable focus and active state.
 
 ## Flip Cards
 
-Approval status: In Review
+Approval status: Draft
 
 Purpose: reveal a short second layer of related information.
 
@@ -90,7 +90,7 @@ Standardized properties: full-card button reveal, decorative Material `sync` ico
 
 ## Carousel
 
-Approval status: In Review
+Approval status: Concept
 
 Purpose: move through a small set of related slides.
 
@@ -118,7 +118,7 @@ Standardized properties: one reusable carousel engine, supported content modes `
 
 ## Click-to-Reveal Hotspots
 
-Approval status: In Review
+Approval status: Draft
 
 Purpose: select marked image regions and reveal related detail.
 
@@ -146,7 +146,7 @@ Standardized properties: touch-sized image controls, synchronized text controls 
 
 ## Timeline
 
-Approval status: In Review
+Approval status: Draft
 
 Purpose: explore dated or milestone-led events in chronological order.
 
@@ -174,7 +174,7 @@ Standardized properties: ordered structure, prominent date or milestone labels, 
 
 ## Process Explorer
 
-Approval status: In Review
+Approval status: Draft
 
 Purpose: inspect action-led process steps one at a time.
 
@@ -202,7 +202,7 @@ Standardized properties: visible step numbers, action-led labels, active state a
 
 ## Expandable Image
 
-Approval status: In Review
+Approval status: Concept
 
 Purpose: display a relatively small inline image and let the learner inspect a substantially larger version.
 
@@ -236,7 +236,7 @@ Do not use pointer cursor to make static content look interactive. Semantic cont
 
 ## Supporting-Detail Modal or Panel
 
-Approval status: In Review
+Approval status: Concept
 
 Purpose: reveal optional supporting information without interrupting the main course flow.
 

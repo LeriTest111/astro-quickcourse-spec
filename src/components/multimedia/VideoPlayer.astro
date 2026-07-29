@@ -23,6 +23,8 @@ const { id, src, title, poster, caption, tracks = [], preload = "metadata" } = A
   <video
     id={id}
     controls
+    controlslist="nodownload"
+    disablepictureinpicture
     preload={preload}
     poster={poster}
     aria-label={title}

@@ -58,3 +58,5 @@ Idea entries may exist without component files. Proposal cards are Showcase-only
 Approval metadata is Showcase governance data. It must not be placed inside learner-facing production Quick Course components. Production components remain shared by both build modes.
 
 The workflow guide, proposal cards, status badges and preview controls are Showcase-only governance content. They must not be copied into the production Boilerplate.
+
+Current multimedia review focus: Standard Video and Video with Chapters are in Video Review 01 for Visual Design and Instructional Design. Both use the shared native video-player foundation. Download and Picture-in-Picture are requested off through browser-native attributes, but support varies by browser. Poster images are optional; no automatic one-second poster extraction is implemented.

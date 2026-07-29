@@ -1,6 +1,6 @@
 # Typography
 
-Status: In Review
+Status: Draft
 
 ## Approved Font Stack
 

@@ -5,13 +5,14 @@ import ShowcaseSection from "../../components/showcase/ShowcaseSection.astro";
 import ShowcaseExample from "../../components/showcase/ShowcaseExample.astro";
 import ShowcaseNotes from "../../components/showcase/ShowcaseNotes.astro";
 import ShowcaseEmptyState from "../../components/showcase/ShowcaseEmptyState.astro";
+import PreviewOptions from "../../components/showcase/PreviewOptions.astro";
 import VideoSection from "../../components/multimedia/VideoSection.astro";
-import VideoWithText from "../../components/multimedia/VideoWithText.astro";
 import VideoTranscript from "../../components/multimedia/VideoTranscript.astro";
 import VideoChapters from "../../components/multimedia/VideoChapters.astro";
 import { getVisibleShowcaseItems } from "../../data/showcase-registry";
 
 const sampleVideo = "/media/showcase/big-buck-bunny-10s.mp4";
+const samplePoster = "/images/showcase/video-poster.svg";
 const hasVisibleItems = getVisibleShowcaseItems("multimedia").length > 0;
 ---
 
@@ -30,36 +31,36 @@ const hasVisibleItems = getVisibleShowcaseItems("multimedia").length > 0;
     {hasVisibleItems && <ShowcaseSection id="video-patterns" title="Video" description="Native video patterns using local sample media. The Big Buck Bunny clip is demonstration media for player behaviour, not course content.">
       <div class="showcase-example-stack">
         <ShowcaseExample id="standard-video" title="Standard Video" purpose="Provides a simple responsive native video section for most Quick Courses.">
-          <VideoSection
-            id="standard-sample-video"
-            heading="Sample media player"
-            intro="Use the native browser controls by default. Production videos should include accurate captions and a transcript."
-            src={sampleVideo}
-            title="Big Buck Bunny sample video"
-            caption="Sample MP4 used only to demonstrate local video playback."
-          />
-          <ShowcaseNotes>
-            <p>No autoplay, loop or custom player library is used. The component supports local poster and caption-track props.</p>
-          </ShowcaseNotes>
-        </ShowcaseExample>
-
-        <ShowcaseExample id="video-with-supporting-text" title="Video with Supporting Text" purpose="Pairs a short video with concise instructions or key points.">
-          <VideoWithText
-            id="supported-sample-video"
-            heading="Before learners watch"
-            intro="Use supporting text for context, not for a full article beside a small video."
-            src={sampleVideo}
-            videoTitle="Big Buck Bunny sample video with supporting text"
-            caption="Sample MP4 used only to demonstrate a video-and-text layout."
-            points={[
-              "Tell learners what to look for before they press play.",
-              "Keep the supporting list short enough to scan.",
-              "Provide captions and transcript assets for production media.",
+          <PreviewOptions
+            targetId="standard-video-poster-preview"
+            options={[
+              {
+                id: "poster-image",
+                label: "Poster image",
+                type: "segmented",
+                value: "with",
+                targetAttribute: "posterImage",
+                options: [
+                  { label: "With poster", value: "with" },
+                  { label: "Without poster", value: "without" },
+                ],
+              },
             ]}
-            action={{ href: "#video-with-transcript", label: "Review transcript pattern" }}
           />
+          <div id="standard-video-poster-preview" data-showcase-video-poster-preview data-poster-src={samplePoster}>
+            <VideoSection
+              id="standard-sample-video"
+              heading="Sample media player"
+              intro="Use the native browser controls by default. Production videos should include accurate captions and a transcript."
+              src={sampleVideo}
+              poster={samplePoster}
+              title="Big Buck Bunny sample video"
+              caption="Sample MP4 used only to demonstrate local video playback."
+            />
+          </div>
           <ShowcaseNotes>
-            <p>On mobile, the text appears before the video so learners get context before playback.</p>
+            <p>No autoplay, loop or custom player library is used. Use Standard Video for short introductions, brand messages and focused demonstrations where internal navigation is unnecessary.</p>
+            <p>The shared player requests that browser menus hide Download and Picture-in-Picture, but native control support varies by browser. Playback speed and fullscreen remain browser-controlled.</p>
           </ShowcaseNotes>
         </ShowcaseExample>
 
@@ -84,24 +85,77 @@ const hasVisibleItems = getVisibleShowcaseItems("multimedia").length > 0;
         </ShowcaseExample>
 
         <ShowcaseExample id="video-with-chapters" title="Video with Chapters" purpose="Lets learners jump to meaningful points in a longer instructional video without replacing native controls.">
-          <VideoChapters
-            id="chaptered-sample-video"
-            heading="Video with chapter buttons"
-            intro="Chapter buttons seek within the local sample clip and leave normal playback controls available."
-            src={sampleVideo}
-            videoTitle="Big Buck Bunny sample video with chapter buttons"
-            caption="Sample MP4 used only to demonstrate chapter seeking."
-            chapters={[
-              { title: "Opening frame", time: 0, description: "Start of the 10-second sample clip." },
-              { title: "Early action", time: 3, description: "A safe chapter point within the clip duration." },
-              { title: "Closing moment", time: 7, description: "A later chapter point before the clip ends." },
+          <PreviewOptions
+            targetId="chaptered-video-poster-preview"
+            options={[
+              {
+                id: "poster-image",
+                label: "Poster image",
+                type: "segmented",
+                value: "with",
+                targetAttribute: "posterImage",
+                options: [
+                  { label: "With poster", value: "with" },
+                  { label: "Without poster", value: "without" },
+                ],
+              },
             ]}
           />
+          <div id="chaptered-video-poster-preview" data-showcase-video-poster-preview data-poster-src={samplePoster}>
+            <VideoChapters
+              id="chaptered-sample-video"
+              heading="Video with chapter buttons"
+              intro="Chapter buttons seek within the local sample clip and leave normal playback controls available."
+              src={sampleVideo}
+              poster={samplePoster}
+              videoTitle="Big Buck Bunny sample video with chapter buttons"
+              caption="Sample MP4 used only to demonstrate chapter seeking."
+              chapters={[
+                { title: "Introduction", time: 0, description: "Start the short demonstration clip." },
+                { title: "Preparing for the task", time: 1, description: "Review the opening context." },
+                { title: "Reviewing the first step", time: 2, description: "Move to an early point in the sample." },
+                { title: "Noticing the movement", time: 3, description: "Use a valid chapter point within the clip." },
+                { title: "Checking the transition", time: 4, description: "Jump to the next visible change." },
+                { title: "Common mistakes", time: 5, description: "Demonstrates compact chapter spacing." },
+                { title: "Completing the process", time: 7, description: "Move near the end of the short clip." },
+                { title: "Key takeaways", time: 9, description: "Review the final moment before the clip ends." },
+              ]}
+            />
+          </div>
           <ShowcaseNotes>
-            <p>Chapter buttons seek to valid times and do not autoplay the video after selection.</p>
+            <p>Use chapters for longer instructional videos, procedural demonstrations and reference content learners may revisit. Three to seven meaningful chapters is usually enough unless the content genuinely needs more.</p>
+            <p>Chapter titles should describe what learners will find. Chapters improve navigation, but they do not replace captions, transcripts or audio description where required.</p>
           </ShowcaseNotes>
         </ShowcaseExample>
       </div>
     </ShowcaseSection>}
   </div>
 </ShowcaseLayout>
+
+{
+  hasVisibleItems && (
+    <script is:inline>
+      document.querySelectorAll("[data-showcase-video-poster-preview]").forEach((root) => {
+        if (root.dataset.showcaseVideoPosterReady === "true") return;
+        root.dataset.showcaseVideoPosterReady = "true";
+
+        const video = root.querySelector("video");
+        const posterSrc = root.dataset.posterSrc ?? video?.getAttribute("poster") ?? "";
+
+        function applyPosterOption() {
+          if (!(video instanceof HTMLVideoElement)) return;
+          const shouldUsePoster = root.dataset.posterImage !== "without";
+
+          if (shouldUsePoster && posterSrc) {
+            video.setAttribute("poster", posterSrc);
+          } else {
+            video.removeAttribute("poster");
+          }
+        }
+
+        root.addEventListener("showcase-options-change", applyPosterOption);
+        applyPosterOption();
+      });
+    </script>
+  )
+}

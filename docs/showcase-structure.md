@@ -48,7 +48,7 @@ The workflow page explains this process in plain language for visual designers, 
 
 ## Preview Options
 
-Some examples include compact Showcase-only `Preview options` controls for reviewing variants, such as hero display parts, carousel indicators, carousel slide content and flip-card height modes. These controls live in `src/components/showcase/` and are not part of production Quick Course components.
+Some examples include compact Showcase-only `Preview options` controls for reviewing variants, such as hero display parts, carousel indicators, carousel slide content, flip-card height modes and video poster comparison. These controls live in `src/components/showcase/` and are not part of production Quick Course components.
 
 Production components should receive normal props, content data or slots. Do not copy Showcase option controls into learner-facing courses.
 

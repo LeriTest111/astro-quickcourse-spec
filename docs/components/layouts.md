@@ -1,6 +1,6 @@
 # Layout Patterns
 
-All new reusable layouts are marked `In Review` until the project team approves them. The components are neutral, Astro-only, responsive and suitable for composition inside a single-page production Quick Course.
+Reusable layouts currently sit in Draft or Concept while the project team reviews which patterns should progress. The components are neutral, Astro-only, responsive and suitable for composition inside a single-page production Quick Course.
 
 Eyebrows are optional. Use them only when the label adds context that the heading does not already provide, such as `Module 2`, `Scenario`, `Section 3`, `Product knowledge` or a meaningful content category. Most components and examples should work well without an eyebrow.
 
@@ -12,7 +12,7 @@ Sticky Side Navigation has been removed from the reusable layout library and Sho
 
 ## Existing Heroes
 
-Status: In Review
+Status: Draft
 
 Purpose: introduce a module, course or scenario with one of six opener variants: `ImageOverlayHero`, `SplitHero`, `CenteredMinimalHero`, `FloatingCardHero`, `LearningObjectivesHero` and `ScenarioOpenerHero`.
 
@@ -22,7 +22,7 @@ Misuse to avoid: repeated chapter separators inside a long course. Use `SectionD
 
 ## Readable Text Section
 
-Status: In Review
+Status: Draft
 
 Purpose: dependable text-first layout for policies, explanations and procedures.
 
@@ -42,7 +42,7 @@ Standardized properties: readable default width and native system font stack.
 
 ## Text and Image Split
 
-Status: In Review
+Status: Draft
 
 Purpose: pair instructional text with a supporting image.
 
@@ -62,7 +62,7 @@ Standardized properties: local images, object-fit handling and visible focus sta
 
 ## Two-Column Content
 
-Status: In Review
+Status: Draft
 
 Purpose: compare two related content blocks without images.
 
@@ -82,7 +82,7 @@ Standardized properties: semantic article blocks and native font stack.
 
 ## Card Grid
 
-Status: In Review
+Status: Draft
 
 Purpose: display repeated topics, products, benefits or module options.
 
@@ -102,7 +102,7 @@ Standardized properties: consistent card structure and focus order.
 
 ## Product Feature
 
-Status: In Review
+Status: Concept
 
 Purpose: support product-knowledge Quick Courses with structured feature rows.
 
@@ -122,7 +122,7 @@ Standardized properties: list markup and neutral presentation.
 
 ## Feature List with Supporting Visual
 
-Status: In Review
+Status: Concept
 
 Purpose: pair a supporting image with three to six feature items.
 
@@ -142,7 +142,7 @@ Standardized properties: semantic list structure.
 
 ## Numbered Process
 
-Status: In Review
+Status: Draft
 
 Purpose: display two to eight sequential procedure steps.
 
@@ -162,7 +162,7 @@ Standardized properties: visible sequence and resilient spacing.
 
 ## Comparison Layout
 
-Status: In Review
+Status: Concept
 
 Purpose: compare options, behaviours or approaches.
 
@@ -182,7 +182,7 @@ Standardized properties: semantic table markup when tabular content is used.
 
 ## Image Gallery or Visual Grid
 
-Status: In Review
+Status: Draft
 
 Purpose: arrange static visual content.
 
@@ -202,7 +202,7 @@ Standardized properties: aspect-ratio containers and captions.
 
 ## Quote or Key Message
 
-Status: In Review
+Status: Concept
 
 Purpose: create a visual pause for an important statement or genuine quotation.
 
@@ -222,7 +222,7 @@ Standardized properties: contrast-preserving overlay when imagery is used.
 
 ## Call-to-Action Section
 
-Status: In Review
+Status: Concept
 
 Purpose: prompt one clear next learner action.
 
@@ -242,7 +242,7 @@ Standardized properties: visible focus states and clear button/link styling.
 
 ## Section Divider or Chapter Opener
 
-Status: In Review
+Status: Concept
 
 Purpose: separate major sections in a long single-page Quick Course.
 
@@ -262,7 +262,7 @@ Standardized properties: compact landmark-style structure.
 
 ## Summary Layout
 
-Status: In Review
+Status: Concept
 
 Purpose: close a section or course with a structured recap.
 
