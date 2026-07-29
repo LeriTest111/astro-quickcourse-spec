@@ -30,11 +30,11 @@ export const showcaseMode: ShowcaseMode = import.meta.env.SHOWCASE_MODE === "app
 
 export const showcaseModeIdentity = {
   working: {
-    title: "Working Showcase",
+    title: "Quick Course Kit - Working",
     description: "Includes proposed ideas, early concepts, drafts and items under review.",
   },
   approved: {
-    title: "Approved Quick Course Kit",
+    title: "Quick Course Kit - Approved",
     description: "Contains signed-off components ready for use.",
   },
 } satisfies Record<ShowcaseMode, { title: string; description: string }>;
