@@ -98,9 +98,9 @@ The Showcase keeps page chrome quiet so the reusable examples remain the focus. 
 
 Major component groups use stronger spacing, dividers and subtle neutral surface changes instead of heavy cards around every example. The course return message, such as `Return to People Connect to continue`, should render as understated standalone text rather than a boxed call-to-action.
 
-Showcase-only configuration uses the shared `Preview options` disclosure pattern. These controls help reviewers compare component variants and should not be copied into production Quick Courses.
+Showcase-only configuration uses the shared `Options` disclosure pattern. These controls help reviewers compare component variants and should not be copied into production Quick Courses.
 
-The multimedia page uses Preview Options to compare Standard Video and Video with Chapters with and without an optional poster image. This is Showcase-only review tooling; the reusable video player simply accepts a normal `poster` prop.
+The multimedia page uses Preview Options to compare Standard Video with and without an optional poster image, and to compare Video with Chapters using title-only rows or rows with descriptions. This is Showcase-only review tooling; the reusable video player simply accepts normal props.
 
 Interactive controls use pointer cursor styling only when the element is genuinely clickable. Static content should not be styled to appear interactive.
 

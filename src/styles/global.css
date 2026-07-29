@@ -1585,6 +1585,44 @@ dialog::backdrop {
   padding: 0.45rem 0.65rem;
 }
 
+.showcase-video-preview-target--spaced {
+  margin-top: 1rem;
+}
+
+.showcase-review-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 0.5rem;
+}
+
+.showcase-review-controls .showcase-preview-options {
+  flex: 0 0 auto;
+  margin: 0;
+}
+
+.showcase-review-controls .showcase-preview-options summary {
+  box-sizing: border-box;
+  min-height: 2.75rem;
+}
+
+.showcase-guidance-control {
+  display: flex;
+  margin-top: 0.85rem;
+}
+
+.showcase-review-controls .showcase-guidance-control {
+  flex: 0 0 auto;
+  margin-top: 0;
+}
+
+.showcase-review-controls .di-icon-button {
+  box-sizing: border-box;
+  width: 2.75rem;
+  min-height: 2.75rem;
+  padding: 0;
+}
+
 .showcase-notes {
   margin-top: 1rem;
   border-left: 4px solid #64748b;
@@ -2905,6 +2943,8 @@ dialog::backdrop {
   display: block;
   width: 100%;
   aspect-ratio: 16 / 9;
+  object-fit: cover;
+  object-position: center;
   border: 1px solid #d1d5db;
   border-radius: 0.5rem;
   background: #111827;
@@ -3046,13 +3086,6 @@ section.qc-video-transcript__body {
 
 .qc-video-chapters__copy strong {
   line-height: 1.35;
-}
-
-.qc-video-chapters__list button[aria-current="true"] .qc-video-chapters__copy strong::after {
-  content: " current";
-  color: #1d4ed8;
-  font-size: 0.78rem;
-  font-weight: 800;
 }
 
 .qc-video-chapters__copy small {

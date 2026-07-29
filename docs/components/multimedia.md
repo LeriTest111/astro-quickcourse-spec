@@ -14,6 +14,8 @@ Poster images are optional, but strongly recommended when the opening frame is b
 
 When no poster is supplied, the native browser fallback is used. This Showcase does not implement one-second poster extraction, runtime canvas frame capture, FFmpeg processing or build-time poster generation. Automatic poster generation may be considered later as part of the course-generation or build workflow.
 
+The Standard Video Showcase example demonstrates optional poster behaviour with a normal local mountain image and no baked-in fake play control. Video with Chapters still accepts the same poster prop, but its Showcase controls focus on chapter content rather than poster comparison.
+
 Local media should live under `public/media/` or another approved local asset path. Remote video URLs should not be used for static or SCORM-compatible Quick Course delivery unless the project team approves that hosting model.
 
 ## Standard Video
@@ -55,6 +57,8 @@ Purpose: let learners jump to meaningful points in a longer instructional video.
 Content structure or props: video source and chapter items with title, start time and optional description.
 
 Interaction behaviour: chapter buttons set `video.currentTime` and keep native playback controls available. Selecting a chapter preserves the learner's current play or pause state. The active chapter updates as the video plays or seeks backwards.
+
+Chapter descriptions are optional per chapter. Missing, empty or whitespace-only descriptions render no description element and leave no reserved blank space. Real production videos may mix chapters with and without descriptions. The Showcase Preview Option demonstrates `Title only` and `Title and description` treatments without making either a production-wide display mode.
 
 Responsive behaviour: the video and chapter panel sit side by side on wider screens. Long chapter lists scroll inside the chapter panel while the heading remains visible. On mobile, the chapter panel stacks below the video and uses a practical internal scroll area.
 

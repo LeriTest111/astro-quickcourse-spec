@@ -6,13 +6,34 @@ import ShowcaseExample from "../../components/showcase/ShowcaseExample.astro";
 import ShowcaseNotes from "../../components/showcase/ShowcaseNotes.astro";
 import ShowcaseEmptyState from "../../components/showcase/ShowcaseEmptyState.astro";
 import PreviewOptions from "../../components/showcase/PreviewOptions.astro";
+import DetailModal from "../../components/interactions/display/DetailModal.astro";
 import VideoSection from "../../components/multimedia/VideoSection.astro";
 import VideoTranscript from "../../components/multimedia/VideoTranscript.astro";
 import VideoChapters from "../../components/multimedia/VideoChapters.astro";
 import { getVisibleShowcaseItems } from "../../data/showcase-registry";
 
 const sampleVideo = "/media/showcase/big-buck-bunny-10s.mp4";
-const samplePoster = "/images/showcase/video-poster.svg";
+const samplePoster = "/images/showcase/hero-1.avif";
+const chapterTitleOnly = [
+  { title: "Introduction", time: 0 },
+  { title: "Preparing for the task", time: 1 },
+  { title: "Reviewing the first step", time: 2 },
+  { title: "Noticing the movement", time: 3 },
+  { title: "Checking the transition", time: 4 },
+  { title: "Common mistakes", time: 5 },
+  { title: "Completing the process", time: 7 },
+  { title: "Key takeaways", time: 9 },
+];
+const chapterWithDescriptions = [
+  { title: "Introduction", time: 0, description: "Start the short demonstration clip." },
+  { title: "Preparing for the task", time: 1, description: "Review the opening context." },
+  { title: "Reviewing the first step", time: 2, description: "Move to an early point in the sample." },
+  { title: "Noticing the movement", time: 3, description: "Use a valid chapter point within the clip." },
+  { title: "Checking the transition", time: 4, description: "Jump to the next visible change." },
+  { title: "Common mistakes", time: 5, description: "Demonstrates compact chapter spacing." },
+  { title: "Completing the process", time: 7, description: "Move near the end of the short clip." },
+  { title: "Key takeaways", time: 9, description: "Review the final moment before the clip ends." },
+];
 const hasVisibleItems = getVisibleShowcaseItems("multimedia").length > 0;
 ---
 
@@ -31,37 +52,50 @@ const hasVisibleItems = getVisibleShowcaseItems("multimedia").length > 0;
     {hasVisibleItems && <ShowcaseSection id="video-patterns" title="Video" description="Native video patterns using local sample media. The Big Buck Bunny clip is demonstration media for player behaviour, not course content.">
       <div class="showcase-example-stack">
         <ShowcaseExample id="standard-video" title="Standard Video" purpose="Provides a simple responsive native video section for most Quick Courses.">
-          <PreviewOptions
-            targetId="standard-video-poster-preview"
-            options={[
-              {
-                id: "poster-image",
-                label: "Poster image",
-                type: "segmented",
-                value: "with",
-                targetAttribute: "posterImage",
-                options: [
-                  { label: "With poster", value: "with" },
-                  { label: "Without poster", value: "without" },
-                ],
-              },
-            ]}
-          />
-          <div id="standard-video-poster-preview" data-showcase-video-poster-preview data-poster-src={samplePoster}>
+          <div class="showcase-review-controls">
+            <PreviewOptions
+              targetId="standard-video-poster-preview"
+              options={[
+                {
+                  id: "poster-image",
+                  label: "Poster image",
+                  type: "segmented",
+                  value: "with",
+                  targetAttribute: "posterImage",
+                  options: [
+                    { label: "With poster", value: "with" },
+                    { label: "Without poster", value: "without" },
+                  ],
+                },
+              ]}
+            />
+            <div class="showcase-guidance-control">
+              <DetailModal
+                id="standard-video-guidance"
+                triggerLabel="View Standard Video guidance"
+                triggerIcon="info"
+                triggerIconOnly={true}
+                triggerVariant="secondary"
+                heading="Standard Video guidance"
+                content="Native controls can vary between browsers. Download and picture-in-picture are requested off where supported, playback speed remains browser-controlled, videos must not autoplay, and captions plus transcripts remain separate accessibility requirements."
+              />
+            </div>
+          </div>
+          <div
+            id="standard-video-poster-preview"
+            class="showcase-video-preview-target showcase-video-preview-target--spaced"
+            data-showcase-video-poster-preview
+            data-poster-src={samplePoster}
+          >
             <VideoSection
               id="standard-sample-video"
               heading="Sample media player"
-              intro="Use the native browser controls by default. Production videos should include accurate captions and a transcript."
               src={sampleVideo}
               poster={samplePoster}
               title="Big Buck Bunny sample video"
               caption="Sample MP4 used only to demonstrate local video playback."
             />
           </div>
-          <ShowcaseNotes>
-            <p>No autoplay, loop or custom player library is used. Use Standard Video for short introductions, brand messages and focused demonstrations where internal navigation is unnecessary.</p>
-            <p>The shared player requests that browser menus hide Download and Picture-in-Picture, but native control support varies by browser. Playback speed and fullscreen remain browser-controlled.</p>
-          </ShowcaseNotes>
         </ShowcaseExample>
 
         <ShowcaseExample id="video-with-transcript" title="Video with Transcript" purpose="Keeps a searchable text alternative available without playing the video.">
@@ -85,47 +119,62 @@ const hasVisibleItems = getVisibleShowcaseItems("multimedia").length > 0;
         </ShowcaseExample>
 
         <ShowcaseExample id="video-with-chapters" title="Video with Chapters" purpose="Lets learners jump to meaningful points in a longer instructional video without replacing native controls.">
-          <PreviewOptions
-            targetId="chaptered-video-poster-preview"
-            options={[
-              {
-                id: "poster-image",
-                label: "Poster image",
-                type: "segmented",
-                value: "with",
-                targetAttribute: "posterImage",
-                options: [
-                  { label: "With poster", value: "with" },
-                  { label: "Without poster", value: "without" },
-                ],
-              },
-            ]}
-          />
-          <div id="chaptered-video-poster-preview" data-showcase-video-poster-preview data-poster-src={samplePoster}>
-            <VideoChapters
-              id="chaptered-sample-video"
-              heading="Video with chapter buttons"
-              intro="Chapter buttons seek within the local sample clip and leave normal playback controls available."
-              src={sampleVideo}
-              poster={samplePoster}
-              videoTitle="Big Buck Bunny sample video with chapter buttons"
-              caption="Sample MP4 used only to demonstrate chapter seeking."
-              chapters={[
-                { title: "Introduction", time: 0, description: "Start the short demonstration clip." },
-                { title: "Preparing for the task", time: 1, description: "Review the opening context." },
-                { title: "Reviewing the first step", time: 2, description: "Move to an early point in the sample." },
-                { title: "Noticing the movement", time: 3, description: "Use a valid chapter point within the clip." },
-                { title: "Checking the transition", time: 4, description: "Jump to the next visible change." },
-                { title: "Common mistakes", time: 5, description: "Demonstrates compact chapter spacing." },
-                { title: "Completing the process", time: 7, description: "Move near the end of the short clip." },
-                { title: "Key takeaways", time: 9, description: "Review the final moment before the clip ends." },
+          <div class="showcase-review-controls">
+            <PreviewOptions
+              targetId="chaptered-video-content-preview"
+              options={[
+                {
+                  id: "chapter-content",
+                  label: "Chapter content",
+                  type: "segmented",
+                  value: "title-only",
+                  targetAttribute: "chapterContent",
+                  options: [
+                    { label: "Title only", value: "title-only" },
+                    { label: "Title and description", value: "descriptions" },
+                  ],
+                },
               ]}
             />
+            <div class="showcase-guidance-control">
+              <DetailModal
+                id="chaptered-video-guidance"
+                triggerLabel="View Video with Chapters guidance"
+                triggerIcon="info"
+                triggerIconOnly={true}
+                triggerVariant="secondary"
+                heading="Video with Chapters guidance"
+                content="Chapter selection seeks to the selected timestamp while preserving the current play or pause state. Use clear chapter titles for longer videos with meaningful internal sections; chapters improve navigation but do not replace captions or transcripts."
+              />
+            </div>
           </div>
-          <ShowcaseNotes>
-            <p>Use chapters for longer instructional videos, procedural demonstrations and reference content learners may revisit. Three to seven meaningful chapters is usually enough unless the content genuinely needs more.</p>
-            <p>Chapter titles should describe what learners will find. Chapters improve navigation, but they do not replace captions, transcripts or audio description where required.</p>
-          </ShowcaseNotes>
+          <div
+            id="chaptered-video-content-preview"
+            class="showcase-video-preview-target showcase-video-preview-target--spaced"
+            data-showcase-chapter-preview
+            data-chapter-content="title-only"
+          >
+            <div data-chapter-content-panel="title-only">
+              <VideoChapters
+                id="chaptered-sample-video-title-only"
+                heading="Video with chapter buttons"
+                src={sampleVideo}
+                poster={samplePoster}
+                videoTitle="Big Buck Bunny sample video with chapter buttons"
+                chapters={chapterTitleOnly}
+              />
+            </div>
+            <div data-chapter-content-panel="descriptions" hidden>
+              <VideoChapters
+                id="chaptered-sample-video-descriptions"
+                heading="Video with chapter buttons"
+                src={sampleVideo}
+                poster={samplePoster}
+                videoTitle="Big Buck Bunny sample video with chapter buttons"
+                chapters={chapterWithDescriptions}
+              />
+            </div>
+          </div>
         </ShowcaseExample>
       </div>
     </ShowcaseSection>}
@@ -155,6 +204,24 @@ const hasVisibleItems = getVisibleShowcaseItems("multimedia").length > 0;
 
         root.addEventListener("showcase-options-change", applyPosterOption);
         applyPosterOption();
+      });
+
+      document.querySelectorAll("[data-showcase-chapter-preview]").forEach((root) => {
+        if (root.dataset.showcaseChapterPreviewReady === "true") return;
+        root.dataset.showcaseChapterPreviewReady = "true";
+
+        function applyChapterContentOption() {
+          const activeMode = root.dataset.chapterContent || "title-only";
+
+          root.querySelectorAll("[data-chapter-content-panel]").forEach((panel) => {
+            if (panel instanceof HTMLElement) {
+              panel.hidden = panel.dataset.chapterContentPanel !== activeMode;
+            }
+          });
+        }
+
+        root.addEventListener("showcase-options-change", applyChapterContentOption);
+        applyChapterContentOption();
       });
     </script>
   )

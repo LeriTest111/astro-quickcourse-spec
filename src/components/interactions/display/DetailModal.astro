@@ -4,6 +4,9 @@ import type { LayoutAction } from "../../layouts/layout-types";
 interface Props {
   id: string;
   triggerLabel: string;
+  triggerIcon?: string;
+  triggerIconOnly?: boolean;
+  triggerVariant?: "primary" | "secondary";
   heading: string;
   content: string;
   imageSrc?: string;
@@ -11,11 +14,16 @@ interface Props {
   action?: LayoutAction;
 }
 
-const { id, triggerLabel, heading, content, imageSrc, imageAlt = "", action } = Astro.props;
+const { id, triggerLabel, triggerIcon, triggerIconOnly = false, triggerVariant = "primary", heading, content, imageSrc, imageAlt = "", action } = Astro.props;
+const triggerClass = triggerVariant === "secondary" ? "di-secondary-button" : "di-primary-button";
+const triggerClasses = [triggerClass, triggerIconOnly && "di-icon-button"].filter(Boolean).join(" ");
 ---
 
 <div class="di-detail-modal" data-detail-modal>
-  <button class="di-primary-button" type="button" data-detail-open>{triggerLabel}</button>
+  <button class={triggerClasses} type="button" data-detail-open aria-label={triggerIconOnly ? triggerLabel : undefined}>
+    {triggerIcon && <span class="material-symbols-sharp showcase-icon" aria-hidden="true">{triggerIcon}</span>}
+    {!triggerIconOnly && <span>{triggerLabel}</span>}
+  </button>
   <dialog class="di-dialog" id={id} aria-labelledby={`${id}-heading`} data-detail-dialog>
     <div class="di-dialog__inner">
       <button class="di-dialog__close" type="button" data-dialog-close aria-label="Close detail panel">
@@ -56,4 +64,3 @@ const { id, triggerLabel, heading, content, imageSrc, imageAlt = "", action } = 
     dialog?.addEventListener("close", () => openButton?.focus());
   });
 </script>
-

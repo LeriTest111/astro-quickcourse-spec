@@ -21,7 +21,7 @@ interface Props {
   options: ExampleOption[];
 }
 
-const { targetId, targetSelector, label = "Preview options", options } = Astro.props;
+const { targetId, targetSelector, label = "Options", options } = Astro.props;
 ---
 
 <details class="showcase-preview-options" data-preview-options data-preview-options-target={targetId} data-preview-options-selector={targetSelector}>

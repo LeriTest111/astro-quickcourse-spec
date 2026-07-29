@@ -25,6 +25,11 @@ function formatTime(seconds: number) {
   const remaining = Math.floor(seconds % 60).toString().padStart(2, "0");
   return `${minutes}:${remaining}`;
 }
+
+function getChapterDescription(description?: string) {
+  const trimmed = description?.trim();
+  return trimmed ? trimmed : undefined;
+}
 ---
 
 <section class="qc-video-chapters" data-video-chapters aria-labelledby={`${id}-heading`}>
@@ -37,25 +42,28 @@ function formatTime(seconds: number) {
     <aside class="qc-video-chapters__panel" aria-labelledby={`${id}-chapters-heading`}>
       <div class="qc-video-chapters__panel-header">
         <h4 id={`${id}-chapters-heading`}>Chapters</h4>
-        <p>Select a chapter to jump to that point without changing the current play or pause state.</p>
       </div>
       <ol class="qc-video-chapters__list" data-video-chapter-list aria-label="Video chapters">
-        {chapters.map((chapter, index) => (
-          <li>
-            <button
-              type="button"
-              data-video-chapter
-              data-time={chapter.time}
-              aria-current={index === 0 ? "true" : undefined}
-            >
-              <span class="qc-video-chapters__time">{formatTime(chapter.time)}</span>
-              <span class="qc-video-chapters__copy">
-                <strong>{chapter.title}</strong>
-                {chapter.description && <small>{chapter.description}</small>}
-              </span>
-            </button>
-          </li>
-        ))}
+        {chapters.map((chapter, index) => {
+          const description = getChapterDescription(chapter.description);
+
+          return (
+            <li>
+              <button
+                type="button"
+                data-video-chapter
+                data-time={chapter.time}
+                aria-current={index === 0 ? "true" : undefined}
+              >
+                <span class="qc-video-chapters__time">{formatTime(chapter.time)}</span>
+                <span class="qc-video-chapters__copy">
+                  <strong>{chapter.title}</strong>
+                  {description && <small data-chapter-description>{description}</small>}
+                </span>
+              </button>
+            </li>
+          );
+        })}
       </ol>
     </aside>
   </div>
