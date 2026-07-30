@@ -14,10 +14,6 @@ const body = "body" in face ? clean(face.body) : undefined;
 const statement = face.type === "statement" ? clean(face.statement) : undefined;
 const supportingText = face.type === "statement" ? clean(face.supportingText) : undefined;
 const alignment = "alignment" in face ? face.alignment ?? (face.type === "feature" || face.type === "statement" ? "center" : "left") : "left";
-const verticalAlignment = "verticalAlignment" in face
-  ? face.verticalAlignment ?? (face.type === "icon" || face.type === "feature" || face.type === "statement" ? "center" : "top")
-  : "top";
-const surface = "surface" in face ? face.surface ?? "default" : "default";
 const focalPosition = "focalPosition" in face ? face.focalPosition ?? "center" : "center";
 
 if ((face.type === "text" || face.type === "icon" || face.type === "image-overlay" || face.type === "feature") && !title) {
@@ -33,7 +29,7 @@ if (face.type === "statement" && !statement) {
 }
 ---
 
-<div class:list={["di-flip-card__face-content", `di-flip-card__face-content--${face.type}`, `is-align-${alignment}`, `is-valign-${verticalAlignment}`, `is-surface-${surface}`]}>
+<div class:list={["di-flip-card__face-content", `di-flip-card__face-content--${face.type}`, `is-align-${alignment}`]}>
   {face.type === "image" && (
     <>
       <img class="di-flip-card__image" src={face.image} alt={face.imageAlt ?? ""} loading="lazy" style={`object-position: ${focalPosition};`} />

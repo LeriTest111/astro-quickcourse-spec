@@ -31,7 +31,6 @@ const revealModeComparisonCards = [
       type: "image-overlay",
       image: flipCardWideImage,
       imageAlt: "An unbranded skincare counter with products in the foreground and a staff member arranging a shelf in the background.",
-      eyebrow: "Product knowledge",
       title: "Make the product story clear.",
       body: "Use the display to support a focused conversation.",
       overlayStyle: "dark",
@@ -144,10 +143,10 @@ const hasVisibleItems = Object.keys(sectionItems).some((id) => sectionVisible(id
               <p>One shared Astro component receives structured Text, Icon-led, Image, Image Overlay, Feature or Statement faces. Shared base properties supply controlled surfaces and independent horizontal and vertical alignment.</p>
               <ul class="di-dialog__list">
                 <li>Flip rotates a stable two-face stage using the semantic Flip indicator. Slide raises the back layer from the bottom using the controlled Expand and Collapse indicators. Both use the same button, keyboard and accessible-state handling.</li>
-                <li>Content height measures the taller face of each card. Equal height measures every face in a group and aligns the group on wider screens; narrow layouts return to natural card heights.</li>
+                <li>Both faces overlap in one CSS Grid area, so the taller face sets a stable card height. Equal-height groups stretch complete cards across each wider grid row; narrow layouts return to natural card heights.</li>
                 <li>Semantic surfaces map to controlled foreground pairings, and Statement typography is component-controlled. Future theme tokens can replace these mapped values without changing the face API.</li>
                 <li>Hidden faces are marked unavailable to assistive technology. The parent button updates its label and pressed state while decorative indicators remain hidden from assistive technology.</li>
-                <li>Resize observation and image-load handling recalculate measured heights. Reduced-motion preference uses an instant face swap rather than rotation or a large slide.</li>
+                <li>No client-side height measurement is needed. Reduced-motion preference uses an instant face swap rather than rotation or a large slide.</li>
                 <li>The component is static-site and SCORM compatible. Future theme tokens can supply surface, radius and brand-overlay values without changing the face API.</li>
               </ul>
             </DetailModal>
@@ -166,14 +165,14 @@ const hasVisibleItems = Object.keys(sectionItems).some((id) => sectionVisible(id
                   back: { type: "text", eyebrow: "Reality", title: "Start with the next useful action.", body: "Add only the context that helps the learner move forward.", alignment: "left", verticalAlignment: "top", surface: "neutral" },
                 },
                 {
-                  front: { type: "icon", icon: "tip", iconTreatment: "feature", eyebrow: "Helpful tip", title: "Listen before solving.", body: "Let the person finish the concern first.", alignment: "center", verticalAlignment: "center", surface: "primary" },
+                  front: { type: "icon", icon: "tip", iconTreatment: "feature", title: "Listen before solving.", body: "Let the person finish the concern first.", alignment: "center", verticalAlignment: "center", surface: "primary" },
                   back: { type: "text", title: "Why it works", body: "A clear understanding of the outcome avoids an answer that misses the real need.", verticalAlignment: "top", surface: "light" },
                 },
                 {
-                  front: { type: "feature", value: "3", eyebrow: "Service habit", title: "Customer principles", body: "Listen, clarify, confirm.", surface: "dark" },
+                  front: { type: "feature", value: "3", title: "Customer principles", body: "Listen, clarify, confirm.", surface: "dark" },
                   back: { type: "text", title: "Use them in order", body: "Hear the outcome, check what matters, then name the agreed next step.", surface: "neutral" },
                 },
-                { front: { type: "statement", eyebrow: "Key reminder", statement: "STOP", supportingText: "Check the customer need first.", surface: "warning" }, back: { type: "text", title: "Then choose the next useful action.", body: "A short pause prevents an answer that sounds certain but does not solve the right problem.", surface: "light" } },
+                { front: { type: "statement", statement: "STOP", supportingText: "Check the customer need first.", surface: "warning" }, back: { type: "text", title: "Then choose the next useful action.", body: "A short pause prevents an answer that sounds certain but does not solve the right problem.", surface: "light" } },
               ]}
             />
             <FlipCards
@@ -187,11 +186,11 @@ const hasVisibleItems = Object.keys(sectionItems).some((id) => sectionVisible(id
                   back: { type: "text", title: "Acknowledge first", body: "Show the customer you understand the concern before moving to policy or process detail.", surface: "light" },
                 },
                 {
-                  front: { type: "image-overlay", image: flipCardWideImage, imageAlt: "An unbranded skincare counter with products in the foreground and a staff member arranging a shelf in the background.", eyebrow: "Image Overlay", title: "Make the next step clear.", body: "Use a concise, confident opening.", overlayStyle: "dark", alignment: "left", verticalAlignment: "center" },
+                  front: { type: "image-overlay", image: flipCardWideImage, imageAlt: "An unbranded skincare counter with products in the foreground and a staff member arranging a shelf in the background.", title: "Make the next step clear.", body: "Use a concise, confident opening.", overlayStyle: "dark", alignment: "left", verticalAlignment: "center" },
                   back: { type: "text", title: "Name the action and timing", body: "Close the conversation by confirming what will happen, who owns it and when progress can be checked.", surface: "neutral" },
                 },
                 {
-                  front: { type: "text", eyebrow: "Text to image", title: "Notice the product presentation.", body: "A clear, ordered display makes it easier to guide a relevant conversation.", alignment: "left", surface: "secondary" },
+                  front: { type: "text", title: "Notice the product presentation.", body: "A clear, ordered display makes it easier to guide a relevant conversation.", alignment: "left", surface: "secondary" },
                   back: { type: "image", image: flipCardDetailImage, imageAlt: "A hand selecting an unbranded clear skincare bottle from a neatly arranged shelf.", label: "Supporting visual", title: "Keep key products easy to find", focalPosition: "center" },
                 },
               ]}
@@ -253,14 +252,14 @@ const hasVisibleItems = Object.keys(sectionItems).some((id) => sectionVisible(id
             <h4 id="flip-content-resilience-heading">Content resilience</h4>
             <FlipCards
               id="flip-content-height-example"
-              heading="Content height cards"
-              intro="Independent cards keep their own stable height based on the larger of their two faces."
+              heading="Independent card heights"
+              intro="Each card keeps its own stable height based on its taller face, without matching neighbouring cards."
               revealMode="flip"
               heightMode="content"
               format="landscape"
               cards={[
                 { front: { type: "text", title: "Short title", alignment: "center", verticalAlignment: "center", surface: "primary" }, back: { type: "text", title: "A concise explanation", body: "Use this mode when natural compact sizing matters more than matching a neighbouring card.", surface: "light", verticalAlignment: "top" } },
-                { front: { type: "text", eyebrow: "Long heading", title: "A longer example still wraps naturally without reducing the text to an unreadably small size.", alignment: "left", verticalAlignment: "top", surface: "neutral" }, back: { type: "text", title: "Optional body stays optional", alignment: "center", verticalAlignment: "center", surface: "dark" } },
+                { front: { type: "text", title: "A detailed card can grow when its supporting explanation needs more room.", body: "Use this mode for one focused idea that needs a practical example, a clear reason, an exception to consider and the next action. The learner can scan that supporting detail in one place without forcing a neighbouring card to take on unnecessary empty space. This keeps the information useful while making the independent height visible.", alignment: "left", verticalAlignment: "top", surface: "neutral" }, back: { type: "text", title: "Keep the explanation useful", body: "Add only the supporting detail that helps the learner understand why the point matters and what they should do next.", alignment: "left", verticalAlignment: "top", surface: "dark" } },
               ]}
             />
           </section>

@@ -13,6 +13,12 @@
 }
 
 :root {
+  --showcase-ci-plum: #6c2c84;
+  --showcase-ci-steel: #7b92ac;
+  --showcase-ci-blush: #debfc6;
+  --showcase-ci-ivory: #fdf3e0;
+  --showcase-ci-clay: #d29f91;
+  --showcase-ci-on-light: #1e293b;
   color-scheme: light;
   font-family:
     system-ui,
@@ -2810,9 +2816,22 @@ dialog::backdrop {
   gap: 1rem;
 }
 
+.di-flip-grid--height-equal {
+  align-items: stretch;
+}
+
+.di-flip-grid--height-content {
+  align-items: start;
+}
+
+.di-flip-grid--count-1 {
+  max-width: 36rem;
+}
+
 .di-flip-card {
-  display: block;
+  display: grid;
   width: 100%;
+  min-width: 0;
   border: 0;
   background: transparent;
   color: inherit;
@@ -2820,6 +2839,10 @@ dialog::backdrop {
   padding: 0;
   perspective: 1100px;
   text-align: left;
+}
+
+.di-flip-grid--height-equal .di-flip-card {
+  height: 100%;
 }
 
 .di-flip-card:hover .di-flip-card__face {
@@ -2834,16 +2857,19 @@ dialog::backdrop {
 }
 
 .di-flip-card__stage {
-  position: relative;
-  display: block;
-  min-height: var(--flip-card-height, var(--flip-card-min-height, 15rem));
+  display: grid;
+  grid-template-areas: "card";
+  min-width: 0;
+  min-height: var(--flip-card-min-height, 15rem);
   overflow: clip;
   border-radius: 0.5rem;
 }
 
 .di-flip-card__inner {
-  position: relative;
-  display: block;
+  display: grid;
+  grid-area: card;
+  grid-template-areas: "card";
+  min-width: 0;
   min-height: inherit;
 }
 
@@ -2862,6 +2888,7 @@ dialog::backdrop {
 [data-flip-reveal-mode="flip"] .di-flip-card__inner {
   transform-style: preserve-3d;
   transition: transform 340ms ease-out;
+  transition-delay: 0s;
 }
 
 [data-flip-reveal-mode="flip"] .di-flip-card.is-revealed .di-flip-card__inner {
@@ -2869,12 +2896,12 @@ dialog::backdrop {
 }
 
 .di-flip-card__face {
-  position: absolute;
-  inset: 0;
+  position: relative;
   display: grid;
-  align-content: start;
-  gap: 0.65rem;
-  min-height: 100%;
+  grid-area: card;
+  align-self: stretch;
+  min-width: 0;
+  min-height: var(--flip-card-min-height, 15rem);
   border: 1px solid #d1d5db;
   border-radius: 0.5rem;
   background: #ffffff;
@@ -2904,6 +2931,14 @@ dialog::backdrop {
   transform: translateY(100%);
 }
 
+[data-flip-reveal-mode="slide"] .di-flip-card__face {
+  transition-delay: 0s;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 200ms ease-out;
+}
+
 [data-flip-reveal-mode="slide"] .di-flip-card.is-revealed .di-flip-card__back {
   transform: translateY(0);
 }
@@ -2911,6 +2946,8 @@ dialog::backdrop {
 .di-flip-card__face-content {
   position: relative;
   display: grid;
+  width: 100%;
+  height: 100%;
   min-height: 100%;
   overflow: clip;
 }
@@ -2922,11 +2959,11 @@ dialog::backdrop {
   padding: 1.25rem 3rem 1.25rem 1.25rem;
 }
 
-.di-flip-card__face-content.is-valign-top {
+.di-flip-card__face.is-valign-top .di-flip-card__face-content {
   align-content: start;
 }
 
-.di-flip-card__face-content.is-valign-center {
+.di-flip-card__face.is-valign-center .di-flip-card__face-content {
   align-content: center;
 }
 
@@ -2973,68 +3010,71 @@ dialog::backdrop {
 .di-flip-card__statement {
   max-width: 100%;
   color: inherit;
-  font-size: clamp(2.2rem, 8vw, 5rem);
+  font-size: clamp(2rem, 4vw, 3.5rem);
   font-weight: 850;
   line-height: 0.95;
-  overflow-wrap: anywhere;
+  word-break: normal;
+  overflow-wrap: normal;
+  hyphens: none;
 }
 
-.di-flip-card__face-content--text.is-surface-default,
-.di-flip-card__face-content--icon.is-surface-default,
-.di-flip-card__face-content--feature.is-surface-default,
-.di-flip-card__face-content--statement.is-surface-default {
+.di-flip-card__face.is-surface-default {
   background: #ffffff;
   color: #111827;
 }
 
-.is-surface-neutral {
-  background: #f1f5f9;
-  color: #1e293b;
+.di-flip-card__face.is-surface-neutral {
+  background: var(--showcase-ci-blush);
+  color: var(--showcase-ci-on-light);
 }
 
-.is-surface-primary {
-  background: #1d4ed8;
+.di-flip-card__face.is-surface-primary {
+  background: var(--showcase-ci-plum);
   color: #ffffff;
 }
 
-.is-surface-secondary {
-  background: #0f766e;
-  color: #ffffff;
+.di-flip-card__face.is-surface-secondary {
+  background: var(--showcase-ci-steel);
+  color: var(--showcase-ci-on-light);
 }
 
-.is-surface-accent {
-  background: #9d174d;
-  color: #ffffff;
+.di-flip-card__face.is-surface-accent {
+  background: var(--showcase-ci-clay);
+  color: var(--showcase-ci-on-light);
 }
 
-.is-surface-dark {
+.di-flip-card__face.is-surface-dark {
   background: #111827;
   color: #ffffff;
 }
 
-.is-surface-light {
-  background: #f8fafc;
-  color: #111827;
+.di-flip-card__face.is-surface-light {
+  background: var(--showcase-ci-ivory);
+  color: var(--showcase-ci-on-light);
 }
 
-.is-surface-success {
-  background: #166534;
-  color: #ffffff;
+.di-flip-card__face.is-surface-success {
+  background: var(--showcase-ci-steel);
+  color: var(--showcase-ci-on-light);
 }
 
-.is-surface-warning {
-  background: #78350f;
-  color: #ffffff;
+.di-flip-card__face.is-surface-warning {
+  background: var(--showcase-ci-clay);
+  color: var(--showcase-ci-on-light);
 }
 
-.is-surface-error {
+.di-flip-card__face.is-surface-error {
   background: #b91c1c;
   color: #ffffff;
 }
 
-.di-flip-card__face-content[class*="is-surface-"] .qc-icon,
-.di-flip-card__face-content[class*="is-surface-"] .di-flip-card__feature-value {
+.di-flip-card__face[class*="is-surface-"] .qc-icon,
+.di-flip-card__face[class*="is-surface-"] .di-flip-card__feature-value {
   color: inherit;
+}
+
+.di-flip-card__face .di-kicker {
+  color: inherit !important;
 }
 
 .di-flip-card__image {
@@ -3053,6 +3093,7 @@ dialog::backdrop {
   left: 0.85rem;
   display: grid;
   gap: 0.2rem;
+  z-index: 1;
   color: #ffffff;
   text-align: left;
   text-shadow: 0 1px 3px rgba(15, 23, 42, 0.7);
@@ -3085,7 +3126,7 @@ dialog::backdrop {
   padding: 1.25rem 3rem 1.25rem 1.25rem;
 }
 
-.di-flip-card__face-content--image-overlay.is-valign-center .di-flip-card__copy {
+.di-flip-card__face.is-valign-center .di-flip-card__face-content--image-overlay .di-flip-card__copy {
   align-self: center;
 }
 
@@ -3147,6 +3188,11 @@ dialog::backdrop {
 .showcase-flip-card-mode-grid {
   display: grid;
   gap: 1rem;
+}
+
+.showcase-flip-card-mode-grid .di-flip-grid {
+  grid-template-columns: minmax(0, 1fr);
+  max-width: 36rem;
 }
 
 .showcase-flip-card-accessibility {
@@ -3898,6 +3944,10 @@ section.qc-video-transcript__body {
   .di-flip-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .di-flip-grid--count-1 {
+    grid-template-columns: minmax(0, 1fr);
+  }
 }
 
 @media (min-width: 768px) {
@@ -4004,6 +4054,15 @@ section.qc-video-transcript__body {
 
   .di-flip-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .di-flip-grid--count-1 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .di-flip-grid--count-2,
+  .di-flip-grid--count-4 {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 

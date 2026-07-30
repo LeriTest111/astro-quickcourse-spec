@@ -21,6 +21,9 @@ const faceTitle = (face: FlipCardItem["front"]) => {
   const statement = "statement" in face ? face.statement?.trim() : undefined;
   return title || label || statement || "card details";
 };
+const faceSurface = (face: FlipCardItem["front"]) => face.surface ?? "default";
+const faceVerticalAlignment = (face: FlipCardItem["front"]) =>
+  face.verticalAlignment ?? (face.type === "icon" || face.type === "feature" || face.type === "statement" ? "center" : "top");
 const frontIndicator = revealMode === "flip" ? "flip" : "expand";
 const backIndicator = revealMode === "flip" ? "flip" : "collapse";
 ---
@@ -34,7 +37,7 @@ const backIndicator = revealMode === "flip" ? "flip" : "collapse";
   )}
   <div
     id={`${id}-grid`}
-    class:list={["di-flip-grid", `di-flip-grid--height-${heightMode}`, `di-flip-grid--format-${format}`]}
+    class:list={["di-flip-grid", `di-flip-grid--count-${cards.length}`, `di-flip-grid--height-${heightMode}`, `di-flip-grid--format-${format}`]}
     data-flip-grid
     data-flip-height-mode={heightMode}
     data-flip-reveal-mode={revealMode}
@@ -54,11 +57,11 @@ const backIndicator = revealMode === "flip" ? "flip" : "collapse";
         >
           <span class="di-flip-card__stage">
             <span class="di-flip-card__inner">
-              <span class="di-flip-card__face di-flip-card__front" id={`${id}-front-${index}`} data-flip-face="front">
+              <span class:list={["di-flip-card__face", "di-flip-card__front", `is-surface-${faceSurface(card.front)}`, `is-valign-${faceVerticalAlignment(card.front)}`]} id={`${id}-front-${index}`} data-flip-face="front">
                 <FlipCardFace face={card.front} />
                 <span class="di-flip-card__indicator" aria-hidden="true" data-flip-indicator="front"><QuickCourseIcon name={frontIndicator} context="inline" decorative /></span>
               </span>
-              <span class="di-flip-card__face di-flip-card__back" id={`${id}-back-${index}`} data-flip-face="back" aria-hidden="true">
+              <span class:list={["di-flip-card__face", "di-flip-card__back", `is-surface-${faceSurface(card.back)}`, `is-valign-${faceVerticalAlignment(card.back)}`]} id={`${id}-back-${index}`} data-flip-face="back" aria-hidden="true">
                 <FlipCardFace face={card.back} />
                 <span class="di-flip-card__indicator" aria-hidden="true" data-flip-indicator="back"><QuickCourseIcon name={backIndicator} context="inline" decorative /></span>
               </span>
@@ -84,27 +87,6 @@ const backIndicator = revealMode === "flip" ? "flip" : "collapse";
       card.setAttribute("aria-label", revealed ? `Show ${frontTitle}` : `Reveal ${backTitle} for ${frontTitle}`);
     };
 
-    const measureCard = (card: HTMLButtonElement) => {
-      const stage = card.querySelector(".di-flip-card__stage");
-      const front = card.querySelector("[data-flip-face='front']");
-      const back = card.querySelector("[data-flip-face='back']");
-      if (!(stage instanceof HTMLElement) || !(front instanceof HTMLElement) || !(back instanceof HTMLElement)) return 0;
-      stage.style.removeProperty("--flip-card-height");
-      return Math.max(stage.clientHeight, front.scrollHeight, back.scrollHeight);
-    };
-
-    const updateHeights = () => {
-      const mode = grid.dataset.flipHeightMode ?? "equal";
-      const useEqualHeight = mode === "equal" && !window.matchMedia("(max-width: 639px)").matches;
-      const heights = cards.map(measureCard);
-      const groupHeight = Math.max(...heights, 0);
-      cards.forEach((card, index) => {
-        const stage = card.querySelector(".di-flip-card__stage");
-        if (stage instanceof HTMLElement) stage.style.setProperty("--flip-card-height", `${useEqualHeight ? groupHeight : heights[index]}px`);
-      });
-    };
-
-    const scheduleHeightUpdate = () => window.requestAnimationFrame(updateHeights);
     cards.forEach((card) => {
       const front = card.querySelector("[data-flip-face='front']");
       const back = card.querySelector("[data-flip-face='back']");
@@ -116,11 +98,6 @@ const backIndicator = revealMode === "flip" ? "flip" : "collapse";
         back?.setAttribute("aria-hidden", String(!revealed));
         updateLabels(card, revealed);
       });
-      card.querySelectorAll("img").forEach((image) => image.addEventListener("load", scheduleHeightUpdate));
     });
-
-    new ResizeObserver(scheduleHeightUpdate).observe(grid);
-    window.addEventListener("resize", scheduleHeightUpdate);
-    scheduleHeightUpdate();
   });
 </script>
