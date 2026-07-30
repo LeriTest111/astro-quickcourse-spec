@@ -20,6 +20,8 @@ Supported contexts are `inline`, `button`, `heading` and `feature`. The componen
 
 The approved tokens are: `information`, `warning`, `tip`, `success`, `error`, `question`, `checklist`, `video`, `audio`, `document`, `download`, `external-link`, `person`, `team`, `manager`, `store`, `calendar`, `time`, `task`, `next`, `previous`, `expand`, `collapse`, `close`, `menu`, `search` and `settings`. `person` covers one individual, learner or customer; use `team` for a group and `manager` for a supervisor or leader.
 
+Visible token descriptions are intentionally concise. Use `task` for one action or item to complete, `checklist` for a collection of checks or steps, and `success` for completion or confirmation.
+
 Add new tokens centrally in `src/data/quick-course-icons.ts` only after project-team review. Additional visual icon families require explicit project approval.
 
 ## Controlled Emphasis
@@ -30,7 +32,7 @@ Default icons are used for normal guidance, navigation and controls. Emphasised 
 
 Use `decorative` when visible text already communicates the same meaning. Decorative SVGs are hidden from assistive technology.
 
-When an SVG conveys meaning on its own, set `decorative={false}` and supply `label`. The component throws during development and build if that label is missing. For icon-only controls, give the parent button or link an accessible name and keep the nested icon decorative to prevent duplicate announcements.
+When an SVG conveys meaning on its own, set `decorative={false}` and supply `label`. The component throws during development and build if that label is missing. For icon-only controls, give the parent button or link an accessible name and keep the nested icon decorative to prevent duplicate announcements. When controlling expandable content, update the parent name, `aria-expanded` and the semantic icon for the current state.
 
 Do not use an icon or colour as the only sign of an important status. Pair unfamiliar icons with visible text.
 
@@ -46,7 +48,7 @@ Avoid adding lightbulbs to every card, choosing icons only because they look att
 
 The previous implementation loads the Material Symbols Sharp font from Google and uses raw ligature names across several existing Showcase and component files. That legacy path remains temporarily to avoid a broad visual and API rewrite.
 
-New work must use `QuickCourseIcon`. Migrate legacy components incrementally when they are next being reviewed, starting with reusable controls and components that currently accept `icon?: string`. Replace those free-form strings with `QuickCourseIconName`, then let the parent component set its icon context and decorative behaviour.
+New work must use `QuickCourseIcon`. Migrate legacy components incrementally when they are next being reviewed, starting with reusable controls and components that currently accept `icon?: string`. Replace those free-form strings with `QuickCourseIconName`, then let the parent component set its icon context and decorative behaviour. Once the remaining raw Material Symbol ligatures are migrated, remove the legacy remote font dependency.
 
 The Icons Showcase and `DetailModal` already use the controlled local SVG path. Review the remaining legacy font dependency before promoting this standard to In Review.
 
@@ -54,6 +56,6 @@ The Icons Showcase and `DetailModal` already use the controlled local SVG path. 
 
 The Icons Showcase is a static visual specimen, not an interactive picker. It demonstrates the system-defined Inline, Button, Heading and Feature contexts; the separate Colour in context and Visual treatment groups; the controlled token vocabulary; and accessibility behaviour. AI selects semantic meaning, parent components determine context and size, and the system determines colour and treatment. Icon-and-label examples use the reusable `qc-icon-label` spacing pattern.
 
-Detailed AI selection rules live behind the `Icon usage guidance` information control. Separate developer and Learning Technology detail lives behind `Technical implementation`; icon-only buttons retain an accessible parent name while their SVG remains decorative.
+Detailed AI selection rules live behind the `Icon usage guidance` information control. Separate developer and Learning Technology detail lives behind `Technical implementation`; icon-only buttons retain an accessible parent name while their SVG remains decorative. The system remains one coherent Draft review item.
 
 This is the preferred Showcase direction when an example remains clear without explanatory prose: keep the demonstration visible and move deeper guidance into the established Supporting-detail Modal. Not every component needs technical information; add it only when it helps the project team make or maintain a decision.

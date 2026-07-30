@@ -39,11 +39,12 @@ const hasVisibleItems = getVisibleShowcaseItems("icons").length > 0;
             <li>AI chooses a semantic token from the controlled vocabulary, never a raw icon-library name or visual family.</li>
             <li>Let parent components choose icon context and size where the placement is already known.</li>
             <li>Pair unfamiliar icons with visible text and prefer no icon over a weak match.</li>
-            <li>Keep repeated visual support decorative; icon-only controls need an accessible label.</li>
+            <li>Keep repeated visual support decorative. Icon-only buttons receive their accessible name from the parent button, while the nested SVG stays decorative to avoid duplicate announcements.</li>
             <li>Do not use icons or colour as the only indicator of an important status.</li>
             <li>Treatment is controlled by the component or state. AI must not choose emphasised or filled treatment for visual variety.</li>
             <li>Use <code>information</code> for neutral support and <code>tip</code> for advice. Use <code>person</code> for one individual, learner or customer; <code>team</code> for a group; and <code>manager</code> for a supervisor.</li>
-            <li>Use <code>task</code> for one action and <code>checklist</code> for several checks. Use <code>next</code> and <code>previous</code> for sequence navigation, and <code>expand</code> and <code>collapse</code> for content in the current location.</li>
+            <li>Use <code>task</code> for one action or item to complete, <code>checklist</code> for several checks or steps, and <code>success</code> for completion or confirmation. Use <code>next</code> and <code>previous</code> for sequence navigation, and <code>expand</code> and <code>collapse</code> for content in the current location.</li>
+            <li>When an icon-only button controls expandable content, update its accessible name, <code>aria-expanded</code> value and semantic icon to match the current state.</li>
           </ul>
         </DetailModal>
 
@@ -137,7 +138,7 @@ const hasVisibleItems = getVisibleShowcaseItems("icons").length > 0;
           <div>
             <p class="showcase-icon-demo-label">Icon-only button</p>
             <button class="di-secondary-button di-icon-button showcase-icon-only-button" type="button" data-icon-demo-toggle aria-expanded="false" aria-controls="icon-demo-details" aria-label="Expand details"><span data-icon-demo-expand><QuickCourseIcon name="expand" context="button" decorative /></span><span data-icon-demo-collapse hidden><QuickCourseIcon name="collapse" context="button" decorative /></span></button>
-            <p id="icon-demo-details" class="showcase-icon-demo-details" hidden>The parent button supplies the accessible name; the nested SVG remains decorative.</p>
+            <div id="icon-demo-details" class="showcase-icon-demo-details" hidden>Details expanded.</div>
           </div>
         </div>
       </section>
