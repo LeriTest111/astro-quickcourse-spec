@@ -1,117 +1,123 @@
 ---
-interface FlipCard {
-  frontHeading: string;
-  frontText?: string;
-  frontIcon?: string;
-  frontImage?: string;
-  frontImageAlt?: string;
-  backHeading: string;
-  backText: string;
-}
+import FlipCardFace from "./FlipCardFace.astro";
+import QuickCourseIcon from "../../ui/QuickCourseIcon.astro";
+import type { FlipCardFormat, FlipCardHeightMode, FlipCardItem, FlipCardRevealMode } from "./flip-card-types";
 
 interface Props {
   id: string;
   heading?: string;
   intro?: string;
-  cards: FlipCard[];
-  heightMode?: "equal" | "content";
+  cards: FlipCardItem[];
+  revealMode?: FlipCardRevealMode;
+  heightMode?: FlipCardHeightMode;
+  format?: FlipCardFormat;
+  class?: string;
 }
 
-const { id, heading, intro, cards, heightMode = "equal" } = Astro.props;
+const { id, heading, intro, cards, revealMode = "flip", heightMode = "equal", format = "square", class: className } = Astro.props;
+const faceTitle = (face: FlipCardItem["front"]) => {
+  const title = "title" in face ? face.title?.trim() : undefined;
+  const label = "label" in face ? face.label?.trim() : undefined;
+  return title || label || "card details";
+};
 ---
 
-<section id={id} class="di-block" aria-labelledby={heading ? `${id}-heading` : undefined}>
-  {
-    heading && (
-      <div class="di-block__header">
-        <h3 id={`${id}-heading`}>{heading}</h3>
-        {intro && <p>{intro}</p>}
-      </div>
-    )
-  }
-  <div id={`${id}-grid`} class={`di-flip-grid di-flip-grid--height-${heightMode}`} data-flip-grid data-flip-height-mode={heightMode}>
-    {cards.map((card, index) => (
-      <button
-        type="button"
-        class="di-flip-card"
-        data-flip-card
-        aria-pressed="false"
-        aria-label={`Flip card: ${card.frontHeading}`}
-        aria-controls={`${id}-back-${index}`}
-      >
-        <div class="di-flip-card__stage">
-          <div class="di-flip-card__inner">
-            <div class="di-flip-card__face di-flip-card__front" id={`${id}-front-${index}`} data-flip-face="front">
-              <span class="material-symbols-sharp showcase-icon di-flip-card__flip-icon" aria-hidden="true">sync</span>
-              {card.frontImage && <img src={card.frontImage} alt={card.frontImageAlt ?? ""} loading="lazy" />}
-              {card.frontIcon && <span class="material-symbols-sharp showcase-icon" aria-hidden="true">{card.frontIcon}</span>}
-              <h4>{card.frontHeading}</h4>
-              {card.frontText && <p>{card.frontText}</p>}
-            </div>
-            <div class="di-flip-card__face di-flip-card__back" id={`${id}-back-${index}`} data-flip-face="back" aria-hidden="true">
-              <span class="material-symbols-sharp showcase-icon di-flip-card__flip-icon" aria-hidden="true">sync</span>
-              <h4>{card.backHeading}</h4>
-              <p>{card.backText}</p>
-            </div>
-          </div>
-        </div>
-      </button>
-    ))}
+<section id={id} class:list={["di-block", "di-flip-system", className]} aria-labelledby={heading ? `${id}-heading` : undefined}>
+  {heading && (
+    <div class="di-block__header">
+      <h3 id={`${id}-heading`}>{heading}</h3>
+      {intro && <p>{intro}</p>}
+    </div>
+  )}
+  <div
+    id={`${id}-grid`}
+    class:list={["di-flip-grid", `di-flip-grid--height-${heightMode}`, `di-flip-grid--format-${format}`]}
+    data-flip-grid
+    data-flip-height-mode={heightMode}
+    data-flip-reveal-mode={revealMode}
+  >
+    {cards.map((card, index) => {
+      const frontTitle = faceTitle(card.front);
+      const backTitle = faceTitle(card.back);
+      const label = card.accessibleLabel?.trim() || frontTitle;
+      return (
+        <button
+          type="button"
+          class="di-flip-card"
+          data-flip-card
+          aria-pressed="false"
+          aria-label={`Reveal ${backTitle} for ${label}`}
+          aria-controls={`${id}-back-${index}`}
+        >
+          <span class="di-flip-card__stage">
+            <span class="di-flip-card__inner">
+              <span class="di-flip-card__face di-flip-card__front" id={`${id}-front-${index}`} data-flip-face="front">
+                <FlipCardFace face={card.front} />
+                <span class="di-flip-card__indicator" aria-hidden="true" data-flip-indicator="front"><QuickCourseIcon name="expand" context="inline" decorative /></span>
+              </span>
+              <span class="di-flip-card__face di-flip-card__back" id={`${id}-back-${index}`} data-flip-face="back" aria-hidden="true">
+                <FlipCardFace face={card.back} />
+                <span class="di-flip-card__indicator" aria-hidden="true" data-flip-indicator="back"><QuickCourseIcon name="collapse" context="inline" decorative /></span>
+              </span>
+            </span>
+          </span>
+        </button>
+      );
+    })}
   </div>
 </section>
 
 <script>
   document.querySelectorAll("[data-flip-grid]").forEach((grid) => {
-    if (grid.dataset.flipGridReady === "true") return;
+    if (!(grid instanceof HTMLElement) || grid.dataset.flipGridReady === "true") return;
     grid.dataset.flipGridReady = "true";
 
-    const cards = [...grid.querySelectorAll("[data-flip-card]")];
+    const cards = [...grid.querySelectorAll("[data-flip-card]")].filter((card): card is HTMLButtonElement => card instanceof HTMLButtonElement);
+    const updateLabels = (card: HTMLButtonElement, revealed: boolean) => {
+      const front = card.querySelector("[data-flip-face='front']");
+      const back = card.querySelector("[data-flip-face='back']");
+      const frontTitle = front?.querySelector(".di-flip-card__title, .di-flip-card__image-label strong")?.textContent?.trim() || "front";
+      const backTitle = back?.querySelector(".di-flip-card__title, .di-flip-card__image-label strong")?.textContent?.trim() || "details";
+      card.setAttribute("aria-label", revealed ? `Show ${frontTitle}` : `Reveal ${backTitle} for ${frontTitle}`);
+    };
 
-    function measureCard(card) {
+    const measureCard = (card: HTMLButtonElement) => {
       const stage = card.querySelector(".di-flip-card__stage");
       const front = card.querySelector("[data-flip-face='front']");
       const back = card.querySelector("[data-flip-face='back']");
-      if (!stage || !front || !back) return 0;
-      return Math.max(front.scrollHeight, back.scrollHeight);
-    }
+      if (!(stage instanceof HTMLElement) || !(front instanceof HTMLElement) || !(back instanceof HTMLElement)) return 0;
+      stage.style.removeProperty("--flip-card-height");
+      return Math.max(stage.clientHeight, front.scrollHeight, back.scrollHeight);
+    };
 
-    function updateHeights() {
+    const updateHeights = () => {
       const mode = grid.dataset.flipHeightMode ?? "equal";
-      const narrow = window.matchMedia("(max-width: 639px)").matches;
-      const equalHeight = Math.max(...cards.map(measureCard));
-
-      cards.forEach((card) => {
+      const useEqualHeight = mode === "equal" && !window.matchMedia("(max-width: 639px)").matches;
+      const heights = cards.map(measureCard);
+      const groupHeight = Math.max(...heights, 0);
+      cards.forEach((card, index) => {
         const stage = card.querySelector(".di-flip-card__stage");
-        const front = card.querySelector("[data-flip-face='front']");
-        const back = card.querySelector("[data-flip-face='back']");
-        if (!stage || !front || !back) return;
-
-        const revealed = card.classList.contains("is-revealed");
-        const activeFace = revealed ? back : front;
-        const contentHeight = Math.max(activeFace.scrollHeight, 1);
-        stage.style.setProperty("--flip-card-height", `${mode === "equal" && !narrow ? equalHeight : contentHeight}px`);
+        if (stage instanceof HTMLElement) stage.style.setProperty("--flip-card-height", `${useEqualHeight ? groupHeight : heights[index]}px`);
       });
-    }
+    };
 
+    const scheduleHeightUpdate = () => window.requestAnimationFrame(updateHeights);
     cards.forEach((card) => {
-      if (card.dataset.flipReady === "true") return;
-      card.dataset.flipReady = "true";
-
       const front = card.querySelector("[data-flip-face='front']");
       const back = card.querySelector("[data-flip-face='back']");
-
       card.addEventListener("click", () => {
-        const expanded = card.getAttribute("aria-pressed") === "true";
-        card.setAttribute("aria-pressed", expanded ? "false" : "true");
-        card.classList.toggle("is-revealed", !expanded);
-        front?.setAttribute("aria-hidden", expanded ? "false" : "true");
-        back?.setAttribute("aria-hidden", expanded ? "true" : "false");
-        updateHeights();
+        const revealed = card.getAttribute("aria-pressed") !== "true";
+        card.setAttribute("aria-pressed", String(revealed));
+        card.classList.toggle("is-revealed", revealed);
+        front?.setAttribute("aria-hidden", String(revealed));
+        back?.setAttribute("aria-hidden", String(!revealed));
+        updateLabels(card, revealed);
       });
+      card.querySelectorAll("img").forEach((image) => image.addEventListener("load", scheduleHeightUpdate));
     });
 
-    grid.addEventListener("showcase-options-change", () => updateHeights());
-    window.addEventListener("resize", updateHeights);
-    updateHeights();
+    new ResizeObserver(scheduleHeightUpdate).observe(grid);
+    window.addEventListener("resize", scheduleHeightUpdate);
+    scheduleHeightUpdate();
   });
 </script>

@@ -1,0 +1,64 @@
+---
+import QuickCourseIcon from "../../ui/QuickCourseIcon.astro";
+import type { FlipCardFace } from "./flip-card-types";
+
+interface Props {
+  face: FlipCardFace;
+}
+
+const { face } = Astro.props;
+const clean = (value?: string) => value?.trim() || undefined;
+const eyebrow = "eyebrow" in face ? clean(face.eyebrow) : undefined;
+const title = "title" in face ? clean(face.title) : undefined;
+const body = "body" in face ? clean(face.body) : undefined;
+const alignment = "alignment" in face ? face.alignment ?? (face.type === "feature" ? "center" : "left") : "left";
+const focalPosition = "focalPosition" in face ? face.focalPosition ?? "center" : "center";
+
+if ((face.type === "text" || face.type === "icon" || face.type === "image-overlay" || face.type === "feature") && !title) {
+  throw new Error(`Flip card ${face.type} faces require a title.`);
+}
+
+if (face.type === "feature" && !clean(face.value) && !face.icon) {
+  throw new Error("Flip card feature faces require either a value or an icon.");
+}
+---
+
+<div class:list={["di-flip-card__face-content", `di-flip-card__face-content--${face.type}`, `is-align-${alignment}`]}>
+  {face.type === "image" && (
+    <>
+      <img class="di-flip-card__image" src={face.image} alt={face.imageAlt ?? ""} loading="lazy" style={`object-position: ${focalPosition};`} />
+      {(clean(face.label) || clean(face.title)) && (
+        <span class="di-flip-card__image-label">
+          {clean(face.label) && <span>{clean(face.label)}</span>}
+          {clean(face.title) && <strong role="heading" aria-level="4">{clean(face.title)}</strong>}
+        </span>
+      )}
+    </>
+  )}
+
+  {face.type === "image-overlay" && (
+    <>
+      <img class="di-flip-card__image" src={face.image} alt={face.imageAlt ?? ""} loading="lazy" style={`object-position: ${focalPosition};`} />
+      <span class:list={["di-flip-card__overlay", `di-flip-card__overlay--${face.overlayStyle ?? "dark"}`]} aria-hidden="true"></span>
+      <span class="di-flip-card__copy">
+        {eyebrow && <span class="di-kicker">{eyebrow}</span>}
+        <strong class="di-flip-card__title" role="heading" aria-level="4">{title}</strong>
+        {body && <span class="di-flip-card__body">{body}</span>}
+      </span>
+    </>
+  )}
+
+  {(face.type === "text" || face.type === "icon" || face.type === "feature") && (
+    <span class="di-flip-card__copy">
+      {face.type === "icon" && <QuickCourseIcon name={face.icon} context={face.iconTreatment ?? "feature"} decorative />}
+      {face.type === "feature" && (
+        <span class="di-flip-card__feature-value">
+          {clean(face.value) || (face.icon && <QuickCourseIcon name={face.icon} context="feature" decorative />)}
+        </span>
+      )}
+      {eyebrow && <span class="di-kicker">{eyebrow}</span>}
+      <strong class="di-flip-card__title" role="heading" aria-level="4">{title}</strong>
+      {body && <span class="di-flip-card__body">{body}</span>}
+    </span>
+  )}
+</div>

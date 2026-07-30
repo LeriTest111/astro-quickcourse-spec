@@ -85,54 +85,163 @@ const hasVisibleItems = Object.keys(sectionItems).some((id) => sectionVisible(id
           </ShowcaseNotes>
         </ShowcaseExample>}
 
-        {visible("flip-cards") && <ShowcaseExample id="flip-cards" title="Flip Cards" purpose="Lets learners reveal a short second layer such as a benefit, fact or explanation." status={status("flip-cards")}>
-          <PreviewOptions
-            targetId="feature-benefit-cards-grid"
-            options={[
-              {
-                id: "height-mode",
-                label: "Card height",
-                type: "segmented",
-                value: "equal",
-                targetAttribute: "flipHeightMode",
-                options: [
-                  { label: "Equal", value: "equal" },
-                  { label: "Content", value: "content" },
-                ],
-              },
-            ]}
-          />
-          <FlipCards
-            id="feature-benefit-cards"
-            heading="Turn features into customer benefits"
-            intro="Each card uses a button, so the reveal works with keyboard and touch instead of hover."
-            cards={[
-              {
-                frontIcon: "power_settings_new",
-                frontHeading: "Feature: Automatic shut-off",
-                frontText: "What does this feature do for the customer?",
-                backHeading: "Benefit",
-                backText: "It gives the customer added peace of mind and helps reduce unnecessary power use.",
-              },
-              {
-                frontIcon: "verified_user",
-                frontHeading: "Feature: Account alerts",
-                frontText: "What problem does this solve?",
-                backHeading: "Benefit",
-                backText: "It helps the customer spot unusual activity early and respond before the issue grows.",
-              },
-              {
-                frontIcon: "construction",
-                frontHeading: "Feature: Tool-free setup",
-                frontText: "Why might this matter?",
-                backHeading: "Benefit",
-                backText: "It reduces setup friction for customers who need the product ready quickly.",
-              },
-            ]}
-          />
-          <ShowcaseNotes>
-            <p>Keep back content short. If the explanation needs several paragraphs, use an accordion or detail panel instead.</p>
-          </ShowcaseNotes>
+        {visible("flip-cards") && <ShowcaseExample id="flip-cards" title="Quick Course Flip Card System" purpose="One controlled two-faced card system for short, meaningful reveal relationships." status={status("flip-cards")}>
+          <div class="showcase-icon-information-controls">
+            <DetailModal
+              id="flip-card-usage-guidance"
+              triggerLabel="Flip Card usage guidance"
+              triggerIcon="information"
+              triggerVariant="secondary"
+              heading="Quick Course Flip Card usage guidance"
+            >
+              <p>Use a Flip Card only when the reverse face creates a useful relationship, comparison or moment of discovery. Prefer no Flip Card over a weak or decorative reveal.</p>
+              <ul class="di-dialog__list">
+                <li>Good uses include term and definition, myth and reality, image and explanation, feature and benefit, role and responsibility, or a concise key fact and supporting detail.</li>
+                <li>Do not hide essential reading, long procedures, several paragraphs or formal assessment questions. Use an accordion, detail panel or visible process when content must remain available.</li>
+                <li>Keep fronts concise and backs scannable. Use left alignment for explanation; use centre alignment for short icons, values and high-impact phrases.</li>
+                <li>Use meaningful alternative text for informative images. Do not nest links, buttons or controls inside a card, and do not use internal scrolling.</li>
+                <li>Use Flip as the default for two-sided concepts. Consider Slide for Image or Image Overlay fronts that reveal supporting information.</li>
+                <li>Use equal height for a matched grid and content height for independent or intentionally varied cards. Keep reveal mode, height mode and format consistent inside a card set.</li>
+              </ul>
+            </DetailModal>
+
+            <DetailModal
+              id="flip-card-technical-implementation"
+              triggerLabel="Technical implementation"
+              triggerIcon="settings"
+              triggerVariant="secondary"
+              heading="Quick Course Flip Card technical implementation"
+            >
+              <p>One shared Astro component receives structured Text, Icon-led, Image, Image Overlay or Feature faces. It uses the local QuickCourseIcon system and local course assets only.</p>
+              <ul class="di-dialog__list">
+                <li>Flip rotates a stable two-face stage. Slide raises the back layer from the bottom over the stationary front. Both use the same button, keyboard and accessible-state handling.</li>
+                <li>Content height measures the taller face of each card. Equal height measures every face in a group and aligns the group on wider screens; narrow layouts return to natural card heights.</li>
+                <li>Hidden faces are marked unavailable to assistive technology. The parent button updates its label and pressed state while the decorative reveal indicator remains hidden from assistive technology.</li>
+                <li>Resize observation and image-load handling recalculate measured heights. Reduced-motion preference uses an instant face swap rather than rotation or a large slide.</li>
+                <li>The component is static-site and SCORM compatible. Future theme tokens can supply surface, radius and brand-overlay values without changing the face API.</li>
+              </ul>
+            </DetailModal>
+          </div>
+
+          <section class="showcase-flip-card-section" aria-labelledby="flip-core-patterns-heading">
+            <h4 id="flip-core-patterns-heading">Core Flip Card patterns</h4>
+            <FlipCards
+              id="flip-core-patterns"
+              revealMode="flip"
+              heightMode="equal"
+              format="square"
+              cards={[
+                {
+                  front: { type: "text", eyebrow: "Myth", title: "More detail always creates better help.", alignment: "center" },
+                  back: { type: "text", eyebrow: "Reality", title: "Start with the next useful action.", body: "Add only the context that helps the learner move forward.", alignment: "left" },
+                },
+                {
+                  front: { type: "icon", icon: "tip", iconTreatment: "feature", eyebrow: "Helpful tip", title: "Listen before solving.", body: "Let the person finish the concern first.", alignment: "center" },
+                  back: { type: "text", title: "Why it works", body: "A clear understanding of the outcome avoids an answer that misses the real need." },
+                },
+                {
+                  front: { type: "feature", value: "3", eyebrow: "Service habit", title: "Customer principles", body: "Listen, clarify, confirm." },
+                  back: { type: "text", title: "Use them in order", body: "Hear the outcome, check what matters, then name the agreed next step." },
+                },
+              ]}
+            />
+          </section>
+
+          <section class="showcase-flip-card-section" aria-labelledby="flip-visual-patterns-heading">
+            <h4 id="flip-visual-patterns-heading">Visual Flip Card patterns</h4>
+            <FlipCards
+              id="flip-visual-patterns"
+              revealMode="slide"
+              heightMode="equal"
+              format="portrait"
+              cards={[
+                {
+                  front: { type: "image", image: neutralImage, imageAlt: "A learner preparing notes beside a laptop.", label: "Visual front", title: "Prepare before the conversation", focalPosition: "center" },
+                  back: { type: "text", title: "Acknowledge first", body: "Show the customer you understand the concern before moving to policy or process detail." },
+                },
+                {
+                  front: { type: "image-overlay", image: neutralImage, imageAlt: "A learner reviewing material at a desk.", eyebrow: "Customer experience", title: "Make the next step clear.", body: "Use a concise, confident opening.", overlayStyle: "dark", alignment: "left" },
+                  back: { type: "text", title: "Name the action and timing", body: "Close the conversation by confirming what will happen, who owns it and when progress can be checked." },
+                },
+                {
+                  front: { type: "text", eyebrow: "Visual reveal", title: "Notice the preparation space.", body: "A tidy, visible reference area supports a calm response.", alignment: "left" },
+                  back: { type: "image", image: neutralImage, imageAlt: "A learner's preparation space with notes and a laptop.", label: "Supporting visual", title: "Keep the active notes visible", focalPosition: "bottom" },
+                },
+              ]}
+            />
+          </section>
+
+          <section class="showcase-flip-card-section" aria-labelledby="flip-specialist-pattern-heading">
+            <h4 id="flip-specialist-pattern-heading">Specialist pattern</h4>
+            <FlipCards
+              id="flip-image-to-image"
+              revealMode="slide"
+              heightMode="content"
+              format="landscape"
+              cards={[
+                {
+                  front: { type: "image", image: neutralImage, imageAlt: "A wide view of a learner's preparation area.", label: "Overview", title: "See the whole setup", focalPosition: "top" },
+                  back: { type: "image", image: neutralImage, imageAlt: "A closer view of the notes in a learner's preparation area.", label: "Detail", title: "Focus on the active reference", focalPosition: "bottom" },
+                },
+              ]}
+            />
+          </section>
+
+          <section class="showcase-flip-card-section" aria-labelledby="flip-reveal-modes-heading">
+            <h4 id="flip-reveal-modes-heading">Reveal modes</h4>
+            <div class="showcase-flip-card-mode-grid">
+              <FlipCards
+                id="flip-mode-example"
+                heading="Flip"
+                revealMode="flip"
+                heightMode="content"
+                format="square"
+                cards={[{ front: { type: "text", title: "Payment pending", body: "What should you explain?", alignment: "center" }, back: { type: "text", title: "Set the expectation", body: "Give the processing window and tell the customer where to check the latest status." } }]}
+              />
+              <FlipCards
+                id="slide-mode-example"
+                heading="Slide"
+                revealMode="slide"
+                heightMode="content"
+                format="square"
+                cards={[{ front: { type: "image-overlay", image: neutralImage, imageAlt: "A learner reviewing payment information at a desk.", title: "Payment pending", overlayStyle: "brand", alignment: "center" }, back: { type: "text", title: "Set the expectation", body: "Give the processing window and tell the customer where to check the latest status." } }]}
+              />
+            </div>
+          </section>
+
+          <section class="showcase-flip-card-section" aria-labelledby="flip-height-behaviour-heading">
+            <h4 id="flip-height-behaviour-heading">Height behaviour</h4>
+            <FlipCards
+              id="flip-equal-height-example"
+              heading="Equal height card group"
+              intro="A matched three-card set accounts for the tallest front or back face on wider layouts."
+              revealMode="flip"
+              heightMode="equal"
+              format="square"
+              cards={[
+                { front: { type: "feature", value: "01", title: "Acknowledge" }, back: { type: "text", title: "Name the concern", body: "Show the person that their situation has been understood." } },
+                { front: { type: "feature", value: "02", title: "Clarify" }, back: { type: "text", title: "Ask one useful question", body: "Check the detail that changes the right next step." } },
+                { front: { type: "feature", value: "03", title: "Confirm" }, back: { type: "text", title: "Close the loop", body: "Restate the action, owner and timing so the next step stays clear." } },
+              ]}
+            />
+            <FlipCards
+              id="flip-content-height-example"
+              heading="Content height cards"
+              intro="Independent cards keep their own stable height based on the larger of their two faces."
+              revealMode="flip"
+              heightMode="content"
+              format="landscape"
+              cards={[
+                { front: { type: "text", title: "Short title", alignment: "center" }, back: { type: "text", title: "A concise explanation", body: "Use this mode when natural compact sizing matters more than matching a neighbouring card." } },
+                { front: { type: "text", eyebrow: "Long heading", title: "A longer example still wraps naturally without reducing the text to an unreadably small size.", alignment: "left" }, back: { type: "text", title: "Optional body stays optional" } },
+              ]}
+            />
+          </section>
+
+          <section class="showcase-flip-card-section" aria-labelledby="flip-accessibility-heading">
+            <h4 id="flip-accessibility-heading">Accessibility and interaction</h4>
+            <p class="showcase-flip-card-accessibility">Every card is one keyboard-operable button with visible focus. The reveal keeps the outer card stable and respects reduced-motion preferences.</p>
+          </section>
         </ShowcaseExample>}
 
         {visible("hotspot-reveal") && <ShowcaseExample id="hotspot-reveal" title="Click-to-Reveal Hotspots" purpose="Lets learners select marked image regions and read the associated detail." status={status("hotspot-reveal")}>

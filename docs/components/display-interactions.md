@@ -60,33 +60,31 @@ Customizable properties: labels, icons, default tab and panel copy.
 
 Standardized properties: predictable focus and active state.
 
-## Flip Cards
+## Quick Course Flip Card System
 
 Approval status: Draft
 
-Purpose: reveal a short second layer of related information.
+Purpose: reveal one concise, meaningful second face such as a definition, explanation, benefit or visual comparison.
 
-Recommended use: term/definition, feature/benefit, myth/fact and question/explanation pairs.
+Content structure or props: every card has structured `front` and `back` faces. Supported face layouts are Text, Icon-led, Image, Image Overlay and Feature. The system supports Text to Text, Icon-led to Text, Image to Text, Text to Image, Image Overlay to Text, Feature to Text and Image to Image combinations.
 
-Content structure or props: card front heading, optional front text, icon or image, back heading, back text and height mode.
+Interaction behaviour: the entire card is one real button. Learners click, tap, press Enter or press Space to reveal and return. `flip` is the default reveal mode; `slide` raises the full back face upward over a stationary visual front.
 
-Interaction behaviour: the whole card is a real button. Learners click, tap, press Enter or press Space to flip between prompt and detail.
+Keyboard behaviour: cards remain in normal focus order, show visible focus, use `aria-pressed`, update their accessible label and make the hidden face unavailable to assistive technology.
 
-Keyboard behaviour: each card is in normal focus order and uses `aria-pressed` to communicate state.
+Responsive behaviour: portrait, square and landscape formats stack on narrow screens. Equal-height groups align on wider screens and deliberately return to each card's natural stable height on narrow layouts.
 
-Responsive behaviour: cards stack on mobile and form a small grid on wider screens.
+Height modes: `content` measures the taller front or back for each individual card and keeps that height stable during a reveal. `equal` measures every face in a group and applies the shared tallest height for aligned grids.
 
-Accessibility considerations: does not rely on hover. Do not place nested links, buttons or controls inside a flip card. The default visual treatment uses a 3D flip, while reduced-motion users get a simple content swap.
+Accessibility considerations: no hover-only content, nested links, nested buttons or internal scrolling. Informative images need meaningful alt text; decorative reveal indicators and supporting icons remain hidden from assistive technology. Reduced-motion preference uses an instant content swap rather than 3D rotation or a large slide.
 
-JavaScript requirements: required for reveal state, face visibility and height measurement.
+Suitable use cases: term/definition, myth/reality, question/answer, role/responsibility, feature/benefit, product image/explanation and clear visual comparisons.
 
-Suitable use cases: compact checks for understanding without scoring.
+Misuse to avoid: essential reading, long procedures, several paragraphs, formal assessment questions or a reveal that adds no instructional value. Prefer no Flip Card over a weak decorative reveal.
 
-Misuse to avoid: long back content that belongs in a panel or accordion.
+AI authoring guidance: select a supported face type and semantic icon only where it supports meaning. Keep fronts concise, backs scannable, text left-aligned when explanatory and centred when short or high-impact. Use Flip for two-sided concepts; consider Slide for Image or Image Overlay fronts with supporting detail. Keep reveal mode, height mode and format consistent in the same card group unless a designer explicitly directs otherwise.
 
-Customizable properties: icons, images, copy and `heightMode`.
-
-Standardized properties: full-card button reveal, decorative Material `sync` icon, neutral card styling, real flip animation and `heightMode: "equal" | "content"`.
+Standardized properties: the component controls typography, spacing, image crop, movement, focus, reduced-motion behaviour and accessibility. Showcase examples are review specimens, not production authoring controls. Future theme tokens may supply surface, radius and brand-overlay values without changing the face API.
 
 ## Carousel
 

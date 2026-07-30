@@ -2811,20 +2811,15 @@ dialog::backdrop {
 }
 
 .di-flip-card {
-  display: grid;
+  display: block;
   width: 100%;
-  gap: 1rem;
-  align-content: space-between;
   border: 0;
   background: transparent;
   color: inherit;
+  cursor: pointer;
   padding: 0;
   perspective: 1100px;
   text-align: left;
-}
-
-.di-flip-card.is-revealed {
-  transform: none;
 }
 
 .di-flip-card:hover .di-flip-card__face {
@@ -2838,18 +2833,37 @@ dialog::backdrop {
 }
 
 .di-flip-card__stage {
-  min-height: var(--flip-card-height, 13rem);
-  transition: min-height 220ms ease;
+  position: relative;
+  display: block;
+  min-height: var(--flip-card-height, var(--flip-card-min-height, 15rem));
+  overflow: clip;
+  border-radius: 0.5rem;
 }
 
 .di-flip-card__inner {
   position: relative;
-  min-height: var(--flip-card-height, 13rem);
+  display: block;
+  min-height: inherit;
+}
+
+.di-flip-grid--format-portrait {
+  --flip-card-min-height: 21rem;
+}
+
+.di-flip-grid--format-square {
+  --flip-card-min-height: 16rem;
+}
+
+.di-flip-grid--format-landscape {
+  --flip-card-min-height: 13rem;
+}
+
+[data-flip-reveal-mode="flip"] .di-flip-card__inner {
   transform-style: preserve-3d;
   transition: transform 460ms ease;
 }
 
-.di-flip-card.is-revealed .di-flip-card__inner {
+[data-flip-reveal-mode="flip"] .di-flip-card.is-revealed .di-flip-card__inner {
   transform: rotateY(180deg);
 }
 
@@ -2864,11 +2878,11 @@ dialog::backdrop {
   border-radius: 0.5rem;
   background: #ffffff;
   backface-visibility: hidden;
-  padding: 1.25rem;
-  padding-top: 2.5rem;
+  overflow: clip;
   transition:
     border-color 160ms ease,
-    box-shadow 160ms ease;
+    box-shadow 160ms ease,
+    transform 460ms ease;
 }
 
 .di-flip-card.is-revealed .di-flip-card__face {
@@ -2876,33 +2890,181 @@ dialog::backdrop {
   box-shadow: 0 14px 28px rgba(15, 23, 42, 0.08);
 }
 
-.di-flip-card__back {
+[data-flip-reveal-mode="flip"] .di-flip-card__back {
   transform: rotateY(180deg);
+}
+
+[data-flip-reveal-mode="slide"] .di-flip-card__front {
+  z-index: 1;
+}
+
+[data-flip-reveal-mode="slide"] .di-flip-card__back {
+  z-index: 2;
+  transform: translateY(100%);
+}
+
+[data-flip-reveal-mode="slide"] .di-flip-card.is-revealed .di-flip-card__back {
+  transform: translateY(0);
+}
+
+.di-flip-card__face-content {
+  position: relative;
+  display: grid;
+  min-height: 100%;
+  overflow: clip;
+}
+
+.di-flip-card__face-content--text,
+.di-flip-card__face-content--icon,
+.di-flip-card__face-content--feature {
+  padding: 1.25rem 3rem 1.25rem 1.25rem;
+}
+
+.di-flip-card__copy {
+  display: grid;
+  align-content: start;
+  gap: 0.65rem;
+  min-width: 0;
+}
+
+.di-flip-card__face-content.is-align-center .di-flip-card__copy {
+  justify-items: center;
+  text-align: center;
+}
+
+.di-flip-card__title {
+  color: #111827;
+  font-size: 1.18rem;
+  line-height: 1.3;
+}
+
+.di-flip-card__body {
+  color: #4b5563;
+  line-height: 1.5;
+}
+
+.di-flip-card__face-content--icon .qc-icon,
+.di-flip-card__feature-value .qc-icon {
+  color: #2563eb;
+}
+
+.di-flip-card__feature-value {
+  display: inline-flex;
+  max-width: 100%;
+  align-items: center;
+  color: #1d4ed8;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1;
+  overflow-wrap: anywhere;
+}
+
+.di-flip-card__image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.di-flip-card__image-label {
+  position: absolute;
+  right: 0.85rem;
+  bottom: 0.85rem;
+  left: 0.85rem;
+  display: grid;
+  gap: 0.2rem;
+  color: #ffffff;
+  text-align: left;
+  text-shadow: 0 1px 3px rgba(15, 23, 42, 0.7);
+}
+
+.di-flip-card__image-label span {
+  font-size: 0.82rem;
+  font-weight: 750;
+}
+
+.di-flip-card__overlay {
+  position: absolute;
+  inset: 0;
+}
+
+.di-flip-card__overlay--dark {
+  background: rgba(15, 23, 42, 0.7);
+}
+
+.di-flip-card__overlay--light {
+  background: rgba(255, 255, 255, 0.78);
+}
+
+.di-flip-card__overlay--brand {
+  background: rgba(29, 78, 216, 0.78);
+}
+
+.di-flip-card__face-content--image-overlay .di-flip-card__copy {
+  z-index: 1;
+  padding: 1.25rem 3rem 1.25rem 1.25rem;
+}
+
+.di-flip-card__face-content--image-overlay .di-flip-card__title,
+.di-flip-card__face-content--image-overlay .di-flip-card__body,
+.di-flip-card__overlay--dark ~ .di-flip-card__copy .di-kicker,
+.di-flip-card__overlay--brand ~ .di-flip-card__copy .di-kicker {
+  color: #ffffff !important;
+}
+
+.di-flip-card__face-content--image-overlay:has(.di-flip-card__overlay--light) .di-kicker,
+.di-flip-card__face-content--image-overlay:has(.di-flip-card__overlay--light) .di-flip-card__title,
+.di-flip-card__face-content--image-overlay:has(.di-flip-card__overlay--light) .di-flip-card__body {
+  color: #111827 !important;
+  text-shadow: none;
+}
+
+.di-flip-card__indicator {
+  position: absolute;
+  top: 0.85rem;
+  right: 0.85rem;
+  z-index: 3;
+  display: inline-flex;
+  color: #475569;
+  transition: transform 220ms ease;
+}
+
+.di-flip-card__face:has(.di-flip-card__face-content--image) .di-flip-card__indicator,
+.di-flip-card__face:has(.di-flip-card__face-content--image-overlay) .di-flip-card__indicator {
+  color: #ffffff;
+}
+
+.di-flip-card.is-revealed .di-flip-card__indicator {
+  transform: rotate(180deg);
 }
 
 .di-flip-card img {
   width: 100%;
-  aspect-ratio: 16 / 9;
-  border-radius: 0.5rem;
-  object-fit: cover;
 }
 
-.di-flip-card .showcase-icon {
-  color: #2563eb;
-  font-size: 2rem;
+.showcase-flip-card-section {
+  display: grid;
+  gap: 1rem;
+  border-top: 1px solid #d1d5db;
+  margin-top: 1.75rem;
+  padding-top: 1.75rem;
 }
 
-.di-flip-card__flip-icon {
-  position: absolute;
-  top: 0.85rem;
-  right: 0.85rem;
-  color: #64748b !important;
-  font-size: 1.2rem !important;
-  transition: transform 220ms ease;
+.showcase-flip-card-section > h4 {
+  margin: 0;
+  color: #111827;
+  font-size: 1.1rem;
 }
 
-.di-flip-card.is-revealed .di-flip-card__flip-icon {
-  transform: rotate(180deg);
+.showcase-flip-card-mode-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.showcase-flip-card-accessibility {
+  max-width: 72ch;
+  margin: 0;
+  color: #4b5563;
 }
 
 .di-carousel {
@@ -3733,6 +3895,10 @@ section.qc-video-transcript__body {
   .qc-video-chapters__panel {
     max-height: clamp(20rem, 32vw, 28rem);
   }
+
+  .showcase-flip-card-mode-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 
 @media (min-width: 1024px) {
@@ -3746,6 +3912,10 @@ section.qc-video-transcript__body {
 
   .qc-process-list--horizontal li {
     grid-template-columns: 1fr;
+  }
+
+  .di-flip-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
@@ -3773,8 +3943,8 @@ section.qc-video-transcript__body {
     animation-iteration-count: 1 !important;
   }
 
-  .di-flip-card__inner,
-  .di-flip-card.is-revealed .di-flip-card__inner {
+  [data-flip-reveal-mode="flip"] .di-flip-card__inner,
+  [data-flip-reveal-mode="flip"] .di-flip-card.is-revealed .di-flip-card__inner {
     transform: none;
   }
 
@@ -3783,7 +3953,9 @@ section.qc-video-transcript__body {
     transition: none;
   }
 
-  .di-flip-card__back {
+  [data-flip-reveal-mode="flip"] .di-flip-card__back,
+  [data-flip-reveal-mode="slide"] .di-flip-card__back,
+  [data-flip-reveal-mode="slide"] .di-flip-card.is-revealed .di-flip-card__back {
     transform: none;
   }
 
