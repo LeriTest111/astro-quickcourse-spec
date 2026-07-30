@@ -143,7 +143,9 @@ const hasVisibleItems = Object.keys(sectionItems).some((id) => sectionVisible(id
               <p>One shared Astro component receives structured Text, Icon-led, Image, Image Overlay, Feature or Statement faces. Shared base properties supply controlled surfaces and independent horizontal and vertical alignment.</p>
               <ul class="di-dialog__list">
                 <li>Flip rotates a stable two-face stage using the semantic Flip indicator. Slide raises the back layer from the bottom using the controlled Expand and Collapse indicators. Both use the same button, keyboard and accessible-state handling.</li>
-                <li>Both faces overlap in one CSS Grid area, so the taller face sets a stable card height. Equal-height groups stretch complete cards across each wider grid row; narrow layouts return to natural card heights.</li>
+                <li>Front and back faces overlap in one CSS Grid area. Both contribute to a stable natural height and stretch to fill the complete shared card area.</li>
+                <li>Content-height cards use the taller of their own two faces. Equal-height groups use normal grid stretching to align cards; no JavaScript height measurement is used.</li>
+                <li>Flip and Slide use the same shared face geometry, and images, solid surfaces and overlays fill the complete face.</li>
                 <li>Semantic surfaces map to controlled foreground pairings, and Statement typography is component-controlled. Future theme tokens can replace these mapped values without changing the face API.</li>
                 <li>Hidden faces are marked unavailable to assistive technology. The parent button updates its label and pressed state while decorative indicators remain hidden from assistive technology.</li>
                 <li>No client-side height measurement is needed. Reduced-motion preference uses an instant face swap rather than rotation or a large slide.</li>
