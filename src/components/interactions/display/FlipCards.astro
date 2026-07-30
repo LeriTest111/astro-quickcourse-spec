@@ -18,8 +18,11 @@ const { id, heading, intro, cards, revealMode = "flip", heightMode = "equal", fo
 const faceTitle = (face: FlipCardItem["front"]) => {
   const title = "title" in face ? face.title?.trim() : undefined;
   const label = "label" in face ? face.label?.trim() : undefined;
-  return title || label || "card details";
+  const statement = "statement" in face ? face.statement?.trim() : undefined;
+  return title || label || statement || "card details";
 };
+const frontIndicator = revealMode === "flip" ? "flip" : "expand";
+const backIndicator = revealMode === "flip" ? "flip" : "collapse";
 ---
 
 <section id={id} class:list={["di-block", "di-flip-system", className]} aria-labelledby={heading ? `${id}-heading` : undefined}>
@@ -53,11 +56,11 @@ const faceTitle = (face: FlipCardItem["front"]) => {
             <span class="di-flip-card__inner">
               <span class="di-flip-card__face di-flip-card__front" id={`${id}-front-${index}`} data-flip-face="front">
                 <FlipCardFace face={card.front} />
-                <span class="di-flip-card__indicator" aria-hidden="true" data-flip-indicator="front"><QuickCourseIcon name="expand" context="inline" decorative /></span>
+                <span class="di-flip-card__indicator" aria-hidden="true" data-flip-indicator="front"><QuickCourseIcon name={frontIndicator} context="inline" decorative /></span>
               </span>
               <span class="di-flip-card__face di-flip-card__back" id={`${id}-back-${index}`} data-flip-face="back" aria-hidden="true">
                 <FlipCardFace face={card.back} />
-                <span class="di-flip-card__indicator" aria-hidden="true" data-flip-indicator="back"><QuickCourseIcon name="collapse" context="inline" decorative /></span>
+                <span class="di-flip-card__indicator" aria-hidden="true" data-flip-indicator="back"><QuickCourseIcon name={backIndicator} context="inline" decorative /></span>
               </span>
             </span>
           </span>
@@ -76,8 +79,8 @@ const faceTitle = (face: FlipCardItem["front"]) => {
     const updateLabels = (card: HTMLButtonElement, revealed: boolean) => {
       const front = card.querySelector("[data-flip-face='front']");
       const back = card.querySelector("[data-flip-face='back']");
-      const frontTitle = front?.querySelector(".di-flip-card__title, .di-flip-card__image-label strong")?.textContent?.trim() || "front";
-      const backTitle = back?.querySelector(".di-flip-card__title, .di-flip-card__image-label strong")?.textContent?.trim() || "details";
+      const frontTitle = front?.querySelector(".di-flip-card__title, .di-flip-card__statement, .di-flip-card__image-label strong")?.textContent?.trim() || "front";
+      const backTitle = back?.querySelector(".di-flip-card__title, .di-flip-card__statement, .di-flip-card__image-label strong")?.textContent?.trim() || "details";
       card.setAttribute("aria-label", revealed ? `Show ${frontTitle}` : `Reveal ${backTitle} for ${frontTitle}`);
     };
 

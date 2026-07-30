@@ -28,6 +28,7 @@ const iconMap = {
   calendar: { materialSymbol: "calendar-month-outline-sharp", description: "Date or scheduled event" },
   time: { materialSymbol: "schedule", description: "Time or duration" },
   task: { materialSymbol: "task-alt", description: "An action or item to complete" },
+  flip: { materialSymbol: "flip", description: "Turn a card to reveal the reverse side" },
   next: { materialSymbol: "arrow-forward", description: "Move forward or continue" },
   previous: { materialSymbol: "arrow-back", description: "Move back or return" },
   expand: { materialSymbol: "expand-more", description: "Reveal more content" },

@@ -5,12 +5,19 @@ export type FlipCardFormat = "portrait" | "square" | "landscape";
 export type FlipCardHeightMode = "content" | "equal";
 export type FlipCardRevealMode = "flip" | "slide";
 export type FlipCardFocalPosition = "center" | "top" | "bottom" | "left" | "right";
+export type FlipCardVerticalAlignment = "top" | "center";
+export type FlipCardSurface = "default" | "neutral" | "primary" | "secondary" | "accent" | "dark" | "light" | "success" | "warning" | "error";
 
-type FlipCardCopy = {
+type FlipCardFaceBase = {
+  alignment?: FlipCardAlignment;
+  verticalAlignment?: FlipCardVerticalAlignment;
+  surface?: FlipCardSurface;
+};
+
+type FlipCardCopy = FlipCardFaceBase & {
   eyebrow?: string;
   title: string;
   body?: string;
-  alignment?: FlipCardAlignment;
 };
 
 export type FlipCardTextFace = FlipCardCopy & {
@@ -23,7 +30,7 @@ export type FlipCardIconFace = FlipCardCopy & {
   iconTreatment?: "feature" | "heading";
 };
 
-export type FlipCardImageFace = {
+export type FlipCardImageFace = FlipCardFaceBase & {
   type: "image";
   image: string;
   imageAlt?: string;
@@ -46,12 +53,20 @@ export type FlipCardFeatureFace = FlipCardCopy & {
   icon?: QuickCourseIconName;
 };
 
+export type FlipCardStatementFace = FlipCardFaceBase & {
+  type: "statement";
+  eyebrow?: string;
+  statement: string;
+  supportingText?: string;
+};
+
 export type FlipCardFace =
   | FlipCardTextFace
   | FlipCardIconFace
   | FlipCardImageFace
   | FlipCardImageOverlayFace
-  | FlipCardFeatureFace;
+  | FlipCardFeatureFace
+  | FlipCardStatementFace;
 
 export interface FlipCardItem {
   front: FlipCardFace;

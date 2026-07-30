@@ -66,9 +66,9 @@ Approval status: Draft
 
 Purpose: reveal one concise, meaningful second face such as a definition, explanation, benefit or visual comparison.
 
-Content structure or props: every card has structured `front` and `back` faces. Supported face layouts are Text, Icon-led, Image, Image Overlay and Feature. The system supports Text to Text, Icon-led to Text, Image to Text, Text to Image, Image Overlay to Text, Feature to Text and Image to Image combinations.
+Content structure or props: every card has structured `front` and `back` faces. Supported face layouts are Text, Icon-led, Image, Image Overlay, Feature and Statement. Every face independently supports controlled `surface`, horizontal `alignment` and `verticalAlignment` properties where relevant. The system supports Text to Text, Icon-led to Text, Image to Text, Text to Image, Image Overlay to Text, Feature to Text, Statement to Text and Image to Image combinations.
 
-Interaction behaviour: the entire card is one real button. Learners click, tap, press Enter or press Space to reveal and return. `flip` is the default reveal mode; `slide` raises the full back face upward over a stationary visual front.
+Interaction behaviour: the entire card is one real button. Learners click, tap, press Enter or press Space to reveal and return. `flip` is the default reveal mode; `slide` raises the full back face upward over a stationary front. Content determines what appears on the faces; reveal mode determines only how the reverse face is presented.
 
 Keyboard behaviour: cards remain in normal focus order, show visible focus, use `aria-pressed`, update their accessible label and make the hidden face unavailable to assistive technology.
 
@@ -76,15 +76,15 @@ Responsive behaviour: portrait, square and landscape formats stack on narrow scr
 
 Height modes: `content` measures the taller front or back for each individual card and keeps that height stable during a reveal. `equal` measures every face in a group and applies the shared tallest height for aligned grids.
 
-Accessibility considerations: no hover-only content, nested links, nested buttons or internal scrolling. Informative images need meaningful alt text; decorative reveal indicators and supporting icons remain hidden from assistive technology. Reduced-motion preference uses an instant content swap rather than 3D rotation or a large slide.
+Accessibility considerations: no hover-only content, nested links, nested buttons or internal scrolling. Informative images need meaningful alt text; decorative indicators remain hidden from assistive technology. Flip uses a controlled turn-card indicator, while Slide uses controlled Expand and Collapse indicators. Reduced-motion preference uses an instant content swap rather than 3D rotation or a large slide.
 
 Suitable use cases: term/definition, myth/reality, question/answer, role/responsibility, feature/benefit, product image/explanation and clear visual comparisons.
 
 Misuse to avoid: essential reading, long procedures, several paragraphs, formal assessment questions or a reveal that adds no instructional value. Prefer no Flip Card over a weak decorative reveal.
 
-AI authoring guidance: select a supported face type and semantic icon only where it supports meaning. Keep fronts concise, backs scannable, text left-aligned when explanatory and centred when short or high-impact. Use Flip for two-sided concepts; consider Slide for Image or Image Overlay fronts with supporting detail. Keep reveal mode, height mode and format consistent in the same card group unless a designer explicitly directs otherwise.
+AI authoring guidance: select a supported face type and semantic icon only where it supports meaning. Keep fronts concise and backs scannable. Use top and left alignment for explanatory content; use centred horizontal and vertical alignment for short icons, values and statements. Use semantic surfaces rather than arbitrary colours, and use status surfaces only when content has that meaning. Use Statement for short prompts, labels, outcomes or memorable keywords, never paragraphs or detailed feedback. Flip and Slide work with every face type; use Flip as the fallback and keep reveal mode, height mode and format consistent in the same card group unless a designer explicitly directs otherwise.
 
-Standardized properties: the component controls typography, spacing, image crop, movement, focus, reduced-motion behaviour and accessibility. Showcase examples are review specimens, not production authoring controls. Future theme tokens may supply surface, radius and brand-overlay values without changing the face API.
+Standardized properties: the component controls typography, spacing, statement scale, image crop, semantic foreground contrast, movement, focus, reduced-motion behaviour and accessibility. Showcase examples are review specimens, not production authoring controls. Future theme tokens may supply surface, radius and brand-overlay values without changing the face API.
 
 ## Carousel
 

@@ -18,7 +18,7 @@ Use semantic names from the controlled vocabulary only. Do not use Material liga
 
 Supported contexts are `inline`, `button`, `heading` and `feature`. The component owns the matching size and alignment. Parent components should choose the context when the icon has a known location. Icons normally inherit their colour with `currentColor`; parent components may apply a controlled accent or status treatment, but course authors do not choose arbitrary colours.
 
-The approved tokens are: `information`, `warning`, `tip`, `success`, `error`, `question`, `checklist`, `video`, `audio`, `document`, `download`, `external-link`, `person`, `team`, `manager`, `store`, `calendar`, `time`, `task`, `next`, `previous`, `expand`, `collapse`, `close`, `menu`, `search` and `settings`. `person` covers one individual, learner or customer; use `team` for a group and `manager` for a supervisor or leader.
+The approved tokens are: `information`, `warning`, `tip`, `success`, `error`, `question`, `checklist`, `video`, `audio`, `document`, `download`, `external-link`, `person`, `team`, `manager`, `store`, `calendar`, `time`, `task`, `flip`, `next`, `previous`, `expand`, `collapse`, `close`, `menu`, `search` and `settings`. `person` covers one individual, learner or customer; use `team` for a group and `manager` for a supervisor or leader. `flip` is the controlled cue for turning a two-faced card.
 
 Visible token descriptions are intentionally concise. Use `task` for one action or item to complete, `checklist` for a collection of checks or steps, and `success` for completion or confirmation.
 
