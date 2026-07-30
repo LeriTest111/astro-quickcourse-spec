@@ -87,7 +87,7 @@ export const showcaseRegistry: ShowcaseRegistryItem[] = [
   { id: "section-divider", name: "Section Divider or Chapter Opener", category: "layouts", status: "concept", version: "0.1.0" },
   { id: "summary-section", name: "Summary Layout", category: "layouts", status: "concept", version: "0.1.0" },
   { id: "accordion", name: "Accordion", category: "display-interactions", status: "draft", version: "0.1.0" },
-  { id: "flip-cards", name: "Quick Course Flip Card System", category: "display-interactions", status: "draft", version: "0.2.0" },
+  { id: "flip-cards", name: "Quick Course Flip Card System", category: "display-interactions", status: "in-review", version: "0.2.0" },
   { id: "hotspot-reveal", name: "Click-to-Reveal Hotspots", category: "display-interactions", status: "draft", version: "0.1.0" },
   {
     id: "guided-product-explorer",
