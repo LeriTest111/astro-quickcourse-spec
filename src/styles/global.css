@@ -150,6 +150,26 @@ caption {
   height: 2.75rem;
 }
 
+.qc-icon-label {
+  display: inline-flex;
+  min-width: 0;
+  align-items: center;
+  gap: 0.45rem;
+  line-height: 1.2;
+}
+
+.qc-icon-label .qc-icon {
+  flex: 0 0 auto;
+}
+
+.qc-icon-label--heading {
+  align-items: flex-start;
+}
+
+.qc-icon-label--icon-only {
+  gap: 0;
+}
+
 .back-to-top {
   position: fixed;
   right: 1rem;
@@ -1582,49 +1602,49 @@ dialog::backdrop {
   min-width: 0;
 }
 
-.showcase-icon-token-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
-  gap: 0.75rem;
+.showcase-icon-information-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
 }
 
-.showcase-icon-token {
-  display: grid;
-  min-width: 0;
-  gap: 0.35rem;
-  border: 1px solid #d1d5db;
-  border-radius: 0.45rem;
-  background: #ffffff;
+.showcase-icon-system-section {
+  border-top: 1px solid #d1d5db;
+  margin-top: 1.75rem;
+  padding-top: 1.75rem;
+}
+
+.showcase-icon-system-section__header {
+  margin-bottom: 1rem;
+}
+
+.showcase-icon-system-section__header h4,
+.showcase-icon-context-demo h5,
+.showcase-icon-feature-demo h5 {
   color: #111827;
-  padding: 0.9rem;
+  font-size: 1.1rem;
 }
 
-.showcase-icon-token .qc-icon {
-  color: #2563eb;
-}
-
-.showcase-icon-token strong {
-  overflow-wrap: anywhere;
-}
-
-.showcase-icon-token span,
-.showcase-icon-demo-copy {
+.showcase-icon-system-section__header p,
+.showcase-icon-feature-demo p {
+  max-width: 68ch;
+  margin-top: 0.3rem;
   color: #4b5563;
-  font-size: 0.875rem;
-  line-height: 1.45;
 }
 
 .showcase-icon-context-grid,
-.showcase-icon-accessibility-grid,
-.showcase-icon-use-grid {
+.showcase-icon-colour-grid,
+.showcase-icon-treatment-grid,
+.showcase-icon-accessibility-grid {
   display: grid;
-  gap: 1rem;
+  gap: 0.75rem;
 }
 
 .showcase-icon-context-demo,
 .showcase-icon-feature-demo,
 .showcase-icon-accessibility-grid > div,
-.showcase-icon-use-grid > div {
+.showcase-icon-treatment-grid > div {
   min-width: 0;
   border: 1px solid #d1d5db;
   border-radius: 0.45rem;
@@ -1637,14 +1657,11 @@ dialog::backdrop {
   width: fit-content;
   max-width: 100%;
   align-items: center;
-  gap: 0.45rem;
   margin: 0;
 }
 
-h4.showcase-icon-context-demo {
+h5.showcase-icon-context-demo {
   width: auto;
-  color: #111827;
-  font-size: 1.25rem;
 }
 
 .showcase-icon-feature-demo {
@@ -1653,56 +1670,157 @@ h4.showcase-icon-context-demo {
   gap: 0.85rem;
 }
 
-.showcase-icon-feature-demo .qc-icon {
+.showcase-icon-feature-demo > .qc-icon {
   color: #2563eb;
 }
 
-.showcase-icon-feature-demo h4,
-.showcase-icon-use-grid h4 {
-  color: #111827;
-  font-size: 1rem;
-}
-
-.showcase-icon-feature-demo p,
-.showcase-icon-use-grid ul {
-  margin-top: 0.35rem;
-  color: #4b5563;
-}
-
-.showcase-icon-use-grid ul {
+.showcase-icon-token-grid {
   display: grid;
-  gap: 0.4rem;
-  padding-left: 1.25rem;
+  grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+  gap: 0.65rem;
+}
+
+.showcase-icon-token {
+  display: grid;
+  min-width: 0;
+  gap: 0.3rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.4rem;
+  background: #ffffff;
+  color: #111827;
+  padding: 0.8rem;
+}
+
+.showcase-icon-token .qc-icon {
+  color: #2563eb;
+}
+
+.showcase-icon-token strong {
+  overflow-wrap: anywhere;
+}
+
+.showcase-icon-token span {
+  color: #4b5563;
+  font-size: 0.82rem;
+  line-height: 1.4;
+}
+
+.showcase-icon-colour-grid p {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0;
+  border: 1px solid #d1d5db;
+  border-radius: 0.4rem;
+  background: #ffffff;
+  color: #334155;
+  font-weight: 750;
+  padding: 0.75rem 0.85rem;
+}
+
+.showcase-icon-accent {
+  color: #1d4ed8 !important;
+}
+
+.showcase-icon-status--success {
+  border-color: #86efac !important;
+  background: #f0fdf4 !important;
+  color: #166534 !important;
+}
+
+.showcase-icon-status--warning {
+  border-color: #fcd34d !important;
+  background: #fffbeb !important;
+  color: #92400e !important;
+}
+
+.showcase-icon-status--error {
+  border-color: #fca5a5 !important;
+  background: #fef2f2 !important;
+  color: #b91c1c !important;
+}
+
+.showcase-icon-treatment-grid > div {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  column-gap: 0.55rem;
+  row-gap: 0.15rem;
+  align-items: center;
+}
+
+.showcase-icon-treatment-grid .qc-icon {
+  grid-row: span 2;
+}
+
+.showcase-icon-treatment-grid strong {
+  color: #111827;
+}
+
+.showcase-icon-treatment-grid span {
+  color: #4b5563;
+  font-size: 0.85rem;
+}
+
+.showcase-icon-treatment--emphasised {
+  border-color: #bfdbfe !important;
+  background: #eff6ff !important;
+}
+
+.showcase-icon-treatment--emphasised .qc-icon {
+  color: #1d4ed8;
+}
+
+.showcase-icon-treatment--filled {
+  border-color: #86efac !important;
+  background: #f0fdf4 !important;
+}
+
+.showcase-icon-treatment--filled .qc-icon {
+  color: #15803d;
 }
 
 .showcase-icon-demo-label {
-  margin: 0 0 0.45rem;
+  margin: 0 0 0.55rem;
   color: #111827;
   font-weight: 800;
 }
 
-.showcase-icon-status {
-  display: flex;
-  align-items: center;
-  gap: 0.4rem;
-  color: #166534;
-  font-weight: 800;
+.showcase-icon-only-button {
+  box-sizing: border-box;
+  width: 2.75rem;
+  min-height: 2.75rem;
+  padding: 0;
 }
 
-.showcase-icon-only-link {
-  display: inline-grid;
-  place-items: center;
-  text-decoration: none;
+.showcase-icon-demo-details {
+  margin-top: 0.7rem;
+  color: #4b5563;
+  font-size: 0.875rem;
+  line-height: 1.45;
+}
+
+.di-dialog__list {
+  display: grid;
+  gap: 0.55rem;
+  max-width: 72ch;
+  margin: 1rem 0 0;
+  color: #374151;
+  padding-left: 1.25rem;
 }
 
 @media (min-width: 720px) {
   .showcase-icon-context-grid,
-  .showcase-icon-accessibility-grid,
-  .showcase-icon-use-grid {
+  .showcase-icon-colour-grid,
+  .showcase-icon-treatment-grid,
+  .showcase-icon-accessibility-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .showcase-icon-accessibility-grid {
+  .showcase-icon-colour-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .showcase-icon-treatment-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }

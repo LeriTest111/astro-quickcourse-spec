@@ -138,7 +138,7 @@ export const showcaseRegistry: ShowcaseRegistryItem[] = [
     reviewFocus: "Review the chapter-panel layout, compact spacing, active-state clarity, scrolling behaviour and suitability for longer instructional videos.",
   },
   { id: "type-scale", name: "System type stack", category: "typography", status: "draft", version: "0.1.0" },
-  { id: "icon-set", name: "Core icon examples", category: "icons", status: "draft", version: "0.1.0" },
+  { id: "icon-set", name: "Quick Course Icon System", category: "icons", status: "draft", version: "0.2.0", reviewFocus: "Review the semantic vocabulary, Material Symbols Sharp consistency, controlled context treatments and AI-safe accessibility guidance." },
 ];
 
 export function shouldShowShowcaseItem(item: ShowcaseRegistryItem, mode: ShowcaseMode = showcaseMode) {

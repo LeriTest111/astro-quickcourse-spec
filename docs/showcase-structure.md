@@ -54,6 +54,12 @@ Production components should receive normal props, content data or slots. Do not
 
 Use the shared disclosure pattern for new Showcase configuration controls. It should remain visually distinct from learner-facing content and should not become a large configuration dashboard.
 
+## Information Controls
+
+When a visible example is self-explanatory, keep the demonstration on the page and place detailed guidance behind the established Supporting-detail Modal information control. Use a second technical-information control only when implementation detail has real value for developers or Learning Technology. This keeps the Showcase focused without removing important project guidance.
+
+Do not apply this pattern mechanically to every component. The amount of visible information should match what reviewers need to understand the example.
+
 ## Cursor Policy
 
 Links, enabled buttons, summaries and other genuine controls should use pointer cursor styling. Static content should keep the default cursor. Cursor styling never replaces semantic HTML, keyboard support, visible focus states or accessible names.

@@ -10,7 +10,7 @@ interface Props {
   triggerIconOnly?: boolean;
   triggerVariant?: "primary" | "secondary";
   heading: string;
-  content: string;
+  content?: string;
   imageSrc?: string;
   imageAlt?: string;
   action?: LayoutAction;
@@ -23,8 +23,12 @@ const triggerClasses = [triggerClass, triggerIconOnly && "di-icon-button"].filte
 
 <div class="di-detail-modal" data-detail-modal>
   <button class={triggerClasses} type="button" data-detail-open aria-label={triggerIconOnly ? triggerLabel : undefined}>
-    {triggerIcon && <QuickCourseIcon name={triggerIcon} context="button" decorative />}
-    {!triggerIconOnly && <span>{triggerLabel}</span>}
+    {triggerIcon ? (
+      <span class:list={["qc-icon-label", triggerIconOnly && "qc-icon-label--icon-only"]}>
+        <QuickCourseIcon name={triggerIcon} context="button" decorative />
+        {!triggerIconOnly && <span>{triggerLabel}</span>}
+      </span>
+    ) : !triggerIconOnly && <span>{triggerLabel}</span>}
   </button>
   <dialog class="di-dialog" id={id} aria-labelledby={`${id}-heading`} data-detail-dialog>
     <div class="di-dialog__inner">
@@ -33,7 +37,8 @@ const triggerClasses = [triggerClass, triggerIconOnly && "di-icon-button"].filte
       </button>
       {imageSrc && <img src={imageSrc} alt={imageAlt} loading="lazy" />}
       <h3 id={`${id}-heading`}>{heading}</h3>
-      <p>{content}</p>
+      {content && <p>{content}</p>}
+      <slot />
       {action && <a class="di-secondary-button" href={action.href}>{action.label}</a>}
     </div>
   </dialog>

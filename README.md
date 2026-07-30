@@ -124,7 +124,7 @@ No external service is required for text fonts, and no text font files are inclu
 
 ## Icon Standard
 
-Material Symbols Sharp is the approved Quick Course icon family. New course components should use `QuickCourseIcon` with a semantic token such as `information`, `warning`, `tip`, `video` or `close`; raw icon-library IDs remain internal to `src/data/quick-course-icons.ts`. Context controls size, decorative SVGs are hidden from assistive technology, and icon-only controls need an accessible name. See `docs/components/icons.md` for the full AI authoring guidance and migration notes.
+Material Symbols Sharp is the approved Quick Course icon family. New course components should use `QuickCourseIcon` with a semantic token such as `information`, `warning`, `tip`, `video` or `close`; raw icon-library IDs remain internal to `src/data/quick-course-icons.ts`. Context controls size, decorative SVGs are hidden from assistive technology, and icon-only controls need an accessible name. The Icons Showcase keeps detailed usage and implementation notes behind separate information controls so the visible page stays focused on examples. See `docs/components/icons.md` for the full AI authoring guidance and migration notes.
 
 ## Proposing A New Component
 

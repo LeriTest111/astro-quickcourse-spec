@@ -3,28 +3,30 @@ import {
   getQuickCourseIconSvg,
   type QuickCourseIconContext,
   type QuickCourseIconName,
+  type QuickCourseIconTreatment,
 } from "../../data/quick-course-icons";
 
 interface Props {
   name: QuickCourseIconName;
   context?: QuickCourseIconContext;
+  treatment?: QuickCourseIconTreatment;
   decorative?: boolean;
   label?: string;
   class?: string;
 }
 
-const { name, context = "inline", decorative = true, label, class: className } = Astro.props;
+const { name, context = "inline", treatment = "default", decorative = true, label, class: className } = Astro.props;
 const accessibleLabel = label?.trim();
 
 if (!decorative && !accessibleLabel) {
   throw new Error(`QuickCourseIcon "${name}" needs a label when decorative is false.`);
 }
 
-const svg = getQuickCourseIconSvg(name);
+const svg = getQuickCourseIconSvg(name, treatment);
 ---
 
 <svg
-  class:list={["qc-icon", `qc-icon--${context}`, className]}
+  class:list={["qc-icon", `qc-icon--${context}`, `qc-icon--${treatment}`, className]}
   xmlns="http://www.w3.org/2000/svg"
   viewBox={svg.attributes.viewBox}
   aria-hidden={decorative ? "true" : undefined}

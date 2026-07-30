@@ -18,69 +18,128 @@ const hasVisibleItems = getVisibleShowcaseItems("icons").length > 0;
 >
   <ShowcasePageHeader
     title="Icons"
-    description="A controlled Material Symbols Sharp system. Course authors choose semantic meaning; components control visual context and sizing."
+    description="The Quick Course icon system uses a controlled semantic vocabulary and Material Symbols Sharp to produce consistent, accessible icons across AI-generated courses."
   />
 
   <div class="showcase-example-stack mt-8">
     {!hasVisibleItems && <ShowcaseEmptyState />}
 
-    {hasVisibleItems && <ShowcaseExample id="icon-set" title="Approved semantic tokens" purpose="A small, meaning-based vocabulary for AI-generated Quick Courses rather than an unrestricted icon library.">
-      <div class="showcase-icon-token-grid" aria-label="Approved semantic icon tokens">
-        {quickCourseIconTokens.map((icon) => (
-          <div class="showcase-icon-token">
-            <QuickCourseIcon name={icon.name} context="heading" decorative />
-            <strong>{icon.name}</strong>
-            <span>{icon.description}</span>
-          </div>
-        ))}
-      </div>
-    </ShowcaseExample>}
-
-    {hasVisibleItems && <ShowcaseExample id="icon-contexts" title="Context controls size" purpose="The same semantic icon adapts to its known placement; course authors do not choose arbitrary pixel sizes.">
-      <div class="showcase-icon-context-grid">
-        <p class="showcase-icon-context-demo"><QuickCourseIcon name="information" context="inline" decorative />Read the information before continuing.</p>
-        <a class="di-secondary-button showcase-icon-context-demo" href="#icon-accessibility"><QuickCourseIcon name="information" context="button" decorative />View details</a>
-        <h4 class="showcase-icon-context-demo"><QuickCourseIcon name="tip" context="heading" decorative />Helpful tip</h4>
-        <article class="showcase-icon-feature-demo"><QuickCourseIcon name="customer" context="feature" decorative /><div><h4>Prepare for the customer conversation</h4><p>Use the icon as supporting context, not a replacement for the heading.</p></div></article>
-      </div>
-    </ShowcaseExample>}
-
-    {hasVisibleItems && <ShowcaseExample id="icon-accessibility" title="Accessible icon use" purpose="Decorative and informative icons have different accessibility treatment.">
-      <div class="showcase-icon-accessibility-grid">
-        <div>
-          <p class="showcase-icon-demo-label">Decorative icon</p>
-          <p><QuickCourseIcon name="video" context="inline" decorative />Video guidance</p>
-          <p class="showcase-icon-demo-copy">The visible text carries the meaning, so the SVG is hidden from assistive technology.</p>
-        </div>
-        <div>
-          <p class="showcase-icon-demo-label">Informative icon</p>
-          <p class="showcase-icon-status"><QuickCourseIcon name="success" context="inline" decorative={false} label="Success" />Changes saved.</p>
-          <p class="showcase-icon-demo-copy">When the icon itself conveys meaning, it receives a concise accessible label.</p>
-        </div>
-        <div>
-          <p class="showcase-icon-demo-label">Icon-only control</p>
-          <a class="di-icon-button showcase-icon-only-link" href="#icon-set" aria-label="Return to approved semantic tokens"><QuickCourseIcon name="previous" context="button" decorative /></a>
-          <p class="showcase-icon-demo-copy">The parent control provides the accessible name, avoiding duplicate announcements.</p>
-        </div>
-      </div>
-      <div class="showcase-guidance-control">
+    {hasVisibleItems && <ShowcaseExample id="icon-set" title="Quick Course Icon System" purpose="One controlled standard for semantic meaning, sizing, colour and accessible use.">
+      <div class="showcase-icon-information-controls">
         <DetailModal
-          id="icon-system-guidance"
-          triggerLabel="View icon system guidance"
+          id="icon-usage-guidance"
+          triggerLabel="Icon usage guidance"
           triggerIcon="information"
-          triggerIconOnly={true}
           triggerVariant="secondary"
-          heading="Quick Course icon guidance"
-          content="Use an approved semantic token only when it supports comprehension, navigation, action or status. Pair unfamiliar icons with text, use decorative SVGs when nearby text repeats the meaning, and give every icon-only control an accessible name."
-        />
-      </div>
-    </ShowcaseExample>}
+          heading="Quick Course icon usage guidance"
+        >
+          <p>Use an icon only when it supports comprehension, navigation, action or status. Material Symbols Sharp is the Quick Course visual standard.</p>
+          <ul class="di-dialog__list">
+            <li>AI chooses a semantic token from the controlled vocabulary, never a raw icon-library name or visual family.</li>
+            <li>Let parent components choose icon context and size where the placement is already known.</li>
+            <li>Pair unfamiliar icons with visible text and prefer no icon over a weak match.</li>
+            <li>Keep repeated visual support decorative; icon-only controls need an accessible label.</li>
+            <li>Do not use icons or colour as the only indicator of an important status.</li>
+          </ul>
+        </DetailModal>
 
-    {hasVisibleItems && <ShowcaseExample id="icon-use" title="Use icons with intent" purpose="Meaningful, consistent icons support learning; decorative repetition adds noise.">
-      <div class="showcase-icon-use-grid">
-        <div><h4>Use</h4><ul><li>One meaningful icon supporting a callout heading.</li><li>Material Symbols Sharp from the approved semantic vocabulary.</li><li>Visible text with unfamiliar actions or statuses.</li><li>Parent components that set context and spacing.</li></ul></div>
-        <div><h4>Avoid</h4><ul><li>Adding an icon to every heading or card.</li><li>Mixing visual icon families.</li><li>Choosing a weak icon because it looks attractive.</li><li>Icon-only controls without accessible names.</li></ul></div>
+        <DetailModal
+          id="icon-technical-implementation"
+          triggerLabel="Technical implementation"
+          triggerIcon="settings"
+          triggerVariant="secondary"
+          heading="Quick Course icon technical implementation"
+        >
+          <p><code>QuickCourseIcon</code> renders locally bundled Material Symbols Sharp SVG data from Iconify. The semantic type and central map live in <code>src/data/quick-course-icons.ts</code>; the reusable Astro component lives in <code>src/components/ui/QuickCourseIcon.astro</code>.</p>
+          <ul class="di-dialog__list">
+            <li>No runtime icon API request is required. Rendered SVG paths use <code>currentColor</code>, so known parent contexts control colour.</li>
+            <li>TypeScript limits new use to controlled semantic tokens. Missing map entries and informative icons without labels fail clearly during development or build.</li>
+            <li>Contexts control size: Inline, Button, Heading and Feature. The only filled SVG mapping is Success, where it represents a completed state.</li>
+            <li>Static SVG output works in static and SCORM builds. The legacy remote Material Symbols font remains temporarily for older raw-ligature components that have not yet been migrated.</li>
+            <li>Add a new token centrally after project-team review; do not expose unrestricted Iconify choices or add another visual family.</li>
+          </ul>
+        </DetailModal>
       </div>
+
+      <section class="showcase-icon-system-section" aria-labelledby="icon-live-preview-heading">
+        <div class="showcase-icon-system-section__header">
+          <h4 id="icon-live-preview-heading">Contexts and placement</h4>
+          <p>Semantic meaning stays the same while the system-defined context controls size and alignment.</p>
+        </div>
+        <div class="showcase-icon-context-grid">
+          <p class="showcase-icon-context-demo"><QuickCourseIcon name="information" context="inline" decorative />Read the information before continuing.</p>
+          <a class="di-secondary-button showcase-icon-context-demo" href="#icon-accessibility"><span class="qc-icon-label"><QuickCourseIcon name="video" context="button" decorative /><span>Video guidance</span></span></a>
+          <h5 class="showcase-icon-context-demo"><span class="qc-icon-label qc-icon-label--heading"><QuickCourseIcon name="tip" context="heading" decorative /><span>Helpful tip</span></span></h5>
+          <article class="showcase-icon-feature-demo"><QuickCourseIcon name="customer" context="feature" decorative /><div><h5>Prepare for the customer conversation</h5><p>Feature context gives supporting visual emphasis without overtaking the content.</p></div></article>
+        </div>
+      </section>
+
+      <section class="showcase-icon-system-section" aria-labelledby="icon-colour-heading">
+        <div class="showcase-icon-system-section__header">
+          <h4 id="icon-colour-heading">Controlled colour and emphasis</h4>
+          <p>Icons inherit their parent colour; status meaning is always paired with text.</p>
+        </div>
+        <div class="showcase-icon-colour-grid">
+          <p><QuickCourseIcon name="information" context="inline" decorative />Body text</p>
+          <p class="showcase-icon-accent"><QuickCourseIcon name="tip" context="inline" decorative />Accent treatment</p>
+          <p class="showcase-icon-status showcase-icon-status--success"><QuickCourseIcon name="success" context="inline" decorative />Success: changes saved</p>
+          <p class="showcase-icon-status showcase-icon-status--warning"><QuickCourseIcon name="warning" context="inline" decorative />Warning: check the details</p>
+          <p class="showcase-icon-status showcase-icon-status--error"><QuickCourseIcon name="error" context="inline" decorative />Error: try again</p>
+        </div>
+        <div class="showcase-icon-treatment-grid" aria-label="Controlled visual emphasis treatments">
+          <div><QuickCourseIcon name="information" context="heading" decorative /><strong>Default</strong><span>Normal guidance</span></div>
+          <div class="showcase-icon-treatment--emphasised"><QuickCourseIcon name="warning" context="heading" decorative /><strong>Emphasised</strong><span>Stronger parent treatment</span></div>
+          <div class="showcase-icon-treatment--filled"><QuickCourseIcon name="success" context="heading" treatment="filled" decorative /><strong>Filled state</strong><span>Completed</span></div>
+        </div>
+      </section>
+
+      <section class="showcase-icon-system-section" aria-labelledby="icon-tokens-heading">
+        <div class="showcase-icon-system-section__header">
+          <h4 id="icon-tokens-heading">Semantic icon tokens</h4>
+        </div>
+        <div class="showcase-icon-token-grid" aria-label="Current semantic icon vocabulary">
+          {quickCourseIconTokens.map((icon) => (
+            <div class="showcase-icon-token">
+              <QuickCourseIcon name={icon.name} context="heading" decorative />
+              <strong>{icon.name}</strong>
+              <span>{icon.description}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section class="showcase-icon-system-section" id="icon-accessibility" aria-labelledby="icon-accessibility-heading">
+        <div class="showcase-icon-system-section__header">
+          <h4 id="icon-accessibility-heading">Accessibility</h4>
+        </div>
+        <div class="showcase-icon-accessibility-grid">
+          <div>
+            <p class="showcase-icon-demo-label">Decorative icon</p>
+            <p class="qc-icon-label"><QuickCourseIcon name="video" context="inline" decorative /><span>Video guidance</span></p>
+          </div>
+          <div>
+            <p class="showcase-icon-demo-label">Icon-only control</p>
+            <button class="di-secondary-button di-icon-button showcase-icon-only-button" type="button" data-icon-demo-toggle aria-expanded="false" aria-controls="icon-demo-details" aria-label="Show icon control details"><QuickCourseIcon name="expand" context="button" decorative /></button>
+            <p id="icon-demo-details" class="showcase-icon-demo-details" hidden>The parent button supplies the accessible name; the nested SVG remains decorative.</p>
+          </div>
+        </div>
+      </section>
     </ShowcaseExample>}
   </div>
 </ShowcaseLayout>
+
+<script>
+  document.querySelectorAll("[data-icon-demo-toggle]").forEach((button) => {
+    if (!(button instanceof HTMLButtonElement) || button.dataset.iconDemoReady === "true") return;
+    button.dataset.iconDemoReady = "true";
+    const detailsId = button.getAttribute("aria-controls");
+    const details = detailsId ? document.getElementById(detailsId) : null;
+    if (!(details instanceof HTMLElement)) return;
+
+    button.addEventListener("click", () => {
+      const expanded = button.getAttribute("aria-expanded") === "true";
+      button.setAttribute("aria-expanded", String(!expanded));
+      details.hidden = expanded;
+    });
+  });
+</script>

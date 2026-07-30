@@ -3,6 +3,7 @@ import { getIconData, iconToSVG } from "@iconify/utils";
 
 type IconDefinition = {
   materialSymbol: string;
+  filledMaterialSymbol?: string;
   description: string;
 };
 
@@ -11,7 +12,7 @@ const iconMap = {
   information: { materialSymbol: "info-outline", description: "General supporting information" },
   warning: { materialSymbol: "warning-outline", description: "Risk, caution or important attention" },
   tip: { materialSymbol: "lightbulb-outline", description: "Helpful advice or recommendation" },
-  success: { materialSymbol: "check-circle-outline", description: "Successful completion or confirmation" },
+  success: { materialSymbol: "check-circle-outline", filledMaterialSymbol: "check-circle", description: "Successful completion or confirmation" },
   error: { materialSymbol: "error-outline", description: "Problem or failed action" },
   question: { materialSymbol: "help-outline", description: "Question or additional help" },
   checklist: { materialSymbol: "checklist", description: "List of required checks or steps" },
@@ -40,14 +41,22 @@ const iconMap = {
 
 export type QuickCourseIconName = keyof typeof iconMap;
 export type QuickCourseIconContext = "inline" | "button" | "heading" | "feature";
+export type QuickCourseIconTreatment = "default" | "filled";
 
 export const quickCourseIconTokens = (Object.keys(iconMap) as QuickCourseIconName[]).map((name) => ({
   name,
   description: iconMap[name].description,
 }));
 
-export function getQuickCourseIconSvg(name: QuickCourseIconName) {
-  const icon = getIconData(materialSymbols, iconMap[name].materialSymbol);
+export function getQuickCourseIconSvg(name: QuickCourseIconName, treatment: QuickCourseIconTreatment = "default") {
+  const definition = iconMap[name];
+  const materialSymbol = treatment === "filled" ? definition.filledMaterialSymbol : definition.materialSymbol;
+
+  if (!materialSymbol) {
+    throw new Error(`Quick Course icon "${name}" does not support the filled treatment.`);
+  }
+
+  const icon = getIconData(materialSymbols, materialSymbol);
 
   if (!icon) {
     throw new Error(`Quick Course icon mapping is unavailable for "${name}".`);
