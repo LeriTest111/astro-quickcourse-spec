@@ -117,6 +117,16 @@ export const showcaseRegistry: ShowcaseRegistryItem[] = [
     hasExample: false,
   },
   {
+    id: "in-video-assessment",
+    name: "In-video Assessment",
+    category: "assessment-interactions",
+    status: "idea",
+    description: "A video-led scenario that pauses at decision points and asks learners to choose how to respond.",
+    proposedUse: "Safety, service and operational scenarios where consequences and feedback can follow each learner choice.",
+    notes: "Reference direction: Lifesaver's interactive video experience. Showcase-only idea entry. No working component or prototype exists yet.",
+    hasExample: false,
+  },
+  {
     id: "standard-video",
     name: "Standard Video",
     category: "multimedia",

@@ -5,7 +5,7 @@ import ShowcaseExample from "../../components/showcase/ShowcaseExample.astro";
 import ShowcaseEmptyState from "../../components/showcase/ShowcaseEmptyState.astro";
 import ProposalCard from "../../components/showcase/ProposalCard.astro";
 import MultipleChoiceFeedback from "../../components/interactions/MultipleChoiceFeedback.astro";
-import { getShowcaseItem, getVisibleShowcaseItems, isShowcaseItemVisible } from "../../data/showcase-registry";
+import { getShowcaseItem, getVisibleProposalItems, getVisibleShowcaseItems, isShowcaseItemVisible } from "../../data/showcase-registry";
 
 const multipleChoiceExample = {
   eyebrow: "Knowledge check",
@@ -41,7 +41,8 @@ const multipleChoiceExample = {
   ],
 };
 const hasVisibleItems = getVisibleShowcaseItems("assessment-interactions").length > 0;
-const dragAndDropIdea = getShowcaseItem("drag-and-drop");
+const multipleChoiceItem = getShowcaseItem("multiple-choice-feedback");
+const proposalItems = getVisibleProposalItems("assessment-interactions");
 ---
 
 <ShowcaseLayout
@@ -56,13 +57,13 @@ const dragAndDropIdea = getShowcaseItem("drag-and-drop");
 
   <div class="showcase-example-stack mt-8">
     {!hasVisibleItems && <ShowcaseEmptyState />}
-    <ShowcaseExample
+    {multipleChoiceItem && isShowcaseItemVisible("multiple-choice-feedback") && <ShowcaseExample
       id="multiple-choice-feedback"
       title="Multiple-choice feedback"
       purpose="Presents choices, records selection state and gives immediate feedback in a polite live region."
     >
       <MultipleChoiceFeedback {...multipleChoiceExample} />
-    </ShowcaseExample>
-    {dragAndDropIdea && isShowcaseItemVisible("drag-and-drop") && <ProposalCard item={dragAndDropIdea} />}
+    </ShowcaseExample>}
+    {proposalItems.map((item) => <ProposalCard item={item} />)}
   </div>
 </ShowcaseLayout>
