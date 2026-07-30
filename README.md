@@ -16,7 +16,7 @@ In this Showcase, top navigation links open separate category pages for review, 
 - Tailwind CSS
 - DaisyUI
 - Native system text font stack
-- Google Material Symbols Sharp for icons
+- Locally bundled Material Symbols Sharp SVG icons for controlled course icon use
 - JavaScript where browser interaction is required
 - Optional SCORM packaging via `scripts/build-scorm.mjs`
 
@@ -120,11 +120,11 @@ Helvetica,
 sans-serif
 ```
 
-No external service is required for text fonts, and no text font files are included in the project. Google Material Symbols Sharp is loaded separately as the standard icon family. This typography foundation is shared by the Showcase and future Boilerplate. Any future custom text font requires project-team approval.
+No external service is required for text fonts, and no text font files are included in the project. Material Symbols Sharp is rendered as locally bundled SVG through the controlled icon system for new course work. This typography foundation is shared by the Showcase and future Boilerplate. Any future custom text font requires project-team approval.
 
 ## Icon Standard
 
-The Showcase uses Google Material Symbols Sharp for interface icons. Use the shared `material-symbols-sharp showcase-icon` classes and render icons with ligature text, such as `arrow_upward`.
+Material Symbols Sharp is the approved Quick Course icon family. New course components should use `QuickCourseIcon` with a semantic token such as `information`, `warning`, `tip`, `video` or `close`; raw icon-library IDs remain internal to `src/data/quick-course-icons.ts`. Context controls size, decorative SVGs are hidden from assistive technology, and icon-only controls need an accessible name. See `docs/components/icons.md` for the full AI authoring guidance and migration notes.
 
 ## Proposing A New Component
 

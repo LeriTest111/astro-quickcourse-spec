@@ -3,41 +3,84 @@ import ShowcaseLayout from "../../layouts/ShowcaseLayout.astro";
 import ShowcasePageHeader from "../../components/showcase/ShowcasePageHeader.astro";
 import ShowcaseExample from "../../components/showcase/ShowcaseExample.astro";
 import ShowcaseEmptyState from "../../components/showcase/ShowcaseEmptyState.astro";
+import DetailModal from "../../components/interactions/display/DetailModal.astro";
+import QuickCourseIcon from "../../components/ui/QuickCourseIcon.astro";
+import { quickCourseIconTokens } from "../../data/quick-course-icons";
 import { getVisibleShowcaseItems } from "../../data/showcase-registry";
 
-const icons = [
-  ["arrow_forward", "Continue"],
-  ["check_circle", "Correct"],
-  ["info", "Information"],
-  ["play_circle", "Play"],
-  ["menu", "Menu"],
-  ["arrow_upward", "Back to top"],
-];
 const hasVisibleItems = getVisibleShowcaseItems("icons").length > 0;
 ---
 
 <ShowcaseLayout
   pageTitle="Icons | Astro Quick Course Showcase"
-  description="Icon usage examples for Quick Courses."
+  description="Controlled Material Symbols Sharp icons for AI-generated Quick Courses."
   activeCategory="icons"
 >
   <ShowcasePageHeader
     title="Icons"
-    description="Material Symbols Sharp examples for course controls and supporting visual cues."
+    description="A controlled Material Symbols Sharp system. Course authors choose semantic meaning; components control visual context and sizing."
   />
 
   <div class="showcase-example-stack mt-8">
     {!hasVisibleItems && <ShowcaseEmptyState />}
-    <ShowcaseExample id="icon-set" title="Core icon examples" purpose="Shows the standard icon class and accessible pairing with visible labels.">
-      <div class="grid grid-cols-3 gap-3 sm:grid-cols-6">
-        {icons.map(([icon, label]) => (
-          <div class="flex min-h-28 flex-col items-center justify-center gap-2 rounded-box border border-base-300 bg-base-100 p-3 text-center">
-            <span class="material-symbols-sharp showcase-icon text-3xl text-primary" aria-hidden="true">{icon}</span>
-            <span class="text-xs text-base-content/70">{label}</span>
+
+    {hasVisibleItems && <ShowcaseExample id="icon-set" title="Approved semantic tokens" purpose="A small, meaning-based vocabulary for AI-generated Quick Courses rather than an unrestricted icon library.">
+      <div class="showcase-icon-token-grid" aria-label="Approved semantic icon tokens">
+        {quickCourseIconTokens.map((icon) => (
+          <div class="showcase-icon-token">
+            <QuickCourseIcon name={icon.name} context="heading" decorative />
+            <strong>{icon.name}</strong>
+            <span>{icon.description}</span>
           </div>
         ))}
       </div>
-      <p class="mt-4 text-sm text-base-content/70">Use the <code>material-symbols-sharp showcase-icon</code> classes and pair icons with text or an accessible label when meaning is not obvious.</p>
-    </ShowcaseExample>
+    </ShowcaseExample>}
+
+    {hasVisibleItems && <ShowcaseExample id="icon-contexts" title="Context controls size" purpose="The same semantic icon adapts to its known placement; course authors do not choose arbitrary pixel sizes.">
+      <div class="showcase-icon-context-grid">
+        <p class="showcase-icon-context-demo"><QuickCourseIcon name="information" context="inline" decorative />Read the information before continuing.</p>
+        <a class="di-secondary-button showcase-icon-context-demo" href="#icon-accessibility"><QuickCourseIcon name="information" context="button" decorative />View details</a>
+        <h4 class="showcase-icon-context-demo"><QuickCourseIcon name="tip" context="heading" decorative />Helpful tip</h4>
+        <article class="showcase-icon-feature-demo"><QuickCourseIcon name="customer" context="feature" decorative /><div><h4>Prepare for the customer conversation</h4><p>Use the icon as supporting context, not a replacement for the heading.</p></div></article>
+      </div>
+    </ShowcaseExample>}
+
+    {hasVisibleItems && <ShowcaseExample id="icon-accessibility" title="Accessible icon use" purpose="Decorative and informative icons have different accessibility treatment.">
+      <div class="showcase-icon-accessibility-grid">
+        <div>
+          <p class="showcase-icon-demo-label">Decorative icon</p>
+          <p><QuickCourseIcon name="video" context="inline" decorative />Video guidance</p>
+          <p class="showcase-icon-demo-copy">The visible text carries the meaning, so the SVG is hidden from assistive technology.</p>
+        </div>
+        <div>
+          <p class="showcase-icon-demo-label">Informative icon</p>
+          <p class="showcase-icon-status"><QuickCourseIcon name="success" context="inline" decorative={false} label="Success" />Changes saved.</p>
+          <p class="showcase-icon-demo-copy">When the icon itself conveys meaning, it receives a concise accessible label.</p>
+        </div>
+        <div>
+          <p class="showcase-icon-demo-label">Icon-only control</p>
+          <a class="di-icon-button showcase-icon-only-link" href="#icon-set" aria-label="Return to approved semantic tokens"><QuickCourseIcon name="previous" context="button" decorative /></a>
+          <p class="showcase-icon-demo-copy">The parent control provides the accessible name, avoiding duplicate announcements.</p>
+        </div>
+      </div>
+      <div class="showcase-guidance-control">
+        <DetailModal
+          id="icon-system-guidance"
+          triggerLabel="View icon system guidance"
+          triggerIcon="information"
+          triggerIconOnly={true}
+          triggerVariant="secondary"
+          heading="Quick Course icon guidance"
+          content="Use an approved semantic token only when it supports comprehension, navigation, action or status. Pair unfamiliar icons with text, use decorative SVGs when nearby text repeats the meaning, and give every icon-only control an accessible name."
+        />
+      </div>
+    </ShowcaseExample>}
+
+    {hasVisibleItems && <ShowcaseExample id="icon-use" title="Use icons with intent" purpose="Meaningful, consistent icons support learning; decorative repetition adds noise.">
+      <div class="showcase-icon-use-grid">
+        <div><h4>Use</h4><ul><li>One meaningful icon supporting a callout heading.</li><li>Material Symbols Sharp from the approved semantic vocabulary.</li><li>Visible text with unfamiliar actions or statuses.</li><li>Parent components that set context and spacing.</li></ul></div>
+        <div><h4>Avoid</h4><ul><li>Adding an icon to every heading or card.</li><li>Mixing visual icon families.</li><li>Choosing a weak icon because it looks attractive.</li><li>Icon-only controls without accessible names.</li></ul></div>
+      </div>
+    </ShowcaseExample>}
   </div>
 </ShowcaseLayout>

@@ -14,7 +14,7 @@ Production Quick Courses remain single-page experiences. The Showcase routes are
 - `/showcase/assessment-interactions`: knowledge checks, quizzes and learner-response patterns.
 - `/showcase/multimedia`: video, audio, image and embed patterns.
 - `/showcase/typography`: type stack and readable content standards.
-- `/showcase/icons`: icon examples and usage guidance.
+- `/showcase/icons`: controlled semantic icon vocabulary and usage guidance.
 - `/showcase/workflow/`: plain-language governance guide for the Quick Course Kit process.
 
 ## Navigation

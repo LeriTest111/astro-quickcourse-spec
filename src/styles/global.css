@@ -125,6 +125,31 @@ caption {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.qc-icon {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  flex: 0 0 auto;
+  fill: currentColor;
+  vertical-align: -0.125em;
+}
+
+.qc-icon--button {
+  width: 1.25rem;
+  height: 1.25rem;
+  vertical-align: middle;
+}
+
+.qc-icon--heading {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.qc-icon--feature {
+  width: 2.75rem;
+  height: 2.75rem;
+}
+
 .back-to-top {
   position: fixed;
   right: 1rem;
@@ -1555,6 +1580,131 @@ dialog::backdrop {
 
 .showcase-example__preview {
   min-width: 0;
+}
+
+.showcase-icon-token-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+  gap: 0.75rem;
+}
+
+.showcase-icon-token {
+  display: grid;
+  min-width: 0;
+  gap: 0.35rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.45rem;
+  background: #ffffff;
+  color: #111827;
+  padding: 0.9rem;
+}
+
+.showcase-icon-token .qc-icon {
+  color: #2563eb;
+}
+
+.showcase-icon-token strong {
+  overflow-wrap: anywhere;
+}
+
+.showcase-icon-token span,
+.showcase-icon-demo-copy {
+  color: #4b5563;
+  font-size: 0.875rem;
+  line-height: 1.45;
+}
+
+.showcase-icon-context-grid,
+.showcase-icon-accessibility-grid,
+.showcase-icon-use-grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.showcase-icon-context-demo,
+.showcase-icon-feature-demo,
+.showcase-icon-accessibility-grid > div,
+.showcase-icon-use-grid > div {
+  min-width: 0;
+  border: 1px solid #d1d5db;
+  border-radius: 0.45rem;
+  background: #ffffff;
+  padding: 1rem;
+}
+
+.showcase-icon-context-demo {
+  display: flex;
+  width: fit-content;
+  max-width: 100%;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0;
+}
+
+h4.showcase-icon-context-demo {
+  width: auto;
+  color: #111827;
+  font-size: 1.25rem;
+}
+
+.showcase-icon-feature-demo {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+}
+
+.showcase-icon-feature-demo .qc-icon {
+  color: #2563eb;
+}
+
+.showcase-icon-feature-demo h4,
+.showcase-icon-use-grid h4 {
+  color: #111827;
+  font-size: 1rem;
+}
+
+.showcase-icon-feature-demo p,
+.showcase-icon-use-grid ul {
+  margin-top: 0.35rem;
+  color: #4b5563;
+}
+
+.showcase-icon-use-grid ul {
+  display: grid;
+  gap: 0.4rem;
+  padding-left: 1.25rem;
+}
+
+.showcase-icon-demo-label {
+  margin: 0 0 0.45rem;
+  color: #111827;
+  font-weight: 800;
+}
+
+.showcase-icon-status {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: #166534;
+  font-weight: 800;
+}
+
+.showcase-icon-only-link {
+  display: inline-grid;
+  place-items: center;
+  text-decoration: none;
+}
+
+@media (min-width: 720px) {
+  .showcase-icon-context-grid,
+  .showcase-icon-accessibility-grid,
+  .showcase-icon-use-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .showcase-icon-accessibility-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
 .showcase-preview-options {

@@ -1,0 +1,35 @@
+---
+import {
+  getQuickCourseIconSvg,
+  type QuickCourseIconContext,
+  type QuickCourseIconName,
+} from "../../data/quick-course-icons";
+
+interface Props {
+  name: QuickCourseIconName;
+  context?: QuickCourseIconContext;
+  decorative?: boolean;
+  label?: string;
+  class?: string;
+}
+
+const { name, context = "inline", decorative = true, label, class: className } = Astro.props;
+const accessibleLabel = label?.trim();
+
+if (!decorative && !accessibleLabel) {
+  throw new Error(`QuickCourseIcon "${name}" needs a label when decorative is false.`);
+}
+
+const svg = getQuickCourseIconSvg(name);
+---
+
+<svg
+  class:list={["qc-icon", `qc-icon--${context}`, className]}
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox={svg.attributes.viewBox}
+  aria-hidden={decorative ? "true" : undefined}
+  aria-label={!decorative ? accessibleLabel : undefined}
+  role={!decorative ? "img" : undefined}
+  focusable="false"
+  set:html={svg.body}
+/>

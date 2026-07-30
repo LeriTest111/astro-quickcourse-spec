@@ -20,7 +20,7 @@ The Showcase uses multiple category pages for review, governance and maintenance
 - Showcase data lives in `src/data/` until a fuller content strategy is approved.
 - Component documentation lives in `docs/components/`.
 - SCORM packaging is retained in `scripts/build-scorm.mjs`.
-- Typography uses native system text fonts; Google Material Symbols Sharp is the standard icon family.
+- Typography uses native system text fonts; Material Symbols Sharp is the standard icon family, rendered locally through the controlled `QuickCourseIcon` system for new course work.
 
 ## Folder Roles
 

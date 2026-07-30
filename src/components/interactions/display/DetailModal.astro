@@ -1,10 +1,12 @@
 ---
 import type { LayoutAction } from "../../layouts/layout-types";
+import QuickCourseIcon from "../../ui/QuickCourseIcon.astro";
+import type { QuickCourseIconName } from "../../../data/quick-course-icons";
 
 interface Props {
   id: string;
   triggerLabel: string;
-  triggerIcon?: string;
+  triggerIcon?: QuickCourseIconName;
   triggerIconOnly?: boolean;
   triggerVariant?: "primary" | "secondary";
   heading: string;
@@ -21,13 +23,13 @@ const triggerClasses = [triggerClass, triggerIconOnly && "di-icon-button"].filte
 
 <div class="di-detail-modal" data-detail-modal>
   <button class={triggerClasses} type="button" data-detail-open aria-label={triggerIconOnly ? triggerLabel : undefined}>
-    {triggerIcon && <span class="material-symbols-sharp showcase-icon" aria-hidden="true">{triggerIcon}</span>}
+    {triggerIcon && <QuickCourseIcon name={triggerIcon} context="button" decorative />}
     {!triggerIconOnly && <span>{triggerLabel}</span>}
   </button>
   <dialog class="di-dialog" id={id} aria-labelledby={`${id}-heading`} data-detail-dialog>
     <div class="di-dialog__inner">
       <button class="di-dialog__close" type="button" data-dialog-close aria-label="Close detail panel">
-        <span class="material-symbols-sharp showcase-icon" aria-hidden="true">close</span>
+        <QuickCourseIcon name="close" context="button" decorative />
       </button>
       {imageSrc && <img src={imageSrc} alt={imageAlt} loading="lazy" />}
       <h3 id={`${id}-heading`}>{heading}</h3>
