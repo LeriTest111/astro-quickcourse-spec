@@ -18,13 +18,13 @@ Use semantic names from the controlled vocabulary only. Do not use Material liga
 
 Supported contexts are `inline`, `button`, `heading` and `feature`. The component owns the matching size and alignment. Parent components should choose the context when the icon has a known location. Icons normally inherit their colour with `currentColor`; parent components may apply a controlled accent or status treatment, but course authors do not choose arbitrary colours.
 
-The approved tokens are: `information`, `warning`, `tip`, `success`, `error`, `question`, `checklist`, `video`, `audio`, `document`, `download`, `external-link`, `customer`, `person`, `team`, `manager`, `store`, `calendar`, `time`, `task`, `next`, `previous`, `expand`, `collapse`, `close`, `menu`, `search` and `settings`.
+The approved tokens are: `information`, `warning`, `tip`, `success`, `error`, `question`, `checklist`, `video`, `audio`, `document`, `download`, `external-link`, `person`, `team`, `manager`, `store`, `calendar`, `time`, `task`, `next`, `previous`, `expand`, `collapse`, `close`, `menu`, `search` and `settings`. `person` covers one individual, learner or customer; use `team` for a group and `manager` for a supervisor or leader.
 
 Add new tokens centrally in `src/data/quick-course-icons.ts` only after project-team review. Additional visual icon families require explicit project approval.
 
 ## Controlled Emphasis
 
-Default icons are used for normal guidance, navigation and controls. Emphasised treatment is a stronger parent presentation, not a different icon family or arbitrary CSS weight. The controlled `filled` treatment is currently supported only for `success`, where the filled check circle communicates a completed state. Course authors should not use filled treatment as decoration or expose raw Material font axes.
+Default icons are used for normal guidance, navigation and controls. Emphasised treatment is a stronger parent presentation for current or higher-priority content, not a different icon family or arbitrary CSS weight. The controlled `filled` treatment is currently supported only for `success`, where the filled check circle communicates a completed state. Treatment is controlled by the component or state: AI must not choose Emphasised or Filled for visual variety, and course authors must not expose raw Material font axes.
 
 ## Accessibility
 
@@ -40,7 +40,7 @@ Use an icon only when it supports comprehension, navigation, action or status. C
 
 Good choices: use `warning` for a risk callout, `tip` for helpful advice, `video` as a decorative companion to a visible Video heading, and `close` inside an icon-only button labelled `Close dialog`.
 
-Avoid adding lightbulbs to every card, choosing icons only because they look attractive, using `customer` for generic information, mixing icon families, announcing decorative SVGs, or using colour alone for success and error.
+Avoid adding lightbulbs to every card, choosing icons only because they look attractive, mixing icon families, announcing decorative SVGs, or using colour alone for success and error.
 
 ## Migration
 
@@ -52,6 +52,8 @@ The Icons Showcase and `DetailModal` already use the controlled local SVG path. 
 
 ## Showcase Review Pattern
 
-The Icons Showcase keeps visual contexts, colour behaviour, emphasis, token vocabulary and accessibility demonstrations visible. Detailed AI selection rules live behind the `Icon usage guidance` information control. Separate developer and Learning Technology detail lives behind `Technical implementation`.
+The Icons Showcase is a static visual specimen, not an interactive picker. It demonstrates the system-defined Inline, Button, Heading and Feature contexts; the separate Colour in context and Visual treatment groups; the controlled token vocabulary; and accessibility behaviour. AI selects semantic meaning, parent components determine context and size, and the system determines colour and treatment. Icon-and-label examples use the reusable `qc-icon-label` spacing pattern.
+
+Detailed AI selection rules live behind the `Icon usage guidance` information control. Separate developer and Learning Technology detail lives behind `Technical implementation`; icon-only buttons retain an accessible parent name while their SVG remains decorative.
 
 This is the preferred Showcase direction when an example remains clear without explanatory prose: keep the demonstration visible and move deeper guidance into the established Supporting-detail Modal. Not every component needs technical information; add it only when it helps the project team make or maintain a decision.

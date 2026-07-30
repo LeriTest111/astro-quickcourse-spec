@@ -1620,16 +1620,13 @@ dialog::backdrop {
 }
 
 .showcase-icon-system-section__header h4,
-.showcase-icon-context-demo h5,
 .showcase-icon-feature-demo h5 {
   color: #111827;
   font-size: 1.1rem;
 }
 
-.showcase-icon-system-section__header p,
 .showcase-icon-feature-demo p {
   max-width: 68ch;
-  margin-top: 0.3rem;
   color: #4b5563;
 }
 
@@ -1638,7 +1635,8 @@ dialog::backdrop {
 .showcase-icon-treatment-grid,
 .showcase-icon-accessibility-grid {
   display: grid;
-  gap: 0.75rem;
+  column-gap: 0.75rem;
+  row-gap: 0.75rem;
 }
 
 .showcase-icon-context-demo,
@@ -1653,42 +1651,60 @@ dialog::backdrop {
 }
 
 .showcase-icon-context-demo {
-  display: flex;
-  width: fit-content;
-  max-width: 100%;
-  align-items: center;
-  margin: 0;
+  display: grid;
+  align-content: start;
+  gap: 0.55rem;
 }
 
-h5.showcase-icon-context-demo {
-  width: auto;
+.showcase-icon-context-label,
+.showcase-icon-subgroup-heading {
+  margin: 0;
+  color: #475569;
+  font-size: 0.82rem;
+  font-weight: 750;
 }
 
 .showcase-icon-feature-demo {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.showcase-icon-feature-demo__content {
   display: flex;
   align-items: flex-start;
   gap: 0.85rem;
 }
 
-.showcase-icon-feature-demo > .qc-icon {
+.showcase-icon-feature-demo__content > .qc-icon {
   color: #2563eb;
+}
+
+.showcase-icon-context-demo h5,
+.showcase-icon-context-demo p,
+.showcase-icon-feature-demo h5,
+.showcase-icon-feature-demo p {
+  margin: 0;
+}
+
+.showcase-icon-context-support {
+  color: #4b5563;
 }
 
 .showcase-icon-token-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
-  gap: 0.65rem;
+  gap: 0.55rem;
 }
 
 .showcase-icon-token {
   display: grid;
   min-width: 0;
-  gap: 0.3rem;
+  gap: 0.25rem;
   border: 1px solid #d1d5db;
   border-radius: 0.4rem;
   background: #ffffff;
   color: #111827;
-  padding: 0.8rem;
+  padding: 0.65rem 0.7rem;
 }
 
 .showcase-icon-token .qc-icon {
@@ -1701,14 +1717,15 @@ h5.showcase-icon-context-demo {
 
 .showcase-icon-token span {
   color: #4b5563;
-  font-size: 0.82rem;
-  line-height: 1.4;
+  font-size: 0.8rem;
+  line-height: 1.35;
+}
+
+.showcase-icon-subgroup-heading {
+  margin: 1.25rem 0 0.65rem;
 }
 
 .showcase-icon-colour-grid p {
-  display: flex;
-  align-items: center;
-  gap: 0.45rem;
   margin: 0;
   border: 1px solid #d1d5db;
   border-radius: 0.4rem;
@@ -1790,6 +1807,10 @@ h5.showcase-icon-context-demo {
   width: 2.75rem;
   min-height: 2.75rem;
   padding: 0;
+}
+
+.showcase-icon-only-button > span {
+  display: inline-flex;
 }
 
 .showcase-icon-demo-details {

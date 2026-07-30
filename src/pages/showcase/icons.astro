@@ -15,6 +15,7 @@ const hasVisibleItems = getVisibleShowcaseItems("icons").length > 0;
   pageTitle="Icons | Astro Quick Course Showcase"
   description="Controlled Material Symbols Sharp icons for AI-generated Quick Courses."
   activeCategory="icons"
+  showCourseFooter={false}
 >
   <ShowcasePageHeader
     title="Icons"
@@ -40,6 +41,9 @@ const hasVisibleItems = getVisibleShowcaseItems("icons").length > 0;
             <li>Pair unfamiliar icons with visible text and prefer no icon over a weak match.</li>
             <li>Keep repeated visual support decorative; icon-only controls need an accessible label.</li>
             <li>Do not use icons or colour as the only indicator of an important status.</li>
+            <li>Treatment is controlled by the component or state. AI must not choose emphasised or filled treatment for visual variety.</li>
+            <li>Use <code>information</code> for neutral support and <code>tip</code> for advice. Use <code>person</code> for one individual, learner or customer; <code>team</code> for a group; and <code>manager</code> for a supervisor.</li>
+            <li>Use <code>task</code> for one action and <code>checklist</code> for several checks. Use <code>next</code> and <code>previous</code> for sequence navigation, and <code>expand</code> and <code>collapse</code> for content in the current location.</li>
           </ul>
         </DetailModal>
 
@@ -64,31 +68,44 @@ const hasVisibleItems = getVisibleShowcaseItems("icons").length > 0;
       <section class="showcase-icon-system-section" aria-labelledby="icon-live-preview-heading">
         <div class="showcase-icon-system-section__header">
           <h4 id="icon-live-preview-heading">Contexts and placement</h4>
-          <p>Semantic meaning stays the same while the system-defined context controls size and alignment.</p>
         </div>
         <div class="showcase-icon-context-grid">
-          <p class="showcase-icon-context-demo"><QuickCourseIcon name="information" context="inline" decorative />Read the information before continuing.</p>
-          <a class="di-secondary-button showcase-icon-context-demo" href="#icon-accessibility"><span class="qc-icon-label"><QuickCourseIcon name="video" context="button" decorative /><span>Video guidance</span></span></a>
-          <h5 class="showcase-icon-context-demo"><span class="qc-icon-label qc-icon-label--heading"><QuickCourseIcon name="tip" context="heading" decorative /><span>Helpful tip</span></span></h5>
-          <article class="showcase-icon-feature-demo"><QuickCourseIcon name="customer" context="feature" decorative /><div><h5>Prepare for the customer conversation</h5><p>Feature context gives supporting visual emphasis without overtaking the content.</p></div></article>
+          <div class="showcase-icon-context-demo">
+            <p class="showcase-icon-context-label">Inline</p>
+            <p class="qc-icon-label"><QuickCourseIcon name="information" context="inline" decorative /><span>Read the information before continuing.</span></p>
+          </div>
+          <div class="showcase-icon-context-demo">
+            <p class="showcase-icon-context-label">Button</p>
+            <button class="di-secondary-button" type="button"><span class="qc-icon-label"><QuickCourseIcon name="video" context="button" decorative /><span>Video guidance</span></span></button>
+          </div>
+          <div class="showcase-icon-context-demo">
+            <p class="showcase-icon-context-label">Heading</p>
+            <h5><span class="qc-icon-label qc-icon-label--heading"><QuickCourseIcon name="tip" context="heading" decorative /><span>Helpful tip</span></span></h5>
+            <p class="showcase-icon-context-support">Use a short example to make the guidance easier to apply.</p>
+          </div>
+          <article class="showcase-icon-feature-demo">
+            <p class="showcase-icon-context-label">Feature</p>
+            <div class="showcase-icon-feature-demo__content"><QuickCourseIcon name="person" context="feature" decorative /><div><h5>Prepare for the customer conversation</h5><p>Use the learner's notes to guide a relevant next step.</p></div></div>
+          </article>
         </div>
       </section>
 
       <section class="showcase-icon-system-section" aria-labelledby="icon-colour-heading">
         <div class="showcase-icon-system-section__header">
           <h4 id="icon-colour-heading">Controlled colour and emphasis</h4>
-          <p>Icons inherit their parent colour; status meaning is always paired with text.</p>
         </div>
+        <h5 class="showcase-icon-subgroup-heading">Colour in context</h5>
         <div class="showcase-icon-colour-grid">
-          <p><QuickCourseIcon name="information" context="inline" decorative />Body text</p>
-          <p class="showcase-icon-accent"><QuickCourseIcon name="tip" context="inline" decorative />Accent treatment</p>
-          <p class="showcase-icon-status showcase-icon-status--success"><QuickCourseIcon name="success" context="inline" decorative />Success: changes saved</p>
-          <p class="showcase-icon-status showcase-icon-status--warning"><QuickCourseIcon name="warning" context="inline" decorative />Warning: check the details</p>
-          <p class="showcase-icon-status showcase-icon-status--error"><QuickCourseIcon name="error" context="inline" decorative />Error: try again</p>
+          <p class="qc-icon-label"><QuickCourseIcon name="information" context="inline" decorative /><span>Body text</span></p>
+          <p class="showcase-icon-accent qc-icon-label"><QuickCourseIcon name="tip" context="inline" decorative /><span>Accent treatment</span></p>
+          <p class="showcase-icon-status showcase-icon-status--success qc-icon-label"><QuickCourseIcon name="success" context="inline" decorative /><span>Success: changes saved</span></p>
+          <p class="showcase-icon-status showcase-icon-status--warning qc-icon-label"><QuickCourseIcon name="warning" context="inline" decorative /><span>Warning: check the details</span></p>
+          <p class="showcase-icon-status showcase-icon-status--error qc-icon-label"><QuickCourseIcon name="error" context="inline" decorative /><span>Error: try again</span></p>
         </div>
+        <h5 class="showcase-icon-subgroup-heading">Visual treatment</h5>
         <div class="showcase-icon-treatment-grid" aria-label="Controlled visual emphasis treatments">
-          <div><QuickCourseIcon name="information" context="heading" decorative /><strong>Default</strong><span>Normal guidance</span></div>
-          <div class="showcase-icon-treatment--emphasised"><QuickCourseIcon name="warning" context="heading" decorative /><strong>Emphasised</strong><span>Stronger parent treatment</span></div>
+          <div><QuickCourseIcon name="success" context="heading" decorative /><strong>Default</strong><span>Normal guidance</span></div>
+          <div class="showcase-icon-treatment--emphasised"><QuickCourseIcon name="success" context="heading" decorative /><strong>Emphasised</strong><span>Current guidance</span></div>
           <div class="showcase-icon-treatment--filled"><QuickCourseIcon name="success" context="heading" treatment="filled" decorative /><strong>Filled state</strong><span>Completed</span></div>
         </div>
       </section>
@@ -118,28 +135,33 @@ const hasVisibleItems = getVisibleShowcaseItems("icons").length > 0;
             <p class="qc-icon-label"><QuickCourseIcon name="video" context="inline" decorative /><span>Video guidance</span></p>
           </div>
           <div>
-            <p class="showcase-icon-demo-label">Icon-only control</p>
-            <button class="di-secondary-button di-icon-button showcase-icon-only-button" type="button" data-icon-demo-toggle aria-expanded="false" aria-controls="icon-demo-details" aria-label="Show icon control details"><QuickCourseIcon name="expand" context="button" decorative /></button>
+            <p class="showcase-icon-demo-label">Icon-only button</p>
+            <button class="di-secondary-button di-icon-button showcase-icon-only-button" type="button" data-icon-demo-toggle aria-expanded="false" aria-controls="icon-demo-details" aria-label="Expand details"><span data-icon-demo-expand><QuickCourseIcon name="expand" context="button" decorative /></span><span data-icon-demo-collapse hidden><QuickCourseIcon name="collapse" context="button" decorative /></span></button>
             <p id="icon-demo-details" class="showcase-icon-demo-details" hidden>The parent button supplies the accessible name; the nested SVG remains decorative.</p>
           </div>
         </div>
       </section>
+
+      <script>
+        document.querySelectorAll("[data-icon-demo-toggle]").forEach((button) => {
+          if (!(button instanceof HTMLButtonElement) || button.dataset.iconDemoReady === "true") return;
+          button.dataset.iconDemoReady = "true";
+          const detailsId = button.getAttribute("aria-controls");
+          const details = detailsId ? document.getElementById(detailsId) : null;
+          if (!(details instanceof HTMLElement)) return;
+
+          button.addEventListener("click", () => {
+            const expanded = button.getAttribute("aria-expanded") !== "true";
+            button.setAttribute("aria-expanded", String(expanded));
+            button.setAttribute("aria-label", expanded ? "Collapse details" : "Expand details");
+            details.hidden = !expanded;
+            const expandIcon = button.querySelector("[data-icon-demo-expand]");
+            const collapseIcon = button.querySelector("[data-icon-demo-collapse]");
+            if (expandIcon instanceof HTMLElement) expandIcon.hidden = expanded;
+            if (collapseIcon instanceof HTMLElement) collapseIcon.hidden = !expanded;
+          });
+        });
+      </script>
     </ShowcaseExample>}
   </div>
 </ShowcaseLayout>
-
-<script>
-  document.querySelectorAll("[data-icon-demo-toggle]").forEach((button) => {
-    if (!(button instanceof HTMLButtonElement) || button.dataset.iconDemoReady === "true") return;
-    button.dataset.iconDemoReady = "true";
-    const detailsId = button.getAttribute("aria-controls");
-    const details = detailsId ? document.getElementById(detailsId) : null;
-    if (!(details instanceof HTMLElement)) return;
-
-    button.addEventListener("click", () => {
-      const expanded = button.getAttribute("aria-expanded") === "true";
-      button.setAttribute("aria-expanded", String(!expanded));
-      details.hidden = expanded;
-    });
-  });
-</script>

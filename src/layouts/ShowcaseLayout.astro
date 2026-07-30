@@ -8,6 +8,7 @@ const {
   pageTitle = "Astro Quick Course Showcase",
   description = "A neutral visual reference for reusable Astro course components.",
   activeCategory = "home",
+  showCourseFooter = true,
 } = Astro.props;
 
 const modeIdentity = showcaseModeIdentity[showcaseMode];
@@ -48,9 +49,7 @@ const modeIdentity = showcaseModeIdentity[showcaseMode];
         <slot />
       </main>
 
-      <div class="mx-auto max-w-7xl px-4 pb-8">
-        <CourseFooter />
-      </div>
+      {showCourseFooter && <div class="mx-auto max-w-7xl px-4 pb-8"><CourseFooter /></div>}
     </div>
 
     <a class="back-to-top" href="#page-top" aria-label="Back to top" title="Back to top">

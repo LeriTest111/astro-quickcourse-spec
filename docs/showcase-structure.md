@@ -68,6 +68,8 @@ Links, enabled buttons, summaries and other genuine controls should use pointer 
 
 Course return instructions, including `Return to People Connect to continue`, should be quiet standalone text with suitable spacing. They should not appear inside bordered cards, panels or large CTA containers.
 
+The Icons Showcase is a static system reference, not an icon picker. It shows controlled semantic tokens and system-defined context, colour and treatment; detailed guidance remains in its information controls.
+
 ## Future Recipes
 
 Complete course recipes can be added later under routes such as `/showcase/recipes/product-knowledge-course`. Recipes should demonstrate how approved components combine into one complete single-page Quick Course; they should not convert production courses into multi-page experiences.
