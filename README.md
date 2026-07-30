@@ -100,6 +100,8 @@ Major component groups use stronger spacing, dividers and subtle neutral surface
 
 Showcase-only configuration uses the shared `Options` disclosure pattern. These controls help reviewers compare component variants and should not be copied into production Quick Courses.
 
+The Image Overlay Hero uses controlled Dark, Light and Brand colour overlay modes with Light or Dark text treatments and Standard or Display title emphasis. Its Showcase custom-content fields are temporary test inputs only; final contrast must be reviewed using the actual course image and selected colour.
+
 The multimedia page uses Preview Options to compare Standard Video with and without an optional poster image, and to compare Video with Chapters using title-only rows or rows with descriptions. This is Showcase-only review tooling; the reusable video player simply accepts normal props.
 
 Interactive controls use pointer cursor styling only when the element is genuinely clickable. Static content should not be styled to appear interactive.

@@ -1,5 +1,4 @@
 ---
-import HeroActions from "./HeroActions.astro";
 import type { HeroAction } from "./hero-types";
 
 interface Props {
@@ -7,22 +6,56 @@ interface Props {
   headingId: string;
   eyebrow?: string;
   title: string;
-  summary: string;
+  description?: string;
   imageSrc: string;
-  imageAlt: string;
-  actions?: HeroAction[];
+  imageAlt?: string;
+  overlayStyle?: "dark" | "light" | "brand";
+  overlayColor?: string;
+  textTreatment?: "light" | "dark";
+  titleEmphasis?: "standard" | "display";
+  action?: Pick<HeroAction, "href" | "label">;
 }
 
-const { previewId, headingId, eyebrow, title, summary, imageSrc, imageAlt, actions = [] } = Astro.props;
+const {
+  previewId,
+  headingId,
+  eyebrow,
+  title,
+  description,
+  imageSrc,
+  imageAlt = "",
+  overlayStyle = "dark",
+  overlayColor,
+  textTreatment = overlayStyle === "light" ? "dark" : "light",
+  titleEmphasis = "standard",
+  action,
+} = Astro.props;
+
+const trimmedEyebrow = eyebrow?.trim();
+const trimmedDescription = description?.trim();
+const validHexColour = /^#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})$/;
+const safeOverlayColour = validHexColour.test(overlayColor ?? "") ? overlayColor : "#1d4ed8";
 ---
 
-<section class="showcase-hero showcase-hero--overlay" data-hero-preview={previewId} aria-labelledby={headingId}>
+<section
+  class="showcase-hero showcase-hero--overlay"
+  data-hero-preview={previewId}
+  data-overlay-style={overlayStyle}
+  data-text-treatment={textTreatment}
+  data-title-emphasis={titleEmphasis}
+  style={overlayStyle === "brand" ? `--showcase-hero-overlay-colour: ${safeOverlayColour};` : undefined}
+  aria-labelledby={headingId}
+>
   <img class="showcase-hero__image" src={imageSrc} alt={imageAlt} />
   <div class="showcase-hero__overlay" aria-hidden="true"></div>
   <div class="showcase-hero__content">
-    {eyebrow && <p class="showcase-hero__eyebrow" data-hero-part="eyebrow">{eyebrow}</p>}
-    <h4 id={headingId} class="showcase-hero__title">{title}</h4>
-    <p class="showcase-hero__summary" data-hero-part="summary">{summary}</p>
-    <HeroActions actions={actions} />
+    <p class="showcase-hero__eyebrow" data-hero-part="eyebrow" hidden={!trimmedEyebrow}>{trimmedEyebrow}</p>
+    <h4 id={headingId} class="showcase-hero__title" data-hero-part="title">{title}</h4>
+    <p class="showcase-hero__summary" data-hero-part="description" hidden={!trimmedDescription}>{trimmedDescription}</p>
+    {action && (
+      <div class="showcase-hero__actions" data-hero-actions>
+        <a class="showcase-hero__action" href={action.href}>{action.label}</a>
+      </div>
+    )}
   </div>
 </section>

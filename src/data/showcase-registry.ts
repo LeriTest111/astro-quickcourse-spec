@@ -67,7 +67,7 @@ export const statusTones: Record<ShowcaseStatus, string> = {
 };
 
 export const showcaseRegistry: ShowcaseRegistryItem[] = [
-  { id: "image-overlay-hero", name: "Image overlay hero", category: "layouts", status: "draft", version: "0.1.0" },
+  { id: "image-overlay-hero", name: "Image overlay hero", category: "layouts", status: "in-review", version: "0.2.0", reviewFocus: "Review overlay treatments, brand-colour contrast, title emphasis and long-content behaviour." },
   { id: "split-hero", name: "Split hero", category: "layouts", status: "draft", version: "0.1.0" },
   { id: "centered-minimal-hero", name: "Centred minimal hero", category: "layouts", status: "draft", version: "0.1.0" },
   { id: "floating-card-hero", name: "Floating card hero", category: "layouts", status: "draft", version: "0.1.0" },

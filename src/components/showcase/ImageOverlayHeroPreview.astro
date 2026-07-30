@@ -1,0 +1,244 @@
+---
+import ImageOverlayHero from "../layout/heroes/ImageOverlayHero.astro";
+import DetailModal from "../interactions/display/DetailModal.astro";
+
+interface Props {
+  previewId: string;
+  imageSrc: string;
+  imageAlt: string;
+}
+
+const { previewId, imageSrc, imageAlt } = Astro.props;
+const targetId = `${previewId}-target`;
+const headingId = `${previewId}-heading`;
+const defaultContent = {
+  eyebrow: "Customer experience",
+  title: "Create confident customer conversations",
+  description: "Use clear questions and practical product knowledge to guide every interaction.",
+};
+---
+
+<div class="showcase-image-overlay-preview" data-image-overlay-preview>
+  <div class="showcase-review-controls">
+    <details class="showcase-preview-options" data-image-overlay-options>
+      <summary>
+        <span class="material-symbols-sharp showcase-icon" aria-hidden="true">tune</span>
+        <span>Options</span>
+        <span class="material-symbols-sharp showcase-icon showcase-preview-options__chevron" aria-hidden="true">expand_more</span>
+      </summary>
+      <form class="showcase-preview-options__form" aria-label="Image Overlay Hero options">
+        <fieldset class="showcase-preview-options__group showcase-preview-options__fieldset">
+          <legend class="showcase-preview-options__label">Overlay style</legend>
+          <div class="showcase-preview-options__segmented" role="radiogroup" aria-label="Overlay style">
+            <label><input type="radio" name={`${previewId}-overlay`} value="dark" data-overlay-style checked /><span>Dark overlay</span></label>
+            <label><input type="radio" name={`${previewId}-overlay`} value="light" data-overlay-style /><span>Light overlay</span></label>
+            <label><input type="radio" name={`${previewId}-overlay`} value="brand" data-overlay-style /><span>Brand colour overlay</span></label>
+          </div>
+        </fieldset>
+
+        <fieldset class="showcase-preview-options__group showcase-preview-options__fieldset" data-brand-colour-controls hidden>
+          <legend class="showcase-preview-options__label">Brand colour</legend>
+          <div class="showcase-preview-options__swatches" role="radiogroup" aria-label="Demonstration brand colours">
+            <label><input type="radio" name={`${previewId}-brand-colour`} value="#be185d" data-brand-preset checked /><span><i style="--swatch-colour: #be185d" aria-hidden="true"></i>Pink</span></label>
+            <label><input type="radio" name={`${previewId}-brand-colour`} value="#1d4ed8" data-brand-preset /><span><i style="--swatch-colour: #1d4ed8" aria-hidden="true"></i>Blue</span></label>
+            <label><input type="radio" name={`${previewId}-brand-colour`} value="#15803d" data-brand-preset /><span><i style="--swatch-colour: #15803d" aria-hidden="true"></i>Green</span></label>
+            <label><input type="radio" name={`${previewId}-brand-colour`} value="#7e22ce" data-brand-preset /><span><i style="--swatch-colour: #7e22ce" aria-hidden="true"></i>Purple</span></label>
+            <label><input type="radio" name={`${previewId}-brand-colour`} value="#c2410c" data-brand-preset /><span><i style="--swatch-colour: #c2410c" aria-hidden="true"></i>Orange</span></label>
+          </div>
+          <label class="showcase-preview-options__colour-input">
+            <span>Custom colour</span>
+            <input type="color" value="#be185d" data-brand-custom aria-label="Custom brand colour" />
+          </label>
+        </fieldset>
+
+        <fieldset class="showcase-preview-options__group showcase-preview-options__fieldset">
+          <legend class="showcase-preview-options__label">Text treatment</legend>
+          <div class="showcase-preview-options__segmented" role="radiogroup" aria-label="Text treatment">
+            <label><input type="radio" name={`${previewId}-text`} value="light" data-text-treatment checked /><span>Light text</span></label>
+            <label><input type="radio" name={`${previewId}-text`} value="dark" data-text-treatment /><span>Dark text</span></label>
+          </div>
+        </fieldset>
+
+        <fieldset class="showcase-preview-options__group showcase-preview-options__fieldset">
+          <legend class="showcase-preview-options__label">Title emphasis</legend>
+          <div class="showcase-preview-options__segmented" role="radiogroup" aria-label="Title emphasis">
+            <label><input type="radio" name={`${previewId}-emphasis`} value="standard" data-title-emphasis checked /><span>Standard title</span></label>
+            <label><input type="radio" name={`${previewId}-emphasis`} value="display" data-title-emphasis /><span>Display title</span></label>
+          </div>
+        </fieldset>
+
+        <fieldset class="showcase-preview-options__group showcase-preview-options__fieldset">
+          <legend class="showcase-preview-options__label">Content example</legend>
+          <div class="showcase-preview-options__segmented" role="radiogroup" aria-label="Content example">
+            <label><input type="radio" name={`${previewId}-content`} value="short" data-content-example /><span>Short</span></label>
+            <label><input type="radio" name={`${previewId}-content`} value="standard" data-content-example checked /><span>Standard</span></label>
+            <label><input type="radio" name={`${previewId}-content`} value="long" data-content-example /><span>Long</span></label>
+            <label><input type="radio" name={`${previewId}-content`} value="custom" data-content-example /><span>Custom</span></label>
+          </div>
+        </fieldset>
+
+        <div class="showcase-preview-options__group">
+          <span class="showcase-preview-options__label">Actions</span>
+          <label class="showcase-preview-options__toggle">
+            <input type="checkbox" data-action-visibility checked />
+            <span>Show actions</span>
+          </label>
+        </div>
+
+        <fieldset class="showcase-preview-options__group showcase-preview-options__fieldset showcase-image-overlay-preview__custom" data-custom-content-controls hidden>
+          <legend class="showcase-preview-options__label">Custom preview content</legend>
+          <label>Eyebrow<input type="text" maxlength="80" data-custom-eyebrow /></label>
+          <label>Heading<input type="text" maxlength="180" data-custom-title /></label>
+          <label>Description<textarea rows="3" maxlength="300" data-custom-description></textarea></label>
+        </fieldset>
+      </form>
+    </details>
+
+    <div class="showcase-guidance-control">
+      <DetailModal
+        id={`${previewId}-guidance`}
+        triggerLabel="View Image Overlay Hero guidance"
+        triggerIcon="info"
+        triggerIconOnly={true}
+        triggerVariant="secondary"
+        heading="Image Overlay Hero guidance"
+        content="Use Dark overlay with Light text for bright imagery and Light overlay with Dark text for dark imagery. Brand colour overlays need a deliberate contrast check using the final course image. Standard titles suit descriptive headings; Display titles suit short, high-impact wording. Custom preview text is temporary review content only."
+      />
+    </div>
+  </div>
+
+  <div class="showcase-image-overlay-preview__target" id={targetId}>
+    <ImageOverlayHero
+      previewId={targetId}
+      headingId={headingId}
+      eyebrow={defaultContent.eyebrow}
+      title={defaultContent.title}
+      description={defaultContent.description}
+      imageSrc={imageSrc}
+      imageAlt={imageAlt}
+      action={{ href: "/showcase/assessment-interactions", label: "Begin module" }}
+    />
+  </div>
+</div>
+
+<script>
+  const contentPresets = {
+    short: { eyebrow: "", title: "Glow", description: "A focused course introduction." },
+    standard: {
+      eyebrow: "Customer experience",
+      title: "Create confident customer conversations",
+      description: "Use clear questions and practical product knowledge to guide every interaction.",
+    },
+    long: {
+      eyebrow: "Customer service principles",
+      title: "Understanding how our customer-service principles guide every interaction across brands, channels and customer needs",
+      description: "Explore how consistent behaviours, thoughtful questions and relevant product knowledge support a better customer experience.",
+    },
+  };
+
+  document.querySelectorAll("[data-image-overlay-preview]").forEach((root) => {
+    if (root.dataset.imageOverlayPreviewReady === "true") return;
+    root.dataset.imageOverlayPreviewReady = "true";
+
+    const options = root.querySelector("[data-image-overlay-options]");
+    const target = root.querySelector("[data-hero-preview]");
+    if (!(options instanceof HTMLDetailsElement) || !(target instanceof HTMLElement)) return;
+
+    const overlayControls = Array.from(options.querySelectorAll("[data-overlay-style]"));
+    const textControls = Array.from(options.querySelectorAll("[data-text-treatment]"));
+    const emphasisControls = Array.from(options.querySelectorAll("[data-title-emphasis]"));
+    const contentControls = Array.from(options.querySelectorAll("[data-content-example]"));
+    const brandControls = options.querySelector("[data-brand-colour-controls]");
+    const customControls = options.querySelector("[data-custom-content-controls]");
+    const customColour = options.querySelector("[data-brand-custom]");
+    const eyebrow = target.querySelector('[data-hero-part="eyebrow"]');
+    const title = target.querySelector('[data-hero-part="title"]');
+    const description = target.querySelector('[data-hero-part="description"]');
+    const actions = target.querySelector("[data-hero-actions]");
+    const actionVisibility = options.querySelector("[data-action-visibility]");
+    let textTreatmentChosen = false;
+
+    const getCheckedValue = (controls) => controls.find((control) => control instanceof HTMLInputElement && control.checked)?.value;
+
+    const setTextTreatment = (value) => {
+      textControls.forEach((control) => {
+        if (control instanceof HTMLInputElement) control.checked = control.value === value;
+      });
+      target.dataset.textTreatment = value;
+    };
+
+    const applyContent = (content) => {
+      const values = [
+        [eyebrow, content.eyebrow],
+        [title, content.title || "Preview heading"],
+        [description, content.description],
+      ];
+      values.forEach(([element, value]) => {
+        if (!(element instanceof HTMLElement)) return;
+        const text = String(value ?? "").trim();
+        element.textContent = text;
+        element.hidden = !text;
+      });
+    };
+
+    const updatePreview = () => {
+      const overlayStyle = getCheckedValue(overlayControls) || "dark";
+      const textTreatment = getCheckedValue(textControls) || "light";
+      const titleEmphasis = getCheckedValue(emphasisControls) || "standard";
+      const contentExample = getCheckedValue(contentControls) || "standard";
+      target.dataset.overlayStyle = overlayStyle;
+      target.dataset.textTreatment = textTreatment;
+      target.dataset.titleEmphasis = titleEmphasis;
+      brandControls.hidden = overlayStyle !== "brand";
+
+      if (overlayStyle === "brand" && customColour instanceof HTMLInputElement) {
+        target.style.setProperty("--showcase-hero-overlay-colour", customColour.value);
+      }
+
+      customControls.hidden = contentExample !== "custom";
+      if (actions instanceof HTMLElement && actionVisibility instanceof HTMLInputElement) {
+        actions.hidden = !actionVisibility.checked;
+      }
+      if (contentExample === "custom") {
+        applyContent({
+          eyebrow: options.querySelector("[data-custom-eyebrow]")?.value,
+          title: options.querySelector("[data-custom-title]")?.value,
+          description: options.querySelector("[data-custom-description]")?.value,
+        });
+      } else {
+        applyContent(contentPresets[contentExample]);
+      }
+    };
+
+    overlayControls.forEach((control) => control.addEventListener("change", () => {
+      if (!(control instanceof HTMLInputElement) || !control.checked) return;
+      if (!textTreatmentChosen && control.value === "dark") setTextTreatment("light");
+      if (!textTreatmentChosen && control.value === "light") setTextTreatment("dark");
+      updatePreview();
+    }));
+
+    textControls.forEach((control) => control.addEventListener("change", () => {
+      if (!(control instanceof HTMLInputElement) || !control.checked) return;
+      textTreatmentChosen = true;
+      updatePreview();
+    }));
+
+    emphasisControls.forEach((control) => control.addEventListener("change", updatePreview));
+    contentControls.forEach((control) => control.addEventListener("change", updatePreview));
+    actionVisibility?.addEventListener("change", updatePreview);
+    options.querySelectorAll("[data-custom-eyebrow], [data-custom-title], [data-custom-description]").forEach((control) => control.addEventListener("input", updatePreview));
+    options.querySelectorAll("[data-brand-preset]").forEach((control) => control.addEventListener("change", () => {
+      if (!(control instanceof HTMLInputElement) || !control.checked || !(customColour instanceof HTMLInputElement)) return;
+      customColour.value = control.value;
+      updatePreview();
+    }));
+    customColour?.addEventListener("input", () => {
+      options.querySelectorAll("[data-brand-preset]").forEach((control) => {
+        if (control instanceof HTMLInputElement) control.checked = control.value === customColour.value;
+      });
+      updatePreview();
+    });
+
+    updatePreview();
+  });
+</script>

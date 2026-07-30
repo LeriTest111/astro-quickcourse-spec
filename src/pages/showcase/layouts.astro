@@ -8,7 +8,7 @@ import ShowcaseEmptyState from "../../components/showcase/ShowcaseEmptyState.ast
 import CenteredMinimalHero from "../../components/layout/heroes/CenteredMinimalHero.astro";
 import FloatingCardHero from "../../components/layout/heroes/FloatingCardHero.astro";
 import HeroDisplayOptions from "../../components/layout/heroes/HeroDisplayOptions.astro";
-import ImageOverlayHero from "../../components/layout/heroes/ImageOverlayHero.astro";
+import ImageOverlayHeroPreview from "../../components/showcase/ImageOverlayHeroPreview.astro";
 import LearningObjectivesHero from "../../components/layout/heroes/LearningObjectivesHero.astro";
 import ScenarioOpenerHero from "../../components/layout/heroes/ScenarioOpenerHero.astro";
 import SplitHero from "../../components/layout/heroes/SplitHero.astro";
@@ -88,30 +88,11 @@ const productExamples = [
     {sectionVisible("heroes") && <ShowcaseSection id="heroes" title="Heroes" description="Existing module and course opener variants.">
       <div class="showcase-example-stack">
         <ShowcaseExample id="image-overlay-hero" title="Hero 1: Image overlay hero" purpose="Opens a course with strong local imagery and readable overlay text.">
-          <HeroDisplayOptions
-            previewId="hero-1-preview"
-            options={[
-              { part: "eyebrow", label: "Eyebrow" },
-              { part: "summary", label: "Supporting text" },
-              { part: "primary-action", label: "Primary action" },
-              { part: "secondary-action", label: "Secondary action" },
-            ]}
+          <ImageOverlayHeroPreview
+            previewId="image-overlay-hero-preview"
+            imageSrc={neutralImage}
+            imageAlt="A course participant reviewing materials at a desk."
           />
-          <div class="mt-6">
-            <ImageOverlayHero
-              previewId="hero-1-preview"
-              headingId="hero-1-heading"
-              eyebrow="Module 1"
-              title="Build a routine that works for your team."
-              summary="Explore a simple approach, then decide how to adapt it for your daily work."
-              imageSrc={neutralImage}
-              imageAlt="A course participant reviewing materials at a desk."
-              actions={[
-                { href: "/showcase/assessment-interactions", label: "Begin module" },
-                { href: "/showcase/typography", label: "Review guide", variant: "secondary" },
-              ]}
-            />
-          </div>
         </ShowcaseExample>
 
         <ShowcaseExample id="split-hero" title="Hero 2: Split hero" purpose="Balances a concise course introduction with a supporting local image.">
