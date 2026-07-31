@@ -11,9 +11,8 @@ No external font service, downloaded font file, `@font-face` declaration or Java
 - Sans default: `system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, Helvetica, sans-serif`
 - Serif: `Georgia, "Times New Roman", Times, serif`
 - Monospace: `ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace`
-- Cursive accent: the generic local `cursive` family only
 
-Sans is the default for headings, body copy, UI and most learning content. Serif is reserved for selected editorial headings, reflective introductions and quotes. Monospace is for short technical values, identifiers, filenames and keyboard examples. Cursive is an experimental review option for one short, non-essential phrase; rendering varies by operating system and it must never carry essential instructions.
+Sans is the default for headings, body copy, UI and most learning content. Serif is reserved for selected editorial headings, reflective introductions and quotes. Monospace is for short technical values, identifiers, filenames and keyboard examples. The system does not provide an additional decorative font family.
 
 ## Production Primitives
 
@@ -49,7 +48,7 @@ Do not expose raw pixel sizes, arbitrary line heights, arbitrary letter spacing,
 
 - Alignment: `left`, `center`
 - Measure: `narrow`, `standard`, `wide`, `full`
-- Family: `sans`, `serif`, `mono`, `cursive-accent`
+- Family: `sans`, `serif`, `mono`
 - Weight: `light`, `regular`, `medium`, `semibold`, `bold`, `heavy`
 - Tone: `default`, `muted`, `strong`, `accent`, `primary`, `secondary`, `inverse`, `success`, `warning`, `error`
 
@@ -71,6 +70,8 @@ Use light weight only for large display text. Normal body copy must remain regul
 
 Columns collapse to a single logical DOM order on narrow screens. Do not use right-aligned paragraphs, justified text, three columns for long copy or two columns for two long articles.
 
+Major Showcase sections use one shared editorial spacing rule. Specimen groups use a smaller shared gap, while paragraphs, citations and list items within a single specimen stay more closely grouped. This preserves a readable rhythm without turning the page into isolated cards.
+
 ## Quotes, Values And Structured Text
 
 Use `QuoteBlock` for standard, side-rule, pull, centred and surface quotes. Quote attribution is optional; do not attribute fabricated quotations to real people.
@@ -78,6 +79,8 @@ Use `QuoteBlock` for standard, side-rule, pull, centred and surface quotes. Quot
 Use `StatisticBlock` for clearly illustrative values only. A statistic must help explain the learning point and must not imply live business data.
 
 Use semantic `ul` and `ol` elements for lists, `dl` for definitions, and a clearly labelled static question-and-answer layout for non-assessment reading. Checklist visuals are not interactive checkboxes unless an assessment or task component provides that behaviour.
+
+Keep the boundary clear: static lists, Q&A, quotes, values and editorial steps belong to Typography. Accordion FAQs, process exploration, timelines and interactive checklists belong to their interaction patterns.
 
 ## Surfaces And Text Colour
 
@@ -102,7 +105,7 @@ AI should not:
 - Add an eyebrow to every heading.
 - Use centred text for long reading.
 - Make each heading a different colour.
-- Use cursive for essential instructions or long passages.
+- Add an unapproved decorative font treatment.
 - Use monospace for normal paragraphs.
 - Use thin body text, long italic passages or all-caps paragraphs.
 - Invent arbitrary colours, font sizes, column ratios or CSS classes.
@@ -116,6 +119,7 @@ AI should not:
 - Only long technical identifiers may use emergency wrapping.
 - Standard reading content stays near a 60 to 75 character line measure.
 - Body text remains at a readable size with comfortable line height.
+- Major sections and independent specimens use controlled shared spacing rather than ad hoc paragraph margins.
 - Links are visibly underlined, focus remains visible and inline code can wrap safely.
 - Quotes, lists and definitions retain native semantic HTML.
 - Columns collapse at small widths without changing reading order.
@@ -123,8 +127,8 @@ AI should not:
 
 ## Design Token Readiness
 
-The typography CSS defines a small semantic variable layer for font families, text roles, tones, surface colours and divider values. Future course-theme tokens can replace these values without changing the semantic component API or AI authoring rules. Do not add a full design-token framework or allow generated course content to set arbitrary tokens.
+The typography CSS defines a small semantic variable layer for font families, text roles, tones, surface colours, divider values, section spacing and specimen spacing. Future course-theme tokens can replace these values without changing the semantic component API or AI authoring rules. Do not add a full design-token framework or allow generated course content to set arbitrary tokens.
 
 ## Approval Notes
 
-The Typography System remains Draft. It has sufficient structure for visual, instructional and learning-technology review, but should not move to In Review until the project team confirms the editorial treatments, generic cursive tolerance and course-theme token direction.
+The Typography System remains Draft. It has sufficient structure for visual, instructional and learning-technology review, but should not move to In Review until the project team confirms the editorial treatments, revised page rhythm and course-theme token direction.

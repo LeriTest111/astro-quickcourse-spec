@@ -12,6 +12,8 @@ const iconMap = {
   information: { materialSymbol: "info-outline", description: "General supporting information" },
   warning: { materialSymbol: "warning-outline", description: "Caution or important attention" },
   tip: { materialSymbol: "lightbulb-outline", description: "Helpful advice" },
+  recommended: { materialSymbol: "thumb-up", description: "Recommended practice or example" },
+  avoid: { materialSymbol: "thumb-down", description: "Practice or approach to avoid" },
   success: { materialSymbol: "check-circle-outline", filledMaterialSymbol: "check-circle", description: "Completion or confirmation" },
   error: { materialSymbol: "error-outline", description: "Problem or failed action" },
   question: { materialSymbol: "help-outline", description: "Question or help" },

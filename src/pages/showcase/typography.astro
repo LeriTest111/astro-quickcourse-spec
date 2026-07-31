@@ -6,6 +6,7 @@ import ShowcaseSection from "../../components/showcase/ShowcaseSection.astro";
 import ShowcaseExample from "../../components/showcase/ShowcaseExample.astro";
 import ShowcaseEmptyState from "../../components/showcase/ShowcaseEmptyState.astro";
 import DetailModal from "../../components/interactions/display/DetailModal.astro";
+import QuickCourseIcon from "../../components/ui/QuickCourseIcon.astro";
 import DefinitionList from "../../components/typography/DefinitionList.astro";
 import QuoteBlock from "../../components/typography/QuoteBlock.astro";
 import StatisticBlock from "../../components/typography/StatisticBlock.astro";
@@ -13,7 +14,6 @@ import TextLayout from "../../components/typography/TextLayout.astro";
 import TypeText from "../../components/typography/TypeText.astro";
 import { isShowcaseItemVisible } from "../../data/showcase-registry";
 
-const approvedStack = `system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, Helvetica, sans-serif`;
 const typographyVisible = isShowcaseItemVisible("type-scale");
 const typographyAnchors = [
   { label: "Hierarchy", href: "#type-hierarchy" },
@@ -59,15 +59,16 @@ const typographyAnchors = [
                 heading="Typography usage guidance"
               >
                 <div class="di-dialog__content">
-                  <p>Choose type by instructional purpose first. Use a standard heading and body treatment when the content does not need special emphasis.</p>
+                  <p>Choose type by instructional purpose first. Simple body text is the right choice when content must be read in order.</p>
                   <ul class="di-dialog__list">
                     <li>Use Display only for short opening statements, major transitions or memorable concepts. Long copy should use a normal heading.</li>
                     <li>Use a Lead for one concise introduction. Keep long-form reading left aligned in a narrow or standard measure.</li>
                     <li>Preserve the HTML heading hierarchy. Visual size is independent from semantic heading level.</li>
                     <li>Use two or three columns only for short related content. Put detailed explanations in one readable column.</li>
                     <li>Use quotes for genuine quotations or clearly marked internal examples. Pull quotes are non-essential emphasis, never required reading.</li>
-                    <li>Use serif, monospace and cursive accents sparingly. Cursive is a review-only option for one short, non-essential phrase.</li>
+                    <li>Use serif and italic for short editorial emphasis, and monospace for short technical content. Keep normal reading in the sans stack.</li>
                     <li>Use the course theme and explicit visual direction before selecting a surface or accent tone. Do not add an eyebrow to every heading.</li>
+                    <li>Keep typography non-interactive: plain lists, Q&amp;A, quotes and values belong here; interactive FAQs, processes, timelines and checklists belong with interactions.</li>
                   </ul>
                 </div>
               </DetailModal>
@@ -82,9 +83,9 @@ const typographyAnchors = [
                 <div class="di-dialog__content">
                   <p>The system uses no external fonts. It maps semantic roles, measures, families, weights, tones, surfaces and layouts to a controlled CSS variable layer.</p>
                   <ul class="di-dialog__list">
-                    <li>Default content uses the approved native system sans stack. Serif, monospace and generic cursive are controlled local fallbacks.</li>
+                    <li>Default content uses the approved native system sans stack. Serif and monospace are controlled local alternatives.</li>
                     <li>Responsive roles use clamp-based scales, readable line heights and controlled measures rather than raw author-supplied pixels.</li>
-                    <li>Text layouts use semantic grid patterns that collapse in DOM reading order. Quotes, lists, definitions and values retain native HTML semantics.</li>
+                    <li>Shared CSS variables set section, specimen and inline spacing. Text layouts collapse in DOM reading order, while quotes, lists, definitions and values retain native HTML semantics.</li>
                     <li>Future theme tokens can map font, colour, surface and spacing values without changing content structure. The system stays static-site and SCORM compatible.</li>
                   </ul>
                 </div>
@@ -95,10 +96,10 @@ const typographyAnchors = [
               <h4 id="type-hierarchy-heading">Type hierarchy</h4>
               <p class="qc-type-showcase__intro">Semantic heading level and visual role stay separate, so a course can preserve its outline while choosing a controlled editorial treatment.</p>
               <div class="qc-type-hierarchy">
-                <div class="qc-type-hierarchy__item"><span>Display XL</span><TypeText as="p" role="display-xl" weight="bold">Make every conversation count.</TypeText></div>
-                <div class="qc-type-hierarchy__item"><span>Display Large</span><TypeText as="p" role="display-lg" weight="semibold">The first question changes everything.</TypeText></div>
-                <div class="qc-type-hierarchy__item"><span>Display Medium</span><TypeText as="p" role="display-md" family="serif" italic>Listen before you solve.</TypeText></div>
-                <div class="qc-type-hierarchy__item"><span>H1 visual role</span><TypeText as="p" role="heading-xl" weight="bold">A clearer product conversation starts here</TypeText></div>
+                <div class="qc-type-hierarchy__item"><span>Display XL</span><TypeText as="p" role="display-xl" weight="bold">Pause. Check. Continue safely.</TypeText></div>
+                <div class="qc-type-hierarchy__item"><span>Display Large</span><TypeText as="p" role="display-lg" weight="semibold">One good question changes the next step.</TypeText></div>
+                <div class="qc-type-hierarchy__item"><span>Display Medium</span><TypeText as="p" role="display-md" family="serif" italic>Make the digital task feel manageable.</TypeText></div>
+                <div class="qc-type-hierarchy__item"><span>H1 visual role</span><TypeText as="p" role="heading-xl" weight="bold">A clearer stock handover starts here</TypeText></div>
                 <div class="qc-type-hierarchy__item"><span>H2 visual role</span><TypeText as="p" role="heading-lg" weight="semibold">Guide the decision, not just the transaction</TypeText></div>
                 <div class="qc-type-hierarchy__item"><span>H3 visual role</span><TypeText as="p" role="heading-md" weight="semibold">Keep the key comparison visible</TypeText></div>
                 <div class="qc-type-hierarchy__item"><span>H4 visual role</span><TypeText as="p" role="heading-sm" weight="semibold">Name the next action and its timing</TypeText></div>
@@ -112,14 +113,14 @@ const typographyAnchors = [
               <h4 id="display-statements-heading">Display and statement typography</h4>
               <div class="qc-type-display-grid qc-type-display-grid--three">
                 <TextLayout layout="statement" surface="light" spacing="spacious">
-                  <TypeText as="p" role="display-lg" align="center" weight="light">LISTEN<br />BEFORE YOU SOLVE</TypeText>
+                  <TypeText as="p" role="display-lg" align="center" weight="light">PAUSE<br />CHECK<br />CONTINUE</TypeText>
                 </TextLayout>
                 <TextLayout layout="statement" surface="primary" spacing="spacious">
                   <TypeText as="p" role="statement" align="center" weight="bold" tone="inverse">SMALL ACTIONS.<br />BIG IMPACT.</TypeText>
                 </TextLayout>
                 <TextLayout layout="statement" surface="none" spacing="spacious">
-                  <TypeText as="p" role="display-md" family="serif" align="center" italic>The product story should make the choice feel simpler.</TypeText>
-                  <p class="qc-type-cursive-note">A quick human reminder</p>
+                  <TypeText as="p" role="display-md" family="serif" align="center" italic>Clear handovers make the next shift easier.</TypeText>
+                  <TypeText as="p" role="body-compact" align="center" tone="accent">Calm, direct wording can still feel warm.</TypeText>
                 </TextLayout>
               </div>
             </section>
@@ -155,7 +156,7 @@ const typographyAnchors = [
               <TextLayout layout="two-equal" surface="muted" spacing="standard">
                 <div class="qc-text-layout__prose">
                   <TypeText as="h5" role="heading-sm" weight="semibold">Explain the feature</TypeText>
-                  <TypeText as="p" role="body">Name the benefit in plain language, then connect it to the customer need that makes it relevant.</TypeText>
+                  <TypeText as="p" role="body">Name the benefit in plain language, then connect it to the everyday need that makes it relevant.</TypeText>
                 </div>
                 <div class="qc-text-layout__prose">
                   <TypeText as="h5" role="heading-sm" weight="semibold">Confirm the outcome</TypeText>
@@ -173,8 +174,8 @@ const typographyAnchors = [
 
               <TextLayout layout="three" surface="none" spacing="standard">
                 <div><TypeText as="h5" role="heading-sm" weight="semibold">Notice</TypeText><TypeText as="p" role="body-compact">Observe the signal before making an assumption.</TypeText></div>
-                <div><TypeText as="h5" role="heading-sm" weight="semibold">Clarify</TypeText><TypeText as="p" role="body-compact">Ask the one question that changes the next step.</TypeText></div>
-                <div><TypeText as="h5" role="heading-sm" weight="semibold">Confirm</TypeText><TypeText as="p" role="body-compact">Restate the agreed action and timing.</TypeText></div>
+                <div><TypeText as="h5" role="heading-sm" weight="semibold">Clarify</TypeText><TypeText as="p" role="body-compact">Check the one detail that changes the next step.</TypeText></div>
+                <div><TypeText as="h5" role="heading-sm" weight="semibold">Confirm</TypeText><TypeText as="p" role="body-compact">Record the agreed action and realistic timing.</TypeText></div>
               </TextLayout>
             </section>
 
@@ -182,8 +183,8 @@ const typographyAnchors = [
               <h4 id="quotes-editorial-heading">Quotes and editorial emphasis</h4>
               <div class="qc-quote-grid">
                 <QuoteBlock quote="Clarity is not saying more. It is helping someone understand what matters." citation="Internal learning example" variant="rule" />
-                <QuoteBlock quote="The best recommendation starts with the question you ask before you speak." citation="Unattributed training prompt" variant="center" />
-                <QuoteBlock quote="A useful explanation makes the next action feel possible." citation="Illustrative quote" variant="surface" />
+                <QuoteBlock quote="A safe routine is easier to follow when the reason is clear." citation="Illustrative safety prompt" variant="center" />
+                <QuoteBlock quote="A practical explanation makes the next action feel possible." citation="Illustrative quote" variant="surface" />
                 <TextLayout layout="pull-quote" surface="none" spacing="standard">
                   <div class="qc-text-layout__prose"><TypeText as="p" role="body">A leadership update can include the practical context first, then use a pull quote to reinforce a memorable idea without interrupting the reading flow.</TypeText></div>
                   <aside class="qc-text-layout__aside"><QuoteBlock quote="Say what changes, why it matters and where support is available." variant="pull" /></aside>
@@ -197,24 +198,24 @@ const typographyAnchors = [
                 <div>
                   <TypeText as="h5" role="heading-sm" weight="semibold">Checklist</TypeText>
                   <ul class="qc-checklist">
-                    <li>Check the product name and size.</li>
-                    <li>Confirm the customer’s intended use.</li>
-                    <li>State the next action clearly.</li>
+                    <li>Check the stock location and label.</li>
+                    <li>Confirm the item condition.</li>
+                    <li>Record any exception clearly.</li>
                   </ul>
                 </div>
                 <div>
                   <TypeText as="h5" role="heading-sm" weight="semibold">Large numbered steps</TypeText>
                   <ol class="qc-numbered-steps">
-                    <li><div><h5>Prepare</h5><p>Have the relevant information ready before the conversation starts.</p></div></li>
-                    <li><div><h5>Guide</h5><p>Connect one useful feature to the learner or customer need.</p></div></li>
-                    <li><div><h5>Confirm</h5><p>Name the action, owner and realistic timing.</p></div></li>
+                    <li><div><h5>Check</h5><p>Confirm the required information before beginning the task.</p></div></li>
+                    <li><div><h5>Record</h5><p>Capture the outcome where the next person can find it.</p></div></li>
+                    <li><div><h5>Escalate</h5><p>Ask for support when the guidance does not fit the situation.</p></div></li>
                   </ol>
                 </div>
                 <div>
                   <TypeText as="h5" role="heading-sm" weight="semibold">Question and answer</TypeText>
                   <div class="qc-question-answer">
-                    <p class="qc-question-answer__question">What should you confirm first?</p>
-                    <p class="qc-question-answer__answer">Start by clarifying how the person intends to use the product or process.</p>
+                    <p class="qc-question-answer__question">How should a shift handover begin?</p>
+                    <p class="qc-question-answer__answer">Confirm what has changed, what remains open and where the next person can find the record.</p>
                   </div>
                 </div>
               </div>
@@ -229,8 +230,14 @@ const typographyAnchors = [
               />
 
               <div class="qc-do-dont">
-                <section><TypeText as="h5" role="heading-sm" weight="semibold">Do</TypeText><ul><li>Use one readable column for detailed policy explanation.</li><li>Use a short label only when it adds context.</li></ul></section>
-                <section><TypeText as="h5" role="heading-sm" weight="semibold">Do not</TypeText><ul><li>Put two long articles side by side.</li><li>Use a quote style for essential instructions.</li></ul></section>
+                <section>
+                  <div class="qc-do-dont__heading"><QuickCourseIcon name="recommended" context="inline" decorative /><TypeText as="h5" role="heading-sm" weight="semibold">Do</TypeText></div>
+                  <ul><li>Use one readable column for detailed policy explanation.</li><li>Use a short label only when it adds context.</li></ul>
+                </section>
+                <section>
+                  <div class="qc-do-dont__heading"><QuickCourseIcon name="avoid" context="inline" decorative /><TypeText as="h5" role="heading-sm" weight="semibold">Do not</TypeText></div>
+                  <ul><li>Put two long articles side by side.</li><li>Use a quote style for essential instructions.</li></ul>
+                </section>
               </div>
             </section>
 
