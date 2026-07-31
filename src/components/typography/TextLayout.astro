@@ -1,0 +1,18 @@
+---
+import type { TextLayoutKind, TextSpacing, TextSurface } from "./types";
+
+interface Props {
+  layout?: TextLayoutKind;
+  surface?: TextSurface;
+  spacing?: TextSpacing;
+  as?: "section" | "article" | "div" | "aside";
+  class?: string;
+}
+
+const { layout = "reading-standard", surface = "none", spacing = "standard", as: element = "div", class: className } = Astro.props;
+const Tag = element;
+---
+
+<Tag class:list={["qc-text-layout", `qc-text-layout--${layout}`, `qc-text-layout--surface-${surface}`, `qc-text-layout--spacing-${spacing}`, className]}>
+  <slot />
+</Tag>
