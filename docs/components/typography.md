@@ -8,11 +8,17 @@ The Quick Course Typography System is one controlled system for course copy, edi
 
 No external font service, downloaded font file, `@font-face` declaration or JavaScript font loader is used.
 
-- Sans default: `system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, Helvetica, sans-serif`
+- Sans default: `"Arial Nova", Arial, Helvetica, sans-serif`
 - Serif: `Georgia, "Times New Roman", Times, serif`
 - Monospace: `ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace`
 
 Sans is the default for headings, Body copy, UI and most learning content. Serif is reserved for selected editorial headings, reflective introductions and quotes. Monospace is for short technical values, identifiers, filenames and keyboard examples. The system does not provide an additional decorative font family.
+
+## Showcase Baseline
+
+The Typography System supplies the normal Showcase baseline in both Working and Approved builds. Normal page titles, headings, Leads, Body copy, labels, captions, links, list text, guidance and modal copy inherit the Arial Nova-first stack and the controlled normal reading rhythm.
+
+Expressive treatments remain opt-in. Display roles, editorial serif, pull quotes, large statistics, monospace examples, solid-surface typography and special column layouts are selected only when their instructional purpose calls for them. Component-specific typography remains in control where it protects an established interaction, control or hierarchy.
 
 ## Production Primitives
 
@@ -41,7 +47,7 @@ Content hierarchy is the structural system for page titles, sections, subsection
 | `display-xl`, `display-lg`, `display-md` | Short course-opening or section-opening statements only. |
 | `heading-xl`, `heading-lg`, `heading-md`, `heading-sm` | Headings at the semantic level required by the page outline. |
 | `lead` | One concise introductory paragraph. |
-| `body` | Default role for normal instructional reading. It scales to approximately 18px at normal desktop reading sizes. |
+| `body` | Default role for normal instructional reading. It uses a gentle responsive range of approximately 17px to 17.5px with a 1.55 line height. |
 | `body-compact` | Concise secondary context, not compressed primary reading. |
 | `eyebrow`, `label`, `caption` | Short contextual labels and secondary context. |
 | `statement` | A short memorable phrase, transition or instruction. |
@@ -65,24 +71,26 @@ Use light weight only for large Display text. Normal Body copy must remain regul
 
 ## Reading Layouts
 
-- Narrow reading column: detailed or long-form reading where comfortable line length matters.
-- Standard reading column: the default for most headings, paragraphs and lists in a Quick Course.
-- Wide content layout: short introductions, strong headings or concise content; constrain detailed Body copy beneath it.
+- Narrow reading column: a 42rem measure for detailed or long-form reading where comfortable line length matters.
+- Standard reading column: a 54rem measure for most headings, paragraphs and lists in a Quick Course.
+- Wide content layout: the available course-content container for short introductions, strong headings, media and surfaces; constrain detailed Body copy to Standard or Narrow measure beneath it.
 - Two equal columns: two short parallel ideas of similar length and importance.
 - Two unequal columns: a main explanation with a concise supporting note, reminder, example or context.
 - Three columns: three short parallel principles, terms or steps only.
 - Split heading and body: an editorial opening with a strong heading beside its explanation.
 - Pull quote aside: non-essential editorial emphasis alongside a longer explanation.
 
-Columns collapse to one logical DOM order on narrow screens. Do not use right-aligned paragraphs, justified text, three columns for long copy or two columns for two long articles. Prefer one readable column over forcing text across the full width.
+The default model is a Wide section container with Standard-measure reading content inside it. Long-form or detailed content can use Narrow measure; short headings and Leads can use more of the outer container. Columns collapse to one logical DOM order on narrow screens. Do not use right-aligned paragraphs, justified text, three columns for long copy or two columns for two long articles. Prefer one readable column over forcing text across the full width.
 
 Major Showcase sections use shared editorial spacing. Independent specimens use a smaller shared gap, while paragraphs, citations and list items within one specimen stay more closely grouped. This preserves a readable rhythm without turning the page into isolated cards.
 
-## Lists, Definitions And Static Q&A
+## Lists And Definitions
 
-Use native `ul` for related non-sequential ideas and `ol` only where order or priority matters. Use a learning-outcomes treatment only for genuine outcomes with action verbs. Large numbered steps are static editorial text, not an interactive process. Checklist-style lists are non-interactive text; they do not save, score or track completion.
+Use native `ul` for related non-sequential ideas and `ol` only where order or priority matters. Native markers remain visible and align wrapped text beneath the item, not the marker. Use a learning-outcomes treatment only for genuine outcomes with action verbs. Checklist-style lists are non-interactive text; they do not save, score or track completion. Compact lists use restrained separators for short grouped facts.
 
-Use semantic `dl` markup for term-and-meaning relationships. Use static Q&A for readable common questions, reflection prompts and FAQs that do not need disclosure behaviour. Accordions, interactive checklists, timelines and process exploration belong to the interaction library.
+Large numbered steps are display treatments, not normal list styles. Use them only for short editorial sequences; do not replace ordinary ordered lists merely for visual decoration.
+
+Use semantic `dl` markup for term-and-meaning relationships. Static questions and answers use the normal Label, Heading and Body roles. Use a card or accordion only when the content or interaction genuinely requires it. Accordions, interactive checklists, timelines and process exploration belong to the interaction library.
 
 Keep nested lists to one restrained level. Do not choose list markers merely for decorative variety and do not convert every short paragraph into a list.
 
@@ -105,11 +113,14 @@ AI should make choices in this order:
 
 AI should identify the semantic purpose, choose an approved role, choose a suitable measure and layout, preserve heading hierarchy and use the simplest readable option when no special treatment is justified.
 
+Normal Body uses the shared 17px to 17.5px baseline. Do not reduce it to force excessive content into a layout. Use Wide for the outer section or component container, Standard for ordinary paragraphs and Narrow for detailed long-form content.
+
 AI should not:
 
 - Use Display for long copy.
 - Treat Display roles as heading levels.
 - Add an eyebrow to every heading.
+- Turn a normal ordered list into large editorial steps without a clear display purpose.
 - Use centred text for long reading.
 - Make each heading a different colour.
 - Use small text to fit excessive content.
@@ -122,13 +133,13 @@ AI should not:
 ## Responsive, Accessibility And Real-World Content
 
 - Major Display and heading roles use controlled clamp-based sizing.
-- Body scales slightly for comfortable normal reading while compact roles remain distinct.
+- Body uses a gentle 17px to 17.5px range with a 1.55 line height while compact roles remain distinct.
 - Short headings use balanced wrapping; Body content uses ordinary readable wrapping.
 - Normal words must not break arbitrarily or be truncated with ellipses.
 - Long links and identifiers can wrap safely without creating horizontal overflow.
 - Standard reading content stays near a 60 to 75 character line measure.
 - Links are visibly underlined, focus remains visible and inline code can wrap safely.
-- Quotes, lists, definitions and Q&A retain native semantic HTML.
+- Quotes, lists and definitions retain native semantic HTML.
 - Columns collapse at small widths without changing reading order.
 - Optional content such as eyebrows, descriptions and captions must not leave blank placeholder gaps when absent.
 - Check the system at narrow mobile, standard mobile, tablet, laptop, wide desktop and 200% zoom or an equivalent constrained width.

@@ -2,14 +2,7 @@
 @plugin "daisyui";
 
 @theme {
-  --font-sans:
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Arial,
-    Helvetica,
-    sans-serif;
+  --font-sans: "Arial Nova", Arial, Helvetica, sans-serif;
 }
 
 :root {
@@ -20,14 +13,7 @@
   --showcase-ci-clay: #d29f91;
   --showcase-ci-on-light: #1e293b;
   color-scheme: light;
-  font-family:
-    system-ui,
-    -apple-system,
-    BlinkMacSystemFont,
-    "Segoe UI",
-    Arial,
-    Helvetica,
-    sans-serif;
+  font-family: "Arial Nova", Arial, Helvetica, sans-serif;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   background: #f8fafc;
@@ -43,8 +29,8 @@ body {
   min-height: 100vh;
   margin: 0;
   font-family: inherit;
-  font-size: 1rem;
-  line-height: 1.6;
+  font-size: var(--qc-type-body-size, 1rem);
+  line-height: var(--qc-type-body-line-height, 1.6);
   background: #f8fafc;
 }
 
@@ -229,8 +215,8 @@ dialog::backdrop {
 }
 
 .showcase-catalogue-section:nth-child(even) {
-  margin-inline: calc(50% - 50vw);
-  padding-inline: max(1rem, calc(50vw - 40rem));
+  margin-inline: calc(50% - 50vw + (100vw - 100%) / 2);
+  padding-inline: max(1rem, calc(50vw - 40rem - (100vw - 100%) / 2));
   background: rgba(255, 255, 255, 0.45);
 }
 
@@ -1427,7 +1413,8 @@ dialog::backdrop {
 .showcase-page-header p:not(.qc-eyebrow) {
   max-width: 75ch;
   color: #4b5563;
-  font-size: 1.08rem;
+  font-size: var(--qc-type-body-size);
+  line-height: var(--qc-type-body-line-height);
 }
 
 .showcase-landing-grid {
@@ -1827,12 +1814,23 @@ dialog::backdrop {
 }
 
 .di-dialog__list {
-  display: grid;
-  gap: 0.55rem;
+  display: block;
   max-width: 72ch;
   margin: 1rem 0 0;
   color: #374151;
-  padding-left: 1.25rem;
+  font-size: var(--qc-type-body-size);
+  line-height: var(--qc-type-body-line-height);
+  list-style-position: outside;
+  list-style-type: disc;
+  padding-left: 1.5rem;
+}
+
+.di-dialog__list li + li {
+  margin-top: 0.55rem;
+}
+
+.di-dialog__list li::marker {
+  color: currentColor;
 }
 
 @media (min-width: 720px) {
@@ -4134,7 +4132,11 @@ section.qc-video-transcript__body {
   --qc-type-surface-light: #fdf3e0;
   --qc-type-surface-accent: #d29f91;
   --qc-type-rule: #cbd5e1;
-  --qc-type-body-size: clamp(1rem, 0.95rem + 0.2vw, 1.125rem);
+  --qc-type-body-size: clamp(1.0625rem, 1.04rem + 0.1vw, 1.09375rem);
+  --qc-type-body-line-height: 1.55;
+  --qc-type-measure-narrow: 42rem;
+  --qc-type-measure-standard: 54rem;
+  --qc-type-measure-wide: 72rem;
   --qc-type-section-space: clamp(4rem, 7vw, 5.75rem);
   --qc-type-section-padding: clamp(2rem, 4vw, 2.75rem);
   --qc-type-section-gap: clamp(1.75rem, 3vw, 2.25rem);
@@ -4149,7 +4151,7 @@ section.qc-video-transcript__body {
   font-family: var(--font-sans);
   font-style: normal;
   font-weight: 400;
-  line-height: 1.55;
+  line-height: var(--qc-type-body-line-height);
   overflow-wrap: normal;
   text-align: left;
   text-wrap: pretty;
@@ -4250,15 +4252,15 @@ section.qc-video-transcript__body {
 }
 
 .qc-type--measure-narrow {
-  max-width: 56ch;
+  max-width: var(--qc-type-measure-narrow);
 }
 
 .qc-type--measure-standard {
-  max-width: 70ch;
+  max-width: var(--qc-type-measure-standard);
 }
 
 .qc-type--measure-wide {
-  max-width: 92ch;
+  max-width: var(--qc-type-measure-wide);
 }
 
 .qc-type--measure-full {
@@ -4350,15 +4352,15 @@ section.qc-video-transcript__body {
 }
 
 .qc-text-layout--reading-narrow {
-  max-width: 56ch;
+  max-width: var(--qc-type-measure-narrow);
 }
 
 .qc-text-layout--reading-standard {
-  max-width: 70ch;
+  max-width: var(--qc-type-measure-standard);
 }
 
 .qc-text-layout--editorial-wide {
-  max-width: 72rem;
+  max-width: none;
 }
 
 .qc-text-layout--statement {
@@ -4483,7 +4485,7 @@ section.qc-video-transcript__body {
 
 .qc-text-layout__prose p,
 .qc-text-layout__prose li {
-  max-width: 70ch;
+  max-width: var(--qc-type-measure-standard);
   color: inherit;
 }
 
@@ -4619,7 +4621,7 @@ section.qc-video-transcript__body {
   margin: 0;
   color: var(--qc-type-default);
   font-size: var(--qc-type-body-size);
-  line-height: 1.55;
+  line-height: var(--qc-type-body-line-height);
 }
 
 .qc-type-showcase {
@@ -4866,27 +4868,6 @@ section.qc-video-transcript__body {
   padding-left: 1.2rem;
 }
 
-.qc-question-answer {
-  display: grid;
-  gap: 0.65rem;
-  border-left: 3px solid var(--showcase-ci-plum);
-  padding-left: 1rem;
-}
-
-.qc-question-answer p {
-  margin: 0;
-}
-
-.qc-question-answer__question {
-  color: var(--qc-type-strong);
-  font-size: 1.15rem;
-  font-weight: 700;
-}
-
-.qc-question-answer__answer {
-  color: var(--qc-type-default);
-}
-
 .qc-type-weight-row {
   display: flex;
   flex-wrap: wrap;
@@ -5015,7 +4996,6 @@ section.qc-video-transcript__body {
 .qc-quote-specimens,
 .qc-list-specimens,
 .qc-definition-specimens,
-.qc-question-answer-specimens,
 .qc-resilience-specimens {
   display: grid;
   gap: var(--qc-type-specimen-gap);
@@ -5027,7 +5007,7 @@ section.qc-video-transcript__body {
 .qc-quote-aside-specimen,
 .qc-list-specimen,
 .qc-definition-specimen,
-.qc-question-answer-specimen,
+.qc-display-sequence-specimen,
 .qc-resilience-specimen {
   display: grid;
   gap: var(--qc-type-section-gap);
@@ -5035,12 +5015,8 @@ section.qc-video-transcript__body {
   padding-top: var(--qc-type-specimen-gap);
 }
 
-.qc-reading-layout__specimen {
-  max-width: none;
-}
-
 .qc-reading-layout__body {
-  max-width: 70ch;
+  max-width: var(--qc-type-measure-standard);
 }
 
 .qc-reading-layout__aside {
@@ -5063,43 +5039,64 @@ section.qc-video-transcript__body {
 
 .qc-list,
 .qc-checklist,
-.qc-numbered-steps,
-.qc-question-answer {
+.qc-numbered-steps {
   font-size: var(--qc-type-body-size);
-  line-height: 1.55;
+  line-height: var(--qc-type-body-line-height);
 }
 
 .qc-list {
-  display: grid;
-  gap: 0.8rem;
+  display: block;
   margin: 0;
-  padding-left: 1.35rem;
+  list-style-position: outside;
+  padding-left: 1.5rem;
 }
 
-.qc-list li {
-  padding-left: 0.3rem;
+ul.qc-list {
+  list-style-type: disc;
+}
+
+ol.qc-list {
+  list-style-type: decimal;
+}
+
+.qc-list li + li {
+  margin-top: 0.8rem;
 }
 
 .qc-list li::marker {
-  color: var(--qc-type-accent);
+  color: currentColor;
   font-weight: 700;
 }
 
 .qc-list--outcomes {
-  gap: 0.9rem;
+  list-style-type: disc;
 }
 
-.qc-list--compact {
-  gap: 0.4rem;
+.qc-list--outcomes li + li {
+  margin-top: 0.9rem;
+}
+
+ul.qc-list.qc-list--compact {
   font-size: 0.95rem;
   line-height: 1.45;
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.qc-list--compact li + li {
+  border-top: 1px solid var(--qc-type-rule);
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
 }
 
 .qc-list--nested ul {
-  display: grid;
-  gap: 0.55rem;
+  list-style-type: circle;
   margin-top: 0.75rem;
-  padding-left: 1.35rem;
+  padding-left: 1.5rem;
+}
+
+.qc-list--nested ul li + li {
+  margin-top: 0.55rem;
 }
 
 .qc-list__lead {
@@ -5110,7 +5107,11 @@ section.qc-video-transcript__body {
 }
 
 .qc-checklist {
-  gap: 0.8rem;
+  display: block;
+}
+
+.qc-checklist li + li {
+  margin-top: 0.8rem;
 }
 
 .qc-numbered-steps {
@@ -5127,7 +5128,7 @@ section.qc-video-transcript__body {
 .qc-numbered-steps p {
   color: var(--qc-type-muted);
   font-size: var(--qc-type-body-size);
-  line-height: 1.55;
+  line-height: var(--qc-type-body-line-height);
 }
 
 .qc-definition-list--grid {
@@ -5140,47 +5141,6 @@ section.qc-video-transcript__body {
   border: 1px solid var(--qc-type-rule);
   border-radius: 0.5rem;
   padding: 1rem;
-}
-
-.qc-question-answer {
-  gap: 1rem;
-  margin: 0;
-  border-left: 3px solid var(--showcase-ci-plum);
-  padding-left: 1rem;
-}
-
-.qc-question-answer > div {
-  display: grid;
-  gap: 0.55rem;
-}
-
-.qc-question-answer--set > div + div {
-  border-top: 1px solid var(--qc-type-rule);
-  padding-top: 1rem;
-}
-
-.qc-question-answer dt,
-.qc-question-answer dd {
-  margin: 0;
-}
-
-.qc-question-answer dt {
-  color: var(--qc-type-strong);
-  font-weight: 700;
-}
-
-.qc-question-answer dd {
-  color: var(--qc-type-default);
-}
-
-.qc-question-answer dt span,
-.qc-question-answer dd span {
-  display: block;
-  margin-bottom: 0.2rem;
-  color: var(--qc-type-muted);
-  font-size: 0.8rem;
-  font-weight: 650;
-  letter-spacing: 0.02em;
 }
 
 .qc-resilience-specimen {
@@ -5232,7 +5192,6 @@ section.qc-video-transcript__body {
   .qc-quote-specimens,
   .qc-list-specimens,
   .qc-definition-specimens,
-  .qc-question-answer-specimens,
   .qc-resilience-specimens {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }

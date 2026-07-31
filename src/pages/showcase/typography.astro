@@ -23,7 +23,6 @@ const typographyAnchors = [
   { label: "Quotes", href: "#quotes-editorial" },
   { label: "Lists", href: "#structured-text" },
   { label: "Definitions", href: "#definitions-labelled" },
-  { label: "Q&A", href: "#questions-answers" },
   { label: "Values", href: "#statistics-values" },
   { label: "Emphasis", href: "#surfaces-emphasis" },
   { label: "Resilience", href: "#content-resilience" },
@@ -63,14 +62,15 @@ const typographyAnchors = [
                 heading="Typography usage guidance"
               >
                 <div class="di-dialog__content">
-                  <p>Choose type by instructional purpose first. Simple Body text is the right choice when content must be read in order.</p>
+                  <p>The Typography System supplies the normal baseline across both Showcase builds. Choose type by instructional purpose first; simple Body text is the right choice when content must be read in order.</p>
                   <ul class="di-dialog__list">
+                    <li>Normal headings, Body, Lead, Labels and Captions inherit the shared baseline. Display, editorial serif and large statement treatments remain opt-in.</li>
                     <li>Heading level controls document structure; Display controls visual emphasis. Use Display only for short, high-impact content.</li>
-                    <li>Use Body for normal instructional reading. Use compact supporting text and captions only when the information is genuinely secondary.</li>
-                    <li>Use Narrow for detailed reading, Standard for most course content and Wide for short introductions or strong headings with constrained body copy.</li>
+                    <li>Body uses a gentle 17&ndash;17.5px reading range. Use compact supporting text and captions only when the information is genuinely secondary.</li>
+                    <li>Use a Wide outer section for components, media and short openings; keep normal paragraphs at Standard measure and detailed reading at Narrow measure.</li>
                     <li>Use equal columns for parallel content, unequal columns for a concise supporting note, and three columns only for short parallel ideas.</li>
-                    <li>Use bullets for related ideas and numbers for order or priority. Learning outcomes need action verbs; checklist-style lists remain non-interactive.</li>
-                    <li>Use semantic definitions for terms and meanings, static Q&amp;A for readable questions, and accordions only where interaction is genuinely useful.</li>
+                    <li>Use bullets for related ideas and numbers for order or priority. Learning outcomes need action verbs; checklist-style lists remain non-interactive. Large numbered steps are display treatments, not normal lists.</li>
+                    <li>Use semantic definitions for terms and meanings. Static questions and answers use the normal Label, Heading and Body roles; use a card or accordion only when genuinely useful.</li>
                     <li>Keep pull quotes and supporting asides concise and related to nearby copy. Do not hide essential information in an aside.</li>
                     <li>When text is too long for Display or columns, choose a simpler readable layout. Never silently truncate storyboard copy.</li>
                   </ul>
@@ -85,12 +85,13 @@ const typographyAnchors = [
                 heading="Typography technical implementation"
               >
                 <div class="di-dialog__content">
-                  <p>The system uses no external fonts. It maps controlled semantic roles, reading measures, surfaces and layouts to a small CSS variable layer.</p>
+                  <p>The system uses no external fonts. Its shared baseline applies in both Working and Approved builds, while expressive roles remain component-level opt-ins.</p>
                   <ul class="di-dialog__list">
-                    <li>Display roles are visual treatments independent from semantic heading levels. Body is an explicit role with a refined responsive reading size.</li>
-                    <li>Narrow, Standard and Wide layouts keep long copy readable; equal, unequal and three-column layouts collapse in DOM reading order.</li>
-                    <li>Shared variables set major-section, specimen and internal spacing. Clamp-based roles, controlled measures and ordinary wrapping avoid raw author-supplied pixels.</li>
-                    <li>Lists use native <code>ul</code> and <code>ol</code>, definitions use <code>dl</code>, and static Q&amp;A uses semantic term-and-description markup.</li>
+                    <li>Body is an explicit 17&ndash;17.5px role with a 1.55 line height. Display roles remain visual treatments independent from semantic heading levels.</li>
+                    <li>Shared semantic measures provide Narrow (42rem), Standard (54rem) and Wide (the available course container). Long paragraphs use a controlled measure inside the wider section foundation.</li>
+                    <li>Equal, unequal and three-column layouts collapse in DOM reading order. Shared variables set major-section, specimen and internal spacing.</li>
+                    <li>Normal lists use native <code>ul</code> and <code>ol</code> markers; editorial numbered steps are a separate display treatment. Definitions use semantic <code>dl</code> markup.</li>
+                    <li>Static questions and answers use normal Label, Heading and Body roles rather than a dedicated typography primitive.</li>
                     <li>Long headings, links and identifiers wrap safely without clipping. Future theme tokens can map the values without changing content structure.</li>
                     <li>The rendered HTML stays static-site and SCORM compatible, with no external font dependency.</li>
                   </ul>
@@ -149,6 +150,17 @@ const typographyAnchors = [
                   <TypeText as="p" role="body-compact" align="center" tone="accent">Calm, direct wording can still feel warm.</TypeText>
                 </TextLayout>
               </div>
+              <section class="qc-display-sequence-specimen" aria-labelledby="display-steps-heading">
+                <div class="qc-specimen-header">
+                  <h5 id="display-steps-heading">Display-style numbered sequence</h5>
+                  <p>Use for a short, prominent editorial sequence. It is not a replacement for an ordinary ordered list.</p>
+                </div>
+                <ol class="qc-numbered-steps">
+                  <li><div><h6>Check</h6><p>Confirm the required information before beginning the task.</p></div></li>
+                  <li><div><h6>Record</h6><p>Capture the outcome where the next person can find it.</p></div></li>
+                  <li><div><h6>Escalate</h6><p>Ask for support when the guidance does not fit the situation.</p></div></li>
+                </ol>
+              </section>
             </section>
 
             <section id="headings-introductions" class="qc-type-showcase__section scroll-mt-28" aria-labelledby="headings-introductions-heading">
@@ -215,11 +227,11 @@ const typographyAnchors = [
                 <section class="qc-reading-layout" aria-labelledby="wide-reading-heading">
                   <div class="qc-reading-layout__header">
                     <h5 id="wide-reading-heading">Wide content layout</h5>
-                    <p>Useful for short introductions, statements or concise content. Long paragraphs should still use a controlled reading width.</p>
+                    <p>The section can use the full course-content width, while longer reading text remains constrained to a comfortable line length.</p>
                   </div>
                   <TextLayout layout="editorial-wide" surface="none" spacing="standard" class="qc-reading-layout__specimen qc-reading-layout__wide">
                     <TypeText as="p" role="heading-xl" measure="full" weight="bold">A clear system can make a new digital tool feel easier to adopt.</TypeText>
-                    <TypeText as="p" role="lead" measure="wide">The content region can use the wider container while the detailed explanation stays comfortably constrained beneath it.</TypeText>
+                    <TypeText as="p" role="lead" measure="wide">Short headings and Leads can use the wider container while detailed explanation stays comfortably constrained beneath them.</TypeText>
                     <div class="qc-reading-layout__body"><TypeText as="p" role="body">Use this approach for a strong opening or a short overview. Do not stretch a long article across the full viewport simply because that space is available.</TypeText></div>
                   </TextLayout>
                 </section>
@@ -295,7 +307,6 @@ const typographyAnchors = [
                 <section class="qc-list-specimen" aria-labelledby="bulleted-list-heading"><div class="qc-specimen-header"><h5 id="bulleted-list-heading">Standard bulleted list</h5><p>Use for related points, features, reminders and other non-sequential information.</p></div><ul class="qc-list qc-list--standard"><li>Keep the guidance visible while the learner completes the task.</li><li>Use a short example when a new process could be interpreted in more than one way.</li><li>Wrap longer items beneath the text, not beneath the marker.</li></ul></section>
                 <section class="qc-list-specimen" aria-labelledby="numbered-list-heading"><div class="qc-specimen-header"><h5 id="numbered-list-heading">Standard numbered list</h5><p>Use for ordered information, simple sequences or prioritised points.</p></div><ol class="qc-list qc-list--standard"><li>Check the information before making the change.</li><li>Record the decision where the next person can find it.</li><li>Escalate when the guidance does not fit the situation.</li></ol></section>
                 <section class="qc-list-specimen" aria-labelledby="outcomes-list-heading"><div class="qc-specimen-header"><h5 id="outcomes-list-heading">Learning outcomes list</h5><p>Use only for genuine outcomes with clear action verbs.</p></div><p class="qc-list__lead">By the end of this course, you will be able to:</p><ul class="qc-list qc-list--outcomes"><li>Identify the first safety check before starting work.</li><li>Explain when a stock exception needs to be recorded.</li><li>Choose an appropriate next step when a customer request cannot be completed immediately.</li></ul></section>
-                <section class="qc-list-specimen" aria-labelledby="large-steps-heading"><div class="qc-specimen-header"><h5 id="large-steps-heading">Large numbered steps</h5><p>Use for a short, prominent static sequence. This is editorial text, not an interactive process.</p></div><ol class="qc-numbered-steps"><li><div><h6>Check</h6><p>Confirm the required information before beginning the task.</p></div></li><li><div><h6>Record</h6><p>Capture the outcome where the next person can find it.</p></div></li><li><div><h6>Escalate</h6><p>Ask for support when the guidance does not fit the situation.</p></div></li></ol></section>
                 <section class="qc-list-specimen" aria-labelledby="checklist-list-heading"><div class="qc-specimen-header"><h5 id="checklist-list-heading">Checklist-style text list</h5><p>Use for non-interactive checks and reminders. It does not save, score or track completion.</p></div><ul class="qc-checklist"><li>Check the stock location and label.</li><li>Confirm the item condition.</li><li>Record any exception clearly.</li></ul></section>
                 <section class="qc-list-specimen" aria-labelledby="compact-list-heading"><div class="qc-specimen-header"><h5 id="compact-list-heading">Compact list</h5><p>Use for short features, metadata, quick reminders or small grouped facts.</p></div><ul class="qc-list qc-list--compact"><li>Owner: Store manager</li><li>Review point: End of shift</li><li>Reference: Safety log</li></ul></section>
                 <section class="qc-list-specimen" aria-labelledby="nested-list-heading"><div class="qc-specimen-header"><h5 id="nested-list-heading">Nested list</h5><p>Use one restrained nested level when a related detail genuinely needs it.</p></div><ul class="qc-list qc-list--standard qc-list--nested"><li>Prepare the handover<ul><li>Include completed work and open actions.</li><li>Note the location of the supporting record.</li></ul></li><li>Confirm the next owner.</li></ul></section>
@@ -309,15 +320,6 @@ const typographyAnchors = [
                 <section class="qc-definition-specimen" aria-labelledby="stacked-definitions-heading"><div class="qc-specimen-header"><h5 id="stacked-definitions-heading">Stacked definition list</h5><p>Useful when each term needs a short but complete explanation.</p></div><DefinitionList variant="stacked" items={[{ term: "Hazard", definition: "Something with the potential to cause harm." }, { term: "Risk", definition: "The likelihood and possible severity of that harm occurring." }, { term: "Control", definition: "A measure used to remove or reduce exposure to the hazard." }]} /></section>
                 <section class="qc-definition-specimen" aria-labelledby="split-definitions-heading"><div class="qc-specimen-header"><h5 id="split-definitions-heading">Two-column term and definition</h5><p>Useful when short labels and explanations can be scanned together.</p></div><DefinitionList variant="split" items={[{ term: "Role", definition: "The person responsible for completing or approving an action." }, { term: "Record", definition: "The place where the outcome, decision or exception is captured." }, { term: "Review point", definition: "The moment when progress or quality should be checked." }]} /></section>
                 <section class="qc-definition-specimen" aria-labelledby="compact-glossary-heading"><div class="qc-specimen-header"><h5 id="compact-glossary-heading">Compact glossary</h5><p>Useful for a small group of concise terms in an induction or systems course.</p></div><DefinitionList variant="grid" items={[{ term: "Material", definition: "The item or resource needed to complete the task." }, { term: "Method", definition: "The approved way to carry out the work." }, { term: "Exception", definition: "A situation that needs a record or escalation." }]} /></section>
-              </div>
-            </section>
-
-            <section id="questions-answers" class="qc-type-showcase__section scroll-mt-28" aria-labelledby="questions-answers-heading">
-              <h4 id="questions-answers-heading">Questions and answers</h4>
-              <p class="qc-type-showcase__intro">Use for readable FAQ-style content, common questions or reflection prompts. Interactive accordion FAQs belong with interactions.</p>
-              <div class="qc-question-answer-specimens">
-                <section class="qc-question-answer-specimen" aria-labelledby="single-question-heading"><div class="qc-specimen-header"><h5 id="single-question-heading">One question and answer</h5><p>A single static pair can clarify one common point without becoming an assessment.</p></div><dl class="qc-question-answer"><div><dt><span>Question</span>How should a shift handover begin?</dt><dd><span>Answer</span>Confirm what has changed, what remains open and where the next person can find the record.</dd></div></dl></section>
-                <section class="qc-question-answer-specimen" aria-labelledby="common-questions-heading"><div class="qc-specimen-header"><h5 id="common-questions-heading">Common questions</h5><p>A small static set remains fully visible and easy to scan.</p></div><dl class="qc-question-answer qc-question-answer--set"><div><dt><span>Question</span>When should an exception be recorded?</dt><dd><span>Answer</span>Record it as soon as the normal process cannot be completed as expected.</dd></div><div><dt><span>Question</span>Who owns the next action?</dt><dd><span>Answer</span>Name the person or role before the handover is complete.</dd></div></dl></section>
               </div>
             </section>
 
