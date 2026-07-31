@@ -2,6 +2,7 @@
 import "../styles/global.css";
 import ShowcaseTopNav from "../components/layout/ShowcaseTopNav.astro";
 import CourseFooter from "../components/course/footer/CourseFooter.astro";
+import QuickCourseIcon from "../components/ui/QuickCourseIcon.astro";
 import { showcaseMode, showcaseModeIdentity } from "../data/showcase-registry";
 
 const {
@@ -9,6 +10,7 @@ const {
   description = "A neutral visual reference for reusable Astro course components.",
   activeCategory = "home",
   showCourseFooter = true,
+  loadMaterialSymbols = true,
 } = Astro.props;
 
 const modeIdentity = showcaseModeIdentity[showcaseMode];
@@ -23,12 +25,16 @@ const modeIdentity = showcaseModeIdentity[showcaseMode];
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
-      rel="stylesheet"
-    />
+    {loadMaterialSymbols && (
+      <>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+          href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+          rel="stylesheet"
+        />
+      </>
+    )}
     <title>{pageTitle}</title>
   </head>
   <body id="page-top">
@@ -53,7 +59,11 @@ const modeIdentity = showcaseModeIdentity[showcaseMode];
     </div>
 
     <a class="back-to-top" href="#page-top" aria-label="Back to top" title="Back to top">
-      <span class="material-symbols-sharp showcase-icon" aria-hidden="true">arrow_upward</span>
+      {loadMaterialSymbols ? (
+        <span class="material-symbols-sharp showcase-icon" aria-hidden="true">arrow_upward</span>
+      ) : (
+        <QuickCourseIcon name="collapse" context="button" />
+      )}
     </a>
   </body>
 </html>

@@ -18,9 +18,12 @@ const typographyVisible = isShowcaseItemVisible("type-scale");
 const typographyAnchors = [
   { label: "Hierarchy", href: "#type-hierarchy" },
   { label: "Display", href: "#display-statements" },
+  { label: "Headings", href: "#headings-introductions" },
   { label: "Reading", href: "#reading-layouts" },
   { label: "Quotes", href: "#quotes-editorial" },
-  { label: "Structured text", href: "#structured-text" },
+  { label: "Lists", href: "#structured-text" },
+  { label: "Definitions", href: "#definitions-labelled" },
+  { label: "Q&A", href: "#questions-answers" },
   { label: "Values", href: "#statistics-values" },
   { label: "Emphasis", href: "#surfaces-emphasis" },
   { label: "Resilience", href: "#content-resilience" },
@@ -31,6 +34,7 @@ const typographyAnchors = [
   pageTitle="Typography | Quick Course Kit"
   description="Controlled typography and text-layout patterns for AI-generated Quick Courses."
   activeCategory="typography"
+  loadMaterialSymbols={false}
 >
   <ShowcasePageHeader
     title="Typography"
@@ -59,16 +63,16 @@ const typographyAnchors = [
                 heading="Typography usage guidance"
               >
                 <div class="di-dialog__content">
-                  <p>Choose type by instructional purpose first. Simple body text is the right choice when content must be read in order.</p>
+                  <p>Choose type by instructional purpose first. Simple Body text is the right choice when content must be read in order.</p>
                   <ul class="di-dialog__list">
-                    <li>Use Display only for short opening statements, major transitions or memorable concepts. Long copy should use a normal heading.</li>
-                    <li>Use a Lead for one concise introduction. Keep long-form reading left aligned in a narrow or standard measure.</li>
-                    <li>Preserve the HTML heading hierarchy. Visual size is independent from semantic heading level.</li>
-                    <li>Use two or three columns only for short related content. Put detailed explanations in one readable column.</li>
-                    <li>Use quotes for genuine quotations or clearly marked internal examples. Pull quotes are non-essential emphasis, never required reading.</li>
-                    <li>Use serif and italic for short editorial emphasis, and monospace for short technical content. Keep normal reading in the sans stack.</li>
-                    <li>Use the course theme and explicit visual direction before selecting a surface or accent tone. Do not add an eyebrow to every heading.</li>
-                    <li>Keep typography non-interactive: plain lists, Q&amp;A, quotes and values belong here; interactive FAQs, processes, timelines and checklists belong with interactions.</li>
+                    <li>Heading level controls document structure; Display controls visual emphasis. Use Display only for short, high-impact content.</li>
+                    <li>Use Body for normal instructional reading. Use compact supporting text and captions only when the information is genuinely secondary.</li>
+                    <li>Use Narrow for detailed reading, Standard for most course content and Wide for short introductions or strong headings with constrained body copy.</li>
+                    <li>Use equal columns for parallel content, unequal columns for a concise supporting note, and three columns only for short parallel ideas.</li>
+                    <li>Use bullets for related ideas and numbers for order or priority. Learning outcomes need action verbs; checklist-style lists remain non-interactive.</li>
+                    <li>Use semantic definitions for terms and meanings, static Q&amp;A for readable questions, and accordions only where interaction is genuinely useful.</li>
+                    <li>Keep pull quotes and supporting asides concise and related to nearby copy. Do not hide essential information in an aside.</li>
+                    <li>When text is too long for Display or columns, choose a simpler readable layout. Never silently truncate storyboard copy.</li>
                   </ul>
                 </div>
               </DetailModal>
@@ -81,12 +85,14 @@ const typographyAnchors = [
                 heading="Typography technical implementation"
               >
                 <div class="di-dialog__content">
-                  <p>The system uses no external fonts. It maps semantic roles, measures, families, weights, tones, surfaces and layouts to a controlled CSS variable layer.</p>
+                  <p>The system uses no external fonts. It maps controlled semantic roles, reading measures, surfaces and layouts to a small CSS variable layer.</p>
                   <ul class="di-dialog__list">
-                    <li>Default content uses the approved native system sans stack. Serif and monospace are controlled local alternatives.</li>
-                    <li>Responsive roles use clamp-based scales, readable line heights and controlled measures rather than raw author-supplied pixels.</li>
-                    <li>Shared CSS variables set section, specimen and inline spacing. Text layouts collapse in DOM reading order, while quotes, lists, definitions and values retain native HTML semantics.</li>
-                    <li>Future theme tokens can map font, colour, surface and spacing values without changing content structure. The system stays static-site and SCORM compatible.</li>
+                    <li>Display roles are visual treatments independent from semantic heading levels. Body is an explicit role with a refined responsive reading size.</li>
+                    <li>Narrow, Standard and Wide layouts keep long copy readable; equal, unequal and three-column layouts collapse in DOM reading order.</li>
+                    <li>Shared variables set major-section, specimen and internal spacing. Clamp-based roles, controlled measures and ordinary wrapping avoid raw author-supplied pixels.</li>
+                    <li>Lists use native <code>ul</code> and <code>ol</code>, definitions use <code>dl</code>, and static Q&amp;A uses semantic term-and-description markup.</li>
+                    <li>Long headings, links and identifiers wrap safely without clipping. Future theme tokens can map the values without changing content structure.</li>
+                    <li>The rendered HTML stays static-site and SCORM compatible, with no external font dependency.</li>
                   </ul>
                 </div>
               </DetailModal>
@@ -95,24 +101,44 @@ const typographyAnchors = [
             <section id="type-hierarchy" class="qc-type-showcase__section scroll-mt-28" aria-labelledby="type-hierarchy-heading">
               <h4 id="type-hierarchy-heading">Type hierarchy</h4>
               <p class="qc-type-showcase__intro">Semantic heading level and visual role stay separate, so a course can preserve its outline while choosing a controlled editorial treatment.</p>
-              <div class="qc-type-hierarchy">
-                <div class="qc-type-hierarchy__item"><span>Display XL</span><TypeText as="p" role="display-xl" weight="bold">Pause. Check. Continue safely.</TypeText></div>
-                <div class="qc-type-hierarchy__item"><span>Display Large</span><TypeText as="p" role="display-lg" weight="semibold">One good question changes the next step.</TypeText></div>
-                <div class="qc-type-hierarchy__item"><span>Display Medium</span><TypeText as="p" role="display-md" family="serif" italic>Make the digital task feel manageable.</TypeText></div>
-                <div class="qc-type-hierarchy__item"><span>H1 visual role</span><TypeText as="p" role="heading-xl" weight="bold">A clearer stock handover starts here</TypeText></div>
-                <div class="qc-type-hierarchy__item"><span>H2 visual role</span><TypeText as="p" role="heading-lg" weight="semibold">Guide the decision, not just the transaction</TypeText></div>
-                <div class="qc-type-hierarchy__item"><span>H3 visual role</span><TypeText as="p" role="heading-md" weight="semibold">Keep the key comparison visible</TypeText></div>
-                <div class="qc-type-hierarchy__item"><span>H4 visual role</span><TypeText as="p" role="heading-sm" weight="semibold">Name the next action and its timing</TypeText></div>
-                <div class="qc-type-hierarchy__item"><span>Label</span><TypeText as="p" role="eyebrow" weight="semibold">PRODUCT KNOWLEDGE</TypeText></div>
-                <div class="qc-type-hierarchy__item"><span>Lead</span><TypeText as="p" role="lead">Use a short lead to bridge a major heading and the explanation that follows.</TypeText></div>
-                <div class="qc-type-hierarchy__item"><span>Caption</span><TypeText as="p" role="caption" tone="muted">Illustrative specimen for Quick Course review only.</TypeText></div>
-              </div>
+
+              <section class="qc-type-hierarchy__group" aria-labelledby="display-styles-heading">
+                <div class="qc-type-hierarchy__group-header">
+                  <h5 id="display-styles-heading">Display styles &mdash; for short, high-impact text</h5>
+                  <p>Display styles control visual impact. They are not heading levels or separate font families and should be used only for short, exceptional content.</p>
+                </div>
+                <div class="qc-type-hierarchy">
+                  <div class="qc-type-hierarchy__item"><span>Display XL</span><TypeText as="p" role="display-xl" weight="bold">Pause. Check. Continue safely.</TypeText></div>
+                  <div class="qc-type-hierarchy__item"><span>Display Large</span><TypeText as="p" role="display-lg" weight="semibold">One good question changes the next step.</TypeText></div>
+                  <div class="qc-type-hierarchy__item"><span>Display Medium</span><TypeText as="p" role="display-md" family="serif" italic>Make the digital task feel manageable.</TypeText></div>
+                </div>
+              </section>
+
+              <section class="qc-type-hierarchy__group" aria-labelledby="content-hierarchy-heading">
+                <div class="qc-type-hierarchy__group-header">
+                  <h5 id="content-hierarchy-heading">Content hierarchy &mdash; for page structure and reading</h5>
+                  <p>Choose the HTML level for the document outline, then choose the visual role that best supports the content.</p>
+                </div>
+                <div class="qc-type-hierarchy">
+                  <div class="qc-type-hierarchy__item"><span>Page title / H1</span><TypeText as="p" role="heading-xl" weight="bold">A clearer stock handover starts here</TypeText></div>
+                  <div class="qc-type-hierarchy__item"><span>Section / H2</span><TypeText as="p" role="heading-lg" weight="semibold">Guide the decision, not just the transaction</TypeText></div>
+                  <div class="qc-type-hierarchy__item"><span>Subsection / H3</span><TypeText as="p" role="heading-md" weight="semibold">Keep the key safety step visible</TypeText></div>
+                  <div class="qc-type-hierarchy__item"><span>Minor heading / H4</span><TypeText as="p" role="heading-sm" weight="semibold">Name the next action and its timing</TypeText></div>
+                  <div class="qc-type-hierarchy__item"><span>Lead</span><TypeText as="p" role="lead">Use a short lead to bridge a major heading and the explanation that follows.</TypeText></div>
+                  <div class="qc-type-hierarchy__item qc-type-hierarchy__item--body"><span>Body</span><div class="qc-type-hierarchy__body-copy"><TypeText as="p" role="body">Body is the default role for normal instructional reading. It gives explanations enough size, line height and space to remain comfortable across common Quick Course layouts.</TypeText><TypeText as="p" role="body">Use a simpler reading column when the content needs more than a quick scan.</TypeText></div></div>
+                  <div class="qc-type-hierarchy__item"><span>Supporting text</span><TypeText as="p" role="body-compact" tone="muted">Use compact text for concise secondary context, not to force too much content into a small space.</TypeText></div>
+                  <div class="qc-type-hierarchy__item"><span>Label</span><TypeText as="p" role="label" weight="semibold">WORKPLACE SAFETY</TypeText></div>
+                  <div class="qc-type-hierarchy__item"><span>Caption</span><TypeText as="p" role="caption" tone="muted">Illustrative specimen for Quick Course review only.</TypeText></div>
+                  <div class="qc-type-hierarchy__item"><span>Eyebrow</span><TypeText as="p" role="eyebrow" weight="semibold">MODULE 2</TypeText></div>
+                </div>
+              </section>
             </section>
 
             <section id="display-statements" class="qc-type-showcase__section scroll-mt-28" aria-labelledby="display-statements-heading">
               <h4 id="display-statements-heading">Display and statement typography</h4>
+              <p class="qc-type-showcase__intro">Use these treatments for brief learning moments that benefit from visual impact. They should not replace normal headings or long-form reading.</p>
               <div class="qc-type-display-grid qc-type-display-grid--three">
-                <TextLayout layout="statement" surface="light" spacing="spacious">
+                <TextLayout layout="statement" surface="light" spacing="spacious" class="qc-type-display-grid__safety-statement">
                   <TypeText as="p" role="display-lg" align="center" weight="light">PAUSE<br />CHECK<br />CONTINUE</TypeText>
                 </TextLayout>
                 <TextLayout layout="statement" surface="primary" spacing="spacious">
@@ -127,108 +153,177 @@ const typographyAnchors = [
 
             <section id="headings-introductions" class="qc-type-showcase__section scroll-mt-28" aria-labelledby="headings-introductions-heading">
               <h4 id="headings-introductions-heading">Headings and introductions</h4>
-              <TextLayout layout="split" surface="none" spacing="spacious">
-                <div>
-                  <TypeText as="p" role="eyebrow" weight="semibold">BEFORE YOU BEGIN</TypeText>
-                  <TypeText as="h5" role="heading-xl" weight="bold">A well-timed pause can make a policy explanation easier to trust.</TypeText>
-                </div>
-                <div class="qc-text-layout__prose">
-                  <TypeText as="p" role="lead">Use a clear opening to name what matters, then help the learner connect that point to a practical action.</TypeText>
-                  <TypeText as="p" role="body" tone="muted">This split layout keeps the heading and supporting explanation visually related while preserving the logical reading order.</TypeText>
-                </div>
-              </TextLayout>
-              <TextLayout layout="statement" surface="secondary" spacing="spacious">
-                <TypeText as="h5" role="heading-lg" align="center" weight="semibold">A centred heading is for short, high-impact transitions.</TypeText>
-                <TypeText as="p" role="lead" align="center">Keep the supporting line brief enough to remain easy to scan.</TypeText>
-              </TextLayout>
+              <p class="qc-type-showcase__intro">A strong opening helps learners recognise what matters before they move into the supporting explanation.</p>
+              <div class="qc-heading-specimens">
+                <TextLayout layout="split" surface="none" spacing="spacious">
+                  <div>
+                    <TypeText as="p" role="eyebrow" weight="semibold">BEFORE YOU BEGIN</TypeText>
+                    <TypeText as="h5" role="heading-xl" weight="bold">A well-timed pause can make a policy explanation easier to trust.</TypeText>
+                  </div>
+                  <div class="qc-text-layout__prose">
+                    <TypeText as="p" role="lead">Use a clear opening to name what matters, then help the learner connect that point to a practical action.</TypeText>
+                    <TypeText as="p" role="body" tone="muted">This split layout keeps the heading and supporting explanation visually related while preserving the logical reading order.</TypeText>
+                  </div>
+                </TextLayout>
+
+                <section class="qc-heading-surface-specimen" aria-labelledby="heading-surface-heading">
+                  <div class="qc-specimen-header">
+                    <h5 id="heading-surface-heading">Heading and lead on a solid surface</h5>
+                    <p>Use a restrained surface when a short transition needs extra emphasis.</p>
+                  </div>
+                  <TextLayout layout="statement" surface="secondary" spacing="spacious">
+                    <TypeText as="p" role="heading-lg" align="center" weight="semibold">A centred heading is for short, high-impact transitions.</TypeText>
+                    <TypeText as="p" role="lead" align="center">Keep the supporting line brief enough to remain easy to scan.</TypeText>
+                  </TextLayout>
+                </section>
+              </div>
             </section>
 
             <section id="reading-layouts" class="qc-type-showcase__section scroll-mt-28" aria-labelledby="reading-layouts-heading">
               <h4 id="reading-layouts-heading">Reading layouts</h4>
-              <TextLayout layout="reading-narrow" surface="none" spacing="standard">
-                <TypeText as="h5" role="heading-md" weight="semibold">Narrow reading column</TypeText>
-                <div class="qc-text-layout__prose">
-                  <TypeText as="p" role="body">When a policy changes, the learner needs the reason, the practical effect and the next step in that order. A focused reading measure makes the explanation feel manageable instead of dense.</TypeText>
-                  <TypeText as="p" role="body">Use this pattern for reflective learning, detailed guidance and any content that needs more than a short scan.</TypeText>
-                </div>
-              </TextLayout>
+              <p class="qc-type-showcase__intro">Choose the layout for the amount, relationship and reading order of the content. One readable column is often the strongest choice.</p>
 
-              <TextLayout layout="two-equal" surface="muted" spacing="standard">
-                <div class="qc-text-layout__prose">
-                  <TypeText as="h5" role="heading-sm" weight="semibold">Explain the feature</TypeText>
-                  <TypeText as="p" role="body">Name the benefit in plain language, then connect it to the everyday need that makes it relevant.</TypeText>
-                </div>
-                <div class="qc-text-layout__prose">
-                  <TypeText as="h5" role="heading-sm" weight="semibold">Confirm the outcome</TypeText>
-                  <TypeText as="p" role="body">Close with the action, timing and a simple way to check progress later.</TypeText>
-                </div>
-              </TextLayout>
+              <div class="qc-reading-layouts">
+                <section class="qc-reading-layout" aria-labelledby="narrow-reading-heading">
+                  <div class="qc-reading-layout__header">
+                    <h5 id="narrow-reading-heading">Narrow reading column</h5>
+                    <p>Best for detailed or long-form reading where comfortable line length is important.</p>
+                  </div>
+                  <TextLayout layout="reading-narrow" surface="none" spacing="standard" class="qc-reading-layout__specimen">
+                    <TypeText as="p" role="heading-md" weight="semibold">Explain a policy change in the order people need it.</TypeText>
+                    <div class="qc-text-layout__prose">
+                      <TypeText as="p" role="body">When a policy changes, the learner needs the reason, the practical effect and the next step in that order. A focused reading measure makes the explanation feel manageable instead of dense.</TypeText>
+                      <TypeText as="p" role="body">Use this pattern for detailed guidance, reflective learning and content that needs more than a short scan. The open space beside the text is intentional: a long line does not need to fill the whole container.</TypeText>
+                    </div>
+                  </TextLayout>
+                </section>
 
-              <TextLayout layout="two-main" surface="none" spacing="standard">
-                <div class="qc-text-layout__prose">
-                  <TypeText as="h5" role="heading-md" weight="semibold">Main explanation with a supporting aside</TypeText>
-                  <TypeText as="p" role="body">A stock-handling guide may need room for its main process while keeping a smaller reminder close by. The larger column carries the instructional sequence; the aside reinforces the one detail that prevents an avoidable error.</TypeText>
-                </div>
-                <aside class="qc-text-layout__aside"><QuoteBlock quote="Keep the product label visible until the final check is complete." variant="pull" /></aside>
-              </TextLayout>
+                <section class="qc-reading-layout" aria-labelledby="standard-reading-heading">
+                  <div class="qc-reading-layout__header">
+                    <h5 id="standard-reading-heading">Standard reading column</h5>
+                    <p>The default layout for most headings, paragraphs and lists in a Quick Course.</p>
+                  </div>
+                  <TextLayout layout="reading-standard" surface="none" spacing="standard" class="qc-reading-layout__specimen">
+                    <TypeText as="p" role="heading-md" weight="semibold">Prepare the workspace before the task begins.</TypeText>
+                    <div class="qc-text-layout__prose">
+                      <TypeText as="p" role="body">A standard column gives everyday course content room to breathe while keeping the reading measure controlled. It is the reliable pattern for ordinary explanations, short guidance and related supporting detail.</TypeText>
+                      <ul class="qc-list qc-list--standard"><li>Check that the area, equipment and materials are ready.</li><li>Keep the next action visible and easy to find.</li></ul>
+                    </div>
+                  </TextLayout>
+                </section>
 
-              <TextLayout layout="three" surface="none" spacing="standard">
-                <div><TypeText as="h5" role="heading-sm" weight="semibold">Notice</TypeText><TypeText as="p" role="body-compact">Observe the signal before making an assumption.</TypeText></div>
-                <div><TypeText as="h5" role="heading-sm" weight="semibold">Clarify</TypeText><TypeText as="p" role="body-compact">Check the one detail that changes the next step.</TypeText></div>
-                <div><TypeText as="h5" role="heading-sm" weight="semibold">Confirm</TypeText><TypeText as="p" role="body-compact">Record the agreed action and realistic timing.</TypeText></div>
-              </TextLayout>
+                <section class="qc-reading-layout" aria-labelledby="wide-reading-heading">
+                  <div class="qc-reading-layout__header">
+                    <h5 id="wide-reading-heading">Wide content layout</h5>
+                    <p>Useful for short introductions, statements or concise content. Long paragraphs should still use a controlled reading width.</p>
+                  </div>
+                  <TextLayout layout="editorial-wide" surface="none" spacing="standard" class="qc-reading-layout__specimen qc-reading-layout__wide">
+                    <TypeText as="p" role="heading-xl" measure="full" weight="bold">A clear system can make a new digital tool feel easier to adopt.</TypeText>
+                    <TypeText as="p" role="lead" measure="wide">The content region can use the wider container while the detailed explanation stays comfortably constrained beneath it.</TypeText>
+                    <div class="qc-reading-layout__body"><TypeText as="p" role="body">Use this approach for a strong opening or a short overview. Do not stretch a long article across the full viewport simply because that space is available.</TypeText></div>
+                  </TextLayout>
+                </section>
+
+                <section class="qc-reading-layout" aria-labelledby="two-equal-heading">
+                  <div class="qc-reading-layout__header">
+                    <h5 id="two-equal-heading">Two equal columns</h5>
+                    <p>Use for two parallel ideas of similar length and importance.</p>
+                  </div>
+                  <TextLayout layout="two-equal" surface="none" spacing="spacious" class="qc-reading-layout__specimen qc-reading-layout__columns">
+                    <div class="qc-text-layout__prose"><TypeText as="p" role="heading-sm" weight="semibold">Prepare the workspace</TypeText><TypeText as="p" role="body">Check that the area, equipment and materials are ready before starting.</TypeText></div>
+                    <div class="qc-text-layout__prose"><TypeText as="p" role="heading-sm" weight="semibold">Complete the handover</TypeText><TypeText as="p" role="body">Confirm what was completed, what remains open and who owns the next action.</TypeText></div>
+                  </TextLayout>
+                </section>
+
+                <section class="qc-reading-layout" aria-labelledby="two-unequal-heading">
+                  <div class="qc-reading-layout__header">
+                    <h5 id="two-unequal-heading">Two unequal columns &mdash; main content and supporting note</h5>
+                    <p>Use when the main explanation needs a short key reminder, example or secondary context.</p>
+                  </div>
+                  <TextLayout layout="two-main" surface="none" spacing="spacious" class="qc-reading-layout__specimen qc-reading-layout__columns">
+                    <div class="qc-text-layout__prose"><TypeText as="p" role="heading-md" weight="semibold">Main explanation</TypeText><TypeText as="p" role="body">A stock-handling guide needs room for its core sequence. The main column explains what to check, record and escalate so the learner can apply the process in the right order.</TypeText></div>
+                    <aside class="qc-reading-layout__aside"><TypeText as="p" role="label" weight="semibold">Supporting note</TypeText><TypeText as="p" role="body-compact">Keep the product label visible until the final check is complete.</TypeText></aside>
+                  </TextLayout>
+                </section>
+
+                <section class="qc-reading-layout" aria-labelledby="three-columns-heading">
+                  <div class="qc-reading-layout__header">
+                    <h5 id="three-columns-heading">Three columns &mdash; short parallel ideas</h5>
+                    <p>Use for three concise ideas, principles, terms or short steps.</p>
+                  </div>
+                  <TextLayout layout="three" surface="none" spacing="spacious" class="qc-reading-layout__specimen qc-reading-layout__columns">
+                    <div><TypeText as="p" role="heading-sm" weight="semibold">Notice</TypeText><TypeText as="p" role="body">Observe the signal before making an assumption.</TypeText></div>
+                    <div><TypeText as="p" role="heading-sm" weight="semibold">Clarify</TypeText><TypeText as="p" role="body">Check the one detail that changes the next step.</TypeText></div>
+                    <div><TypeText as="p" role="heading-sm" weight="semibold">Confirm</TypeText><TypeText as="p" role="body">Record the agreed action and realistic timing.</TypeText></div>
+                  </TextLayout>
+                </section>
+
+                <section class="qc-reading-layout" aria-labelledby="split-heading-body-heading">
+                  <div class="qc-reading-layout__header">
+                    <h5 id="split-heading-body-heading">Split heading and body</h5>
+                    <p>Useful for editorial section openings where the heading and explanation have distinct visual roles.</p>
+                  </div>
+                  <TextLayout layout="split" surface="none" spacing="spacious" class="qc-reading-layout__specimen qc-reading-layout__columns">
+                    <TypeText as="p" role="heading-xl" weight="bold">A short pause can protect the quality of a decision.</TypeText>
+                    <div class="qc-text-layout__prose"><TypeText as="p" role="body">Place the semantic heading before the explanatory body, then let the visual split create emphasis on wide screens. On mobile, the same content stacks in its natural reading order.</TypeText></div>
+                  </TextLayout>
+                </section>
+              </div>
             </section>
 
             <section id="quotes-editorial" class="qc-type-showcase__section scroll-mt-28" aria-labelledby="quotes-editorial-heading">
               <h4 id="quotes-editorial-heading">Quotes and editorial emphasis</h4>
-              <div class="qc-quote-grid">
-                <QuoteBlock quote="Clarity is not saying more. It is helping someone understand what matters." citation="Internal learning example" variant="rule" />
-                <QuoteBlock quote="A safe routine is easier to follow when the reason is clear." citation="Illustrative safety prompt" variant="center" />
-                <QuoteBlock quote="A practical explanation makes the next action feel possible." citation="Illustrative quote" variant="surface" />
-                <TextLayout layout="pull-quote" surface="none" spacing="standard">
-                  <div class="qc-text-layout__prose"><TypeText as="p" role="body">A leadership update can include the practical context first, then use a pull quote to reinforce a memorable idea without interrupting the reading flow.</TypeText></div>
-                  <aside class="qc-text-layout__aside"><QuoteBlock quote="Say what changes, why it matters and where support is available." variant="pull" /></aside>
-                </TextLayout>
+              <p class="qc-type-showcase__intro">Quote treatments add emphasis to non-essential supporting content. Keep citations, context and surrounding text clearly related.</p>
+              <div class="qc-quote-specimens">
+                <section class="qc-quote-specimen" aria-labelledby="side-rule-quote-heading"><div class="qc-specimen-header"><h5 id="side-rule-quote-heading">Side-rule quote</h5><p>Useful for a short internal principle or attributed quotation.</p></div><QuoteBlock quote="Clarity is not saying more. It is helping someone understand what matters." citation="Internal learning example" variant="rule" /></section>
+                <section class="qc-quote-specimen" aria-labelledby="centred-quote-heading"><div class="qc-specimen-header"><h5 id="centred-quote-heading">Centred quote</h5><p>Use only for a brief reflective message, never for dense required reading.</p></div><QuoteBlock quote="A safe routine is easier to follow when the reason is clear." citation="Illustrative safety prompt" variant="center" /></section>
+                <section class="qc-quote-specimen" aria-labelledby="surface-quote-heading"><div class="qc-specimen-header"><h5 id="surface-quote-heading">Quote on a surface</h5><p>A strong surface can hold one concise message without becoming an alert.</p></div><QuoteBlock quote="A practical explanation makes the next action feel possible." citation="Illustrative quote" variant="surface" /></section>
+                <section class="qc-quote-aside-specimen" aria-labelledby="pull-quote-aside-heading">
+                  <div class="qc-specimen-header"><h5 id="pull-quote-aside-heading">Main text with a pull-quote aside</h5><p>Use when a non-essential principle directly reinforces the nearby explanation.</p></div>
+                  <TextLayout layout="pull-quote" surface="none" spacing="spacious">
+                    <div class="qc-text-layout__prose"><TypeText as="p" role="body">A leadership update should explain the practical context first: what is changing, when it takes effect and where support is available. The pull quote reinforces that principle without carrying information the learner cannot find in the main text.</TypeText></div>
+                    <aside class="qc-text-layout__aside"><QuoteBlock quote="Say what changes, why it matters and where support is available." variant="pull" /></aside>
+                  </TextLayout>
+                </section>
               </div>
             </section>
 
-            <section id="structured-text" class="qc-type-showcase__section scroll-mt-28" aria-labelledby="structured-text-heading">
-              <h4 id="structured-text-heading">Structured text</h4>
-              <div class="qc-structured-grid qc-structured-grid--three">
-                <div>
-                  <TypeText as="h5" role="heading-sm" weight="semibold">Checklist</TypeText>
-                  <ul class="qc-checklist">
-                    <li>Check the stock location and label.</li>
-                    <li>Confirm the item condition.</li>
-                    <li>Record any exception clearly.</li>
-                  </ul>
-                </div>
-                <div>
-                  <TypeText as="h5" role="heading-sm" weight="semibold">Large numbered steps</TypeText>
-                  <ol class="qc-numbered-steps">
-                    <li><div><h5>Check</h5><p>Confirm the required information before beginning the task.</p></div></li>
-                    <li><div><h5>Record</h5><p>Capture the outcome where the next person can find it.</p></div></li>
-                    <li><div><h5>Escalate</h5><p>Ask for support when the guidance does not fit the situation.</p></div></li>
-                  </ol>
-                </div>
-                <div>
-                  <TypeText as="h5" role="heading-sm" weight="semibold">Question and answer</TypeText>
-                  <div class="qc-question-answer">
-                    <p class="qc-question-answer__question">How should a shift handover begin?</p>
-                    <p class="qc-question-answer__answer">Confirm what has changed, what remains open and where the next person can find the record.</p>
-                  </div>
-                </div>
+            <section id="structured-text" class="qc-type-showcase__section scroll-mt-28" aria-labelledby="lists-heading">
+              <h4 id="lists-heading">Lists</h4>
+              <p class="qc-type-showcase__intro">Lists organise related information, outcomes, steps and reminders. The marker and layout should reflect the content's meaning rather than being chosen only for decoration.</p>
+              <div class="qc-list-specimens">
+                <section class="qc-list-specimen" aria-labelledby="bulleted-list-heading"><div class="qc-specimen-header"><h5 id="bulleted-list-heading">Standard bulleted list</h5><p>Use for related points, features, reminders and other non-sequential information.</p></div><ul class="qc-list qc-list--standard"><li>Keep the guidance visible while the learner completes the task.</li><li>Use a short example when a new process could be interpreted in more than one way.</li><li>Wrap longer items beneath the text, not beneath the marker.</li></ul></section>
+                <section class="qc-list-specimen" aria-labelledby="numbered-list-heading"><div class="qc-specimen-header"><h5 id="numbered-list-heading">Standard numbered list</h5><p>Use for ordered information, simple sequences or prioritised points.</p></div><ol class="qc-list qc-list--standard"><li>Check the information before making the change.</li><li>Record the decision where the next person can find it.</li><li>Escalate when the guidance does not fit the situation.</li></ol></section>
+                <section class="qc-list-specimen" aria-labelledby="outcomes-list-heading"><div class="qc-specimen-header"><h5 id="outcomes-list-heading">Learning outcomes list</h5><p>Use only for genuine outcomes with clear action verbs.</p></div><p class="qc-list__lead">By the end of this course, you will be able to:</p><ul class="qc-list qc-list--outcomes"><li>Identify the first safety check before starting work.</li><li>Explain when a stock exception needs to be recorded.</li><li>Choose an appropriate next step when a customer request cannot be completed immediately.</li></ul></section>
+                <section class="qc-list-specimen" aria-labelledby="large-steps-heading"><div class="qc-specimen-header"><h5 id="large-steps-heading">Large numbered steps</h5><p>Use for a short, prominent static sequence. This is editorial text, not an interactive process.</p></div><ol class="qc-numbered-steps"><li><div><h6>Check</h6><p>Confirm the required information before beginning the task.</p></div></li><li><div><h6>Record</h6><p>Capture the outcome where the next person can find it.</p></div></li><li><div><h6>Escalate</h6><p>Ask for support when the guidance does not fit the situation.</p></div></li></ol></section>
+                <section class="qc-list-specimen" aria-labelledby="checklist-list-heading"><div class="qc-specimen-header"><h5 id="checklist-list-heading">Checklist-style text list</h5><p>Use for non-interactive checks and reminders. It does not save, score or track completion.</p></div><ul class="qc-checklist"><li>Check the stock location and label.</li><li>Confirm the item condition.</li><li>Record any exception clearly.</li></ul></section>
+                <section class="qc-list-specimen" aria-labelledby="compact-list-heading"><div class="qc-specimen-header"><h5 id="compact-list-heading">Compact list</h5><p>Use for short features, metadata, quick reminders or small grouped facts.</p></div><ul class="qc-list qc-list--compact"><li>Owner: Store manager</li><li>Review point: End of shift</li><li>Reference: Safety log</li></ul></section>
+                <section class="qc-list-specimen" aria-labelledby="nested-list-heading"><div class="qc-specimen-header"><h5 id="nested-list-heading">Nested list</h5><p>Use one restrained nested level when a related detail genuinely needs it.</p></div><ul class="qc-list qc-list--standard qc-list--nested"><li>Prepare the handover<ul><li>Include completed work and open actions.</li><li>Note the location of the supporting record.</li></ul></li><li>Confirm the next owner.</li></ul></section>
               </div>
+            </section>
 
-              <DefinitionList
-                variant="split"
-                items={[
-                  { term: "Lead", definition: "A concise opening paragraph that introduces the main idea before normal body copy." },
-                  { term: "Statement", definition: "A short high-impact phrase for a transition, reminder or key learning moment." },
-                  { term: "Caption", definition: "Small supporting context for an image, figure, value or illustrative specimen." },
-                ]}
-              />
+            <section id="definitions-labelled" class="qc-type-showcase__section scroll-mt-28" aria-labelledby="definitions-labelled-heading">
+              <h4 id="definitions-labelled-heading">Definitions and labelled content</h4>
+              <p class="qc-type-showcase__intro">Use definition patterns when a term and its meaning need to be understood together. They should read as content relationships, not as a data table by default.</p>
+              <div class="qc-definition-specimens">
+                <section class="qc-definition-specimen" aria-labelledby="stacked-definitions-heading"><div class="qc-specimen-header"><h5 id="stacked-definitions-heading">Stacked definition list</h5><p>Useful when each term needs a short but complete explanation.</p></div><DefinitionList variant="stacked" items={[{ term: "Hazard", definition: "Something with the potential to cause harm." }, { term: "Risk", definition: "The likelihood and possible severity of that harm occurring." }, { term: "Control", definition: "A measure used to remove or reduce exposure to the hazard." }]} /></section>
+                <section class="qc-definition-specimen" aria-labelledby="split-definitions-heading"><div class="qc-specimen-header"><h5 id="split-definitions-heading">Two-column term and definition</h5><p>Useful when short labels and explanations can be scanned together.</p></div><DefinitionList variant="split" items={[{ term: "Role", definition: "The person responsible for completing or approving an action." }, { term: "Record", definition: "The place where the outcome, decision or exception is captured." }, { term: "Review point", definition: "The moment when progress or quality should be checked." }]} /></section>
+                <section class="qc-definition-specimen" aria-labelledby="compact-glossary-heading"><div class="qc-specimen-header"><h5 id="compact-glossary-heading">Compact glossary</h5><p>Useful for a small group of concise terms in an induction or systems course.</p></div><DefinitionList variant="grid" items={[{ term: "Material", definition: "The item or resource needed to complete the task." }, { term: "Method", definition: "The approved way to carry out the work." }, { term: "Exception", definition: "A situation that needs a record or escalation." }]} /></section>
+              </div>
+            </section>
 
+            <section id="questions-answers" class="qc-type-showcase__section scroll-mt-28" aria-labelledby="questions-answers-heading">
+              <h4 id="questions-answers-heading">Questions and answers</h4>
+              <p class="qc-type-showcase__intro">Use for readable FAQ-style content, common questions or reflection prompts. Interactive accordion FAQs belong with interactions.</p>
+              <div class="qc-question-answer-specimens">
+                <section class="qc-question-answer-specimen" aria-labelledby="single-question-heading"><div class="qc-specimen-header"><h5 id="single-question-heading">One question and answer</h5><p>A single static pair can clarify one common point without becoming an assessment.</p></div><dl class="qc-question-answer"><div><dt><span>Question</span>How should a shift handover begin?</dt><dd><span>Answer</span>Confirm what has changed, what remains open and where the next person can find the record.</dd></div></dl></section>
+                <section class="qc-question-answer-specimen" aria-labelledby="common-questions-heading"><div class="qc-specimen-header"><h5 id="common-questions-heading">Common questions</h5><p>A small static set remains fully visible and easy to scan.</p></div><dl class="qc-question-answer qc-question-answer--set"><div><dt><span>Question</span>When should an exception be recorded?</dt><dd><span>Answer</span>Record it as soon as the normal process cannot be completed as expected.</dd></div><div><dt><span>Question</span>Who owns the next action?</dt><dd><span>Answer</span>Name the person or role before the handover is complete.</dd></div></dl></section>
+              </div>
+            </section>
+
+            <section id="do-do-not" class="qc-type-showcase__section scroll-mt-28" aria-labelledby="do-do-not-heading">
+              <h4 id="do-do-not-heading">Do / Do not</h4>
+              <p class="qc-type-showcase__intro">Use this neutral comparison when the course needs to distinguish a recommended approach from a pattern to avoid.</p>
               <div class="qc-do-dont">
                 <section>
                   <div class="qc-do-dont__heading"><QuickCourseIcon name="recommended" context="inline" decorative /><TypeText as="h5" role="heading-sm" weight="semibold">Do</TypeText></div>
@@ -251,12 +346,13 @@ const typographyAnchors = [
               </div>
               <TextLayout layout="two-aside" surface="light" spacing="standard">
                 <StatisticBlock value="2:1" label="Controlled column ratio" detail="A main explanation can sit beside a concise supporting aside." />
-                <div class="qc-text-layout__prose"><TypeText as="h5" role="heading-md" weight="semibold">A value should support the learning point.</TypeText><TypeText as="p" role="body">Use a statistic only when it gives useful context. Avoid presenting illustrative Showcase values as factual business claims.</TypeText></div>
+                <div class="qc-text-layout__prose"><TypeText as="p" role="heading-md" weight="semibold">A value should support the learning point.</TypeText><TypeText as="p" role="body">Use a statistic only when it gives useful context. Avoid presenting illustrative Showcase values as factual business claims.</TypeText></div>
               </TextLayout>
             </section>
 
             <section id="surfaces-emphasis" class="qc-type-showcase__section scroll-mt-28" aria-labelledby="surfaces-emphasis-heading">
               <h4 id="surfaces-emphasis-heading">Surfaces, colour and inline emphasis</h4>
+              <p class="qc-type-showcase__intro">Surface treatment supports hierarchy; it does not create a different content component.</p>
               <div class="qc-type-specimen-grid">
                 <TextLayout layout="band" surface="dark" spacing="spacious">
                   <TypeText as="p" role="statement" tone="inverse" weight="bold">START WITH THE NEED.</TypeText>
@@ -268,9 +364,7 @@ const typographyAnchors = [
                 </TextLayout>
               </div>
               <p class="qc-inline-demo">Use <strong>strong emphasis</strong> for an important phrase, <em>italic styling</em> for a short editorial shift, an <a href="#reading-layouts">explicit link label</a> for navigation, <mark>highlight only what matters</mark>, <code>course-progress-state</code> for a system value, <kbd>Enter</kbd> for a keyboard command, <abbr title="Standard operating procedure">SOP</abbr> for an abbreviation, H<sub>2</sub>O for subscript and 10<sup>th</sup> for superscript.</p>
-              <div class="qc-type-weight-row" aria-label="Approved type weight specimen">
-                <span class="qc-type--weight-light">Light display</span><span class="qc-type--weight-regular">Regular</span><span class="qc-type--weight-medium">Medium</span><span class="qc-type--weight-semibold">Semibold</span><span class="qc-type--weight-bold">Bold</span><span class="qc-type--weight-heavy">Heavy</span>
-              </div>
+              <div class="qc-type-weight-row" aria-label="Approved type weight specimen"><span class="qc-type--weight-light">Light display</span><span class="qc-type--weight-regular">Regular</span><span class="qc-type--weight-medium">Medium</span><span class="qc-type--weight-semibold">Semibold</span><span class="qc-type--weight-bold">Bold</span><span class="qc-type--weight-heavy">Heavy</span></div>
             </section>
 
             <section id="same-content" class="qc-type-showcase__section scroll-mt-28" aria-labelledby="same-content-heading">
@@ -284,14 +378,15 @@ const typographyAnchors = [
             </section>
 
             <section id="content-resilience" class="qc-type-showcase__section scroll-mt-28" aria-labelledby="content-resilience-heading">
-              <h4 id="content-resilience-heading">Content resilience</h4>
-              <div class="qc-type-resilience">
-                <TypeText as="p" role="heading-xl" weight="bold">How do you explain a complex operational change without overwhelming someone who needs to use it before their next shift?</TypeText>
-                <div class="qc-type-prose">
-                  <p>Long form content stays in a readable measure, remains left aligned and uses ordinary wrapping. It does not shrink or truncate merely to fit a decorative treatment.</p>
-                  <p><a href="#type-hierarchy">Review the controlled heading hierarchy and reading-width guidance for long course content</a>.</p>
-                  <p class="qc-type-resilience__identifier"><code>policyAcknowledgementAndExceptionHandlingReferenceIdentifier</code></p>
-                </div>
+              <h4 id="content-resilience-heading">How typography handles real-world content</h4>
+              <p class="qc-type-showcase__intro">These examples show how the typography system responds when text is unusually long, very short or missing&mdash;without clipping, overflowing or leaving awkward gaps.</p>
+              <div class="qc-resilience-specimens">
+                <section class="qc-resilience-specimen" aria-labelledby="long-heading-heading"><h5 id="long-heading-heading">Long heading</h5><p>Wraps naturally without being cut off or becoming unreadably small.</p><TypeText as="p" role="heading-xl" weight="bold">How do you explain a complex operational change without overwhelming someone who needs to use it before their next shift?</TypeText></section>
+                <section class="qc-resilience-specimen" aria-labelledby="long-body-heading"><h5 id="long-body-heading">Long body copy</h5><p>Remains readable within a comfortable line length.</p><TextLayout layout="reading-narrow" surface="none" spacing="standard"><TypeText as="p" role="body">Long-form content stays in a readable measure, remains left aligned and uses ordinary wrapping. It does not shrink or truncate merely to fit a decorative treatment.</TypeText><TypeText as="p" role="body">When the explanation needs more detail, the layout gives it space instead of forcing it into an unsuitable display or multi-column pattern.</TypeText></TextLayout></section>
+                <section class="qc-resilience-specimen" aria-labelledby="long-list-item-heading"><h5 id="long-list-item-heading">Long list item</h5><p>Keeps the marker and wrapped text correctly aligned.</p><ul class="qc-list qc-list--standard"><li>Before closing the handover, record any issue that could affect the next shift, including the current status, the agreed owner and the place where supporting evidence can be found.</li></ul></section>
+                <section class="qc-resilience-specimen" aria-labelledby="long-link-heading"><h5 id="long-link-heading">Long link or system name</h5><p>Wraps safely without making the page wider.</p><p class="qc-resilience-specimen__link"><a href="#reading-layouts">Review the stock-handling guide and record any safety exception before continuing.</a></p></section>
+                <section class="qc-resilience-specimen" aria-labelledby="short-title-heading"><h5 id="short-title-heading">Short title only</h5><p>Still looks balanced when there is no supporting paragraph.</p><TextLayout layout="statement" surface="none" spacing="compact" class="qc-resilience-specimen__short"><TypeText as="p" role="heading-xl" align="center" weight="bold">Keep it clear.</TypeText></TextLayout></section>
+                <section class="qc-resilience-specimen" aria-labelledby="optional-content-heading"><h5 id="optional-content-heading">Optional content removed</h5><p>Missing eyebrows, descriptions or captions leave no blank space.</p><div class="qc-resilience-specimen__bare"><TypeText as="p" role="heading-md" weight="semibold">The title can stand on its own.</TypeText><TypeText as="p" role="body">The layout closes naturally around the content that is actually present.</TypeText></div></section>
               </div>
             </section>
           </div>
