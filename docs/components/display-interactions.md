@@ -98,7 +98,7 @@ Suitable use cases: short customer-service tips, related product features, small
 
 Misuse to avoid: essential reading, mandatory ordered procedures, assessments, long policy text, large content sets or information learners must compare at the same time.
 
-Standardized properties: one shared engine, no autoplay, no loop, explicit Previous and Next controls, visible current position, progressive enhancement and controlled responsive behaviour.
+Standardized properties: one shared engine, no autoplay, no loop, explicit Previous and Next controls, restrained visible position indicators where appropriate, progressive enhancement and controlled responsive behaviour. Content surfaces, Feature focal points, Gallery overlay controls and responsive image ratios are limited typed options rather than free-form styling.
 
 ## Click-to-Reveal Hotspots
 

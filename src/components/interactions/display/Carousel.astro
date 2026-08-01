@@ -12,9 +12,10 @@ import type {
 const props = Astro.props as CarouselProps;
 const { id, label, heading, intro, variant, indicator, controls = "below", class: className } = props;
 const slides = props.slides as CarouselSlide[];
+const surfaceTreatment = variant === "content" ? props.surfaceTreatment ?? "plain" : undefined;
 const activeIndicator = indicator ?? (variant === "content" ? "count-and-dots" : variant === "gallery" ? "thumbnails" : "count");
 const showDots = activeIndicator === "dots" || activeIndicator === "count-and-dots";
-const showCount = activeIndicator === "count" || activeIndicator === "count-and-dots" || variant === "cards" || activeIndicator === "thumbnails";
+const showCount = variant !== "cards" && activeIndicator !== "thumbnails" && (activeIndicator === "count" || activeIndicator === "count-and-dots");
 const showThumbnails = variant === "gallery" && activeIndicator === "thumbnails";
 const headingId = heading ? `${id}-heading` : undefined;
 const slideLabel = (slide: CarouselSlide, index: number) => slide.title ? `${slide.title}, ${index + 1} of ${slides.length}` : `${index + 1} of ${slides.length}`;
@@ -26,6 +27,7 @@ const slideLabel = (slide: CarouselSlide, index: number) => slide.title ? `${sli
   data-qc-carousel
   data-qc-carousel-variant={variant}
   data-qc-carousel-label={label}
+  data-qc-carousel-surface={surfaceTreatment}
   role="region"
   aria-roledescription="carousel"
   aria-label={headingId ? undefined : label}
@@ -43,6 +45,7 @@ const slideLabel = (slide: CarouselSlide, index: number) => slide.title ? `${sli
       {slides.map((slide, index) => {
         const imageSlide = slide as ImageCarouselSlide | GalleryCarouselSlide;
         const featureSlide = slide as ImageCarouselSlide;
+        const gallerySlide = slide as GalleryCarouselSlide;
         const contentSlide = slide as ContentCarouselSlide;
         const cardSlide = slide as CardCarouselSlide;
 
@@ -64,10 +67,11 @@ const slideLabel = (slide: CarouselSlide, index: number) => slide.title ? `${sli
                   loading={index === 0 ? "eager" : "lazy"}
                   decoding="async"
                 />
-                {(imageSlide.title || imageSlide.caption) && (
+                {(gallerySlide.title || gallerySlide.description || gallerySlide.caption) && (
                   <figcaption>
-                    {imageSlide.title && <strong>{imageSlide.title}</strong>}
-                    {imageSlide.caption && <span>{imageSlide.caption}</span>}
+                    {gallerySlide.title && <h5>{gallerySlide.title}</h5>}
+                    {gallerySlide.description && <p class="qc-carousel__gallery-description">{gallerySlide.description}</p>}
+                    {gallerySlide.caption && <p class="qc-carousel__caption">{gallerySlide.caption}</p>}
                   </figcaption>
                 )}
               </figure>
@@ -81,10 +85,11 @@ const slideLabel = (slide: CarouselSlide, index: number) => slide.title ? `${sli
                     alt={imageSlide.imageAlt}
                     width={imageSlide.imageWidth}
                     height={imageSlide.imageHeight}
+                    style={featureSlide.focalPosition ? `object-position: ${featureSlide.focalPosition};` : undefined}
                     loading={index === 0 ? "eager" : "lazy"}
                     decoding="async"
                   />
-                  {imageSlide.caption && <figcaption><span>{imageSlide.caption}</span></figcaption>}
+                  {imageSlide.caption && <figcaption><p class="qc-carousel__caption">{imageSlide.caption}</p></figcaption>}
                 </figure>
                 <div class="qc-carousel__copy">
                   {featureSlide.eyebrow && <p class="qc-eyebrow">{featureSlide.eyebrow}</p>}
@@ -196,6 +201,8 @@ const slideLabel = (slide: CarouselSlide, index: number) => slide.title ? `${sli
     const variant = root.dataset.qcCarouselVariant;
     const label = root.dataset.qcCarouselLabel ?? "Carousel";
     let announce = false;
+    let dragged = false;
+    let lastAnnouncedSnap = embla.selectedScrollSnap();
 
     function visibleIndexes() {
       return variant === "cards" ? embla.slidesInView(true) : [embla.selectedScrollSnap()];
@@ -221,35 +228,38 @@ const slideLabel = (slide: CarouselSlide, index: number) => slide.title ? `${sli
       dots.forEach((dot, index) => dot.setAttribute("aria-current", String(index === selected)));
       thumbnails.forEach((thumbnail, index) => thumbnail.setAttribute("aria-current", String(index === selected)));
 
-      if (count) {
-        if (variant === "cards") {
-          const range = [...visible].sort((a, b) => a - b);
-          count.textContent = range.length ? `Items ${range[0] + 1}-${range[range.length - 1] + 1} of ${slides.length}` : `Items 1 of ${slides.length}`;
-        } else {
-          count.textContent = `${selected + 1} of ${slides.length}`;
-        }
-      }
+      if (count) count.textContent = `${selected + 1} of ${slides.length}`;
 
-      if (announce) {
+      if (announce && selected !== lastAnnouncedSnap) {
         const title = slides[selected]?.querySelector("h5, strong")?.textContent?.trim();
-        live && (live.textContent = `${label}: ${variant === "cards" ? "items updated" : `slide ${selected + 1} of ${slides.length}`}${title ? `: ${title}` : ""}`);
-        announce = false;
+        const range = [...visible].sort((a, b) => a - b);
+        const rangeLabel = range.length ? `Showing items ${range[0] + 1} to ${range[range.length - 1] + 1} of ${slides.length}` : `Showing item 1 of ${slides.length}`;
+        live && (live.textContent = variant === "cards" ? `${label}: ${rangeLabel}` : `${label}: slide ${selected + 1} of ${slides.length}${title ? `: ${title}` : ""}`);
+        lastAnnouncedSnap = selected;
       }
+      announce = false;
     }
 
     const onPrevious = () => { announce = true; embla.scrollPrev(); };
     const onNext = () => { announce = true; embla.scrollNext(); };
+    const onPointerDown = () => { dragged = true; };
+    const onSettle = () => {
+      announce ||= dragged;
+      dragged = false;
+      update();
+    };
     previous?.addEventListener("click", onPrevious);
     next?.addEventListener("click", onNext);
     dots.forEach((dot, index) => dot.addEventListener("click", () => { announce = true; embla.scrollTo(index); }));
     thumbnails.forEach((thumbnail, index) => thumbnail.addEventListener("click", () => { announce = true; embla.scrollTo(index); }));
-    embla.on("select", update).on("reInit", update).on("settle", update).on("slidesInView", update);
+    embla.on("select", update).on("reInit", update).on("settle", onSettle).on("slidesInView", update).on("pointerDown", onPointerDown);
     root.dataset.qcCarouselReady = "true";
     update();
 
     cleanups.set(root, () => {
       previous?.removeEventListener("click", onPrevious);
       next?.removeEventListener("click", onNext);
+      embla.off("pointerDown", onPointerDown).off("settle", onSettle);
       embla.destroy();
       cleanups.delete(root);
       delete root.dataset.qcCarouselReady;

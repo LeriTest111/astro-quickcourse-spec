@@ -2,6 +2,8 @@ import type { QuickCourseIconName } from "../../../data/quick-course-icons";
 
 export type CarouselVariant = "content" | "feature" | "cards" | "gallery";
 export type CarouselIndicator = "count" | "dots" | "count-and-dots" | "thumbnails";
+export type ContentCarouselSurfaceTreatment = "plain" | "single-surface" | "varied-surfaces";
+export type CarouselImageFocalPosition = "left" | "center" | "right";
 
 export interface CarouselLink {
   label: string;
@@ -25,6 +27,7 @@ export interface ImageCarouselSlide extends BaseSlide {
   imageAlt: string;
   imageWidth: number;
   imageHeight: number;
+  focalPosition?: CarouselImageFocalPosition;
   caption?: string;
 }
 
@@ -38,6 +41,7 @@ export interface GalleryCarouselSlide {
   imageAlt: string;
   imageWidth: number;
   imageHeight: number;
+  description?: string;
   caption?: string;
 }
 
@@ -53,6 +57,7 @@ export interface ContentCarouselProps extends CarouselBase {
   variant: "content";
   slides: ContentCarouselSlide[];
   indicator?: Exclude<CarouselIndicator, "thumbnails">;
+  surfaceTreatment?: ContentCarouselSurfaceTreatment;
   controls?: "below";
 }
 
