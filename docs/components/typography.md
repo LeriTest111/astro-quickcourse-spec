@@ -20,6 +20,8 @@ The Typography System supplies the normal Showcase baseline in both Working and 
 
 Body is the default for ordinary instructional information, including explanations inside cards, panels, layouts, video examples and modals. Supporting text and Caption are opt-in secondary roles; their location beneath a heading or inside a component does not make normal content secondary.
 
+Section introductions, specimen descriptions, component purposes, guidance paragraphs and instructions use Body unless the content is genuinely optional. Supporting text is only for a non-essential clarification or caveat. Caption is only for text directly tied to media, a figure, a source or attribution.
+
 Expressive treatments remain opt-in. Display roles, editorial serif, pull quotes, large statistics, monospace examples, solid-surface typography and special column layouts are selected only when their instructional purpose calls for them. Component-specific typography remains in control where it protects an established interaction, control or hierarchy.
 
 ## Production Primitives
@@ -86,7 +88,18 @@ Use light weight only for large Display text. Normal Body copy must remain regul
 
 The default model is a Wide section container with Standard-measure reading content inside it. Long-form or detailed content can use Narrow measure; short headings and Leads can use more of the outer container. Columns collapse to one logical DOM order on narrow screens. Do not use right-aligned paragraphs, justified text, three columns for long copy or two columns for two long articles. Prefer one readable column over forcing text across the full width.
 
-Major Showcase sections use shared editorial spacing. Independent specimens use a smaller shared gap, while paragraphs, citations and list items within one specimen stay more closely grouped. This preserves a readable rhythm without turning the page into isolated cards.
+## Vertical Rhythm
+
+Shared parent stacks control the Showcase rhythm so the same relationship receives the same spacing across pages and components. The system distinguishes:
+
+- Major section heading to introduction: `0.65rem`.
+- Introduction to first specimen: responsive `2rem` to `2.5rem`.
+- Specimen title to description: `0.5rem`.
+- Specimen description to rendered example: responsive `1.25rem` to `1.5rem`.
+- Content heading to Body and paragraph-to-paragraph rhythm: `1.25rem` for content blocks, with compact `0.5rem` relationships inside headings and cards.
+- Major section separation: responsive `4rem` to `5.75rem` plus the section divider treatment.
+
+Use the established section, specimen and prose grid stacks rather than adding local heading or paragraph margins. This prevents margin stacking and keeps mobile, desktop and 200% zoom behaviour predictable. List items remain closer within an item than between separate items.
 
 ## Lists And Definitions
 
@@ -123,7 +136,7 @@ AI should make choices in this order:
 
 AI should identify the semantic purpose, choose an approved role, choose a suitable measure and layout, preserve heading hierarchy and use the simplest readable option when no special treatment is justified.
 
-Normal Body uses the shared fixed 18px baseline with a 1.55 line height. Do not reduce it to force excessive content into a layout. Use Wide for the outer section or component container, Standard for ordinary paragraphs and Narrow for detailed long-form content. Use Supporting text only for optional context and Caption only for text directly attached to media or attribution.
+Normal Body uses the shared fixed 18px baseline with a 1.55 line height. Do not reduce it to force excessive content into a layout. Use Wide for the outer section or component container, Standard for ordinary paragraphs and Narrow for detailed long-form content. Use Supporting text only for optional context and Caption only for text directly attached to media or attribution. Use the existing parent grid stacks for heading, paragraph and specimen rhythm instead of adding one-off margins.
 
 AI should not:
 
@@ -157,7 +170,7 @@ AI should not:
 
 ## Design Token Readiness
 
-The typography CSS defines a small semantic variable layer for font families, text roles, tones, surface colours, divider values, Body size, section spacing and specimen spacing. Future course-theme tokens can replace these values without changing the semantic component API or AI authoring rules. Do not add a full design-token framework or allow generated course content to set arbitrary tokens.
+The typography CSS defines a small semantic variable layer for font families, text roles, tones, surface colours, divider values, Body size and vertical-rhythm relationships. Future course-theme tokens can replace these values without changing the semantic component API or AI authoring rules. The shared stacks normalise heading and paragraph margins, prevent accidental margin stacking and work in both Working and Approved builds. The output remains static-build and SCORM compatible. Do not add a full design-token framework or allow generated course content to set arbitrary tokens.
 
 ## Approval Notes
 

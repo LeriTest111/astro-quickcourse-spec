@@ -12,6 +12,10 @@
   --showcase-ci-ivory: #fdf3e0;
   --showcase-ci-clay: #d29f91;
   --showcase-ci-on-light: #1e293b;
+  --showcase-rhythm-heading-body: 0.5rem;
+  --showcase-rhythm-section-content: 1.5rem;
+  --showcase-rhythm-content-block: 1.25rem;
+  --showcase-rhythm-example-stack: 2.5rem;
   color-scheme: light;
   font-family: "Arial Nova", Arial, Helvetica, sans-serif;
   font-synthesis: none;
@@ -1399,18 +1403,20 @@ dialog::backdrop {
 
 .showcase-page-header {
   display: grid;
-  gap: 1rem;
+  gap: var(--showcase-rhythm-heading-body);
   border-bottom: 1px solid #d1d5db;
   padding-block: 2.5rem;
 }
 
 .showcase-page-header h1 {
+  margin: 0;
   max-width: 18ch;
   color: #111827;
   font-size: 2.4rem;
 }
 
 .showcase-page-header p:not(.qc-eyebrow) {
+  margin: 0;
   max-width: 75ch;
   color: #4b5563;
   font-size: var(--qc-type-body-size);
@@ -1542,13 +1548,18 @@ dialog::backdrop {
 .showcase-section-stack,
 .showcase-example-stack {
   display: grid;
-  gap: 2.5rem;
+  gap: var(--showcase-rhythm-example-stack);
 }
 
 .showcase-section-header {
   display: grid;
-  gap: 0.55rem;
-  margin-bottom: 1.25rem;
+  gap: var(--showcase-rhythm-heading-body);
+  margin-bottom: var(--showcase-rhythm-section-content);
+}
+
+.showcase-section-header h2,
+.showcase-section-header p {
+  margin: 0;
 }
 
 .showcase-section-header p {
@@ -1558,7 +1569,7 @@ dialog::backdrop {
 
 .showcase-example {
   display: grid;
-  gap: 1.25rem;
+  gap: var(--showcase-rhythm-content-block);
   padding-bottom: 2rem;
   border-bottom: 1px solid #e5e7eb;
 }
@@ -1576,6 +1587,16 @@ dialog::backdrop {
   justify-content: space-between;
 }
 
+.showcase-example__header > div {
+  display: grid;
+  gap: var(--showcase-rhythm-heading-body);
+}
+
+.showcase-example__header h3,
+.showcase-example__header p {
+  margin: 0;
+}
+
 .showcase-example__header h3 a {
   color: inherit;
   text-decoration: none;
@@ -1587,7 +1608,6 @@ dialog::backdrop {
 
 .showcase-example__header p {
   max-width: 72ch;
-  margin-top: 0.35rem;
   color: #4b5563;
 }
 
@@ -2101,13 +2121,16 @@ dialog::backdrop {
 }
 
 .showcase-notes {
-  margin-top: 1rem;
+  display: grid;
+  gap: var(--showcase-rhythm-heading-body);
+  margin: var(--showcase-rhythm-content-block) 0 0;
   border-left: 4px solid #64748b;
   background: #f8fafc;
   padding: 1rem;
 }
 
 .showcase-notes h3 {
+  margin: 0;
   color: #111827;
   font-size: 1rem;
 }
@@ -2125,12 +2148,20 @@ dialog::backdrop {
 
 .qc-section {
   display: grid;
-  gap: 1.5rem;
+  gap: var(--showcase-rhythm-section-content);
 }
 
 .qc-section-header {
   display: grid;
-  gap: 0.65rem;
+  gap: var(--showcase-rhythm-heading-body);
+}
+
+.qc-readable-section,
+.qc-split__content,
+.qc-cta > div {
+  display: grid;
+  align-content: start;
+  gap: var(--showcase-rhythm-heading-body);
 }
 
 .qc-eyebrow,
@@ -2146,23 +2177,28 @@ dialog::backdrop {
 
 .qc-section-title {
   max-width: 26ch;
-  margin: 0.55rem 0 0;
+  margin: 0;
   color: #111827;
   font-size: 1.7rem;
 }
 
 .qc-section-intro {
   max-width: 72ch;
-  margin-top: 0.75rem;
+  margin: 0;
   color: #4b5563;
-  font-size: 1rem;
+  font-size: var(--qc-type-body-size);
+  line-height: var(--qc-type-body-line-height);
 }
 
 .qc-prose {
   display: grid;
-  gap: 1rem;
-  margin-top: 1rem;
+  gap: var(--showcase-rhythm-content-block);
+  margin: 0;
   color: #1f2937;
+}
+
+.qc-prose > * {
+  margin: 0;
 }
 
 .qc-prose p,
@@ -2173,8 +2209,14 @@ dialog::backdrop {
 .qc-prose ul,
 .qc-prose ol {
   display: grid;
-  gap: 0.4rem;
+  gap: 0.5rem;
+  margin: 0;
   padding-left: 1.35rem;
+}
+
+.qc-readable-section .qc-section-intro + .qc-prose,
+.qc-split__content .qc-section-intro + .qc-prose {
+  margin-top: calc(var(--showcase-rhythm-content-block) - var(--showcase-rhythm-heading-body));
 }
 
 .qc-actions {
@@ -2276,7 +2318,7 @@ dialog::backdrop {
 .qc-comparison-cards article,
 .qc-comparison-stack article {
   display: grid;
-  gap: 0.75rem;
+  gap: var(--showcase-rhythm-heading-body);
   align-content: start;
   padding: 1.25rem;
 }
@@ -2392,6 +2434,11 @@ dialog::backdrop {
   padding: 1rem;
 }
 
+.qc-process-list li > div {
+  display: grid;
+  gap: var(--showcase-rhythm-heading-body);
+}
+
 .qc-process-list__number {
   display: grid;
   width: 2.5rem;
@@ -2410,7 +2457,7 @@ dialog::backdrop {
 }
 
 .qc-process-list p {
-  margin: 0.35rem 0 0;
+  margin: 0;
   color: #4b5563;
 }
 
@@ -4139,7 +4186,10 @@ section.qc-video-transcript__body {
   --qc-type-measure-wide: 72rem;
   --qc-type-section-space: clamp(4rem, 7vw, 5.75rem);
   --qc-type-section-padding: clamp(2rem, 4vw, 2.75rem);
-  --qc-type-section-gap: clamp(1.75rem, 3vw, 2.25rem);
+  --qc-type-section-heading-intro: 0.65rem;
+  --qc-type-intro-specimen: clamp(2rem, 3.5vw, 2.5rem);
+  --qc-type-specimen-title-description: 0.5rem;
+  --qc-type-description-example: clamp(1.25rem, 2vw, 1.5rem);
   --qc-type-specimen-gap: clamp(2rem, 4vw, 2.75rem);
   --qc-type-prose-gap: 1.25rem;
 }
@@ -4654,13 +4704,18 @@ section.qc-video-transcript__body {
 
 .qc-type-showcase__section {
   display: grid;
-  gap: var(--qc-type-section-gap);
+  gap: var(--qc-type-intro-specimen);
   border-top: 1px solid var(--qc-type-rule);
   margin-top: var(--qc-type-section-space);
   padding-top: var(--qc-type-section-padding);
 }
 
-.qc-type-showcase__section > h4 {
+.qc-type-showcase__section-header {
+  display: grid;
+  gap: var(--qc-type-section-heading-intro);
+}
+
+.qc-type-showcase__section-header > h4 {
   margin: 0;
   color: var(--qc-type-strong);
   font-size: clamp(1.35rem, 2vw, 1.7rem);
@@ -4950,7 +5005,7 @@ section.qc-video-transcript__body {
 /* Typography Showcase detailed review refinements */
 .qc-type-hierarchy__group {
   display: grid;
-  gap: var(--qc-type-section-gap);
+  gap: var(--qc-type-intro-specimen);
 }
 
 .qc-type-hierarchy__group + .qc-type-hierarchy__group {
@@ -4960,7 +5015,7 @@ section.qc-video-transcript__body {
 
 .qc-type-hierarchy__group-header {
   display: grid;
-  gap: 0.6rem;
+  gap: var(--qc-type-specimen-title-description);
   max-width: 72ch;
 }
 
@@ -4981,9 +5036,9 @@ section.qc-video-transcript__body {
 .qc-resilience-specimen > p {
   max-width: 70ch;
   margin: 0;
-  color: var(--qc-type-muted);
-  font-size: 0.95rem;
-  line-height: 1.55;
+  color: var(--qc-type-default);
+  font-size: var(--qc-type-body-size);
+  line-height: var(--qc-type-body-line-height);
 }
 
 .qc-type-hierarchy__item--body {
@@ -5030,9 +5085,15 @@ section.qc-video-transcript__body {
 .qc-display-sequence-specimen,
 .qc-resilience-specimen {
   display: grid;
-  gap: var(--qc-type-section-gap);
+  gap: var(--qc-type-description-example);
   border-top: 1px solid var(--qc-type-rule);
   padding-top: var(--qc-type-specimen-gap);
+}
+
+.qc-specimen-header,
+.qc-reading-layout__header {
+  display: grid;
+  gap: var(--qc-type-specimen-title-description);
 }
 
 .qc-reading-layout__body {

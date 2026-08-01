@@ -68,6 +68,7 @@ const typographyAnchors = [
                     <li>Heading level controls document structure; Display controls visual emphasis. Use Display only for short, high-impact content.</li>
                     <li>Body uses a stable 18px reading size with a 1.55 line height. Use Supporting text only for genuinely secondary context, and Captions only with media, figures, sources or attribution.</li>
                     <li>Use a Wide outer section for components, media and short openings; keep normal paragraphs at Standard measure and detailed reading at Narrow measure.</li>
+                    <li>Use the shared section, specimen and content stacks for spacing. A paragraph remains Body when it appears below a heading, inside a card, sequence or component.</li>
                     <li>Use equal columns for parallel content, unequal columns for a concise supporting note, and three columns only for short parallel ideas.</li>
                     <li>Use bullets for related ideas and numbers for order or priority. Learning outcomes need action verbs; checklist-style lists remain non-interactive. Large numbered steps are display treatments, not normal lists.</li>
                     <li>Use semantic definitions for terms and meanings. Static questions and answers use the normal Label, Heading and Body roles; use a card or accordion only when genuinely useful.</li>
@@ -89,7 +90,7 @@ const typographyAnchors = [
                   <ul class="di-dialog__list">
                     <li>Body is an explicit 18px role with a 1.55 line height and remains the default for normal instructional information. Display roles remain visual treatments independent from semantic heading levels.</li>
                     <li>Shared semantic measures provide Narrow (42rem), Standard (54rem) and Wide (the available course container). Long paragraphs use a controlled measure inside the wider section foundation.</li>
-                    <li>Equal, unequal and three-column layouts collapse in DOM reading order. Shared variables set major-section, specimen and internal spacing.</li>
+                    <li>Shared rhythm tokens separate major sections, section heading-to-introduction, introduction-to-specimen, specimen title-to-description, description-to-example and paragraph relationships. Parent grid stacks control those gaps instead of accumulated child margins.</li>
                     <li>Normal lists use native <code>ul</code> and <code>ol</code> markers; editorial numbered steps are a separate display treatment. Definitions use semantic <code>dl</code> markup.</li>
                     <li>Supporting text and Captions remain opt-in secondary roles. Display-sequence explanations use Body; Captions stay tied to media, figures, sources or attribution.</li>
                     <li>Gradient Display uses the approved plum-to-steel treatment with a solid fallback, forced-colours fallback and no JavaScript or external dependency.</li>
@@ -102,8 +103,10 @@ const typographyAnchors = [
             </div>
 
             <section id="type-hierarchy" class="qc-type-showcase__section scroll-mt-28" aria-labelledby="type-hierarchy-heading">
-              <h4 id="type-hierarchy-heading">Type hierarchy</h4>
-              <p class="qc-type-showcase__intro">Semantic heading level and visual role stay separate, so a course can preserve its outline while choosing a controlled editorial treatment.</p>
+              <div class="qc-type-showcase__section-header">
+                <h4 id="type-hierarchy-heading">Type hierarchy</h4>
+                <p class="qc-type-showcase__intro">Semantic heading level and visual role stay separate, so a course can preserve its outline while choosing a controlled editorial treatment.</p>
+              </div>
 
               <section class="qc-type-hierarchy__group" aria-labelledby="display-styles-heading">
                 <div class="qc-type-hierarchy__group-header">
@@ -139,8 +142,10 @@ const typographyAnchors = [
             </section>
 
             <section id="display-statements" class="qc-type-showcase__section scroll-mt-28" aria-labelledby="display-statements-heading">
-              <h4 id="display-statements-heading">Display and statement typography</h4>
-              <p class="qc-type-showcase__intro">Use these treatments for brief learning moments that benefit from visual impact. They should not replace normal headings or long-form reading.</p>
+              <div class="qc-type-showcase__section-header">
+                <h4 id="display-statements-heading">Display and statement typography</h4>
+                <p class="qc-type-showcase__intro">Use these treatments for brief learning moments that benefit from visual impact. They should not replace normal headings or long-form reading.</p>
+              </div>
               <div class="qc-type-display-grid qc-type-display-grid--three">
                 <TextLayout layout="statement" surface="light" spacing="spacious" class="qc-type-display-grid__safety-statement">
                   <TypeText as="p" role="display-lg" align="center" weight="light">PAUSE<br />CHECK<br />CONTINUE</TypeText>
@@ -167,8 +172,10 @@ const typographyAnchors = [
             </section>
 
             <section id="headings-introductions" class="qc-type-showcase__section scroll-mt-28" aria-labelledby="headings-introductions-heading">
-              <h4 id="headings-introductions-heading">Headings and introductions</h4>
-              <p class="qc-type-showcase__intro">A strong opening helps learners recognise what matters before they move into the supporting explanation.</p>
+              <div class="qc-type-showcase__section-header">
+                <h4 id="headings-introductions-heading">Headings and introductions</h4>
+                <p class="qc-type-showcase__intro">A strong opening helps learners recognise what matters before they move into the supporting explanation.</p>
+              </div>
               <div class="qc-heading-specimens">
                 <TextLayout layout="split" surface="none" spacing="spacious">
                   <div>
@@ -195,8 +202,10 @@ const typographyAnchors = [
             </section>
 
             <section id="reading-layouts" class="qc-type-showcase__section scroll-mt-28" aria-labelledby="reading-layouts-heading">
-              <h4 id="reading-layouts-heading">Reading layouts</h4>
-              <p class="qc-type-showcase__intro">Choose the layout for the amount, relationship and reading order of the content. One readable column is often the strongest choice.</p>
+              <div class="qc-type-showcase__section-header">
+                <h4 id="reading-layouts-heading">Reading layouts</h4>
+                <p class="qc-type-showcase__intro">Choose the layout for the amount, relationship and reading order of the content. One readable column is often the strongest choice.</p>
+              </div>
 
               <div class="qc-reading-layouts">
                 <section class="qc-reading-layout" aria-labelledby="narrow-reading-heading">
@@ -287,8 +296,10 @@ const typographyAnchors = [
             </section>
 
             <section id="quotes-editorial" class="qc-type-showcase__section scroll-mt-28" aria-labelledby="quotes-editorial-heading">
-              <h4 id="quotes-editorial-heading">Quotes and editorial emphasis</h4>
-              <p class="qc-type-showcase__intro">Quote treatments add emphasis to non-essential supporting content. Keep citations, context and surrounding text clearly related.</p>
+              <div class="qc-type-showcase__section-header">
+                <h4 id="quotes-editorial-heading">Quotes and editorial emphasis</h4>
+                <p class="qc-type-showcase__intro">Quote treatments add emphasis to non-essential supporting content. Keep citations, context and surrounding text clearly related.</p>
+              </div>
               <div class="qc-quote-specimens">
                 <section class="qc-quote-specimen" aria-labelledby="side-rule-quote-heading"><div class="qc-specimen-header"><h5 id="side-rule-quote-heading">Side-rule quote</h5><p>Useful for a short internal principle or attributed quotation.</p></div><QuoteBlock quote="Clarity is not saying more. It is helping someone understand what matters." citation="Internal learning example" variant="rule" /></section>
                 <section class="qc-quote-specimen" aria-labelledby="centred-quote-heading"><div class="qc-specimen-header"><h5 id="centred-quote-heading">Centred quote</h5><p>Use only for a brief reflective message, never for dense required reading.</p></div><QuoteBlock quote="A safe routine is easier to follow when the reason is clear." citation="Illustrative safety prompt" variant="center" /></section>
@@ -304,8 +315,10 @@ const typographyAnchors = [
             </section>
 
             <section id="structured-text" class="qc-type-showcase__section scroll-mt-28" aria-labelledby="lists-heading">
-              <h4 id="lists-heading">Lists</h4>
-              <p class="qc-type-showcase__intro">Lists organise related information, outcomes, steps and reminders. The marker and layout should reflect the content's meaning rather than being chosen only for decoration.</p>
+              <div class="qc-type-showcase__section-header">
+                <h4 id="lists-heading">Lists</h4>
+                <p class="qc-type-showcase__intro">Lists organise related information, outcomes, steps and reminders. The marker and layout should reflect the content's meaning rather than being chosen only for decoration.</p>
+              </div>
               <div class="qc-list-specimens">
                 <section class="qc-list-specimen" aria-labelledby="bulleted-list-heading"><div class="qc-specimen-header"><h5 id="bulleted-list-heading">Standard bulleted list</h5><p>Use for related points, features, reminders and other non-sequential information.</p></div><ul class="qc-list qc-list--standard"><li>Keep the guidance visible while the learner completes the task.</li><li>Use a short example when a new process could be interpreted in more than one way.</li><li>Wrap longer items beneath the text, not beneath the marker.</li></ul></section>
                 <section class="qc-list-specimen" aria-labelledby="numbered-list-heading"><div class="qc-specimen-header"><h5 id="numbered-list-heading">Standard numbered list</h5><p>Use for ordered information, simple sequences or prioritised points.</p></div><ol class="qc-list qc-list--standard"><li>Check the information before making the change.</li><li>Record the decision where the next person can find it.</li><li>Escalate when the guidance does not fit the situation.</li></ol></section>
@@ -317,8 +330,10 @@ const typographyAnchors = [
             </section>
 
             <section id="definitions-labelled" class="qc-type-showcase__section scroll-mt-28" aria-labelledby="definitions-labelled-heading">
-              <h4 id="definitions-labelled-heading">Definitions and labelled content</h4>
-              <p class="qc-type-showcase__intro">Use definition patterns when a term and its meaning need to be understood together. They should read as content relationships, not as a data table by default.</p>
+              <div class="qc-type-showcase__section-header">
+                <h4 id="definitions-labelled-heading">Definitions and labelled content</h4>
+                <p class="qc-type-showcase__intro">Use definition patterns when a term and its meaning need to be understood together. They should read as content relationships, not as a data table by default.</p>
+              </div>
               <div class="qc-definition-specimens">
                 <section class="qc-definition-specimen" aria-labelledby="stacked-definitions-heading"><div class="qc-specimen-header"><h5 id="stacked-definitions-heading">Stacked definition list</h5><p>Useful when each term needs a short but complete explanation.</p></div><DefinitionList variant="stacked" items={[{ term: "Hazard", definition: "Something with the potential to cause harm." }, { term: "Risk", definition: "The likelihood and possible severity of that harm occurring." }, { term: "Control", definition: "A measure used to remove or reduce exposure to the hazard." }]} /></section>
                 <section class="qc-definition-specimen" aria-labelledby="split-definitions-heading"><div class="qc-specimen-header"><h5 id="split-definitions-heading">Two-column term and definition</h5><p>Useful when short labels and explanations can be scanned together.</p></div><DefinitionList variant="split" items={[{ term: "Role", definition: "The person responsible for completing or approving an action." }, { term: "Record", definition: "The place where the outcome, decision or exception is captured." }, { term: "Review point", definition: "The moment when progress or quality should be checked." }]} /></section>
@@ -327,8 +342,10 @@ const typographyAnchors = [
             </section>
 
             <section id="do-do-not" class="qc-type-showcase__section scroll-mt-28" aria-labelledby="do-do-not-heading">
-              <h4 id="do-do-not-heading">Do / Do not</h4>
-              <p class="qc-type-showcase__intro">Use this neutral comparison when the course needs to distinguish a recommended approach from a pattern to avoid.</p>
+              <div class="qc-type-showcase__section-header">
+                <h4 id="do-do-not-heading">Do / Do not</h4>
+                <p class="qc-type-showcase__intro">Use this neutral comparison when the course needs to distinguish a recommended approach from a pattern to avoid.</p>
+              </div>
               <div class="qc-do-dont">
                 <section>
                   <div class="qc-do-dont__heading"><QuickCourseIcon name="recommended" context="inline" decorative /><TypeText as="h5" role="heading-sm" weight="semibold">Do</TypeText></div>
@@ -342,8 +359,10 @@ const typographyAnchors = [
             </section>
 
             <section id="statistics-values" class="qc-type-showcase__section scroll-mt-28" aria-labelledby="statistics-values-heading">
-              <h4 id="statistics-values-heading">Statistics and key values</h4>
-              <p class="qc-type-showcase__intro">All values below are illustrative Showcase content, not business reporting.</p>
+              <div class="qc-type-showcase__section-header">
+                <h4 id="statistics-values-heading">Statistics and key values</h4>
+                <p class="qc-type-showcase__intro">All values below are illustrative Showcase content, not business reporting.</p>
+              </div>
               <div class="qc-stat-grid qc-stat-grid--three">
                 <StatisticBlock value="30" label="Days in an illustrative return window" detail="Example only" />
                 <StatisticBlock value="3" label="Steps in a product conversation" detail="Ask. Listen. Recommend." align="center" />
@@ -356,8 +375,10 @@ const typographyAnchors = [
             </section>
 
             <section id="surfaces-emphasis" class="qc-type-showcase__section scroll-mt-28" aria-labelledby="surfaces-emphasis-heading">
-              <h4 id="surfaces-emphasis-heading">Surfaces, colour and inline emphasis</h4>
-              <p class="qc-type-showcase__intro">Surface treatment supports hierarchy; it does not create a different content component.</p>
+              <div class="qc-type-showcase__section-header">
+                <h4 id="surfaces-emphasis-heading">Surfaces, colour and inline emphasis</h4>
+                <p class="qc-type-showcase__intro">Surface treatment supports hierarchy; it does not create a different content component.</p>
+              </div>
               <div class="qc-type-specimen-grid">
                 <TextLayout layout="band" surface="dark" spacing="spacious">
                   <TypeText as="p" role="statement" tone="inverse" weight="bold">START WITH THE NEED.</TypeText>
@@ -373,8 +394,10 @@ const typographyAnchors = [
             </section>
 
             <section id="same-content" class="qc-type-showcase__section scroll-mt-28" aria-labelledby="same-content-heading">
-              <h4 id="same-content-heading">Same content, different treatment</h4>
-              <p class="qc-type-showcase__intro">Each specimen uses the identical content so reviewers can compare typography rather than copy.</p>
+              <div class="qc-type-showcase__section-header">
+                <h4 id="same-content-heading">Same content, different treatment</h4>
+                <p class="qc-type-showcase__intro">Each specimen uses the identical content so reviewers can compare typography rather than copy.</p>
+              </div>
               <div class="qc-same-content-grid qc-same-content-grid--three">
                 <div><TypeText as="p" role="heading-md" weight="semibold">Listening is an active skill.</TypeText><TypeText as="p" role="body">Listening is an active skill.</TypeText></div>
                 <TextLayout layout="statement" surface="none" spacing="compact"><TypeText as="p" role="statement" align="center" family="serif" italic>Listening is an active skill.</TypeText></TextLayout>
@@ -383,15 +406,17 @@ const typographyAnchors = [
             </section>
 
             <section id="content-resilience" class="qc-type-showcase__section scroll-mt-28" aria-labelledby="content-resilience-heading">
-              <h4 id="content-resilience-heading">How typography handles real-world content</h4>
-              <p class="qc-type-showcase__intro">These examples show how the typography system responds when text is unusually long, very short or missing&mdash;without clipping, overflowing or leaving awkward gaps.</p>
+              <div class="qc-type-showcase__section-header">
+                <h4 id="content-resilience-heading">How typography handles real-world content</h4>
+                <p class="qc-type-showcase__intro">These examples show how the typography system responds when text is unusually long, very short or missing&mdash;without clipping, overflowing or leaving awkward gaps.</p>
+              </div>
               <div class="qc-resilience-specimens">
-                <section class="qc-resilience-specimen" aria-labelledby="long-heading-heading"><h5 id="long-heading-heading">Long heading</h5><p>Wraps naturally without being cut off or becoming unreadably small.</p><TypeText as="p" role="heading-xl" weight="bold">How do you explain a complex operational change without overwhelming someone who needs to use it before their next shift?</TypeText></section>
-                <section class="qc-resilience-specimen" aria-labelledby="long-body-heading"><h5 id="long-body-heading">Long body copy</h5><p>Remains readable within a comfortable line length.</p><TextLayout layout="reading-narrow" surface="none" spacing="standard"><TypeText as="p" role="body">Long-form content stays in a readable measure, remains left aligned and uses ordinary wrapping. It does not shrink or truncate merely to fit a decorative treatment.</TypeText><TypeText as="p" role="body">When the explanation needs more detail, the layout gives it space instead of forcing it into an unsuitable display or multi-column pattern.</TypeText></TextLayout></section>
-                <section class="qc-resilience-specimen" aria-labelledby="long-list-item-heading"><h5 id="long-list-item-heading">Long list item</h5><p>Keeps the marker and wrapped text correctly aligned.</p><ul class="qc-list qc-list--standard"><li>Before closing the handover, record any issue that could affect the next shift, including the current status, the agreed owner and the place where supporting evidence can be found.</li></ul></section>
-                <section class="qc-resilience-specimen" aria-labelledby="long-link-heading"><h5 id="long-link-heading">Long link or system name</h5><p>Wraps safely without making the page wider.</p><p class="qc-resilience-specimen__link"><a href="#reading-layouts">Review the stock-handling guide and record any safety exception before continuing.</a></p></section>
-                <section class="qc-resilience-specimen" aria-labelledby="short-title-heading"><h5 id="short-title-heading">Short title only</h5><p>Still looks balanced when there is no supporting paragraph.</p><TextLayout layout="statement" surface="none" spacing="compact" class="qc-resilience-specimen__short"><TypeText as="p" role="heading-xl" align="center" weight="bold">Keep it clear.</TypeText></TextLayout></section>
-                <section class="qc-resilience-specimen" aria-labelledby="optional-content-heading"><h5 id="optional-content-heading">Optional content removed</h5><p>Missing eyebrows, descriptions or captions leave no blank space.</p><div class="qc-resilience-specimen__bare"><TypeText as="p" role="heading-md" weight="semibold">The title can stand on its own.</TypeText><TypeText as="p" role="body">The layout closes naturally around the content that is actually present.</TypeText></div></section>
+                <section class="qc-resilience-specimen" aria-labelledby="long-heading-heading"><div class="qc-specimen-header"><h5 id="long-heading-heading">Long heading</h5><p>Wraps naturally without being cut off or becoming unreadably small.</p></div><TypeText as="p" role="heading-xl" weight="bold">How do you explain a complex operational change without overwhelming someone who needs to use it before their next shift?</TypeText></section>
+                <section class="qc-resilience-specimen" aria-labelledby="long-body-heading"><div class="qc-specimen-header"><h5 id="long-body-heading">Long body copy</h5><p>Remains readable within a comfortable line length.</p></div><TextLayout layout="reading-narrow" surface="none" spacing="standard"><TypeText as="p" role="body">Long-form content stays in a readable measure, remains left aligned and uses ordinary wrapping. It does not shrink or truncate merely to fit a decorative treatment.</TypeText><TypeText as="p" role="body">When the explanation needs more detail, the layout gives it space instead of forcing it into an unsuitable display or multi-column pattern.</TypeText></TextLayout></section>
+                <section class="qc-resilience-specimen" aria-labelledby="long-list-item-heading"><div class="qc-specimen-header"><h5 id="long-list-item-heading">Long list item</h5><p>Keeps the marker and wrapped text correctly aligned.</p></div><ul class="qc-list qc-list--standard"><li>Before closing the handover, record any issue that could affect the next shift, including the current status, the agreed owner and the place where supporting evidence can be found.</li></ul></section>
+                <section class="qc-resilience-specimen" aria-labelledby="long-link-heading"><div class="qc-specimen-header"><h5 id="long-link-heading">Long link or system name</h5><p>Wraps safely without making the page wider.</p></div><p class="qc-resilience-specimen__link"><a href="#reading-layouts">Review the stock-handling guide and record any safety exception before continuing.</a></p></section>
+                <section class="qc-resilience-specimen" aria-labelledby="short-title-heading"><div class="qc-specimen-header"><h5 id="short-title-heading">Short title only</h5><p>Still looks balanced when there is no supporting paragraph.</p></div><TextLayout layout="statement" surface="none" spacing="compact" class="qc-resilience-specimen__short"><TypeText as="p" role="heading-xl" align="center" weight="bold">Keep it clear.</TypeText></TextLayout></section>
+                <section class="qc-resilience-specimen" aria-labelledby="optional-content-heading"><div class="qc-specimen-header"><h5 id="optional-content-heading">Optional content removed</h5><p>Missing eyebrows, descriptions or captions leave no blank space.</p></div><div class="qc-resilience-specimen__bare"><TypeText as="p" role="heading-md" weight="semibold">The title can stand on its own.</TypeText><TypeText as="p" role="body">The layout closes naturally around the content that is actually present.</TypeText></div></section>
               </div>
             </section>
           </div>
