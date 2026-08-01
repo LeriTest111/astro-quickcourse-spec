@@ -1,195 +1,270 @@
 ---
-type CarouselContentType = "image" | "text" | "image-text";
-type IndicatorStyle = "dots" | "numbers" | "none";
-type ArrowPosition = "overlay" | "outside";
+import QuickCourseIcon from "../../ui/QuickCourseIcon.astro";
+import type {
+  CarouselProps,
+  CarouselSlide,
+  CardCarouselSlide,
+  ContentCarouselSlide,
+  GalleryCarouselSlide,
+  ImageCarouselSlide,
+} from "./carousel-types";
 
-interface CarouselSlide {
-  type?: CarouselContentType;
-  title?: string;
-  body?: string;
-  image?: string;
-  imageAlt?: string;
-  caption?: string;
-  action?: {
-    label: string;
-    href: string;
-  };
-}
-
-interface Props {
-  id: string;
-  heading?: string;
-  intro?: string;
-  slides: CarouselSlide[];
-  contentType?: CarouselContentType;
-  indicatorStyle?: IndicatorStyle;
-  showSlideCount?: boolean;
-  arrowPosition?: ArrowPosition;
-}
-
-const {
-  id,
-  heading,
-  intro,
-  slides,
-  contentType,
-  indicatorStyle = "dots",
-  showSlideCount = true,
-  arrowPosition = "overlay",
-} = Astro.props;
+const props = Astro.props as CarouselProps;
+const { id, label, heading, intro, variant, indicator, controls = "below", class: className } = props;
+const slides = props.slides as CarouselSlide[];
+const activeIndicator = indicator ?? (variant === "content" ? "count-and-dots" : variant === "gallery" ? "thumbnails" : "count");
+const showDots = activeIndicator === "dots" || activeIndicator === "count-and-dots";
+const showCount = activeIndicator === "count" || activeIndicator === "count-and-dots" || variant === "cards" || activeIndicator === "thumbnails";
+const showThumbnails = variant === "gallery" && activeIndicator === "thumbnails";
+const headingId = heading ? `${id}-heading` : undefined;
+const slideLabel = (slide: CarouselSlide, index: number) => slide.title ? `${slide.title}, ${index + 1} of ${slides.length}` : `${index + 1} of ${slides.length}`;
 ---
 
 <section
   id={id}
-  class={`di-block di-carousel di-carousel--arrows-${arrowPosition}`}
-  data-carousel
-  data-carousel-content={contentType}
-  data-carousel-indicator-style={indicatorStyle}
-  data-carousel-show-count={showSlideCount ? "true" : "false"}
-  data-carousel-arrow-position={arrowPosition}
-  aria-labelledby={heading ? `${id}-heading` : undefined}
+  class:list={["qc-carousel", `qc-carousel--${variant}`, `qc-carousel--controls-${controls}`, className]}
+  data-qc-carousel
+  data-qc-carousel-variant={variant}
+  data-qc-carousel-label={label}
+  role="region"
+  aria-roledescription="carousel"
+  aria-label={headingId ? undefined : label}
+  aria-labelledby={headingId}
 >
-  {
-    heading && (
-      <div class="di-block__header">
-        <h3 id={`${id}-heading`}>{heading}</h3>
-        {intro && <p>{intro}</p>}
-      </div>
-    )
-  }
-  <div class="di-carousel__frame">
-    <button class="di-carousel__arrow di-carousel__arrow--prev" type="button" aria-label="Previous slide" data-carousel-prev>
-      <span class="material-symbols-sharp showcase-icon" aria-hidden="true">chevron_left</span>
-    </button>
-    <div class="di-carousel__viewport" aria-live="polite">
-      {slides.map((slide, index) => (
-        <article class={`di-carousel__slide di-carousel__slide--${slide.type ?? "image-text"}`} data-slide data-slide-group={slide.type ?? "image-text"} aria-label={`Slide ${index + 1} of ${slides.length}`}>
-          {(slide.type ?? "image-text") === "image" && slide.image && (
-            <figure>
-              <img src={slide.image} alt={slide.imageAlt ?? ""} loading={index === 0 ? "eager" : "lazy"} />
-              {slide.caption && <figcaption>{slide.caption}</figcaption>}
-            </figure>
-          )}
-          {(slide.type ?? "image-text") === "text" && (
-            <div class="di-carousel__text">
-              {slide.title && <h4>{slide.title}</h4>}
-              {slide.body && <p>{slide.body}</p>}
-              {slide.action && <a class="di-secondary-button" href={slide.action.href}>{slide.action.label}</a>}
-            </div>
-          )}
-          {(slide.type ?? "image-text") === "image-text" && (
-            <>
-              {slide.image && (
-                <figure>
-                  <img src={slide.image} alt={slide.imageAlt ?? ""} loading={index === 0 ? "eager" : "lazy"} />
-                  {slide.caption && <figcaption>{slide.caption}</figcaption>}
-                </figure>
-              )}
-              <div class="di-carousel__text">
-                {slide.title && <h4>{slide.title}</h4>}
-                {slide.body && <p>{slide.body}</p>}
-                {slide.action && <a class="di-secondary-button" href={slide.action.href}>{slide.action.label}</a>}
-              </div>
-            </>
-          )}
-        </article>
-      ))}
+  {heading && (
+    <div class="qc-carousel__header">
+      <h4 id={headingId}>{heading}</h4>
+      {intro && <p>{intro}</p>}
     </div>
-    <button class="di-carousel__arrow di-carousel__arrow--next" type="button" aria-label="Next slide" data-carousel-next>
-      <span class="material-symbols-sharp showcase-icon" aria-hidden="true">chevron_right</span>
-    </button>
-    <div class="di-carousel__controls" data-carousel-controls>
-      <div class="di-carousel__dots" aria-label="Choose slide" data-carousel-indicators>
-        {slides.map((slide, index) => (
-          <button type="button" data-carousel-dot data-dot-group={slide.type ?? "image-text"} aria-label={`Show slide ${index + 1}${slide.title ? `: ${slide.title}` : ""}`}>
-            <span class="sr-only">Slide </span><span data-dot-label>{index + 1}</span>
-          </button>
-        ))}
-      </div>
-      <p data-carousel-status>1 of {slides.length}</p>
+  )}
+
+  <div class="qc-carousel__viewport" data-qc-carousel-viewport>
+    <div class="qc-carousel__container" data-qc-carousel-container>
+      {slides.map((slide, index) => {
+        const imageSlide = slide as ImageCarouselSlide | GalleryCarouselSlide;
+        const featureSlide = slide as ImageCarouselSlide;
+        const contentSlide = slide as ContentCarouselSlide;
+        const cardSlide = slide as CardCarouselSlide;
+
+        return (
+          <article
+            class:list={["qc-carousel__slide", `qc-carousel__slide--${variant}`]}
+            data-qc-carousel-slide
+            role="group"
+            aria-roledescription="slide"
+            aria-label={slideLabel(slide, index)}
+          >
+            {variant === "gallery" && (
+              <figure class="qc-carousel__figure">
+                <img
+                  src={imageSlide.image}
+                  alt={imageSlide.imageAlt}
+                  width={imageSlide.imageWidth}
+                  height={imageSlide.imageHeight}
+                  loading={index === 0 ? "eager" : "lazy"}
+                  decoding="async"
+                />
+                {(imageSlide.title || imageSlide.caption) && (
+                  <figcaption>
+                    {imageSlide.title && <strong>{imageSlide.title}</strong>}
+                    {imageSlide.caption && <span>{imageSlide.caption}</span>}
+                  </figcaption>
+                )}
+              </figure>
+            )}
+
+            {variant === "feature" && (
+              <>
+                <figure class="qc-carousel__figure">
+                  <img
+                    src={imageSlide.image}
+                    alt={imageSlide.imageAlt}
+                    width={imageSlide.imageWidth}
+                    height={imageSlide.imageHeight}
+                    loading={index === 0 ? "eager" : "lazy"}
+                    decoding="async"
+                  />
+                  {imageSlide.caption && <figcaption><span>{imageSlide.caption}</span></figcaption>}
+                </figure>
+                <div class="qc-carousel__copy">
+                  {featureSlide.eyebrow && <p class="qc-eyebrow">{featureSlide.eyebrow}</p>}
+                  <h5>{featureSlide.title}</h5>
+                  {featureSlide.body && <p>{featureSlide.body}</p>}
+                </div>
+              </>
+            )}
+
+            {variant === "content" && (
+              <div class="qc-carousel__copy">
+                {contentSlide.eyebrow && <p class="qc-eyebrow">{contentSlide.eyebrow}</p>}
+                {contentSlide.icon && <QuickCourseIcon name={contentSlide.icon} context="heading" />}
+                <h5>{contentSlide.title}</h5>
+                {contentSlide.body && <p>{contentSlide.body}</p>}
+                {contentSlide.list && (
+                  <ul>
+                    {contentSlide.list.map((item) => <li>{item}</li>)}
+                  </ul>
+                )}
+                {contentSlide.link && <a href={contentSlide.link.href}>{contentSlide.link.label}</a>}
+              </div>
+            )}
+
+            {variant === "cards" && (
+              <div class="qc-carousel__card">
+                {cardSlide.icon && <QuickCourseIcon name={cardSlide.icon} context="heading" />}
+                {cardSlide.eyebrow && <p class="qc-eyebrow">{cardSlide.eyebrow}</p>}
+                <h5>{cardSlide.title}</h5>
+                {cardSlide.body && <p>{cardSlide.body}</p>}
+              </div>
+            )}
+          </article>
+        );
+      })}
     </div>
   </div>
+
+  <div class="qc-carousel__toolbar" data-qc-carousel-toolbar hidden>
+    <button type="button" class="qc-carousel__control" data-qc-carousel-prev aria-label="Previous slide">
+      <QuickCourseIcon name="previous" context="button" />
+      <span>Previous</span>
+    </button>
+
+    <div class="qc-carousel__indicator" data-qc-carousel-indicator>
+      {showCount && <p data-qc-carousel-count>1 of {slides.length}</p>}
+      {showDots && (
+        <div class="qc-carousel__dots" aria-label={`Choose an item in ${label}`}>
+          {slides.map((slide, index) => (
+            <button type="button" data-qc-carousel-dot aria-label={`Go to slide ${index + 1} of ${slides.length}${slide.title ? `: ${slide.title}` : ""}`}>
+              <span class="sr-only">Slide {index + 1}</span>
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+
+    <button type="button" class="qc-carousel__control" data-qc-carousel-next aria-label="Next slide">
+      <span>Next</span>
+      <QuickCourseIcon name="next" context="button" />
+    </button>
+  </div>
+
+  {showThumbnails && (
+    <div class="qc-carousel__thumbnails" data-qc-carousel-thumbnails hidden aria-label={`${label} thumbnails`}>
+      {slides.map((slide, index) => {
+        const gallerySlide = slide as GalleryCarouselSlide;
+        return (
+          <button type="button" data-qc-carousel-thumbnail aria-label={`Show image ${index + 1} of ${slides.length}${gallerySlide.title ? `: ${gallerySlide.title}` : ""}`}>
+            <img src={gallerySlide.image} alt="" width={gallerySlide.imageWidth} height={gallerySlide.imageHeight} loading="lazy" decoding="async" />
+          </button>
+        );
+      })}
+    </div>
+  )}
+
+  <p class="sr-only" aria-live="polite" aria-atomic="true" data-qc-carousel-live></p>
 </section>
 
 <script>
-  document.querySelectorAll("[data-carousel]").forEach((carousel) => {
-    if (carousel.dataset.carouselReady === "true") return;
-    carousel.dataset.carouselReady = "true";
+  import EmblaCarousel from "embla-carousel";
 
-    const slides = [...carousel.querySelectorAll("[data-slide]")];
-    const previous = carousel.querySelector("[data-carousel-prev]");
-    const next = carousel.querySelector("[data-carousel-next]");
-    const dots = [...carousel.querySelectorAll("[data-carousel-dot]")];
-    const status = carousel.querySelector("[data-carousel-status]");
-    const indicators = carousel.querySelector("[data-carousel-indicators]");
-    let current = 0;
+  const cleanups = new WeakMap<HTMLElement, () => void>();
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
-    function getVisibleSlides() {
-      const contentFilter = carousel.dataset.carouselContent;
-      return slides.filter((slide) => !contentFilter || slide.dataset.slideGroup === contentFilter);
+  function initialise(root: HTMLElement) {
+    if (cleanups.has(root)) return;
+
+    const viewport = root.querySelector<HTMLElement>("[data-qc-carousel-viewport]");
+    const slides = Array.from(root.querySelectorAll<HTMLElement>("[data-qc-carousel-slide]"));
+    const toolbar = root.querySelector<HTMLElement>("[data-qc-carousel-toolbar]");
+    if (!viewport || slides.length < 2) return;
+
+    const embla = EmblaCarousel(viewport, {
+      loop: false,
+      align: "start",
+      dragFree: false,
+      slidesToScroll: 1,
+      containScroll: "trimSnaps",
+      duration: reducedMotion.matches ? 1 : 25,
+    });
+    const previous = root.querySelector<HTMLButtonElement>("[data-qc-carousel-prev]");
+    const next = root.querySelector<HTMLButtonElement>("[data-qc-carousel-next]");
+    const count = root.querySelector<HTMLElement>("[data-qc-carousel-count]");
+    const live = root.querySelector<HTMLElement>("[data-qc-carousel-live]");
+    const dots = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-qc-carousel-dot]"));
+    const thumbnails = Array.from(root.querySelectorAll<HTMLButtonElement>("[data-qc-carousel-thumbnail]"));
+    const thumbnailStrip = root.querySelector<HTMLElement>("[data-qc-carousel-thumbnails]");
+    const variant = root.dataset.qcCarouselVariant;
+    const label = root.dataset.qcCarouselLabel ?? "Carousel";
+    let announce = false;
+
+    function visibleIndexes() {
+      return variant === "cards" ? embla.slidesInView(true) : [embla.selectedScrollSnap()];
     }
 
-    function render() {
-      const indicatorStyle = carousel.dataset.carouselIndicatorStyle ?? "dots";
-      const showCount = carousel.dataset.carouselShowCount !== "false";
-      const arrowPosition = carousel.dataset.carouselArrowPosition ?? "overlay";
-      carousel.classList.toggle("di-carousel--arrows-overlay", arrowPosition === "overlay");
-      carousel.classList.toggle("di-carousel--arrows-outside", arrowPosition === "outside");
+    function update() {
+      const selected = embla.selectedScrollSnap();
+      const visible = new Set(visibleIndexes());
+      const canMove = embla.canScrollPrev() || embla.canScrollNext();
 
-      const visibleSlides = getVisibleSlides();
-      if (current > visibleSlides.length - 1) current = Math.max(0, visibleSlides.length - 1);
+      toolbar?.toggleAttribute("hidden", !canMove);
+      thumbnailStrip?.toggleAttribute("hidden", !canMove);
+      previous && (previous.disabled = !embla.canScrollPrev());
+      next && (next.disabled = !embla.canScrollNext());
 
       slides.forEach((slide, index) => {
-        const visibleIndex = visibleSlides.indexOf(slide);
-        const isActive = visibleIndex === current;
-        const isInSet = visibleIndex !== -1;
-        slide.hidden = !isInSet || !isActive;
-        slide.toggleAttribute("inert", !isInSet || !isActive);
-        slide.classList.toggle("is-active", isActive);
+        const isVisible = visible.has(index);
+        slide.setAttribute("aria-hidden", String(!isVisible));
+        slide.inert = !isVisible;
+        if (!isVisible && slide.contains(document.activeElement)) previous?.focus({ preventScroll: true });
       });
-      let visibleDotIndex = 0;
-      dots.forEach((dot, index) => {
-        const slide = slides[index];
-        const isInSet = visibleSlides.includes(slide);
-        dot.hidden = !isInSet || indicatorStyle === "none";
-        if (!isInSet) return;
-        dot.classList.toggle("is-numbered", indicatorStyle === "numbers");
-        dot.querySelector("[data-dot-label]").textContent = indicatorStyle === "numbers" ? `${visibleDotIndex + 1}` : "";
-        dot.setAttribute("aria-current", visibleDotIndex === current ? "true" : "false");
-        visibleDotIndex += 1;
-      });
-      if (indicators) indicators.hidden = indicatorStyle === "none";
-      if (previous) previous.disabled = current === 0;
-      if (next) next.disabled = current === visibleSlides.length - 1;
-      if (status) {
-        status.hidden = !showCount;
-        status.textContent = `${current + 1} of ${visibleSlides.length}`;
+
+      dots.forEach((dot, index) => dot.setAttribute("aria-current", String(index === selected)));
+      thumbnails.forEach((thumbnail, index) => thumbnail.setAttribute("aria-current", String(index === selected)));
+
+      if (count) {
+        if (variant === "cards") {
+          const range = [...visible].sort((a, b) => a - b);
+          count.textContent = range.length ? `Items ${range[0] + 1}-${range[range.length - 1] + 1} of ${slides.length}` : `Items 1 of ${slides.length}`;
+        } else {
+          count.textContent = `${selected + 1} of ${slides.length}`;
+        }
+      }
+
+      if (announce) {
+        const title = slides[selected]?.querySelector("h5, strong")?.textContent?.trim();
+        live && (live.textContent = `${label}: ${variant === "cards" ? "items updated" : `slide ${selected + 1} of ${slides.length}`}${title ? `: ${title}` : ""}`);
+        announce = false;
       }
     }
 
-    previous?.addEventListener("click", () => {
-      current = Math.max(0, current - 1);
-      render();
-    });
+    const onPrevious = () => { announce = true; embla.scrollPrev(); };
+    const onNext = () => { announce = true; embla.scrollNext(); };
+    previous?.addEventListener("click", onPrevious);
+    next?.addEventListener("click", onNext);
+    dots.forEach((dot, index) => dot.addEventListener("click", () => { announce = true; embla.scrollTo(index); }));
+    thumbnails.forEach((thumbnail, index) => thumbnail.addEventListener("click", () => { announce = true; embla.scrollTo(index); }));
+    embla.on("select", update).on("reInit", update).on("settle", update).on("slidesInView", update);
+    root.dataset.qcCarouselReady = "true";
+    update();
 
-    next?.addEventListener("click", () => {
-      current = Math.min(getVisibleSlides().length - 1, current + 1);
-      render();
+    cleanups.set(root, () => {
+      previous?.removeEventListener("click", onPrevious);
+      next?.removeEventListener("click", onNext);
+      embla.destroy();
+      cleanups.delete(root);
+      delete root.dataset.qcCarouselReady;
     });
+  }
 
-    dots.forEach((dot, index) => {
-      dot.addEventListener("click", () => {
-        const slide = slides[index];
-        current = getVisibleSlides().indexOf(slide);
-        render();
-      });
-    });
+  function initialiseAll() {
+    document.querySelectorAll<HTMLElement>("[data-qc-carousel]").forEach(initialise);
+  }
 
-    carousel.addEventListener("showcase-options-change", () => {
-      current = 0;
-      render();
-    });
+  function destroyAll() {
+    document.querySelectorAll<HTMLElement>("[data-qc-carousel]").forEach((root) => cleanups.get(root)?.());
+  }
 
-    render();
-  });
+  initialiseAll();
+  document.addEventListener("astro:page-load", initialiseAll);
+  document.addEventListener("astro:before-swap", destroyAll);
 </script>

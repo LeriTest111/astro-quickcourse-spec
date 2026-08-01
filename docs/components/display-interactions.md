@@ -88,31 +88,17 @@ Standardized properties: the component controls typography, spacing, statement s
 
 ## Carousel
 
-Approval status: Concept
+Approval status: Draft
 
-Purpose: move through a small set of related slides.
+Purpose: let learners move through a small set of compact, related learning items without leaving the section.
 
-Recommended use: two to eight consistently structured image, text or image-and-text slides.
+The Quick Course Carousel System has four controlled variants: `content`, `feature`, `cards` and `gallery`. It uses locally bundled vanilla Embla Carousel `8.6.0`, while Astro-rendered HTML and CSS scroll snap provide the baseline. Read the detailed [Carousel System guide](./carousel-system.md) before creating a new specimen or production use.
 
-Content structure or props: stable id, content type, slides, title, body, image, alt text, caption, action, indicator style, slide-count visibility and arrow position.
+Suitable use cases: short customer-service tips, related product features, small card collections and image sequences.
 
-Interaction behaviour: Previous and Next arrows sit at or beside the slide edges, indicators sit inside the carousel frame near the bottom and direct slide controls update the visible slide.
+Misuse to avoid: essential reading, mandatory ordered procedures, assessments, long policy text, large content sets or information learners must compare at the same time.
 
-Keyboard behaviour: controls are buttons; inactive slides are hidden from keyboard users after enhancement.
-
-Responsive behaviour: slide content stacks safely, edge arrows remain touch-sized and the component avoids horizontal page overflow.
-
-Accessibility considerations: no autoplay, live status text and disabled controls at the ends.
-
-JavaScript requirements: required for slide navigation.
-
-Suitable use cases: product highlights, related images, short tips, short examples and consistently structured image-and-text slides.
-
-Misuse to avoid: essential long-form content, important procedures, content learners must compare simultaneously, unrelated mixed content types or large slide sets.
-
-Customizable properties: `indicatorStyle: "dots" | "numbers" | "none"`, `showSlideCount`, `arrowPosition: "overlay" | "outside"` and slide content.
-
-Standardized properties: one reusable carousel engine, supported content modes `image`, `text` and `image-text`, no mixed mode, no autoplay and explicit controls.
+Standardized properties: one shared engine, no autoplay, no loop, explicit Previous and Next controls, visible current position, progressive enhancement and controlled responsive behaviour.
 
 ## Click-to-Reveal Hotspots
 
