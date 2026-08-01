@@ -18,6 +18,8 @@ Sans is the default for headings, Body copy, UI and most learning content. Serif
 
 The Typography System supplies the normal Showcase baseline in both Working and Approved builds. Normal page titles, headings, Leads, Body copy, labels, captions, links, list text, guidance and modal copy inherit the Arial Nova-first stack and the controlled normal reading rhythm.
 
+Body is the default for ordinary instructional information, including explanations inside cards, panels, layouts, video examples and modals. Supporting text and Caption are opt-in secondary roles; their location beneath a heading or inside a component does not make normal content secondary.
+
 Expressive treatments remain opt-in. Display roles, editorial serif, pull quotes, large statistics, monospace examples, solid-surface typography and special column layouts are selected only when their instructional purpose calls for them. Component-specific typography remains in control where it protects an established interaction, control or hierarchy.
 
 ## Production Primitives
@@ -47,10 +49,12 @@ Content hierarchy is the structural system for page titles, sections, subsection
 | `display-xl`, `display-lg`, `display-md` | Short course-opening or section-opening statements only. |
 | `heading-xl`, `heading-lg`, `heading-md`, `heading-sm` | Headings at the semantic level required by the page outline. |
 | `lead` | One concise introductory paragraph. |
-| `body` | Default role for normal instructional reading. It uses a gentle responsive range of approximately 17px to 17.5px with a 1.55 line height. |
-| `body-compact` | Concise secondary context, not compressed primary reading. |
-| `eyebrow`, `label`, `caption` | Short contextual labels and secondary context. |
+| `body` | Default role for normal instructional reading. It uses a stable `1.125rem` (approximately 18px) size with a 1.55 line height. |
+| `body-compact` | Optional concise secondary context, never compressed primary reading. |
+| `eyebrow`, `label` | Short contextual labels, categories, statuses and metadata. |
+| `caption` | Text directly associated with media, figures, sources or attribution; not a general small-paragraph style. |
 | `statement` | A short memorable phrase, transition or instruction. |
+| `display-gradient` | One short, high-impact Display phrase using the approved plum-to-steel gradient. |
 | `statistic` | A concise illustrative value with a readable label. |
 | `quote` | A genuine or clearly marked internal example quotation. |
 | `code` | Short technical values and identifiers. |
@@ -88,7 +92,7 @@ Major Showcase sections use shared editorial spacing. Independent specimens use 
 
 Use native `ul` for related non-sequential ideas and `ol` only where order or priority matters. Native markers remain visible and align wrapped text beneath the item, not the marker. Use a learning-outcomes treatment only for genuine outcomes with action verbs. Checklist-style lists are non-interactive text; they do not save, score or track completion. Compact lists use restrained separators for short grouped facts.
 
-Large numbered steps are display treatments, not normal list styles. Use them only for short editorial sequences; do not replace ordinary ordered lists merely for visual decoration.
+Large numbered steps are display treatments, not normal list styles. Use them only for short editorial sequences; do not replace ordinary ordered lists merely for visual decoration. The explanation beneath each display step uses Body by default; use Supporting text only for an additional non-essential note.
 
 Use semantic `dl` markup for term-and-meaning relationships. Static questions and answers use the normal Label, Heading and Body roles. Use a card or accordion only when the content or interaction genuinely requires it. Accordions, interactive checklists, timelines and process exploration belong to the interaction library.
 
@@ -102,6 +106,12 @@ Use `StatisticBlock` for clearly illustrative values only. A statistic must help
 
 `TextLayout` accepts semantic surfaces: `none`, `default`, `muted`, `primary`, `secondary`, `accent`, `dark`, `light`, `success`, `warning` and `error`. Use a surface to support hierarchy, not to turn every paragraph into an alert. Keep long essential content on a plain, muted or light readable surface. Do not use colour as the only indicator of meaning.
 
+## Gradient Display Text
+
+`display-gradient` is one restrained, opt-in treatment for a short hero phrase, major transition, concise statement or occasional prominent statistic. It uses the approved plum-to-steel gradient from the existing Showcase palette. Use it once and sparingly; normal headings, Body copy, lists, Supporting text, Captions, definitions, links and instructions remain solid.
+
+The solid plum foreground is the default fallback. Gradient clipping is applied only when supported. Forced-colours and print contexts restore readable solid text. The treatment is static, needs no JavaScript, introduces no external dependency and remains suitable for static and SCORM builds.
+
 ## AI Authoring Rules
 
 AI should make choices in this order:
@@ -113,7 +123,7 @@ AI should make choices in this order:
 
 AI should identify the semantic purpose, choose an approved role, choose a suitable measure and layout, preserve heading hierarchy and use the simplest readable option when no special treatment is justified.
 
-Normal Body uses the shared 17px to 17.5px baseline. Do not reduce it to force excessive content into a layout. Use Wide for the outer section or component container, Standard for ordinary paragraphs and Narrow for detailed long-form content.
+Normal Body uses the shared fixed 18px baseline with a 1.55 line height. Do not reduce it to force excessive content into a layout. Use Wide for the outer section or component container, Standard for ordinary paragraphs and Narrow for detailed long-form content. Use Supporting text only for optional context and Caption only for text directly attached to media or attribution.
 
 AI should not:
 
@@ -127,13 +137,14 @@ AI should not:
 - Use monospace for normal paragraphs.
 - Use thin Body text, long italic passages or all-caps paragraphs.
 - Put essential information only in a pull quote or supporting aside.
+- Use gradient Display text as decoration, on long copy, or for more than one prominent phrase in the same view. Use solid text for normal headings and all instructional reading.
 - Invent arbitrary colours, font sizes, column ratios or CSS classes.
 - Silently truncate storyboard copy.
 
 ## Responsive, Accessibility And Real-World Content
 
 - Major Display and heading roles use controlled clamp-based sizing.
-- Body uses a gentle 17px to 17.5px range with a 1.55 line height while compact roles remain distinct.
+- Body uses a fixed 18px size with a 1.55 line height while compact roles remain distinct.
 - Short headings use balanced wrapping; Body content uses ordinary readable wrapping.
 - Normal words must not break arbitrarily or be truncated with ellipses.
 - Long links and identifiers can wrap safely without creating horizontal overflow.

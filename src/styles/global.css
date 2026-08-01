@@ -4132,7 +4132,7 @@ section.qc-video-transcript__body {
   --qc-type-surface-light: #fdf3e0;
   --qc-type-surface-accent: #d29f91;
   --qc-type-rule: #cbd5e1;
-  --qc-type-body-size: clamp(1.0625rem, 1.04rem + 0.1vw, 1.09375rem);
+  --qc-type-body-size: 1.125rem;
   --qc-type-body-line-height: 1.55;
   --qc-type-measure-narrow: 42rem;
   --qc-type-measure-standard: 54rem;
@@ -4161,6 +4161,7 @@ section.qc-video-transcript__body {
 .qc-type--display-xl,
 .qc-type--display-lg,
 .qc-type--display-md,
+.qc-type--display-gradient,
 .qc-type--heading-xl,
 .qc-type--heading-lg,
 .qc-type--heading-md,
@@ -4181,6 +4182,22 @@ section.qc-video-transcript__body {
 
 .qc-type--display-md {
   font-size: clamp(1.85rem, 3.5vw, 3.2rem);
+}
+
+.qc-type--display-gradient {
+  color: var(--qc-type-primary);
+  font-size: clamp(2.25rem, 5vw, 4.7rem);
+  font-weight: 750;
+}
+
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .qc-type--display-gradient {
+    background: linear-gradient(105deg, var(--showcase-ci-plum), var(--showcase-ci-steel));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    -webkit-text-fill-color: transparent;
+  }
 }
 
 .qc-type--heading-xl {
@@ -4825,10 +4842,6 @@ section.qc-video-transcript__body {
   font-size: 1rem;
 }
 
-.qc-numbered-steps p {
-  color: var(--qc-type-muted);
-}
-
 .qc-do-dont {
   display: grid;
   gap: var(--qc-type-specimen-gap);
@@ -4983,6 +4996,13 @@ section.qc-video-transcript__body {
   max-width: 70ch;
 }
 
+.qc-type-hierarchy__guidance {
+  margin: 0;
+  color: var(--qc-type-muted);
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
 .qc-type-display-grid__safety-statement .qc-type--display-lg {
   font-size: clamp(2rem, 3.4vw, 3.45rem);
   hyphens: none;
@@ -5126,9 +5146,25 @@ ul.qc-list.qc-list--compact {
 }
 
 .qc-numbered-steps p {
-  color: var(--qc-type-muted);
+  color: var(--qc-type-default);
   font-size: var(--qc-type-body-size);
   line-height: var(--qc-type-body-line-height);
+}
+
+@media (forced-colors: active) {
+  .qc-type--display-gradient {
+    background: none;
+    color: CanvasText;
+    -webkit-text-fill-color: currentColor;
+  }
+}
+
+@media print {
+  .qc-type--display-gradient {
+    background: none;
+    color: var(--qc-type-strong);
+    -webkit-text-fill-color: currentColor;
+  }
 }
 
 .qc-definition-list--grid {

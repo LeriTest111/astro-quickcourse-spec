@@ -2,6 +2,7 @@ export const typeRoles = [
   "display-xl",
   "display-lg",
   "display-md",
+  "display-gradient",
   "heading-xl",
   "heading-lg",
   "heading-md",

@@ -64,9 +64,9 @@ const typographyAnchors = [
                 <div class="di-dialog__content">
                   <p>The Typography System supplies the normal baseline across both Showcase builds. Choose type by instructional purpose first; simple Body text is the right choice when content must be read in order.</p>
                   <ul class="di-dialog__list">
-                    <li>Normal headings, Body, Lead, Labels and Captions inherit the shared baseline. Display, editorial serif and large statement treatments remain opt-in.</li>
+                    <li>Normal headings, Body, Lead, Labels and Captions inherit the shared baseline. Display, editorial serif, gradient Display and large statement treatments remain opt-in.</li>
                     <li>Heading level controls document structure; Display controls visual emphasis. Use Display only for short, high-impact content.</li>
-                    <li>Body uses a gentle 17&ndash;17.5px reading range. Use compact supporting text and captions only when the information is genuinely secondary.</li>
+                    <li>Body uses a stable 18px reading size with a 1.55 line height. Use Supporting text only for genuinely secondary context, and Captions only with media, figures, sources or attribution.</li>
                     <li>Use a Wide outer section for components, media and short openings; keep normal paragraphs at Standard measure and detailed reading at Narrow measure.</li>
                     <li>Use equal columns for parallel content, unequal columns for a concise supporting note, and three columns only for short parallel ideas.</li>
                     <li>Use bullets for related ideas and numbers for order or priority. Learning outcomes need action verbs; checklist-style lists remain non-interactive. Large numbered steps are display treatments, not normal lists.</li>
@@ -87,10 +87,12 @@ const typographyAnchors = [
                 <div class="di-dialog__content">
                   <p>The system uses no external fonts. Its shared baseline applies in both Working and Approved builds, while expressive roles remain component-level opt-ins.</p>
                   <ul class="di-dialog__list">
-                    <li>Body is an explicit 17&ndash;17.5px role with a 1.55 line height. Display roles remain visual treatments independent from semantic heading levels.</li>
+                    <li>Body is an explicit 18px role with a 1.55 line height and remains the default for normal instructional information. Display roles remain visual treatments independent from semantic heading levels.</li>
                     <li>Shared semantic measures provide Narrow (42rem), Standard (54rem) and Wide (the available course container). Long paragraphs use a controlled measure inside the wider section foundation.</li>
                     <li>Equal, unequal and three-column layouts collapse in DOM reading order. Shared variables set major-section, specimen and internal spacing.</li>
                     <li>Normal lists use native <code>ul</code> and <code>ol</code> markers; editorial numbered steps are a separate display treatment. Definitions use semantic <code>dl</code> markup.</li>
+                    <li>Supporting text and Captions remain opt-in secondary roles. Display-sequence explanations use Body; Captions stay tied to media, figures, sources or attribution.</li>
+                    <li>Gradient Display uses the approved plum-to-steel treatment with a solid fallback, forced-colours fallback and no JavaScript or external dependency.</li>
                     <li>Static questions and answers use normal Label, Heading and Body roles rather than a dedicated typography primitive.</li>
                     <li>Long headings, links and identifiers wrap safely without clipping. Future theme tokens can map the values without changing content structure.</li>
                     <li>The rendered HTML stays static-site and SCORM compatible, with no external font dependency.</li>
@@ -105,13 +107,14 @@ const typographyAnchors = [
 
               <section class="qc-type-hierarchy__group" aria-labelledby="display-styles-heading">
                 <div class="qc-type-hierarchy__group-header">
-                  <h5 id="display-styles-heading">Display styles &mdash; for short, high-impact text</h5>
+                  <h5 id="display-styles-heading">Display options</h5>
                   <p>Display styles control visual impact. They are not heading levels or separate font families and should be used only for short, exceptional content.</p>
                 </div>
                 <div class="qc-type-hierarchy">
                   <div class="qc-type-hierarchy__item"><span>Display XL</span><TypeText as="p" role="display-xl" weight="bold">Pause. Check. Continue safely.</TypeText></div>
                   <div class="qc-type-hierarchy__item"><span>Display Large</span><TypeText as="p" role="display-lg" weight="semibold">One good question changes the next step.</TypeText></div>
                   <div class="qc-type-hierarchy__item"><span>Display Medium</span><TypeText as="p" role="display-md" family="serif" italic>Make the digital task feel manageable.</TypeText></div>
+                  <div class="qc-type-hierarchy__item"><span>Gradient display text</span><div class="qc-type-hierarchy__body-copy"><TypeText as="p" role="display-gradient">Make clarity visible.</TypeText><p class="qc-type-hierarchy__guidance">Use for one short, high-impact phrase where the gradient supports the visual theme. Keep normal instructional content in a solid colour.</p></div></div>
                 </div>
               </section>
 
@@ -254,7 +257,7 @@ const typographyAnchors = [
                   </div>
                   <TextLayout layout="two-main" surface="none" spacing="spacious" class="qc-reading-layout__specimen qc-reading-layout__columns">
                     <div class="qc-text-layout__prose"><TypeText as="p" role="heading-md" weight="semibold">Main explanation</TypeText><TypeText as="p" role="body">A stock-handling guide needs room for its core sequence. The main column explains what to check, record and escalate so the learner can apply the process in the right order.</TypeText></div>
-                    <aside class="qc-reading-layout__aside"><TypeText as="p" role="label" weight="semibold">Supporting note</TypeText><TypeText as="p" role="body-compact">Keep the product label visible until the final check is complete.</TypeText></aside>
+                    <aside class="qc-reading-layout__aside"><TypeText as="p" role="label" weight="semibold">Supporting note</TypeText><TypeText as="p" role="body">Keep the product label visible until the final check is complete.</TypeText></aside>
                   </TextLayout>
                 </section>
 
