@@ -2,7 +2,7 @@
 
 Status: Draft
 
-The Quick Course Typography System is one controlled system for course copy, editorial emphasis and responsive text layouts. The Working Showcase demonstrates curated combinations; production courses use the same small set of primitives without Showcase labels, statuses or review guidance.
+The Quick Course Typography System is one controlled system for course copy, editorial emphasis and responsive text layouts. The In development view demonstrates curated combinations; production courses use the same small set of primitives without Showcase labels, statuses or review guidance.
 
 ## Font Policy
 

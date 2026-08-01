@@ -26,10 +26,10 @@ import CallToActionSection from "../../components/layouts/opener-closer/CallToAc
 import SectionDivider from "../../components/layouts/opener-closer/SectionDivider.astro";
 import SummarySection from "../../components/layouts/opener-closer/SummarySection.astro";
 import { layoutAnchors } from "../../data/showcase";
-import { isShowcaseItemVisible } from "../../data/showcase-registry";
+import { getShowcaseItem } from "../../data/showcase-registry";
 
 const neutralImage = "/images/showcase/hero-1.avif";
-const visible = (id: string) => isShowcaseItemVisible(id);
+const visible = (id: string) => Boolean(getShowcaseItem(id));
 const sectionItems = {
   heroes: ["image-overlay-hero", "split-hero", "centered-minimal-hero", "floating-card-hero", "learning-objectives-hero", "scenario-opener-hero"],
   "content-sections": ["readable-text-section", "text-image-split", "two-column-content"],
@@ -82,8 +82,8 @@ const productExamples = [
     </div>
   )}
 
-  <div class="showcase-section-stack mt-10">
-    {!hasVisibleItems && <ShowcaseEmptyState />}
+  <div class="showcase-section-stack mt-10" data-showcase-collection>
+    <ShowcaseEmptyState />
 
     {sectionVisible("heroes") && <ShowcaseSection id="heroes" title="Heroes" description="Existing module and course opener variants.">
       <div class="showcase-example-stack">

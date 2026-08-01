@@ -298,25 +298,6 @@ dialog::backdrop {
   color: #991b1b;
 }
 
-.showcase-mode-banner {
-  margin-bottom: 1.5rem;
-  border: 1px solid #d1d5db;
-  border-radius: 0.5rem;
-  background: #ffffff;
-  padding: 0.9rem 1rem;
-}
-
-.showcase-mode-banner p {
-  margin: 0;
-  color: #111827;
-  font-weight: 800;
-}
-
-.showcase-mode-banner span {
-  color: #64748b;
-  font-size: 0.95rem;
-}
-
 .showcase-empty-state {
   display: flex;
   min-height: 8rem;
@@ -327,6 +308,12 @@ dialog::backdrop {
   background: #ffffff;
   color: #475569;
   padding: 1.25rem;
+}
+
+.showcase-home-view-intro {
+  max-width: 70ch;
+  margin: 1.25rem 0 0;
+  color: #475569;
 }
 
 .showcase-empty-state p {
@@ -1337,30 +1324,42 @@ dialog::backdrop {
   color: #ffffff;
 }
 
-.showcase-topbar__approved-link {
+.showcase-view-selector {
   display: inline-flex;
-  min-height: 2.25rem;
   flex: 0 0 auto;
   align-items: center;
-  justify-content: center;
-  gap: 0.35rem;
+  gap: 0.15rem;
+  border: 1px solid #e6dfd8;
   border-radius: 999px;
-  color: #51463d;
-  font-size: 0.875rem;
-  font-weight: 700;
-  line-height: 1;
-  padding: 0.55rem 0.7rem;
-  text-decoration: none;
+  background: #f6f1ed;
+  padding: 0.2rem;
 }
 
-.showcase-topbar__approved-link:hover {
-  background: #f6f1ed;
+.showcase-view-selector button {
+  min-height: 2rem;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #51463d;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 750;
+  line-height: 1.1;
+  padding: 0.45rem 0.65rem;
+}
+
+.showcase-view-selector button:hover {
   color: #2f2924;
 }
 
-.showcase-topbar__approved-link .qc-icon {
-  width: 1rem;
-  height: 1rem;
+.showcase-view-selector button[aria-pressed="true"] {
+  background: #ffffff;
+  color: #111827;
+  box-shadow: 0 1px 3px rgba(56, 37, 24, 0.14);
+}
+
+.showcase-view-selector--mobile {
+  display: none;
 }
 
 .showcase-topbar__mobile-menu {
@@ -1403,6 +1402,12 @@ dialog::backdrop {
   padding: 0.7rem 0.8rem;
 }
 
+html[data-showcase-view="development"] [data-showcase-item][data-showcase-status="approved"],
+html[data-showcase-view="development"] [data-showcase-item][data-showcase-status="deprecated"],
+html[data-showcase-view="approved"] [data-showcase-item]:not([data-showcase-status="approved"]) {
+  display: none;
+}
+
 @media (min-width: 768px) {
   .showcase-topbar__inner {
     padding-inline: 1.5rem;
@@ -1423,12 +1428,21 @@ dialog::backdrop {
     display: none;
   }
 
-  .showcase-topbar__approved-link--desktop {
+  .showcase-view-selector--desktop {
     display: none;
   }
 
   .showcase-topbar__mobile-menu {
     display: block;
+  }
+
+  .showcase-view-selector--mobile {
+    display: flex;
+    margin: 0.5rem 0.3rem 0.3rem;
+  }
+
+  .showcase-view-selector--mobile button {
+    flex: 1 1 0;
   }
 }
 

@@ -23,7 +23,7 @@ Shared Showcase navigation lives outside production-course navigation. In the Sh
 
 Category pages may include quiet local anchor links for direct review. These links do not need a visible `Section index` heading or page-level component counts.
 
-The workflow page is intentionally not included in the main navbar because it is supporting project-governance content, not a component category. It is linked from the Showcase homepage and appears in both Working and Approved builds.
+The workflow page is intentionally not included in the main navbar because it is supporting project-governance content, not a component category. It is linked from the Showcase homepage and supports both collection views.
 
 The Layouts page includes stable anchor links such as:
 
@@ -40,11 +40,11 @@ The landing page should introduce the Showcase without decorative count labels s
 
 Showcase examples may keep component-level names and approval statuses. Eyebrows should be reserved for meaningful context, such as a module number, scenario or content category.
 
-The Working Showcase may include proposal-only Idea and Concept cards. These cards are review and governance UI, not learner-facing production components. They should not include fake demos, disabled demo buttons or unavailable controls.
+The In development view may include proposal-only Idea and Concept cards. These cards are review and governance UI, not learner-facing production components. They should not include fake demos, disabled demo buttons or unavailable controls.
 
-The Approved Quick Course Kit uses the same pages and production components, but build-time filtering removes Idea, Concept, Draft, In Review and Deprecated items from the generated HTML.
+The Approved view uses the same pages and production components, but displays only items with Approved status. The In development view displays Idea, Concept, Draft and In Review items; Deprecated items are excluded from both primary views.
 
-The workflow page explains this process in plain language for visual designers, instructional designers, developers, project-team members, reviewers and approvers. It explains `SHOWCASE_MODE` without assuming technical background.
+The workflow page explains this process in plain language for visual designers, instructional designers, developers, project-team members, reviewers and approvers.
 
 ## Options
 

@@ -1,35 +1,36 @@
 ---
 import { showcaseCategories } from "../../data/showcase";
-import { showcaseMode, showcaseModeIdentity } from "../../data/showcase-registry";
-import QuickCourseIcon from "../ui/QuickCourseIcon.astro";
+import ShowcaseViewSelector from "../showcase/ShowcaseViewSelector.astro";
 
 interface Props {
   activeCategory?: string;
 }
 
 const { activeCategory = "home" } = Astro.props;
-const navItems = [{ label: "Home", href: "/", slug: "home" }, ...showcaseCategories];
-const modeIdentity = showcaseModeIdentity[showcaseMode];
-const approvedKit = {
-  href: "https://astro-quickcourse-spec-approved.netlify.app/",
-  label: "View approved kit",
+const shortNavLabels: Record<string, string> = {
+  "display-interactions": "Interactions",
+  "assessment-interactions": "Assessments",
 };
+const navItems = [{ label: "Home", href: "/", slug: "home" }, ...showcaseCategories].map((item) => ({
+  ...item,
+  label: shortNavLabels[item.slug] ?? item.label,
+}));
 ---
 
 <header class="showcase-topbar sticky top-3 z-30 mx-auto max-w-7xl">
   <div class="showcase-topbar__inner">
-    <a class="showcase-brand" href="/" aria-label={`${modeIdentity.title} home`}>
+    <a class="showcase-brand" href="/" aria-label="Quick Course Kit home" data-showcase-view-link>
       <span class="showcase-logo-badge" aria-hidden="true">
         <span>QC</span>
       </span>
-      <span class="showcase-brand__title">{modeIdentity.title}</span>
+      <span class="showcase-brand__title">Quick Course Kit</span>
     </a>
 
     <nav class="showcase-topbar__nav" aria-label="Showcase navigation">
       <ul>
         {navItems.map((item) => (
           <li>
-            <a href={item.href} aria-current={item.slug === activeCategory ? "page" : undefined}>
+            <a href={item.href} data-showcase-view-link aria-current={item.slug === activeCategory ? "page" : undefined}>
               {item.label}
             </a>
           </li>
@@ -37,17 +38,7 @@ const approvedKit = {
       </ul>
     </nav>
 
-    {showcaseMode === "working" && (
-      <a
-        class="showcase-topbar__approved-link showcase-topbar__approved-link--desktop"
-        href={approvedKit.href}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        <span>{approvedKit.label}</span>
-        <QuickCourseIcon name="external-link" context="inline" />
-      </a>
-    )}
+    <ShowcaseViewSelector class="showcase-view-selector--desktop" />
 
     <details class="showcase-topbar__mobile-menu">
       <summary>Menu</summary>
@@ -55,25 +46,13 @@ const approvedKit = {
         <ul>
           {navItems.map((item) => (
             <li>
-              <a href={item.href} aria-current={item.slug === activeCategory ? "page" : undefined}>
+              <a href={item.href} data-showcase-view-link aria-current={item.slug === activeCategory ? "page" : undefined}>
                 {item.label}
               </a>
             </li>
           ))}
-          {showcaseMode === "working" && (
-            <li>
-              <a
-                class="showcase-topbar__approved-link"
-                href={approvedKit.href}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <span>{approvedKit.label}</span>
-                <QuickCourseIcon name="external-link" context="inline" />
-              </a>
-            </li>
-          )}
         </ul>
+        <ShowcaseViewSelector class="showcase-view-selector--mobile" />
       </nav>
     </details>
   </div>

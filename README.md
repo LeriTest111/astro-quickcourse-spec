@@ -36,18 +36,18 @@ npm run dev
 | `npm run build:scorm` | Build and inject SCORM runtime/manifest |
 | `npm run preview` | Preview the built site |
 
-## Showcase Build Modes
+## Showcase Views
 
-This repository uses one `main` branch for both Showcase outputs. `SHOWCASE_MODE` controls visibility at Astro build time:
+Quick Course Kit is one site deployed from one `main` branch. Its shared header provides two URL-driven views:
 
-- `working`: default for local development; shows Idea, Concept, Draft, In Review, Approved and Deprecated items.
-- `approved`: shows only items with `status: "approved"` in `src/data/showcase-registry.ts`.
+- `?view=development`: Idea, Concept, Draft and In Review items.
+- `?view=approved`: Approved items only.
 
-The variable is read with `import.meta.env.SHOWCASE_MODE` and is not exposed to browser JavaScript. See `docs/showcase-build-modes.md` and `docs/component-approval-process.md` for Netlify setup and approval workflow notes.
+The selected view is stored locally for later visits, while a valid URL parameter always takes priority. See `docs/showcase-views.md` and `docs/component-approval-process.md` for the view and approval workflow.
 
 ## Workflow Guide
 
-The Showcase includes a plain-language governance page at `/showcase/workflow/`. It explains how the Working Showcase, Approved Quick Course Kit, statuses, visual-design input, `SHOWCASE_MODE` and the future Boilerplate fit together.
+The Showcase includes a plain-language governance page at `/showcase/workflow/`. It explains how statuses, the two views, visual-design input and the future Boilerplate fit together.
 
 The page is linked from a restrained supporting section on the Showcase homepage. It is intentionally not part of the main component-category navbar and must not be copied into production Quick Courses or the learner-facing Boilerplate.
 
@@ -86,7 +86,7 @@ scripts/
 - Draft: active development and not ready for formal review.
 - In Review: ready for project-team review but still subject to change.
 - Approved: signed off for production Quick Courses and future Boilerplate promotion.
-- Deprecated: retained in the Working Showcase for reference, but not for new courses.
+- Deprecated: retained in the registry for reference, but excluded from the two primary views.
 
 Knowledge checks are currently marked `Draft` unless otherwise noted in the registry.
 Typography and icon standards are currently marked `Draft`.

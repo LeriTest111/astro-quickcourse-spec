@@ -3,7 +3,6 @@ import "../styles/global.css";
 import ShowcaseTopNav from "../components/layout/ShowcaseTopNav.astro";
 import CourseFooter from "../components/course/footer/CourseFooter.astro";
 import QuickCourseIcon from "../components/ui/QuickCourseIcon.astro";
-import { showcaseMode, showcaseModeIdentity } from "../data/showcase-registry";
 
 const {
   pageTitle = "Astro Quick Course Showcase",
@@ -13,7 +12,6 @@ const {
   loadMaterialSymbols = true,
 } = Astro.props;
 
-const modeIdentity = showcaseModeIdentity[showcaseMode];
 ---
 
 <!doctype html>
@@ -25,6 +23,23 @@ const modeIdentity = showcaseModeIdentity[showcaseMode];
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
+    <script is:inline>
+      {`(() => {
+        const requestedView = new URLSearchParams(window.location.search).get("view");
+        let storedView = null;
+        try {
+          storedView = window.localStorage.getItem("quick-course-kit-view");
+        } catch {
+          // The page still defaults cleanly when browser storage is unavailable.
+        }
+        const view = requestedView === "approved" || requestedView === "development"
+          ? requestedView
+          : storedView === "approved" || storedView === "development"
+            ? storedView
+            : "development";
+        document.documentElement.dataset.showcaseView = view;
+      })();`}
+    </script>
     {loadMaterialSymbols && (
       <>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -46,17 +61,15 @@ const modeIdentity = showcaseModeIdentity[showcaseMode];
       </div>
 
       <main id="main-content" class="mx-auto max-w-7xl px-4 py-8">
-        <aside class="showcase-mode-banner" aria-label="Showcase build mode">
-          <div>
-            <p>{modeIdentity.title}</p>
-            <span>{modeIdentity.description}</span>
-          </div>
-        </aside>
         <slot />
       </main>
 
       {showCourseFooter && <div class="mx-auto max-w-7xl px-4 pb-8"><CourseFooter /></div>}
     </div>
+
+    <script>
+      import "../scripts/showcase-view";
+    </script>
 
     <a class="back-to-top" href="#page-top" aria-label="Back to top" title="Back to top">
       {loadMaterialSymbols ? (

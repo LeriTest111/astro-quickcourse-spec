@@ -15,7 +15,7 @@ const { label = "Page sections", items } = Astro.props;
 <nav class="showcase-anchor-nav" aria-label={label}>
   <ul>
     {items.map((item) => (
-      <li><a href={item.href}>{item.label}</a></li>
+      <li data-showcase-anchor-item><a href={item.href} data-showcase-view-link>{item.label}</a></li>
     ))}
   </ul>
 </nav>

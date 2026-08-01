@@ -1,0 +1,12 @@
+---
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<nav class:list={["showcase-view-selector", className]} aria-label="Showcase view" data-showcase-view-selector>
+  <button type="button" data-showcase-view-button="development" aria-pressed="true">In development</button>
+  <button type="button" data-showcase-view-button="approved" aria-pressed="false">Approved</button>
+</nav>

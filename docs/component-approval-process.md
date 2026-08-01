@@ -1,23 +1,18 @@
 # Component Approval Process
 
-The Astro Quick Course Showcase uses one repository and one `main` branch. Two Netlify sites build the same codebase:
+Quick Course Kit uses one repository, one `main` branch and one Netlify deployment. The shared header provides URL-driven In development and Approved views.
 
-- Working Showcase: `SHOWCASE_MODE=working`
-- Approved Quick Course Kit: `SHOWCASE_MODE=approved`
-
-`SHOWCASE_MODE` is read at Astro build time with `import.meta.env.SHOWCASE_MODE`. Local development defaults to Working mode when the variable is not set.
-
-The plain-language workflow guide lives at `/showcase/workflow/`. It is linked from the Showcase homepage, appears in both Working and Approved builds, and is intentionally not listed in the main component-category navbar.
+The plain-language workflow guide lives at `/showcase/workflow/`. It is linked from the Showcase homepage and is intentionally not listed in the main component-category navbar.
 
 ## Statuses
 
 ### Idea
 
-An Idea is a proposal. It may have a name, short description, suggested learning use and notes, but no component or prototype. Ideas are visible only in Working mode and are not available for production use.
+An Idea is a proposal. It may have a name, short description, suggested learning use and notes, but no component or prototype. Ideas appear only in the In development view and are not available for production use.
 
 ### Concept
 
-A Concept is an early experiment. It may have a rough prototype, but behaviour, styling and accessibility may change substantially. Concepts are not production-ready and do not appear in the Approved Quick Course Kit.
+A Concept is an early experiment. It may have a rough prototype, but behaviour, styling and accessibility may change substantially. Concepts are not production-ready and do not appear in the Approved view.
 
 ### Draft
 
@@ -25,15 +20,15 @@ A Draft is under active development. It may contain incomplete responsive behavi
 
 ### In Review
 
-An In Review item is ready for structured project-team and visual-design feedback. It should be functional enough for review, but it remains subject to change and appears only in the Working Showcase unless later approved.
+An In Review item is ready for structured project-team and visual-design feedback. It should be functional enough for review, but it remains subject to change and appears only in the In development view unless later approved.
 
 ### Approved
 
-An Approved item has been signed off for use in production Quick Courses. It appears in the Approved Quick Course Kit. Changes to an Approved component should return through review before being treated as signed off again.
+An Approved item has been signed off for use in production Quick Courses. It appears in the Approved view. Changes to an Approved component should return through review before being treated as signed off again.
 
 ### Deprecated
 
-A Deprecated item should not be used for new Quick Courses. It remains visible in Working mode for migration or historical reference, does not appear in Approved mode, and should document a replacement when one is available.
+A Deprecated item should not be used for new Quick Courses. It is excluded from both primary views for now and should document a replacement when one is available.
 
 ## Lifecycle
 
@@ -51,11 +46,11 @@ This lifecycle is guidance, not a technically enforced sequence. Maintainers may
 
 Showcase item metadata lives in `src/data/showcase-registry.ts`. The registry is the source of truth for status, version and optional approval metadata.
 
-Changing an item to `approved` causes it to appear in the Approved Quick Course Kit after the next build. Do not invent approval dates or mark items Approved without project-team sign-off.
+Changing an item to `approved` causes it to appear in the Approved view immediately. Do not invent approval dates or mark items Approved without project-team sign-off.
 
 Idea entries may exist without component files. Proposal cards are Showcase-only and must not be copied into the future Boilerplate.
 
-Approval metadata is Showcase governance data. It must not be placed inside learner-facing production Quick Course components. Production components remain shared by both build modes.
+Approval metadata is Showcase governance data. It must not be placed inside learner-facing production Quick Course components. Production components remain shared by both views.
 
 The workflow guide, proposal cards, status badges and preview controls are Showcase-only governance content. They must not be copied into the production Boilerplate.
 

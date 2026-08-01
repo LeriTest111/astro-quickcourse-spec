@@ -1,4 +1,4 @@
-export type ShowcaseMode = "working" | "approved";
+export type ShowcaseView = "development" | "approved";
 export type ShowcaseStatus = "idea" | "concept" | "draft" | "in-review" | "approved" | "deprecated";
 export type ShowcaseCategory =
   | "layouts"
@@ -26,18 +26,12 @@ export interface ShowcaseRegistryItem {
   reviewFocus?: string;
 }
 
-export const showcaseMode: ShowcaseMode = import.meta.env.SHOWCASE_MODE === "approved" ? "approved" : "working";
+export const showcaseViews: ShowcaseView[] = ["development", "approved"];
 
-export const showcaseModeIdentity = {
-  working: {
-    title: "Quick Course Kit - Working",
-    description: "Includes proposed ideas, early concepts, drafts and items under review.",
-  },
-  approved: {
-    title: "Quick Course Kit - Approved",
-    description: "Contains signed-off components ready for use.",
-  },
-} satisfies Record<ShowcaseMode, { title: string; description: string }>;
+export const showcaseViewLabels: Record<ShowcaseView, string> = {
+  development: "In development",
+  approved: "Approved",
+};
 
 export const statusOrder: ShowcaseStatus[] = [
   "idea",
@@ -151,21 +145,21 @@ export const showcaseRegistry: ShowcaseRegistryItem[] = [
   { id: "icon-set", name: "Quick Course Icon System", category: "icons", status: "in-review", version: "0.2.0", reviewFocus: "Review the semantic vocabulary, Material Symbols Sharp consistency, controlled context treatments and AI-safe accessibility guidance." },
 ];
 
-export function shouldShowShowcaseItem(item: ShowcaseRegistryItem, mode: ShowcaseMode = showcaseMode) {
-  return mode === "working" || item.status === "approved";
+export function shouldShowShowcaseItem(item: ShowcaseRegistryItem, view: ShowcaseView) {
+  if (view === "approved") return item.status === "approved";
+  return item.status !== "approved" && item.status !== "deprecated";
 }
 
 export function getShowcaseItem(id: string) {
   return showcaseRegistry.find((item) => item.id === id);
 }
 
-export function isShowcaseItemVisible(id: string, mode: ShowcaseMode = showcaseMode) {
-  const item = getShowcaseItem(id);
-  return item ? shouldShowShowcaseItem(item, mode) : false;
+export function getShowcaseItems(category?: ShowcaseCategory) {
+  return showcaseRegistry.filter((item) => !category || item.category === category);
 }
 
-export function getVisibleShowcaseItems(category?: ShowcaseCategory, mode: ShowcaseMode = showcaseMode) {
-  return showcaseRegistry.filter((item) => (!category || item.category === category) && shouldShowShowcaseItem(item, mode));
+export function getShowcaseItemsForView(category: ShowcaseCategory | undefined, view: ShowcaseView) {
+  return getShowcaseItems(category).filter((item) => shouldShowShowcaseItem(item, view));
 }
 
 export function formatShowcaseStatus(status: ShowcaseStatus) {
@@ -184,6 +178,6 @@ export function isProposalOnlyItem(item: ShowcaseRegistryItem) {
   return !hasWorkingExample(item);
 }
 
-export function getVisibleProposalItems(category?: ShowcaseCategory, mode: ShowcaseMode = showcaseMode) {
-  return getVisibleShowcaseItems(category, mode).filter(isProposalOnlyItem);
+export function getProposalItems(category?: ShowcaseCategory) {
+  return getShowcaseItems(category).filter(isProposalOnlyItem);
 }

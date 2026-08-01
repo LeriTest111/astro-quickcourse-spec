@@ -4,7 +4,6 @@ import {
   formatShowcaseStatus,
   getShowcaseItem,
   getShowcaseStatusTone,
-  shouldShowShowcaseItem,
 } from "../../data/showcase-registry";
 import type { ShowcaseRegistryItem } from "../../data/showcase-registry";
 
@@ -14,7 +13,6 @@ interface Props {
 
 const { item } = Astro.props;
 const replacement = item.replacementId ? getShowcaseItem(item.replacementId) : undefined;
-const shouldRender = shouldShowShowcaseItem(item);
 const statusMessage =
   item.status === "idea"
     ? "This pattern has been proposed but has not yet been designed or developed."
@@ -25,11 +23,11 @@ const statusMessage =
         : "This Showcase item does not currently have a production-ready component example.";
 ---
 
-{
-  shouldRender && (
-    <article
+<article
       id={item.id}
       class="showcase-proposal-card scroll-mt-28"
+      data-showcase-item
+      data-showcase-status={item.status}
       data-status={item.status}
       data-tone={getShowcaseStatusTone(item.status)}
       aria-labelledby={`${item.id}-heading`}
@@ -71,6 +69,4 @@ const statusMessage =
           </p>
         )}
       </div>
-    </article>
-  )
-}
+</article>

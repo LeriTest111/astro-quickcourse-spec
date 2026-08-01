@@ -6,9 +6,6 @@ import ShowcaseEmptyState from "../../components/showcase/ShowcaseEmptyState.ast
 import DetailModal from "../../components/interactions/display/DetailModal.astro";
 import QuickCourseIcon from "../../components/ui/QuickCourseIcon.astro";
 import { quickCourseIconTokens } from "../../data/quick-course-icons";
-import { getVisibleShowcaseItems } from "../../data/showcase-registry";
-
-const hasVisibleItems = getVisibleShowcaseItems("icons").length > 0;
 ---
 
 <ShowcaseLayout
@@ -22,10 +19,10 @@ const hasVisibleItems = getVisibleShowcaseItems("icons").length > 0;
     description="The Quick Course icon system uses a controlled semantic vocabulary and Material Symbols Sharp to produce consistent, accessible icons across AI-generated courses."
   />
 
-  <div class="showcase-example-stack mt-8">
-    {!hasVisibleItems && <ShowcaseEmptyState />}
+  <div class="showcase-example-stack mt-8" data-showcase-collection>
+    <ShowcaseEmptyState />
 
-    {hasVisibleItems && <ShowcaseExample id="icon-set" title="Quick Course Icon System" purpose="One controlled standard for semantic meaning, sizing, colour and accessible use.">
+    <ShowcaseExample id="icon-set" title="Quick Course Icon System" purpose="One controlled standard for semantic meaning, sizing, colour and accessible use.">
       <div class="showcase-icon-information-controls">
         <DetailModal
           id="icon-usage-guidance"
@@ -163,6 +160,6 @@ const hasVisibleItems = getVisibleShowcaseItems("icons").length > 0;
           });
         });
       </script>
-    </ShowcaseExample>}
+    </ShowcaseExample>
   </div>
 </ShowcaseLayout>

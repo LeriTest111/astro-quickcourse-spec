@@ -52,7 +52,7 @@ The intended lifecycle is Idea, Concept, Draft, In Review, Approved and Deprecat
 
 Current implemented examples are mostly `Draft`, with selected items marked `Concept` for further review. The registry may also contain proposal-only Idea entries without component imports.
 
-Only `Approved` items appear in the Approved Quick Course Kit. All statuses remain visible in the Working Showcase.
+The Approved view shows only `Approved` items. The In development view shows `Idea`, `Concept`, `Draft` and `In Review` items. Deprecated items are excluded from both primary views.
 
 ## Boilerplate Compatibility
 

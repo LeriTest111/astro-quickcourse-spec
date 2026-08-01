@@ -1,6 +1,6 @@
 ---
 import StatusBadge from "./StatusBadge.astro";
-import { getShowcaseItem, shouldShowShowcaseItem } from "../../data/showcase-registry";
+import { getShowcaseItem } from "../../data/showcase-registry";
 import type { ShowcaseStatus } from "../../data/showcase-registry";
 
 interface Props {
@@ -12,14 +12,17 @@ interface Props {
 
 const { id, title, purpose, status } = Astro.props;
 const registryItem = getShowcaseItem(id);
-const shouldRender = registryItem ? shouldShowShowcaseItem(registryItem) : true;
 const displayStatus: ShowcaseStatus = registryItem ? registryItem.status : status ?? "in-review";
 const replacement = registryItem?.replacementId ? getShowcaseItem(registryItem.replacementId) : undefined;
 ---
 
-{
-  shouldRender && (
-    <article id={id} class="showcase-example scroll-mt-28" aria-labelledby={`${id}-heading`}>
+<article
+  id={id}
+  class="showcase-example scroll-mt-28"
+  data-showcase-item
+  data-showcase-status={displayStatus}
+  aria-labelledby={`${id}-heading`}
+>
       <div class="showcase-example__header">
         <div>
           <h3 id={`${id}-heading`} class="showcase-catalogue-section__item-heading">
@@ -44,5 +47,3 @@ const replacement = registryItem?.replacementId ? getShowcaseItem(registryItem.r
         <slot />
       </div>
     </article>
-  )
-}

@@ -8,7 +8,7 @@ interface Props {
 const { message = "No components in this category have been approved yet." } = Astro.props;
 ---
 
-<div class="showcase-empty-state" role="status">
+<div class="showcase-empty-state" data-showcase-empty-state role="status" hidden>
   <QuickCourseIcon name="document" context="heading" />
   <p>{message}</p>
 </div>

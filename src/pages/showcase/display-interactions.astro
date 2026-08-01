@@ -19,7 +19,7 @@ import ExpandableImage from "../../components/interactions/display/ExpandableIma
 import DetailModal from "../../components/interactions/display/DetailModal.astro";
 import type { FlipCardItem } from "../../components/interactions/display/flip-card-types";
 import { displayInteractionAnchors } from "../../data/showcase";
-import { getShowcaseItem, isShowcaseItemVisible } from "../../data/showcase-registry";
+import { getShowcaseItem } from "../../data/showcase-registry";
 
 const neutralImage = "/images/showcase/hero-1.avif";
 const flipCardPortraitImage = "/images/showcase/flip-card-retail-reference.png";
@@ -47,7 +47,7 @@ const revealModeComparisonCards = [
     },
   },
 ] satisfies FlipCardItem[];
-const visible = (id: string) => isShowcaseItemVisible(id);
+const visible = (id: string) => Boolean(getShowcaseItem(id));
 const status = (id: string) => getShowcaseItem(id)?.status;
 const guidedProductExplorer = getShowcaseItem("guided-product-explorer");
 const sectionItems = {
@@ -76,8 +76,8 @@ const hasVisibleItems = Object.keys(sectionItems).some((id) => sectionVisible(id
     </div>
   )}
 
-  <div class="showcase-section-stack mt-10">
-    {!hasVisibleItems && <ShowcaseEmptyState />}
+  <div class="showcase-section-stack mt-10" data-showcase-collection>
+    <ShowcaseEmptyState />
 
     {sectionVisible("reveal-content") && <ShowcaseSection id="reveal-content" title="Reveal content" description="Patterns for optional details, secondary layers and supporting context.">
       <div class="showcase-example-stack">

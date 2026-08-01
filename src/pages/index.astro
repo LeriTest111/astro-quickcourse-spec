@@ -2,40 +2,46 @@
 import ShowcaseLayout from "../layouts/ShowcaseLayout.astro";
 import ShowcasePageHeader from "../components/showcase/ShowcasePageHeader.astro";
 import { showcaseCategories } from "../data/showcase";
-import { getVisibleShowcaseItems, showcaseMode, showcaseModeIdentity } from "../data/showcase-registry";
+import { getShowcaseItemsForView } from "../data/showcase-registry";
 import type { ShowcaseCategory as RegisteredShowcaseCategory } from "../data/showcase-registry";
 
-const modeIdentity = showcaseModeIdentity[showcaseMode];
 const baseDescription =
   "Use this Showcase to review the building blocks for fast, single-page Quick Courses. In the Showcase, the navbar links open separate category pages to make review, governance and maintenance easier. In production Quick Courses, the same navigation pattern will link to topics and section anchors within the single course page.";
-const workingDescription =
-  "The Working Showcase includes proposed ideas, early concepts, draft components and items under review. Only signed-off components appear in the Approved Quick Course Kit.";
-const pageDescription = showcaseMode === "working" ? `${baseDescription} ${workingDescription}` : baseDescription;
 const categoryCards = showcaseCategories.map((category) => ({
   ...category,
-  visibleItemCount: getVisibleShowcaseItems(category.slug as RegisteredShowcaseCategory).length,
+  developmentItemCount: getShowcaseItemsForView(category.slug as RegisteredShowcaseCategory, "development").length,
+  statuses: getShowcaseItemsForView(category.slug as RegisteredShowcaseCategory, "development")
+    .concat(getShowcaseItemsForView(category.slug as RegisteredShowcaseCategory, "approved"))
+    .map((item) => item.status),
 }));
-const visibleCountLabel = (count: number) => `${count} ${count === 1 ? "item" : "items"} visible in this mode`;
+const visibleCountLabel = (count: number) => `${count} ${count === 1 ? "item" : "items"} in this view`;
 ---
 
 <ShowcaseLayout
-  pageTitle="Astro Quick Course Showcase"
+  pageTitle="Quick Course Kit"
   description="A concise index for reviewing reusable Quick Course component categories."
   activeCategory="home"
 >
-  <ShowcasePageHeader
-    title={modeIdentity.title}
-    description={pageDescription}
-  />
+  <ShowcasePageHeader title="Quick Course Kit" description={baseDescription} />
+
+  <p class="showcase-home-view-intro">Browse components currently in development or switch to the approved collection.</p>
 
   <section class="showcase-landing-grid mt-8" aria-label="Showcase categories">
     {categoryCards.map((category) => (
-      <a class="showcase-category-card" href={category.href}>
+      <a
+        class="showcase-category-card"
+        href={category.href}
+        data-showcase-view-link
+        data-showcase-category-card
+        data-showcase-category-statuses={category.statuses.join(",")}
+      >
         <div>
           <h2>{category.label}</h2>
           <p>{category.description}</p>
-          <p class="showcase-category-card__mode-note">
-            {category.visibleItemCount > 0 ? visibleCountLabel(category.visibleItemCount) : "No approved items yet"}
+          <p class="showcase-category-card__mode-note" data-showcase-category-count>
+            {category.developmentItemCount > 0
+              ? visibleCountLabel(category.developmentItemCount)
+              : "No components in this category have been approved yet."}
           </p>
         </div>
         <div class="showcase-category-card__footer">
@@ -49,11 +55,10 @@ const visibleCountLabel = (count: number) => `${count} ${count === 1 ? "item" : 
     <div>
       <h2 id="workflow-link-heading">Need to understand the process?</h2>
       <p>
-        See how ideas move from early concepts to signed-off Quick Course components, and how the Working Showcase
-        differs from the Approved Kit.
+        See how ideas move from early concepts to signed-off Quick Course components and how the two collection views work.
       </p>
     </div>
-    <a href="/showcase/workflow/">
+    <a href="/showcase/workflow/" data-showcase-view-link>
       <span class="material-symbols-sharp showcase-icon" aria-hidden="true">account_tree</span>
       How the Quick Course Kit works
     </a>

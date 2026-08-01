@@ -5,7 +5,7 @@ import ShowcaseExample from "../../components/showcase/ShowcaseExample.astro";
 import ShowcaseEmptyState from "../../components/showcase/ShowcaseEmptyState.astro";
 import ProposalCard from "../../components/showcase/ProposalCard.astro";
 import MultipleChoiceFeedback from "../../components/interactions/MultipleChoiceFeedback.astro";
-import { getShowcaseItem, getVisibleProposalItems, getVisibleShowcaseItems, isShowcaseItemVisible } from "../../data/showcase-registry";
+import { getProposalItems, getShowcaseItem } from "../../data/showcase-registry";
 
 const multipleChoiceExample = {
   eyebrow: "Knowledge check",
@@ -40,9 +40,8 @@ const multipleChoiceExample = {
     },
   ],
 };
-const hasVisibleItems = getVisibleShowcaseItems("assessment-interactions").length > 0;
 const multipleChoiceItem = getShowcaseItem("multiple-choice-feedback");
-const proposalItems = getVisibleProposalItems("assessment-interactions");
+const proposalItems = getProposalItems("assessment-interactions");
 ---
 
 <ShowcaseLayout
@@ -55,9 +54,9 @@ const proposalItems = getVisibleProposalItems("assessment-interactions");
     description="Knowledge checks and evaluative interactions that ask learners to respond, then provide feedback."
   />
 
-  <div class="showcase-example-stack mt-8">
-    {!hasVisibleItems && <ShowcaseEmptyState />}
-    {multipleChoiceItem && isShowcaseItemVisible("multiple-choice-feedback") && <ShowcaseExample
+  <div class="showcase-example-stack mt-8" data-showcase-collection>
+    <ShowcaseEmptyState />
+    {multipleChoiceItem && <ShowcaseExample
       id="multiple-choice-feedback"
       title="Multiple-choice feedback"
       purpose="Presents choices, records selection state and gives immediate feedback in a polite live region."

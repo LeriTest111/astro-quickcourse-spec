@@ -12,9 +12,6 @@ import QuoteBlock from "../../components/typography/QuoteBlock.astro";
 import StatisticBlock from "../../components/typography/StatisticBlock.astro";
 import TextLayout from "../../components/typography/TextLayout.astro";
 import TypeText from "../../components/typography/TypeText.astro";
-import { isShowcaseItemVisible } from "../../data/showcase-registry";
-
-const typographyVisible = isShowcaseItemVisible("type-scale");
 const typographyAnchors = [
   { label: "Hierarchy", href: "#type-hierarchy" },
   { label: "Display", href: "#display-statements" },
@@ -40,17 +37,14 @@ const typographyAnchors = [
     description="A controlled system for editorial learning content: semantic type roles, readable measures and responsive text layouts."
   />
 
-  {typographyVisible && (
-    <div class="mt-6">
-      <ShowcaseAnchorNav label="Typography sections" items={typographyAnchors} />
-    </div>
-  )}
+  <div class="mt-6">
+    <ShowcaseAnchorNav label="Typography sections" items={typographyAnchors} />
+  </div>
 
-  <div class="showcase-section-stack mt-10">
-    {!typographyVisible && <ShowcaseEmptyState />}
+  <div class="showcase-section-stack mt-10" data-showcase-collection>
+    <ShowcaseEmptyState />
 
-    {typographyVisible && (
-      <ShowcaseSection id="typography-system" title="Typography and text layout system" description="Curated review specimens show the available system choices, not every possible permutation.">
+    <ShowcaseSection id="typography-system" title="Typography and text layout system" description="Curated review specimens show the available system choices, not every possible permutation.">
         <ShowcaseExample id="type-scale" title="Quick Course Typography System" purpose="A semantic, system-font typography foundation for readable, responsive and AI-safe course content.">
           <div class="qc-type-showcase">
             <div class="qc-type-showcase__controls">
@@ -421,7 +415,6 @@ const typographyAnchors = [
             </section>
           </div>
         </ShowcaseExample>
-      </ShowcaseSection>
-    )}
+    </ShowcaseSection>
   </div>
 </ShowcaseLayout>
