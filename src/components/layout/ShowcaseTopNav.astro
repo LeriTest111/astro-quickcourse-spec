@@ -1,6 +1,7 @@
 ---
 import { showcaseCategories } from "../../data/showcase";
 import { showcaseMode, showcaseModeIdentity } from "../../data/showcase-registry";
+import QuickCourseIcon from "../ui/QuickCourseIcon.astro";
 
 interface Props {
   activeCategory?: string;
@@ -9,6 +10,10 @@ interface Props {
 const { activeCategory = "home" } = Astro.props;
 const navItems = [{ label: "Home", href: "/", slug: "home" }, ...showcaseCategories];
 const modeIdentity = showcaseModeIdentity[showcaseMode];
+const approvedKit = {
+  href: "https://astro-quickcourse-spec-approved.netlify.app/",
+  label: "View approved kit",
+};
 ---
 
 <header class="showcase-topbar sticky top-3 z-30 mx-auto max-w-7xl">
@@ -32,6 +37,18 @@ const modeIdentity = showcaseModeIdentity[showcaseMode];
       </ul>
     </nav>
 
+    {showcaseMode === "working" && (
+      <a
+        class="showcase-topbar__approved-link showcase-topbar__approved-link--desktop"
+        href={approvedKit.href}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        <span>{approvedKit.label}</span>
+        <QuickCourseIcon name="external-link" context="inline" />
+      </a>
+    )}
+
     <details class="showcase-topbar__mobile-menu">
       <summary>Menu</summary>
       <nav aria-label="Showcase mobile navigation">
@@ -43,6 +60,19 @@ const modeIdentity = showcaseModeIdentity[showcaseMode];
               </a>
             </li>
           ))}
+          {showcaseMode === "working" && (
+            <li>
+              <a
+                class="showcase-topbar__approved-link"
+                href={approvedKit.href}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <span>{approvedKit.label}</span>
+                <QuickCourseIcon name="external-link" context="inline" />
+              </a>
+            </li>
+          )}
         </ul>
       </nav>
     </details>

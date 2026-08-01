@@ -1259,6 +1259,7 @@ dialog::backdrop {
 
 .showcase-brand {
   display: flex;
+  flex: 1 1 auto;
   min-width: 0;
   align-items: center;
   gap: 0.75rem;
@@ -1336,6 +1337,32 @@ dialog::backdrop {
   color: #ffffff;
 }
 
+.showcase-topbar__approved-link {
+  display: inline-flex;
+  min-height: 2.25rem;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  border-radius: 999px;
+  color: #51463d;
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1;
+  padding: 0.55rem 0.7rem;
+  text-decoration: none;
+}
+
+.showcase-topbar__approved-link:hover {
+  background: #f6f1ed;
+  color: #2f2924;
+}
+
+.showcase-topbar__approved-link .qc-icon {
+  width: 1rem;
+  height: 1rem;
+}
+
 .showcase-topbar__mobile-menu {
   position: relative;
   display: none;
@@ -1393,6 +1420,10 @@ dialog::backdrop {
 
 @media (max-width: 1100px) {
   .showcase-topbar__nav {
+    display: none;
+  }
+
+  .showcase-topbar__approved-link--desktop {
     display: none;
   }
 
