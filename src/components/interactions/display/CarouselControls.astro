@@ -1,0 +1,38 @@
+---
+import QuickCourseIcon from "../../ui/QuickCourseIcon.astro";
+import type { CarouselSlide } from "./carousel-types";
+
+interface Props {
+  label: string;
+  slides: CarouselSlide[];
+  showCount: boolean;
+  showDots: boolean;
+}
+
+const { label, slides, showCount, showDots } = Astro.props;
+---
+
+<div class="qc-carousel__toolbar" data-qc-carousel-toolbar hidden>
+  <button type="button" class="qc-carousel__control" data-qc-carousel-prev aria-label="Previous slide">
+    <QuickCourseIcon name="previous" context="button" />
+    <span class="sr-only">Previous slide</span>
+  </button>
+
+  <div class="qc-carousel__indicator" data-qc-carousel-indicator>
+    {showCount && <p data-qc-carousel-count>1 of {slides.length}</p>}
+    {showDots && (
+      <div class="qc-carousel__dots" aria-label={`Choose an item in ${label}`}>
+        {slides.map((slide, index) => (
+          <button type="button" data-qc-carousel-dot aria-label={`Go to slide ${index + 1} of ${slides.length}${slide.title ? `: ${slide.title}` : ""}`}>
+            <span class="sr-only">Slide {index + 1}</span>
+          </button>
+        ))}
+      </div>
+    )}
+  </div>
+
+  <button type="button" class="qc-carousel__control" data-qc-carousel-next aria-label="Next slide">
+    <QuickCourseIcon name="next" context="button" />
+    <span class="sr-only">Next slide</span>
+  </button>
+</div>

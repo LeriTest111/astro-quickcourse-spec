@@ -1,5 +1,6 @@
 ---
 import QuickCourseIcon from "../../ui/QuickCourseIcon.astro";
+import CarouselControls from "./CarouselControls.astro";
 import type {
   CarouselProps,
   CarouselSlide,
@@ -13,7 +14,7 @@ const props = Astro.props as CarouselProps;
 const { id, label, heading, intro, variant, indicator, controls = "below", class: className } = props;
 const slides = props.slides as CarouselSlide[];
 const surfaceTreatment = variant === "content" ? props.surfaceTreatment ?? "plain" : undefined;
-const activeIndicator = indicator ?? (variant === "content" ? "count-and-dots" : variant === "gallery" ? "thumbnails" : "count");
+const activeIndicator = indicator ?? (variant === "content" ? "count-and-dots" : "count");
 const showDots = activeIndicator === "dots" || activeIndicator === "count-and-dots";
 const showCount = variant !== "cards" && activeIndicator !== "thumbnails" && (activeIndicator === "count" || activeIndicator === "count-and-dots");
 const showThumbnails = variant === "gallery" && activeIndicator === "thumbnails";
@@ -100,8 +101,9 @@ const slideLabel = (slide: CarouselSlide, index: number) => slide.title ? `${sli
             )}
 
             {variant === "content" && (
-              <div class="qc-carousel__copy">
+              <div class="qc-carousel__copy qc-carousel__content-card">
                 {contentSlide.eyebrow && <p class="qc-eyebrow">{contentSlide.eyebrow}</p>}
+                {contentSlide.stepNumber && <p class="qc-carousel__step-number" aria-hidden="true">{contentSlide.stepNumber}</p>}
                 {contentSlide.icon && <QuickCourseIcon name={contentSlide.icon} context="heading" />}
                 <h5>{contentSlide.title}</h5>
                 {contentSlide.body && <p>{contentSlide.body}</p>}
@@ -126,32 +128,10 @@ const slideLabel = (slide: CarouselSlide, index: number) => slide.title ? `${sli
         );
       })}
     </div>
+    {controls === "overlay" && <CarouselControls label={label} slides={slides} showCount={showCount} showDots={showDots} />}
   </div>
 
-  <div class="qc-carousel__toolbar" data-qc-carousel-toolbar hidden>
-    <button type="button" class="qc-carousel__control" data-qc-carousel-prev aria-label="Previous slide">
-      <QuickCourseIcon name="previous" context="button" />
-      <span>Previous</span>
-    </button>
-
-    <div class="qc-carousel__indicator" data-qc-carousel-indicator>
-      {showCount && <p data-qc-carousel-count>1 of {slides.length}</p>}
-      {showDots && (
-        <div class="qc-carousel__dots" aria-label={`Choose an item in ${label}`}>
-          {slides.map((slide, index) => (
-            <button type="button" data-qc-carousel-dot aria-label={`Go to slide ${index + 1} of ${slides.length}${slide.title ? `: ${slide.title}` : ""}`}>
-              <span class="sr-only">Slide {index + 1}</span>
-            </button>
-          ))}
-        </div>
-      )}
-    </div>
-
-    <button type="button" class="qc-carousel__control" data-qc-carousel-next aria-label="Next slide">
-      <span>Next</span>
-      <QuickCourseIcon name="next" context="button" />
-    </button>
-  </div>
+  {controls !== "overlay" && <CarouselControls label={label} slides={slides} showCount={showCount} showDots={showDots} />}
 
   {showThumbnails && (
     <div class="qc-carousel__thumbnails" data-qc-carousel-thumbnails hidden aria-label={`${label} thumbnails`}>

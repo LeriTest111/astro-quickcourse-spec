@@ -17,6 +17,7 @@ interface BaseSlide {
 }
 
 export interface ContentCarouselSlide extends BaseSlide {
+  stepNumber?: string;
   icon?: QuickCourseIconName;
   list?: string[];
   link?: CarouselLink;

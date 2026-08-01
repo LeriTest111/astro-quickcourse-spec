@@ -351,8 +351,8 @@ const hasVisibleItems = Object.keys(sectionItems).some((id) => sectionVisible(id
 
         {visible("carousel") && <ShowcaseExample id="carousel" title="Quick Course Carousel System" purpose="One controlled Embla-powered system for compact, related learning content that learners can explore in any order." status={status("carousel")}>
           <div class="showcase-carousel-controls">
-            <DetailModal id="carousel-usage-guidance" triggerLabel="Carousel usage guidance" triggerIcon="information" triggerVariant="secondary" heading="Carousel usage guidance" content="Use a carousel for compact, related examples that learners can explore in any order. Keep essential instructions visible in the main course flow. Content Carousels default to Plain; use one approved surface for a consistent treatment or Varied surfaces only when short parallel items need clearer differentiation. Use dots only for a small number of positions. Feature images should be landscape and use a meaningful focal point. Multi-Card uses arrows without a visible range counter. Use Body for ordinary Gallery explanations and Caption only for image-specific information." />
-            <DetailModal id="carousel-technical-implementation" triggerLabel="Carousel technical implementation" triggerIcon="settings" triggerVariant="secondary" heading="Carousel technical implementation" content="The system uses locally bundled vanilla Embla Carousel 8.6.0 with one controlled Astro wrapper and four variants. It has no autoplay or loop, and uses semantic static HTML with a CSS scroll-snap and print fallback. Content surfaces are limited to Plain, Single surface and Varied surfaces from approved palette tokens. Feature images use object-fit: cover with controlled focal positions and a landscape ratio. Dots keep 40px button targets around smaller visible marks. Multi-Card announces visible ranges only to screen readers. Gallery uses shared translucent overlay controls, separated thumbnails, Body explanations and Caption only for genuine image context. Shared controls, live status, managed aria-hidden and inert states, responsive layout and static delivery remain SCORM-compatible." />
+            <DetailModal id="carousel-usage-guidance" triggerLabel="Carousel usage guidance" triggerIcon="information" triggerVariant="secondary" heading="Carousel usage guidance" content="Use a carousel for compact, related examples that learners can explore in any order. Keep essential instructions visible in the main course flow. Content Carousels default to Plain; use one approved surface for a consistent treatment or Varied surfaces only when short parallel items need clearer differentiation. The big-number example is a more expressive content presentation, not another Carousel type. Use dots only for a small number of positions. Feature images should be landscape and use a meaningful focal point. Multi-Card uses arrows without a visible range counter. Gallery thumbnails are optional: use them only when direct visual selection matters, such as product views, screenshots or visual checks. Use Body for ordinary Gallery explanations and Caption only for image-specific information." />
+            <DetailModal id="carousel-technical-implementation" triggerLabel="Carousel technical implementation" triggerIcon="settings" triggerVariant="secondary" heading="Carousel technical implementation" content="The system uses locally bundled vanilla Embla Carousel 8.6.0 with one controlled Astro wrapper and four variants. It has no autoplay or loop, and uses semantic static HTML with a CSS scroll-snap and print fallback. Icon-only Previous and Next buttons retain accessible labels and 44px targets. Content slides use the same between-card gap model as Multi-Card. Content surfaces are limited to Plain, Single surface and Varied surfaces from approved palette tokens. Feature images use object-fit: cover with controlled focal positions and no visible captions. Dots keep 40px button targets around smaller visible marks. Multi-Card announces visible ranges only to screen readers. Gallery overlay arrows are anchored inside the image area; thumbnails remain an optional Gallery feature. The big-number specimen uses the same content Carousel and accessibility model. Shared controls, live status, managed aria-hidden and inert states, responsive layout and static delivery remain SCORM-compatible." />
           </div>
           <p class="showcase-carousel-principle">Use a carousel for a small set of compact, related examples that learners can explore in any order. Keep essential instructions visible in the main course flow.</p>
           <Carousel
@@ -374,6 +374,21 @@ const hasVisibleItems = Object.keys(sectionItems).some((id) => sectionVisible(id
             ]}
           />
           <Carousel
+            id="trust-habits-carousel"
+            label="Four habits that build customer trust"
+            heading="Big-number trust habits"
+            intro="A more expressive content treatment for four parallel habits, using the same Carousel system rather than a separate interaction type."
+            variant="content"
+            indicator="count"
+            surfaceTreatment="varied-surfaces"
+            slides={[
+              { stepNumber: "01", title: "Listen fully", body: "Give the customer space to explain the outcome they need before offering a route forward." },
+              { stepNumber: "02", title: "Use plain language", body: "Choose the simplest accurate explanation so the next step feels clear rather than technical." },
+              { stepNumber: "03", title: "Name the timing", body: "Say when the action will happen and where the customer can check progress afterwards." },
+              { stepNumber: "04", title: "Confirm the handover", body: "Restate the owner and agreed action so the customer is not left to join the dots." },
+            ]}
+          />
+          <Carousel
             id="recognise-signs-carousel"
             label="Recognise the signs before taking action"
             heading="Image and text feature carousel"
@@ -381,9 +396,9 @@ const hasVisibleItems = Object.keys(sectionItems).some((id) => sectionVisible(id
             variant="feature"
             indicator="count"
             slides={[
-              { title: "Check the display from the customer view", body: "Stand back before adjusting a display so the main message, product and price are easy to understand together.", image: "/images/showcase/flip-card-display-wide.png", imageAlt: "A retail display viewed across a sales floor.", imageWidth: 1671, imageHeight: 941, focalPosition: "center", caption: "Image focus: the display from the main customer walkway." },
-              { title: "Inspect the product detail", body: "Look for a clear feature, accurate label and enough space for customers to inspect the item without disrupting the display.", image: "/images/showcase/flip-card-product-detail.png", imageAlt: "A close product view used to inspect detail and presentation.", imageWidth: 1254, imageHeight: 1254, focalPosition: "center", caption: "Image focus: a close view used for product-detail review." },
-              { title: "Notice the customer path", body: "Check that a customer can approach, browse and leave the area without blocked access or competing messages.", image: "/images/showcase/flip-card-retail-reference.png", imageAlt: "A retail associate reviewing a store display.", imageWidth: 1024, imageHeight: 1536, focalPosition: "center", caption: "Image focus: the display in its store context." },
+              { title: "Check the display from the customer view", body: "Stand back before adjusting a display so the main message, product and price are easy to understand together.", image: "/images/showcase/flip-card-display-wide.png", imageAlt: "A retail display viewed across a sales floor.", imageWidth: 1671, imageHeight: 941, focalPosition: "center" },
+              { title: "Inspect the product detail", body: "Look for a clear feature, accurate label and enough space for customers to inspect the item without disrupting the display.", image: "/images/showcase/flip-card-product-detail.png", imageAlt: "A close product view used to inspect detail and presentation.", imageWidth: 1254, imageHeight: 1254, focalPosition: "center" },
+              { title: "Notice the customer path", body: "Check that a customer can approach, browse and leave the area without blocked access or competing messages.", image: "/images/showcase/flip-card-retail-reference.png", imageAlt: "A retail associate reviewing a store display.", imageWidth: 1024, imageHeight: 1536, focalPosition: "center" },
             ]}
           />
           <Carousel
