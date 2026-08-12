@@ -95,7 +95,7 @@ export const showcaseRegistry: ShowcaseRegistryItem[] = [
   },
   { id: "detail-modal", name: "Supporting-Detail Modal or Panel", category: "display-interactions", status: "concept", version: "0.1.0" },
   { id: "tabs", name: "Tabs", category: "display-interactions", status: "draft", version: "0.1.0" },
-  { id: "carousel", name: "Quick Course Carousel System", category: "display-interactions", status: "draft", version: "0.1.0" },
+  { id: "carousel", name: "Quick Course Carousel System", category: "display-interactions", status: "in-review", version: "0.1.0" },
   { id: "process-explorer", name: "Process Explorer", category: "display-interactions", status: "draft", version: "0.1.0" },
   { id: "timeline", name: "Timeline", category: "display-interactions", status: "draft", version: "0.1.0" },
   { id: "expandable-image", name: "Expandable Image", category: "display-interactions", status: "concept", version: "0.1.0" },
