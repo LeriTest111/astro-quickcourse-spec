@@ -34,8 +34,22 @@ if (new Set(options.map((option) => option.id)).size !== options.length) {
 }
 
 const answerCount = selectionMode === "multiple" ? requiredSelections ?? 1 : 1;
+const answerCountWords: Record<number, string> = {
+  1: "one",
+  2: "two",
+  3: "three",
+  4: "four",
+  5: "five",
+  6: "six",
+  7: "seven",
+  8: "eight",
+  9: "nine",
+  10: "ten",
+};
+const answerCountLabel = answerCountWords[answerCount] ?? String(answerCount);
+const answerNoun = answerCount === 1 ? "answer" : "answers";
 const resolvedInstruction = instruction ?? (selectionMode === "multiple"
-  ? requiredSelections ? `Select ${requiredSelections} answers.` : "Select all that apply."
+  ? requiredSelections ? `Select ${answerCountLabel} ${answerNoun}.` : "Select all that apply."
   : "Select one answer.");
 const hasOptionImages = options.some((option) => option.image);
 const presentation = optionPresentation === "auto" ? (hasOptionImages ? "image-grid" : "list") : optionPresentation;
@@ -50,6 +64,8 @@ const inputType = selectionMode === "single" ? "radio" : "checkbox";
   data-submission-mode={submissionMode}
   data-attempt-mode={attemptMode}
   data-required-selections={answerCount}
+  data-required-selection-label={answerCountLabel}
+  data-required-selection-noun={answerNoun}
   data-lock-on-correct={lockOnCorrect ? "true" : "false"}
   data-correct-title={correctFeedback.title}
   data-correct-body={correctFeedback.body}
@@ -142,6 +158,8 @@ const inputType = selectionMode === "single" ? "radio" : "checkbox";
     const submissionMode = root.dataset.submissionMode;
     const attemptMode = root.dataset.attemptMode;
     const requiredSelections = Number(root.dataset.requiredSelections ?? "1");
+    const requiredSelectionLabel = root.dataset.requiredSelectionLabel ?? String(requiredSelections);
+    const requiredSelectionNoun = root.dataset.requiredSelectionNoun ?? "answers";
     const lockOnCorrect = root.dataset.lockOnCorrect === "true";
 
     if (!form || inputs.length === 0) return;
@@ -164,7 +182,7 @@ const inputType = selectionMode === "single" ? "radio" : "checkbox";
     };
     const showValidation = () => {
       const message = selectionMode === "multiple" && requiredSelections > 1
-        ? `Select ${requiredSelections} answers before checking your response.`
+        ? `Select ${requiredSelectionLabel} ${requiredSelectionNoun} before checking your response.`
         : "Select an answer before checking your response.";
       if (validation) {
         validation.textContent = message;

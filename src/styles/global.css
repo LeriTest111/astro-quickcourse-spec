@@ -1178,8 +1178,13 @@ dialog::backdrop {
   background: #f8fafc;
 }
 
-.choice-question__option:focus-within {
-  outline: 3px solid #2563eb;
+.choice-question__option:has(.choice-question__input:focus-visible) {
+  outline: 3px solid #6c2c84;
+  outline-offset: 3px;
+}
+
+.choice-question :focus-visible {
+  outline: 3px solid #6c2c84;
   outline-offset: 3px;
 }
 
