@@ -1060,6 +1060,31 @@ dialog::backdrop {
   gap: var(--showcase-rhythm-example-stack);
 }
 
+.choice-question-showcase-specimen {
+  display: grid;
+  gap: 1rem;
+}
+
+.choice-question-showcase-specimen__header {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.choice-question-showcase-specimen__header h4,
+.choice-question-showcase-specimen__header p {
+  margin: 0;
+}
+
+.choice-question-showcase-specimen__header h4 {
+  color: #111827;
+  font-size: 1.08rem;
+}
+
+.choice-question-showcase-specimen__header p {
+  color: #64748b;
+  line-height: 1.5;
+}
+
 .choice-question__header,
 .choice-question form,
 .choice-question__fieldset,
@@ -1117,9 +1142,11 @@ dialog::backdrop {
 .choice-question__media img {
   display: block;
   width: 100%;
+  aspect-ratio: 16 / 8;
   max-height: 28rem;
   border-radius: 0.5rem;
   object-fit: cover;
+  object-position: 70% center;
 }
 
 .choice-question__media figcaption {
@@ -1183,13 +1210,24 @@ dialog::backdrop {
   border-radius: 0.25rem;
 }
 
-.choice-question__input:checked ~ .choice-question__option-control {
+.choice-question__input:checked ~ .choice-question__option-control,
+.choice-question__option[data-selected] .choice-question__option-control {
   border-color: #6c2c84;
-  background: #6c2c84;
+  background: #ffffff;
 }
 
-.choice-question__input:checked ~ .choice-question__option-control::after {
-  content: "✓";
+.choice-question__input:checked ~ .choice-question__option-control::after,
+.choice-question__option[data-selected] .choice-question__option-control::after {
+  width: 0.58rem;
+  height: 0.58rem;
+  border-radius: 999px;
+  background: #6c2c84;
+  content: "";
+}
+
+.choice-question[data-selection-mode="multiple"] .choice-question__input:checked ~ .choice-question__option-control::after,
+.choice-question[data-selection-mode="multiple"] .choice-question__option[data-selected] .choice-question__option-control::after {
+  border-radius: 0.1rem;
 }
 
 .choice-question__option[data-selected] {
@@ -1207,6 +1245,14 @@ dialog::backdrop {
   background: #4d7a57;
 }
 
+.choice-question__option[data-choice-state="correct"] .choice-question__option-control::after {
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  background: transparent;
+  content: "✓";
+}
+
 .choice-question__option[data-choice-state="incorrect"] {
   border-color: #ad5b58;
   background: #fdf3f2;
@@ -1218,6 +1264,10 @@ dialog::backdrop {
 }
 
 .choice-question__option[data-choice-state="incorrect"] .choice-question__option-control::after {
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  background: transparent;
   content: "!";
 }
 
@@ -1238,9 +1288,7 @@ dialog::backdrop {
 }
 
 .choice-question__option-feedback {
-  border-left: 3px solid currentColor;
   color: #475569;
-  padding-left: 0.65rem;
   line-height: 1.5;
 }
 
@@ -1329,10 +1377,12 @@ dialog::backdrop {
 }
 
 .choice-question__option-image {
+  display: block;
   width: 100%;
   aspect-ratio: 4 / 3;
   border-radius: 0.35rem;
   object-fit: cover;
+  object-position: center;
 }
 
 .choice-question[data-state="completed"] .choice-question__option:not([data-selected]) {

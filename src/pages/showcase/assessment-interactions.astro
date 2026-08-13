@@ -25,116 +25,140 @@ const proposalItems = getProposalItems("assessment-interactions");
     <ShowcaseEmptyState />
     {multipleChoiceItem && <ShowcaseExample
       id="multiple-choice-feedback"
-      title="Multiple Choice / Choice Question"
+      title="Multiple Choice"
       purpose="One reusable formative question system for native single- and multiple-response choices, prompt media and image answers."
     >
       <div class="choice-question-showcase-stack">
-        <ChoiceQuestion
-          id="conversation-focus-question"
-          eyebrow="Knowledge check"
-          title="Single selection with instant feedback"
-          prompt="A learner is choosing the best next action after reading a short customer scenario. Which response keeps the learning conversation focused and useful?"
-          selectionMode="single"
-          submissionMode="instant"
-          attemptMode="retry"
-          options={[
-            { id: "give-answer", label: "Give the learner the correct answer straight away and move on.", isCorrect: false, feedback: "This is efficient, but it removes the moment where the learner connects the scenario to the decision." },
-            { id: "ask-and-explain", label: "Ask the learner to choose an action, then explain why that choice works or misses the mark.", isCorrect: true, feedback: "This keeps the activity active. The learner decides first, then receives feedback that reinforces the reasoning." },
-            { id: "no-feedback", label: "Show all possible responses with no feedback so the learner can decide privately.", isCorrect: false, feedback: "Choice is useful, but feedback is what turns the selection into a learning moment." },
-          ]}
-        />
+        <section class="choice-question-showcase-specimen" aria-labelledby="instant-feedback-specimen">
+          <div class="choice-question-showcase-specimen__header">
+            <h4 id="instant-feedback-specimen">Single selection - instant feedback</h4>
+            <p>Feedback changes with each selection. Learners can continue exploring every option.</p>
+          </div>
+          <ChoiceQuestion
+            id="conversation-focus-question"
+            title="Choose the best next action"
+            prompt="A learner has read a short customer scenario. Which response keeps the learning conversation focused and useful?"
+            selectionMode="single"
+            submissionMode="instant"
+            attemptMode="retry"
+            options={[
+              { id: "give-answer", label: "Give the learner the correct answer straight away and move on.", isCorrect: false, feedback: "This is efficient, but it removes the moment where the learner connects the scenario to the decision." },
+              { id: "ask-and-explain", label: "Ask the learner to choose an action, then explain why that choice works or misses the mark.", isCorrect: true, feedback: "This keeps the activity active. The learner decides first, then receives feedback that reinforces the reasoning." },
+              { id: "no-feedback", label: "Show all possible responses with no feedback so the learner can decide privately.", isCorrect: false, feedback: "Choice is useful, but feedback is what turns the selection into a learning moment." },
+            ]}
+          />
+        </section>
 
-        <ChoiceQuestion
-          id="payment-timing-question"
-          title="Single selection with Check answer"
-          prompt="A customer asks when a payment will reflect. What is the most useful response?"
-          instruction="Select one answer, then check your response. You can change your selection before submitting."
-          selectionMode="single"
-          submissionMode="check-answer"
-          correctFeedback={{ title: "Correct", body: "This gives a realistic expectation and tells the customer where to find the next update." }}
-          incorrectFeedback={{ title: "Try again", body: "Choose the response that gives a clear timing expectation without making a promise the team cannot keep." }}
-          options={[
-            { id: "guarantee", label: "It will definitely reflect today.", isCorrect: false },
-            { id: "explain-window", label: "Explain the expected processing window and where the customer can check the latest status.", isCorrect: true },
-            { id: "hand-off", label: "Ask the customer to contact another team without checking the account.", isCorrect: false },
-          ]}
-        />
+        <section class="choice-question-showcase-specimen" aria-labelledby="check-answer-specimen">
+          <div class="choice-question-showcase-specimen__header">
+            <h4 id="check-answer-specimen">Single selection - Check answer</h4>
+            <p>Learners can change their answer before evaluation. A correct response completes this specimen.</p>
+          </div>
+          <ChoiceQuestion
+            id="payment-timing-question"
+            title="Responding to a payment question"
+            prompt="A customer asks when a payment will reflect. What is the most useful response?"
+            selectionMode="single"
+            submissionMode="check-answer"
+            correctFeedback={{ title: "Correct", body: "This gives a realistic expectation and tells the customer where to find the next update." }}
+            incorrectFeedback={{ title: "Try again", body: "Choose the response that gives a clear timing expectation without making a promise the team cannot keep." }}
+            options={[
+              { id: "guarantee", label: "It will definitely reflect today.", isCorrect: false },
+              { id: "explain-window", label: "Explain the expected processing window and where the customer can check the latest status.", isCorrect: true },
+              { id: "hand-off", label: "Ask the customer to contact another team without checking the account.", isCorrect: false },
+            ]}
+          />
+        </section>
 
-        <ChoiceQuestion
-          id="secure-workspace-question"
-          title="Multiple selection"
-          prompt="Which actions help protect customer information at a shared workstation?"
-          instruction="Select three answers, then check your response."
-          selectionMode="multiple"
-          requiredSelections={3}
-          submissionMode="check-answer"
-          attemptMode="retry"
-          correctFeedback={{ title: "Correct", body: "These habits reduce the chance of customer details being seen, mixed up or left available to someone else." }}
-          incorrectFeedback={{ title: "Not quite", body: "Review the three actions that keep account information protected when you step away or finish a task." }}
-          options={[
-            { id: "lock-screen", label: "Lock the screen before stepping away.", isCorrect: true },
-            { id: "clear-notes", label: "Clear customer notes from the desk when they are no longer needed.", isCorrect: true },
-            { id: "share-login", label: "Share a login when a colleague needs a quick update.", isCorrect: false },
-            { id: "check-recipient", label: "Check the recipient before sending customer information.", isCorrect: true },
-          ]}
-        />
+        <section class="choice-question-showcase-specimen" aria-labelledby="multiple-selection-specimen">
+          <div class="choice-question-showcase-specimen__header">
+            <h4 id="multiple-selection-specimen">Multiple selection</h4>
+            <p>This Check answer example uses exact-match feedback and allows a retry after an incorrect response.</p>
+          </div>
+          <ChoiceQuestion
+            id="secure-workspace-question"
+            title="Protecting customer information"
+            prompt="Which actions help protect customer information at a shared workstation?"
+            selectionMode="multiple"
+            requiredSelections={3}
+            submissionMode="check-answer"
+            attemptMode="retry"
+            correctFeedback={{ title: "Correct", body: "These habits reduce the chance of customer details being seen, mixed up or left available to someone else." }}
+            incorrectFeedback={{ title: "Not quite", body: "Review the three actions that keep account information protected when you step away or finish a task." }}
+            options={[
+              { id: "lock-screen", label: "Lock the screen before stepping away.", isCorrect: true },
+              { id: "clear-notes", label: "Clear customer notes from the desk when they are no longer needed.", isCorrect: true },
+              { id: "share-login", label: "Share a login when a colleague needs a quick update.", isCorrect: false },
+              { id: "check-recipient", label: "Check the recipient before sending customer information.", isCorrect: true },
+            ]}
+          />
+        </section>
 
-        <ChoiceQuestion
-          id="display-check-question"
-          title="Question with supporting image"
-          prompt="Before changing this product display, what should you check first?"
-          media={{
-            src: "/images/showcase/flip-card-display-wide.png",
-            alt: "A wide retail product display viewed from a customer walkway.",
-            width: 1671,
-            height: 941,
-            caption: "Use the wider customer view to judge whether the main message, product and price work together.",
-          }}
-          selectionMode="single"
-          submissionMode="check-answer"
-          correctFeedback={{ title: "Correct", body: "Start with the customer view before making individual adjustments. It reveals whether the display communicates one clear message." }}
-          incorrectFeedback={{ title: "Try again", body: "Begin with the broadest useful view, then move into product detail only when it supports the learning point." }}
-          options={[
-            { id: "customer-view", label: "Check whether the product, message and price are clear from the customer walkway.", isCorrect: true },
-            { id: "rearrange-first", label: "Rearrange products immediately so the display feels different.", isCorrect: false },
-            { id: "label-last", label: "Ignore the wider display and inspect only the smallest label first.", isCorrect: false },
-          ]}
-        />
+        <section class="choice-question-showcase-specimen" aria-labelledby="question-image-specimen">
+          <div class="choice-question-showcase-specimen__header">
+            <h4 id="question-image-specimen">Question with image</h4>
+            <p>Prompt media can provide visual context while choices remain text-based.</p>
+          </div>
+          <ChoiceQuestion
+            id="display-check-question"
+            title="Reviewing a product display"
+            prompt="Before changing this product display, what should you check first?"
+            media={{
+              src: "/images/showcase/flip-card-display-wide.png",
+              alt: "A retail product display viewed from a customer walkway.",
+              width: 1671,
+              height: 941,
+              caption: "Product display viewed from the customer walkway.",
+            }}
+            selectionMode="single"
+            submissionMode="check-answer"
+            correctFeedback={{ title: "Correct", body: "Start with the customer view before making individual adjustments. It reveals whether the display communicates one clear message." }}
+            incorrectFeedback={{ title: "Try again", body: "Begin with the broadest useful view, then move into product detail only when it supports the learning point." }}
+            options={[
+              { id: "customer-view", label: "Check whether the product, message and price are clear from the customer walkway.", isCorrect: true },
+              { id: "rearrange-first", label: "Rearrange products immediately so the display feels different.", isCorrect: false },
+              { id: "label-last", label: "Ignore the wider display and inspect only the smallest label first.", isCorrect: false },
+            ]}
+          />
+        </section>
 
-        <ChoiceQuestion
-          id="visual-identification-question"
-          title="Image answer choices"
-          prompt="Which image is the best starting point when checking whether a display makes sense from a customer's point of view?"
-          instruction="Select one image, then check your response."
-          selectionMode="single"
-          submissionMode="check-answer"
-          optionPresentation="image-grid"
-          correctFeedback={{ title: "Correct", body: "The wide view shows the product display in context, including the message a customer sees while approaching it." }}
-          incorrectFeedback={{ title: "Try again", body: "Choose the image that gives enough context to judge the whole customer-facing display, not only one detail." }}
-          options={[
-            {
-              id: "wide-display",
-              label: "Wide customer view",
-              supportingText: "Shows the display from the main approach.",
-              isCorrect: true,
-              image: { src: "/images/showcase/flip-card-display-wide.png", alt: "A wide product display seen from a customer walkway.", width: 1671, height: 941 },
-            },
-            {
-              id: "product-detail",
-              label: "Close product detail",
-              supportingText: "Useful after the main display check.",
-              isCorrect: false,
-              image: { src: "/images/showcase/flip-card-product-detail.png", alt: "A close detail of a product shelf.", width: 1254, height: 1254 },
-            },
-            {
-              id: "associate-view",
-              label: "Associate reference view",
-              supportingText: "Useful for a staff conversation, not the first customer-view check.",
-              isCorrect: false,
-              image: { src: "/images/showcase/flip-card-retail-reference.png", alt: "A retail associate reviewing a store display.", width: 1024, height: 1536 },
-            },
-          ]}
-        />
+        <section class="choice-question-showcase-specimen" aria-labelledby="image-answers-specimen">
+          <div class="choice-question-showcase-specimen__header">
+            <h4 id="image-answers-specimen">Image answer choices</h4>
+            <p>Use visual choices when the learner needs to identify the most useful view.</p>
+          </div>
+          <ChoiceQuestion
+            id="visual-identification-question"
+            title="Choosing the best display view"
+            prompt="Which image is the best starting point when checking whether a display makes sense from a customer's point of view?"
+            instruction="Select one image."
+            selectionMode="single"
+            submissionMode="check-answer"
+            optionPresentation="image-grid"
+            correctFeedback={{ title: "Correct", body: "The wide view shows the product display in context, including the message a customer sees while approaching it." }}
+            incorrectFeedback={{ title: "Try again", body: "Choose the image that gives enough context to judge the whole customer-facing display, not only one detail." }}
+            options={[
+              {
+                id: "wide-display",
+                label: "Wide customer view",
+                isCorrect: true,
+                image: { src: "/images/showcase/flip-card-display-wide.png", alt: "A wide product display seen from a customer walkway.", width: 1671, height: 941 },
+              },
+              {
+                id: "product-detail",
+                label: "Product detail",
+                isCorrect: false,
+                image: { src: "/images/showcase/flip-card-product-detail.png", alt: "A close detail of a product shelf.", width: 1254, height: 1254 },
+              },
+              {
+                id: "associate-view",
+                label: "Associate view",
+                isCorrect: false,
+                image: { src: "/images/showcase/flip-card-retail-reference.png", alt: "A retail associate reviewing a store display.", width: 1024, height: 1536 },
+              },
+            ]}
+          />
+        </section>
       </div>
     </ShowcaseExample>}
     {proposalItems.map((item) => <ProposalCard item={item} />)}

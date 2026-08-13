@@ -36,7 +36,7 @@ if (new Set(options.map((option) => option.id)).size !== options.length) {
 const answerCount = selectionMode === "multiple" ? requiredSelections ?? 1 : 1;
 const resolvedInstruction = instruction ?? (selectionMode === "multiple"
   ? requiredSelections ? `Select ${requiredSelections} answers.` : "Select all that apply."
-  : submissionMode === "instant" ? "Select one answer. Feedback appears immediately." : "Select one answer, then check your response.");
+  : "Select one answer.");
 const hasOptionImages = options.some((option) => option.image);
 const presentation = optionPresentation === "auto" ? (hasOptionImages ? "image-grid" : "list") : optionPresentation;
 const inputType = selectionMode === "single" ? "radio" : "checkbox";
@@ -178,7 +178,7 @@ const inputType = selectionMode === "single" ? "radio" : "checkbox";
     };
     const evaluate = () => {
       const selected = selectedInputs();
-      if (selected.length < requiredSelections || (selectionMode === "single" && selected.length !== 1)) {
+      if (selected.length !== requiredSelections || (selectionMode === "single" && selected.length !== 1)) {
         showValidation();
         return;
       }
@@ -212,7 +212,7 @@ const inputType = selectionMode === "single" ? "radio" : "checkbox";
       }
 
       root.dataset.state = isCorrect ? "correct" : "incorrect";
-      if ((isCorrect && lockOnCorrect) || attemptMode === "single-attempt") lockQuestion();
+      if (submissionMode === "check-answer" && (isCorrect && lockOnCorrect || attemptMode === "single-attempt")) lockQuestion();
     };
 
     form.addEventListener("submit", (event) => {
