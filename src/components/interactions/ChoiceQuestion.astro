@@ -1,0 +1,241 @@
+---
+import QuickCourseIcon from "../ui/QuickCourseIcon.astro";
+import type { ChoiceQuestionProps } from "./choice-question-types";
+
+const props = Astro.props as ChoiceQuestionProps;
+const {
+  id,
+  eyebrow,
+  title,
+  prompt,
+  instruction,
+  media,
+  selectionMode = "single",
+  submissionMode = "check-answer",
+  requiredSelections,
+  attemptMode = "retry",
+  lockOnCorrect = true,
+  optionPresentation = "auto",
+  options,
+  correctFeedback = { title: "Correct", body: "That response matches the learning point." },
+  incorrectFeedback = { title: "Not quite", body: "Review the choices and try again." },
+} = props;
+
+if (selectionMode === "multiple" && submissionMode === "instant") {
+  throw new Error(`ChoiceQuestion "${id}" does not support instant feedback for multiple selection.`);
+}
+
+if (selectionMode === "single" && options.filter((option) => option.isCorrect).length !== 1) {
+  throw new Error(`ChoiceQuestion "${id}" needs exactly one correct option in single-selection mode.`);
+}
+
+if (new Set(options.map((option) => option.id)).size !== options.length) {
+  throw new Error(`ChoiceQuestion "${id}" needs unique stable option ids.`);
+}
+
+const answerCount = selectionMode === "multiple" ? requiredSelections ?? 1 : 1;
+const resolvedInstruction = instruction ?? (selectionMode === "multiple"
+  ? requiredSelections ? `Select ${requiredSelections} answers.` : "Select all that apply."
+  : submissionMode === "instant" ? "Select one answer. Feedback appears immediately." : "Select one answer, then check your response.");
+const hasOptionImages = options.some((option) => option.image);
+const presentation = optionPresentation === "auto" ? (hasOptionImages ? "image-grid" : "list") : optionPresentation;
+const inputType = selectionMode === "single" ? "radio" : "checkbox";
+---
+
+<article
+  id={id}
+  class:list={["choice-question", `choice-question--${presentation}`]}
+  data-choice-question
+  data-selection-mode={selectionMode}
+  data-submission-mode={submissionMode}
+  data-attempt-mode={attemptMode}
+  data-required-selections={answerCount}
+  data-lock-on-correct={lockOnCorrect ? "true" : "false"}
+  data-correct-title={correctFeedback.title}
+  data-correct-body={correctFeedback.body}
+  data-incorrect-title={incorrectFeedback.title}
+  data-incorrect-body={incorrectFeedback.body}
+  data-state="unanswered"
+  aria-labelledby={`${id}-title`}
+>
+  <header class="choice-question__header">
+    {eyebrow && <p class="choice-question__eyebrow">{eyebrow}</p>}
+    <h4 id={`${id}-title`}>{title}</h4>
+    <p>{prompt}</p>
+  </header>
+
+  {media && (
+    <figure class="choice-question__media">
+      <img src={media.src} alt={media.alt} width={media.width} height={media.height} loading="lazy" decoding="async" />
+      {media.caption && <figcaption>{media.caption}</figcaption>}
+    </figure>
+  )}
+
+  <form data-choice-question-form novalidate>
+    <fieldset class="choice-question__fieldset" aria-describedby={`${id}-instruction ${id}-validation`}>
+      <legend class="sr-only">{title}</legend>
+      <p id={`${id}-instruction`} class="choice-question__instruction">{resolvedInstruction}</p>
+
+      <div class="choice-question__options" data-choice-question-options>
+        {options.map((option) => (
+          <label class="choice-question__option" data-choice-option data-option-id={option.id}>
+            <input
+              class="choice-question__input"
+              type={inputType}
+              name={`${id}-answer`}
+              value={option.id}
+              data-choice-input
+              data-correct={option.isCorrect ? "true" : "false"}
+            />
+            <span class="choice-question__option-control" aria-hidden="true"></span>
+            <span class="choice-question__option-content">
+              {option.image && (
+                <img
+                  class="choice-question__option-image"
+                  src={option.image.src}
+                  alt={option.image.alt}
+                  width={option.image.width}
+                  height={option.image.height}
+                  loading="lazy"
+                  decoding="async"
+                />
+              )}
+              <span class="choice-question__option-copy">
+                <span class="choice-question__option-label">{option.label}</span>
+                {option.supportingText && <span class="choice-question__option-supporting">{option.supportingText}</span>}
+                {option.feedback && <span class="choice-question__option-feedback" data-choice-option-feedback hidden>{option.feedback}</span>}
+              </span>
+            </span>
+          </label>
+        ))}
+      </div>
+    </fieldset>
+
+    {submissionMode === "check-answer" && <button class="choice-question__submit" type="submit" data-choice-submit>Check answer</button>}
+  </form>
+
+  <p id={`${id}-validation`} class="choice-question__validation" data-choice-validation role="alert" hidden></p>
+
+  <div class="choice-question__response" data-choice-response data-state="idle" role="status" aria-live="polite" aria-atomic="true" hidden>
+    <QuickCourseIcon name="success" context="heading" class="choice-question__response-icon choice-question__response-icon--correct" />
+    <QuickCourseIcon name="error" context="heading" class="choice-question__response-icon choice-question__response-icon--incorrect" />
+    <div>
+      <p class="choice-question__response-title" data-choice-response-title></p>
+      <p class="choice-question__response-body" data-choice-response-body></p>
+    </div>
+  </div>
+</article>
+
+<script>
+  function initialiseChoiceQuestion(root: HTMLElement) {
+    if (root.dataset.choiceQuestionInitialised === "true") return;
+    root.dataset.choiceQuestionInitialised = "true";
+
+    const form = root.querySelector<HTMLFormElement>("[data-choice-question-form]");
+    const inputs = Array.from(root.querySelectorAll<HTMLInputElement>("[data-choice-input]"));
+    const options = Array.from(root.querySelectorAll<HTMLElement>("[data-choice-option]"));
+    const response = root.querySelector<HTMLElement>("[data-choice-response]");
+    const responseTitle = root.querySelector<HTMLElement>("[data-choice-response-title]");
+    const responseBody = root.querySelector<HTMLElement>("[data-choice-response-body]");
+    const validation = root.querySelector<HTMLElement>("[data-choice-validation]");
+    const selectionMode = root.dataset.selectionMode;
+    const submissionMode = root.dataset.submissionMode;
+    const attemptMode = root.dataset.attemptMode;
+    const requiredSelections = Number(root.dataset.requiredSelections ?? "1");
+    const lockOnCorrect = root.dataset.lockOnCorrect === "true";
+
+    if (!form || inputs.length === 0) return;
+
+    const selectedInputs = () => inputs.filter((input) => input.checked);
+    const hideValidation = () => {
+      if (validation) validation.hidden = true;
+    };
+    const clearEvaluation = () => {
+      options.forEach((option) => {
+        option.removeAttribute("data-choice-state");
+        option.querySelector<HTMLElement>("[data-choice-option-feedback]")?.setAttribute("hidden", "");
+      });
+      if (response) response.hidden = true;
+    };
+    const updateSelectedState = () => {
+      const selected = new Set(selectedInputs().map((input) => input.value));
+      options.forEach((option) => option.toggleAttribute("data-selected", selected.has(option.dataset.optionId ?? "")));
+      root.dataset.state = selected.size ? "selected" : "unanswered";
+    };
+    const showValidation = () => {
+      const message = selectionMode === "multiple" && requiredSelections > 1
+        ? `Select ${requiredSelections} answers before checking your response.`
+        : "Select an answer before checking your response.";
+      if (validation) {
+        validation.textContent = message;
+        validation.hidden = false;
+      }
+      root.dataset.state = "invalid";
+    };
+    const lockQuestion = () => {
+      inputs.forEach((input) => { input.disabled = true; });
+      root.dataset.state = "completed";
+    };
+    const evaluate = () => {
+      const selected = selectedInputs();
+      if (selected.length < requiredSelections || (selectionMode === "single" && selected.length !== 1)) {
+        showValidation();
+        return;
+      }
+
+      hideValidation();
+      const correctInputs = inputs.filter((input) => input.dataset.correct === "true");
+      const isCorrect = selected.length === correctInputs.length && selected.every((input) => input.dataset.correct === "true");
+
+      options.forEach((option) => {
+        const input = option.querySelector<HTMLInputElement>("[data-choice-input]");
+        const optionFeedback = option.querySelector<HTMLElement>("[data-choice-option-feedback]");
+        if (!input) return;
+        const isSelected = input.checked;
+        option.toggleAttribute("data-selected", isSelected);
+        option.removeAttribute("data-choice-state");
+        optionFeedback?.toggleAttribute("hidden", !(isSelected && Boolean(optionFeedback.textContent?.trim())));
+        if (isSelected) option.dataset.choiceState = input.dataset.correct === "true" ? "correct" : "incorrect";
+      });
+
+      const selectedOption = options.find((option) => option.hasAttribute("data-selected"));
+      const selectedFeedback = selectionMode === "single"
+        ? selectedOption?.querySelector<HTMLElement>("[data-choice-option-feedback]")?.textContent?.trim()
+        : undefined;
+      const title = isCorrect ? root.dataset.correctTitle : root.dataset.incorrectTitle;
+      const body = selectedFeedback || (isCorrect ? root.dataset.correctBody : root.dataset.incorrectBody);
+      if (responseTitle) responseTitle.textContent = title ?? "";
+      if (responseBody) responseBody.textContent = body ?? "";
+      if (response) {
+        response.dataset.state = isCorrect ? "correct" : "incorrect";
+        response.hidden = false;
+      }
+
+      root.dataset.state = isCorrect ? "correct" : "incorrect";
+      if ((isCorrect && lockOnCorrect) || attemptMode === "single-attempt") lockQuestion();
+    };
+
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      evaluate();
+    });
+
+    inputs.forEach((input) => input.addEventListener("change", () => {
+      if (root.dataset.state === "completed") return;
+      hideValidation();
+      if (submissionMode === "instant") {
+        evaluate();
+        return;
+      }
+      clearEvaluation();
+      updateSelectedState();
+    }));
+  }
+
+  function initialiseAllChoiceQuestions() {
+    document.querySelectorAll<HTMLElement>("[data-choice-question]").forEach(initialiseChoiceQuestion);
+  }
+
+  initialiseAllChoiceQuestions();
+  document.addEventListener("astro:page-load", initialiseAllChoiceQuestions);
+</script>

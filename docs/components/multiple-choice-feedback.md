@@ -4,7 +4,7 @@ Status: Draft
 
 ## Purpose
 
-Use this interaction when a learner should choose one option and receive immediate explanatory feedback. The component is neutral and data-driven so course-specific copy can be supplied through props.
+Use this compatibility wrapper when a learner should choose one option and receive immediate explanatory feedback. It now delegates to the reusable [Choice Question](./choice-question.md) system, which should be used directly for new work requiring Check Answer, multiple response, prompt media or image answer choices.
 
 ## Intended Usage
 
@@ -37,15 +37,15 @@ Place `MultipleChoiceFeedback` inside a course section or showcase section. Prov
 
 ## Behaviour
 
-- Options render as accessible buttons.
-- Selecting an option sets `aria-pressed` on the selected button.
-- Visual state changes to selected, correct, or incorrect.
-- Feedback appears in an `aria-live` status region.
+- Options render as native radio inputs inside full-card labels.
+- Selecting an option evaluates immediately through the shared Choice Question system.
+- Visual state changes to selected, correct, or incorrect with text and markers as well as colour.
+- Feedback appears in a polite live status region.
 - Feedback includes text labels, not colour alone.
 
 ## Content Rules
 
 - Keep feedback explanatory rather than just marking right or wrong.
-- Use one correct answer for this version.
+- Use one correct answer for this wrapper.
 - Keep option text short enough to scan on mobile.
 - Avoid course-specific brand or product copy in the reusable component.
