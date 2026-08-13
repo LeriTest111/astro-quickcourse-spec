@@ -8,29 +8,29 @@ Use brief, purposeful animation only when it clarifies a state change. Motion sh
 
 Approval status: Draft
 
-Purpose: reveal supporting content without displaying every detail at once.
+Purpose: reveal optional supporting detail without displaying every explanation at once.
 
-Recommended use: optional explanations, FAQs, definitions and reference notes.
+Recommended use: FAQs, policy explanations, definitions, product detail, troubleshooting, examples and reference notes. Do not hide essential instructions, mandatory safety content, required process steps or assessment instructions in an accordion.
 
-Content structure or props: heading, intro, items with title, content, optional icon or media, single-open or multiple-open mode and optional default-open item.
+Content structure or props: a stable group `id`, optional heading and intro, items with a stable id, title, normal text content, optional short label or number, optional meaningful icon, optional image media, list or small callout. Use controlled `behavior` (`multiple` or `single`), `initialOpen` (`none`, `first` or an item id), `orientation` (`vertical` or `horizontal`), `presentation` (`minimal`, `contained` or `surface`) and an optional cohesive surface treatment.
 
-Interaction behaviour: native `details` and `summary` provide the baseline; small scoped JavaScript closes sibling items in single-open mode. Content reveal uses restrained opacity, vertical movement and indicator rotation.
+Interaction behaviour: the vertical system uses native `details` and `summary`. Multiple-open is the default. Single-open uses native named disclosure groups with a small scoped JavaScript fallback that closes siblings; an open item can always be closed. The dedicated right-side disclosure arrow rotates on open. Meaningful left-side icons remain stationary.
 
-Keyboard behaviour: native summary controls are keyboard operable.
+Keyboard behaviour: native summary controls work with keyboard without custom key handling. Focus uses the shared purple/neutral focus treatment. Links and secondary actions belong in an expanded panel, not in the summary.
 
-Responsive behaviour: content expands vertically and does not clip long text.
+Responsive behaviour: vertical content grows naturally and does not clip long titles or panel content. Image-and-text panels stack on smaller screens. Horizontal image-led accordions require three to five concise items and single-open behaviour; they become normal vertical accordions on narrow screens.
 
-Accessibility considerations: expanded state is native, headings remain visible and labels must be descriptive.
+Accessibility considerations: native disclosure semantics communicate state. Summary text must be meaningful; colour is not the only open-state indicator; media needs appropriate alt text; focus remains visible; and reduced-motion removes panel and arrow motion. Printed output exposes all panel content.
 
-JavaScript requirements: optional, only for single-open behaviour.
+JavaScript requirements: none for independent vertical disclosure. A small local enhancement supports consistent single-open behaviour; no accordion library or framework is used.
 
-Suitable use cases: common customer questions, policy details and supporting definitions.
+Suitable use cases: common customer questions, optional recovery guidance, product examples, supporting display checks and concise visual perspectives.
 
-Misuse to avoid: hiding essential instructions that every learner must read.
+Misuse to avoid: hiding information every learner must read, sequential procedures, large FAQ sets in horizontal mode, long prose in the horizontal variant, nested accordions, carousels or assessments inside a panel.
 
-Customizable properties: item count, icons, media, open mode and default item.
+Customizable properties: item count, concise labels, stationary semantic icons, controlled media, panel layout, initial state, behaviour, orientation and approved presentation/surface options.
 
-Standardized properties: neutral borders, visible focus, native disclosure behaviour and restrained reveal motion.
+Standardized properties: native disclosure baseline, right-side chevron, stationary content icons, minimum touch-sized summaries, purple/neutral focus, coherent group surfaces, subtle 220ms motion and reduced-motion fallback.
 
 ## Tabs
 

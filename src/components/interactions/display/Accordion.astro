@@ -1,71 +1,140 @@
 ---
-interface AccordionItem {
-  title: string;
-  content: string;
-  icon?: string;
-  mediaSrc?: string;
-  mediaAlt?: string;
-}
+import QuickCourseIcon from "../../ui/QuickCourseIcon.astro";
+import type { AccordionProps } from "./accordion-types";
 
-interface Props {
-  id?: string;
-  heading?: string;
-  intro?: string;
-  items: AccordionItem[];
-  allowMultiple?: boolean;
-  defaultOpenIndex?: number;
-}
-
+const props = Astro.props as AccordionProps;
 const {
-  id = `accordion-${Math.random().toString(36).slice(2, 9)}`,
+  id,
   heading,
   intro,
   items,
-  allowMultiple = true,
+  orientation = "vertical",
+  presentation = "minimal",
+  surface = "neutral",
+  allowMultiple,
   defaultOpenIndex,
-} = Astro.props;
+} = props;
+
+const behavior = props.behavior ?? (allowMultiple === false ? "single" : "multiple");
+const initialOpen = props.initialOpen ?? (defaultOpenIndex === undefined ? "none" : items[defaultOpenIndex]?.id ?? "none");
+
+if (items.length < 2) {
+  throw new Error(`Accordion "${id}" needs at least two items.`);
+}
+
+if (new Set(items.map((item) => item.id)).size !== items.length) {
+  throw new Error(`Accordion "${id}" needs unique stable item ids.`);
+}
+
+if (orientation === "horizontal" && (behavior !== "single" || items.length < 3 || items.length > 5)) {
+  throw new Error(`Horizontal Accordion "${id}" needs single-open behaviour and three to five items.`);
+}
+
+const isInitiallyOpen = (itemId: string, index: number) => initialOpen === "first" ? index === 0 : initialOpen === itemId;
+const groupName = behavior === "single" ? `${id}-group` : undefined;
 ---
 
 <section class="di-block" aria-labelledby={heading ? `${id}-heading` : undefined}>
-  {
-    heading && (
-      <div class="di-block__header">
-        <h3 id={`${id}-heading`}>{heading}</h3>
-        {intro && <p>{intro}</p>}
-      </div>
-    )
-  }
-  <div class="di-accordion" data-accordion data-allow-multiple={allowMultiple ? "true" : "false"}>
-    {items.map((item, index) => (
-      <details class="di-accordion__item" open={defaultOpenIndex === index}>
-        <summary>
-          {item.icon && <span class="material-symbols-sharp showcase-icon" aria-hidden="true">{item.icon}</span>}
-          <span>{item.title}</span>
-        </summary>
-        <div class="di-accordion__content">
-          {item.mediaSrc && <img src={item.mediaSrc} alt={item.mediaAlt ?? ""} loading="lazy" />}
-          <p>{item.content}</p>
-        </div>
-      </details>
-    ))}
+  {heading && (
+    <div class="di-block__header">
+      <h3 id={`${id}-heading`}>{heading}</h3>
+      {intro && <p>{intro}</p>}
+    </div>
+  )}
+
+  <div
+    class:list={[
+      "di-accordion",
+      `di-accordion--${orientation}`,
+      `di-accordion--${presentation}`,
+      `di-accordion--surface-${surface}`,
+    ]}
+    data-di-accordion
+    data-behavior={behavior}
+  >
+    {items.map((item, index) => {
+      const paragraphs = Array.isArray(item.content) ? item.content : [item.content];
+      const panelLayout = item.panelLayout ?? "stacked";
+
+      return (
+        <details
+          id={`${id}-${item.id}`}
+          class="di-accordion__item"
+          name={groupName}
+          open={isInitiallyOpen(item.id, index)}
+        >
+          <summary class="di-accordion__summary">
+            {orientation === "horizontal" && item.media && (
+              <img
+                class="di-accordion__summary-media"
+                src={item.media.src}
+                alt=""
+                width={item.media.width}
+                height={item.media.height}
+                loading="lazy"
+                decoding="async"
+              />
+            )}
+            <span class="di-accordion__summary-copy">
+              {item.icon && <QuickCourseIcon name={item.icon} context="heading" class="di-accordion__content-icon" />}
+              <span class="di-accordion__summary-text">
+                {item.label && <span class="di-accordion__label">{item.label}</span>}
+                <span class="di-accordion__title">{item.title}</span>
+              </span>
+            </span>
+            <QuickCourseIcon name="expand" context="heading" class="di-accordion__chevron" />
+          </summary>
+
+          <div class:list={["di-accordion__content", `di-accordion__content--${panelLayout}`]}>
+            {orientation !== "horizontal" && item.media && (
+              <figure class="di-accordion__media">
+                <img
+                  src={item.media.src}
+                  alt={item.media.alt}
+                  width={item.media.width}
+                  height={item.media.height}
+                  loading="lazy"
+                  decoding="async"
+                />
+                {item.media.caption && <figcaption>{item.media.caption}</figcaption>}
+              </figure>
+            )}
+            <div class="di-accordion__panel-copy">
+              {paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+              {item.list && <ul>{item.list.map((listItem) => <li>{listItem}</li>)}</ul>}
+              {item.callout && (
+                <aside class="di-accordion__callout">
+                  <strong>{item.callout.label}</strong>
+                  <p>{item.callout.text}</p>
+                </aside>
+              )}
+              {orientation === "horizontal" && item.media?.caption && <p class="di-accordion__media-caption">{item.media.caption}</p>}
+            </div>
+          </div>
+        </details>
+      );
+    })}
   </div>
 </section>
 
 <script>
-  document.querySelectorAll("[data-accordion]").forEach((accordion) => {
-    if (accordion.dataset.accordionReady === "true") return;
-    accordion.dataset.accordionReady = "true";
+  function initialiseAccordion(root: HTMLElement) {
+    if (root.dataset.accordionReady === "true" || root.dataset.behavior !== "single") return;
+    root.dataset.accordionReady = "true";
 
-    if (accordion.dataset.allowMultiple === "true") return;
-
-    accordion.querySelectorAll("details").forEach((item) => {
-      item.addEventListener("toggle", () => {
-        if (!item.open) return;
-        accordion.querySelectorAll("details").forEach((other) => {
-          if (other !== item) other.removeAttribute("open");
-        });
+    const items = Array.from(root.querySelectorAll<HTMLDetailsElement>(".di-accordion__item"));
+    items.forEach((item) => item.addEventListener("toggle", () => {
+      if (!item.open) return;
+      items.forEach((other) => {
+        if (other !== item && other.open) other.open = false;
       });
-    });
-  });
-</script>
+    }));
+  }
 
+  function initialiseAllAccordions() {
+    document.querySelectorAll<HTMLElement>("[data-di-accordion]").forEach(initialiseAccordion);
+  }
+
+  initialiseAllAccordions();
+  document.addEventListener("astro:page-load", initialiseAllAccordions);
+</script>
