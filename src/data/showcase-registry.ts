@@ -99,7 +99,7 @@ export const showcaseRegistry: ShowcaseRegistryItem[] = [
   { id: "process-explorer", name: "Process Explorer", category: "display-interactions", status: "draft", version: "0.1.0" },
   { id: "timeline", name: "Timeline", category: "display-interactions", status: "draft", version: "0.1.0" },
   { id: "expandable-image", name: "Expandable Image", category: "display-interactions", status: "concept", version: "0.1.0" },
-  { id: "multiple-choice-feedback", name: "Multiple-choice feedback", category: "assessment-interactions", status: "draft", version: "0.1.0" },
+  { id: "multiple-choice-feedback", name: "Multiple-choice feedback", category: "assessment-interactions", status: "in-review", version: "0.1.0" },
   {
     id: "drag-and-drop",
     name: "Drag and Drop",
