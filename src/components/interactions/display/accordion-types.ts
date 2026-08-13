@@ -5,6 +5,8 @@ export type AccordionOrientation = "vertical" | "horizontal";
 export type AccordionPresentation = "minimal" | "contained" | "surface";
 export type AccordionSurface = "neutral" | "accent" | "information";
 export type AccordionPanelLayout = "stacked" | "side-by-side";
+export type AccordionHeadingScale = "compact" | "standard" | "prominent";
+export type AccordionDensity = "compact" | "comfortable";
 
 export interface AccordionMedia {
   src: string;
@@ -41,6 +43,8 @@ export interface AccordionProps {
   orientation?: AccordionOrientation;
   presentation?: AccordionPresentation;
   surface?: AccordionSurface;
+  headingScale?: AccordionHeadingScale;
+  density?: AccordionDensity;
   /** @deprecated Use behavior instead. */
   allowMultiple?: boolean;
   /** @deprecated Use initialOpen instead. */

@@ -11,6 +11,8 @@ const {
   orientation = "vertical",
   presentation = "minimal",
   surface = "neutral",
+  headingScale = "standard",
+  density = "comfortable",
   allowMultiple,
   defaultOpenIndex,
 } = props;
@@ -48,6 +50,8 @@ const groupName = behavior === "single" ? `${id}-group` : undefined;
       `di-accordion--${orientation}`,
       `di-accordion--${presentation}`,
       `di-accordion--surface-${surface}`,
+      `di-accordion--heading-${headingScale}`,
+      `di-accordion--density-${density}`,
     ]}
     data-di-accordion
     data-behavior={behavior}
@@ -86,8 +90,8 @@ const groupName = behavior === "single" ? `${id}-group` : undefined;
           </summary>
 
           <div class:list={["di-accordion__content", `di-accordion__content--${panelLayout}`]}>
-            {orientation !== "horizontal" && item.media && (
-              <figure class="di-accordion__media">
+            {item.media && (
+              <figure class:list={["di-accordion__media", orientation === "horizontal" && "di-accordion__mobile-media"]}>
                 <img
                   src={item.media.src}
                   alt={item.media.alt}
@@ -118,17 +122,81 @@ const groupName = behavior === "single" ? `${id}-group` : undefined;
 </section>
 
 <script>
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
   function initialiseAccordion(root: HTMLElement) {
-    if (root.dataset.accordionReady === "true" || root.dataset.behavior !== "single") return;
+    if (root.dataset.accordionReady === "true") return;
     root.dataset.accordionReady = "true";
 
     const items = Array.from(root.querySelectorAll<HTMLDetailsElement>(".di-accordion__item"));
-    items.forEach((item) => item.addEventListener("toggle", () => {
-      if (!item.open) return;
+    // Keep native name grouping as the no-script baseline; local enhancement removes it so sibling panels can close smoothly.
+    items.forEach((item) => item.removeAttribute("name"));
+    const animations = new WeakMap<HTMLDetailsElement, Animation>();
+    const duration = 220;
+
+    function finishAnimation(item: HTMLDetailsElement, open: boolean) {
+      const animation = animations.get(item);
+      animation?.cancel();
+      animations.delete(item);
+      item.open = open;
+      item.dataset.accordionAnimating = "false";
+      const content = item.querySelector<HTMLElement>(".di-accordion__content");
+      if (content) content.style.removeProperty("overflow");
+    }
+
+    function animateItem(item: HTMLDetailsElement, open: boolean) {
+      const content = item.querySelector<HTMLElement>(".di-accordion__content");
+      if (!content || reducedMotion.matches) {
+        finishAnimation(item, open);
+        return;
+      }
+
+      animations.get(item)?.cancel();
+      item.dataset.accordionAnimating = "true";
+      if (open) item.open = true;
+      content.style.overflow = "clip";
+      const startHeight = open ? 0 : content.offsetHeight;
+      const endHeight = open ? content.scrollHeight : 0;
+      const animation = content.animate(
+        [
+          { height: `${startHeight}px`, opacity: open ? 0.01 : 1 },
+          { height: `${endHeight}px`, opacity: open ? 1 : 0.01 },
+        ],
+        { duration, easing: "ease-out" },
+      );
+      animations.set(item, animation);
+      animation.onfinish = () => finishAnimation(item, open);
+      animation.oncancel = () => {
+        content.style.removeProperty("overflow");
+        item.dataset.accordionAnimating = "false";
+      };
+    }
+
+    function closeOtherItems(current: HTMLDetailsElement) {
+      if (root.dataset.behavior !== "single") return;
       items.forEach((other) => {
-        if (other !== item && other.open) other.open = false;
+        if (other !== current && other.open) animateItem(other, false);
       });
-    }));
+    }
+
+    items.forEach((item) => {
+      const summary = item.querySelector<HTMLElement>(".di-accordion__summary");
+      summary?.addEventListener("click", (event) => {
+        event.preventDefault();
+        if (item.dataset.accordionAnimating === "true") return;
+        if (item.open) {
+          animateItem(item, false);
+        } else {
+          closeOtherItems(item);
+          animateItem(item, true);
+        }
+      });
+
+      item.addEventListener("toggle", () => {
+        if (item.dataset.accordionAnimating === "true" || !item.open) return;
+        closeOtherItems(item);
+      });
+    });
   }
 
   function initialiseAllAccordions() {

@@ -17,6 +17,7 @@ import Timeline from "../../components/interactions/display/Timeline.astro";
 import ProcessExplorer from "../../components/interactions/display/ProcessExplorer.astro";
 import ExpandableImage from "../../components/interactions/display/ExpandableImage.astro";
 import DetailModal from "../../components/interactions/display/DetailModal.astro";
+import QuickCourseIcon from "../../components/ui/QuickCourseIcon.astro";
 import type { FlipCardItem } from "../../components/interactions/display/flip-card-types";
 import { displayInteractionAnchors } from "../../data/showcase";
 import { getShowcaseItem } from "../../data/showcase-registry";
@@ -82,10 +83,17 @@ const hasVisibleItems = Object.keys(sectionItems).some((id) => sectionVisible(id
     {sectionVisible("reveal-content") && <ShowcaseSection id="reveal-content" title="Reveal content" description="Patterns for optional details, secondary layers and supporting context.">
       <div class="showcase-example-stack">
         {visible("accordion") && <ShowcaseExample id="accordion" title="Accordion" purpose="Reveals supporting answers without showing every detail at once." status={status("accordion")}>
+          <aside class="di-accordion-guidance" aria-labelledby="accordion-guidance-heading">
+            <QuickCourseIcon name="information" context="heading" />
+            <div>
+              <h4 id="accordion-guidance-heading">Accordion guidance</h4>
+              <p>Use accordions for optional or supporting content, not required sequential instructions. Choose independent panels for reference content and single-open panels for prominent or visual content. Horizontal image-led accordions become vertical on mobile.</p>
+            </div>
+          </aside>
           <div class="di-accordion-showcase-stack">
             <section class="di-accordion-showcase-specimen" aria-labelledby="accordion-independent-heading">
               <div class="di-accordion-showcase-specimen__header">
-                <h4 id="accordion-independent-heading">Vertical text accordion - independent</h4>
+                <h4 id="accordion-independent-heading">Vertical accordion - independent</h4>
                 <p>Use the default multiple-open behaviour when learners may need to compare optional reference answers.</p>
               </div>
               <Accordion
@@ -99,6 +107,51 @@ const hasVisibleItems = Object.keys(sectionItems).some((id) => sectionVisible(id
                   { id: "failed-payment", title: "What happens if the payment fails?", content: "Explain the retry path, any notification they will receive and what action they can take to avoid delays." },
                 ]}
               />
+              <section class="di-accordion-development" aria-labelledby="accordion-presentation-variations-heading">
+                <div class="di-accordion-development__header">
+                  <h5 id="accordion-presentation-variations-heading">Presentation variations</h5>
+                  <p>Development view: governed typography, density, surface and header-content options use the same vertical system.</p>
+                </div>
+                <div class="di-accordion-development__grid">
+                  <Accordion
+                    id="compact-policy-accordion"
+                    heading="Quick reference"
+                    behavior="multiple"
+                    presentation="minimal"
+                    headingScale="compact"
+                    density="compact"
+                    items={[
+                      { id: "window", title: "Processing window", content: "Use the current published timing when answering a general question." },
+                      { id: "status", title: "Status update", content: "Direct customers to the latest available account update." },
+                    ]}
+                  />
+                  <Accordion
+                    id="prominent-surface-accordion"
+                    heading="Helpful product context"
+                    behavior="single"
+                    initialOpen="first"
+                    presentation="surface"
+                    surface="neutral"
+                    headingScale="prominent"
+                    items={[
+                      { id: "benefit", title: "Explain the relevant benefit", content: "Connect one practical product benefit to the customer's stated need." },
+                      { id: "confirm", title: "Confirm the next useful action", content: "Check whether the customer needs a comparison, a demonstration or a follow-up." },
+                    ]}
+                  />
+                  <Accordion
+                    id="icon-surface-accordion"
+                    heading="Delivery support"
+                    behavior="multiple"
+                    presentation="surface"
+                    surface="accent"
+                    density="compact"
+                    items={[
+                      { id: "order", icon: "document", title: "Order details", content: "Confirm the delivery address, selected service and reference." },
+                      { id: "escalate", icon: "warning", title: "When to escalate", content: "Escalate when tracking and order information do not explain the delay." },
+                    ]}
+                  />
+                </div>
+              </section>
             </section>
 
             <section class="di-accordion-showcase-specimen" aria-labelledby="accordion-contained-heading">
@@ -113,27 +166,9 @@ const hasVisibleItems = Object.keys(sectionItems).some((id) => sectionVisible(id
                 initialOpen="first"
                 presentation="contained"
                 items={[
-                  { id: "review", label: "01 Review", title: "Confirm the item and purchase details", content: "Check the item, purchase date and available proof of purchase before explaining the available return options." },
-                  { id: "explain", label: "02 Explain", title: "Set out the next helpful action", content: "Use the policy to explain what will happen next, including any inspection, refund or exchange timing." },
-                  { id: "confirm", label: "03 Confirm", title: "Summarise the agreed outcome", content: "Confirm the customer understands the next step and knows where to find an update if one is needed." },
-                ]}
-              />
-            </section>
-
-            <section class="di-accordion-showcase-specimen" aria-labelledby="accordion-icons-heading">
-              <div class="di-accordion-showcase-specimen__header">
-                <h4 id="accordion-icons-heading">Icon-led accordion</h4>
-                <p>Meaningful content icons help scanning. They remain still; only the disclosure arrow changes state.</p>
-              </div>
-              <Accordion
-                id="delivery-support-accordion"
-                heading="Delivery support"
-                behavior="multiple"
-                presentation="minimal"
-                items={[
-                  { id: "order", icon: "document", title: "Order details", content: "Confirm the delivery address, selected service and order reference before investigating a delivery question." },
-                  { id: "timing", icon: "calendar", title: "Delivery timing", content: "Explain the expected delivery window using the latest available order status rather than a guaranteed arrival time." },
-                  { id: "escalate", icon: "warning", title: "When to escalate", content: "Escalate when the available tracking and order information do not explain the delay or the customer needs a confirmed exception." },
+                  { id: "eligibility", title: "Eligibility", content: "Check the item condition, purchase date and available proof of purchase against the applicable return policy." },
+                  { id: "expectations", title: "What the customer can expect", content: "Explain the available return outcome and the typical timing for a refund, exchange or inspection." },
+                  { id: "exceptions", title: "Exceptions and special cases", content: "Some products or purchase methods may have additional conditions. Use the current policy before confirming an outcome." },
                 ]}
               />
             </section>
@@ -145,26 +180,60 @@ const hasVisibleItems = Object.keys(sectionItems).some((id) => sectionVisible(id
               </div>
               <Accordion
                 id="display-review-accordion"
-                heading="Optional display review examples"
+                heading="Optional display examples"
                 behavior="single"
                 presentation="contained"
                 items={[
                   {
                     id: "customer-view",
-                    title: "Start with the customer view",
-                    content: "A wider view shows whether the product, message and price work together before you adjust individual details.",
-                    media: { src: flipCardWideImage, alt: "A wide retail product display viewed from the customer walkway.", width: 1671, height: 941, caption: "Product display viewed from the customer walkway." },
+                    title: "Customer-view example",
+                    content: "A wider view shows whether the product, message and price work together from the point where customers first see the display.",
+                    media: { src: flipCardWideImage, alt: "A wide retail product display viewed from the customer walkway.", width: 1671, height: 941 },
                     panelLayout: "side-by-side",
                   },
                   {
                     id: "product-detail",
-                    title: "Then inspect the product detail",
-                    content: "Once the overall display is clear, check whether individual products are clean, easy to identify and consistently presented.",
+                    title: "Product-detail example",
+                    content: "A closer view helps check whether individual products are clean, easy to identify and consistently presented.",
                     media: { src: flipCardDetailImage, alt: "A close product detail on a retail shelf.", width: 1254, height: 1254 },
                     panelLayout: "side-by-side",
                   },
                 ]}
               />
+              <section class="di-accordion-development" aria-labelledby="accordion-image-resilience-heading">
+                <div class="di-accordion-development__header">
+                  <h5 id="accordion-image-resilience-heading">Richer Image + Text content</h5>
+                  <p>Development view: a slightly richer panel remains readable without becoming a nested interaction.</p>
+                </div>
+                <Accordion
+                  id="product-story-accordion"
+                  heading="Product story examples"
+                  behavior="single"
+                  initialOpen="first"
+                  presentation="surface"
+                  surface="neutral"
+                  headingScale="prominent"
+                  items={[
+                    {
+                      id: "feature-story",
+                      icon: "tip",
+                      title: "Link the display to one customer need",
+                      content: "Use the display as a concise conversation starter rather than trying to explain every product benefit at once.",
+                      list: ["Choose one relevant benefit.", "Use plain customer language.", "Confirm the next useful action."],
+                      media: { src: flipCardPortraitImage, alt: "A retail associate reviewing a store display.", width: 1024, height: 1536 },
+                      panelLayout: "side-by-side",
+                    },
+                    {
+                      id: "detail-story",
+                      icon: "document",
+                      title: "Keep supporting detail available",
+                      content: "Use optional detail when a learner needs a closer product reference after the main concept is understood.",
+                      media: { src: flipCardDetailImage, alt: "A close product detail on a retail shelf.", width: 1254, height: 1254 },
+                      panelLayout: "side-by-side",
+                    },
+                  ]}
+                />
+              </section>
             </section>
 
             <section class="di-accordion-showcase-specimen" aria-labelledby="accordion-surface-heading">
@@ -183,6 +252,25 @@ const hasVisibleItems = Object.keys(sectionItems).some((id) => sectionVisible(id
                   { id: "explain", label: "REFERENCE", title: "Explain the available next step", content: "Use the relevant policy or process to explain what you can do now and when the customer can expect another update." },
                 ]}
               />
+              <section class="di-accordion-development" aria-labelledby="accordion-surface-variation-heading">
+                <div class="di-accordion-development__header">
+                  <h5 id="accordion-surface-variation-heading">Accent surface variation</h5>
+                  <p>Development view: a stronger heading and restrained accent surface for concise supporting context.</p>
+                </div>
+                <Accordion
+                  id="conversation-support-accordion"
+                  heading="Conversation support"
+                  behavior="single"
+                  presentation="surface"
+                  surface="accent"
+                  headingScale="prominent"
+                  density="compact"
+                  items={[
+                    { id: "listen", icon: "person", title: "Listen for the outcome", content: "Identify what the customer needs to achieve before offering a product or policy detail." },
+                    { id: "explain", icon: "information", title: "Explain one relevant option", content: "Keep the explanation focused on the option that best matches the practical concern." },
+                  ]}
+                />
+              </section>
             </section>
 
             <section class="di-accordion-showcase-specimen" aria-labelledby="accordion-horizontal-heading">
@@ -202,27 +290,24 @@ const hasVisibleItems = Object.keys(sectionItems).some((id) => sectionVisible(id
                     id: "wide",
                     title: "Customer approach",
                     content: "Check the overall message and product story from the point where a customer first sees the display.",
-                    media: { src: flipCardWideImage, alt: "A wide retail product display viewed from the customer walkway.", width: 1671, height: 941, caption: "Customer approach." },
+                    media: { src: flipCardWideImage, alt: "A wide retail product display viewed from the customer walkway.", width: 1671, height: 941 },
                   },
                   {
                     id: "detail",
                     title: "Product detail",
                     content: "Inspect labels, product condition and the details a customer notices when they are closer to the display.",
-                    media: { src: flipCardDetailImage, alt: "A close product detail on a retail shelf.", width: 1254, height: 1254, caption: "Product detail." },
+                    media: { src: flipCardDetailImage, alt: "A close product detail on a retail shelf.", width: 1254, height: 1254 },
                   },
                   {
                     id: "associate",
                     title: "Associate view",
                     content: "Use the associate perspective to prepare a helpful conversation while preserving the customer-facing story.",
-                    media: { src: flipCardPortraitImage, alt: "A retail associate reviewing a store display.", width: 1024, height: 1536, caption: "Associate view." },
+                    media: { src: flipCardPortraitImage, alt: "A retail associate reviewing a store display.", width: 1024, height: 1536 },
                   },
                 ]}
               />
             </section>
           </div>
-          <ShowcaseNotes>
-            <p>Avoid accordions when all content is required reading. In that case, keep the information visible in the main flow.</p>
-          </ShowcaseNotes>
         </ShowcaseExample>}
 
         {visible("flip-cards") && <ShowcaseExample id="flip-cards" title="Quick Course Flip Card System" purpose="Controlled face layouts can be paired freely; reveal mode changes only how the reverse face appears." status={status("flip-cards")}>
