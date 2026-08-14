@@ -21,7 +21,7 @@ Most hero variants use `HeroActions` through an `actions` prop. Each action need
 
 ## Showcase Display Options
 
-Each showcase preview has native checkbox controls for its optional eyebrow, supporting text, and available actions. The controls use a small shared Astro script to toggle the rendered elements in place. They are for reviewing variants only and do not need to ship with a course.
+Each showcase preview has native controls for its optional eyebrow, supporting text, and available actions. The controls use small, Showcase-only scripts to update rendered review content in place. They are not learner-facing controls, production authoring controls or Boilerplate content.
 
 ## Minimal Hero
 
@@ -31,7 +31,7 @@ Use Minimal Hero for a prominent text-first opening where imagery would not add 
 
 `eyebrow`, `summary` and `actions` are optional. Supply zero, one or two actions only; actions use `HeroActions` and retain the standard primary and secondary variants. Centered actions are centred, while left-aligned actions follow the course content edge. Titles and summaries use governed readable measures and wrap naturally without fixed heights.
 
-Minimal Hero has no image, media slot, JavaScript or hero-specific animation. Use Image Overlay Hero when a local image earns its place, and Section Divider or Chapter Opener for a lighter structural transition within a longer course. Brand surfaces and Display scale are strongest when used selectively rather than on every section.
+Minimal Hero has no image, media slot, JavaScript or hero-specific animation. Its Showcase uses one canonical preview with independent controls for alignment, surface, heading scale, density, optional content and up to two action labels. Use Image Overlay Hero when a local image earns its place, and Section Divider or Chapter Opener for a lighter structural transition within a longer course. Brand surfaces and Display scale are strongest when used selectively rather than on every section.
 
 ## Image Overlay Hero
 

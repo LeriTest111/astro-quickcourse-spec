@@ -1,0 +1,179 @@
+---
+import MinimalHero from "../layout/heroes/MinimalHero.astro";
+import DetailModal from "../interactions/display/DetailModal.astro";
+
+interface Props {
+  previewId: string;
+}
+
+const { previewId } = Astro.props;
+const targetId = `${previewId}-target`;
+const headingId = `${previewId}-heading`;
+---
+
+<div class="showcase-minimal-hero-preview" data-minimal-hero-preview>
+  <div class="showcase-review-controls">
+    <details class="showcase-preview-options" data-minimal-hero-options>
+      <summary>
+        <span class="material-symbols-sharp showcase-icon" aria-hidden="true">tune</span>
+        <span>Options</span>
+        <span class="material-symbols-sharp showcase-icon showcase-preview-options__chevron" aria-hidden="true">expand_more</span>
+      </summary>
+      <form class="showcase-preview-options__form" aria-label="Minimal Hero options">
+        <fieldset class="showcase-preview-options__group showcase-preview-options__fieldset">
+          <legend class="showcase-preview-options__label">Alignment</legend>
+          <div class="showcase-preview-options__segmented" role="radiogroup" aria-label="Hero alignment">
+            <label><input type="radio" name={`${previewId}-alignment`} value="center" data-minimal-alignment checked /><span>Center</span></label>
+            <label><input type="radio" name={`${previewId}-alignment`} value="left" data-minimal-alignment /><span>Left</span></label>
+          </div>
+        </fieldset>
+
+        <label class="showcase-preview-options__group">
+          <span class="showcase-preview-options__label">Surface</span>
+          <select data-minimal-surface>
+            <option value="default">Default</option>
+            <option value="neutral" selected>Neutral</option>
+            <option value="primary">Plum</option>
+            <option value="secondary">Steel</option>
+            <option value="accent">Clay</option>
+            <option value="light">Ivory</option>
+          </select>
+        </label>
+
+        <fieldset class="showcase-preview-options__group showcase-preview-options__fieldset">
+          <legend class="showcase-preview-options__label">Heading scale</legend>
+          <div class="showcase-preview-options__segmented" role="radiogroup" aria-label="Heading scale">
+            <label><input type="radio" name={`${previewId}-heading-scale`} value="standard" data-minimal-heading-scale checked /><span>Standard</span></label>
+            <label><input type="radio" name={`${previewId}-heading-scale`} value="display" data-minimal-heading-scale /><span>Display</span></label>
+          </div>
+        </fieldset>
+
+        <label class="showcase-preview-options__group">
+          <span class="showcase-preview-options__label">Density</span>
+          <select data-minimal-density>
+            <option value="compact">Compact</option>
+            <option value="standard" selected>Standard</option>
+            <option value="spacious">Spacious</option>
+          </select>
+        </label>
+
+        <fieldset class="showcase-preview-options__group showcase-preview-options__fieldset showcase-minimal-hero-preview__content-controls">
+          <legend class="showcase-preview-options__label">Context label</legend>
+          <label class="showcase-preview-options__toggle">
+            <input type="checkbox" data-minimal-eyebrow-visible />
+            <span>Show context label</span>
+          </label>
+          <label>Label<input type="text" maxlength="80" value="Module 03" data-minimal-eyebrow /></label>
+        </fieldset>
+
+        <fieldset class="showcase-preview-options__group showcase-preview-options__fieldset showcase-minimal-hero-preview__content-controls">
+          <legend class="showcase-preview-options__label">Supporting text</legend>
+          <label class="showcase-preview-options__toggle">
+            <input type="checkbox" data-minimal-summary-visible checked />
+            <span>Show supporting text</span>
+          </label>
+          <label>Text<textarea rows="3" maxlength="300" data-minimal-summary>Use this calm, text-first opening when the course needs focus without visual context.</textarea></label>
+        </fieldset>
+
+        <fieldset class="showcase-preview-options__group showcase-preview-options__fieldset showcase-minimal-hero-preview__content-controls">
+          <legend class="showcase-preview-options__label">Primary action</legend>
+          <label class="showcase-preview-options__toggle">
+            <input type="checkbox" data-minimal-primary-visible checked />
+            <span>Show primary action</span>
+          </label>
+          <label>Label<input type="text" maxlength="40" value="Start" data-minimal-primary-label /></label>
+        </fieldset>
+
+        <fieldset class="showcase-preview-options__group showcase-preview-options__fieldset showcase-minimal-hero-preview__content-controls">
+          <legend class="showcase-preview-options__label">Secondary action</legend>
+          <label class="showcase-preview-options__toggle">
+            <input type="checkbox" data-minimal-secondary-visible />
+            <span>Show secondary action</span>
+          </label>
+          <label>Label<input type="text" maxlength="40" value="Review" data-minimal-secondary-label /></label>
+        </fieldset>
+      </form>
+    </details>
+
+    <div class="showcase-guidance-control">
+      <DetailModal
+        id={`${previewId}-guidance`}
+        triggerLabel="Minimal Hero guidance"
+        triggerIcon="information"
+        triggerIconOnly={true}
+        triggerVariant="secondary"
+        heading="Minimal Hero guidance"
+      >
+        <ul class="di-dialog__list">
+          <li>Use Minimal Hero for a prominent text-first course, module or major thematic opening. Keep the message concise and use Display scale selectively.</li>
+          <li>Choose Image Overlay Hero when a local image adds useful learning or visual context. Choose Section Divider or Chapter Opener for lighter transitions inside a longer course.</li>
+          <li>Use a brand surface deliberately and avoid giving every section a hero. An eyebrow is optional; include it only when it adds meaningful context such as a module or topic label.</li>
+        </ul>
+      </DetailModal>
+    </div>
+  </div>
+
+  <div class="showcase-minimal-hero-preview__target" id={targetId}>
+    <MinimalHero
+      previewId={targetId}
+      headingId={headingId}
+      title="A practical introduction to confident decisions."
+      summary="Use this calm, text-first opening when the course needs focus without visual context."
+      surface="neutral"
+      actions={[
+        { href: "/showcase/display-interactions", label: "Start" },
+        { href: "/showcase/icons", label: "Review", variant: "secondary" },
+      ]}
+    />
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll("[data-minimal-hero-preview]").forEach((root) => {
+    if (root.dataset.minimalHeroPreviewReady === "true") return;
+    root.dataset.minimalHeroPreviewReady = "true";
+
+    const options = root.querySelector("[data-minimal-hero-options]");
+    const target = root.querySelector("[data-hero-preview]");
+    if (!(options instanceof HTMLDetailsElement) || !(target instanceof HTMLElement)) return;
+
+    const getCheckedValue = (selector: string) => {
+      const controls = Array.from(options.querySelectorAll(selector));
+      return controls.find((control) => control instanceof HTMLInputElement && control.checked)?.value;
+    };
+    const getInput = (selector: string) => options.querySelector(selector);
+    const updatePart = (part: string, visibleSelector: string, contentSelector: string) => {
+      const element = target.querySelector(`[data-hero-part="${part}"]`);
+      const visible = getInput(visibleSelector);
+      const content = getInput(contentSelector);
+      if (!(element instanceof HTMLElement) || !(visible instanceof HTMLInputElement) || !(content instanceof HTMLInputElement || content instanceof HTMLTextAreaElement)) return;
+
+      const text = content.value.trim();
+      element.textContent = text;
+      element.hidden = !visible.checked || !text;
+    };
+
+    const updatePreview = () => {
+      const surface = getInput("[data-minimal-surface]");
+      const density = getInput("[data-minimal-density]");
+      target.dataset.alignment = getCheckedValue("[data-minimal-alignment]") || "center";
+      target.dataset.headingScale = getCheckedValue("[data-minimal-heading-scale]") || "standard";
+      if (surface instanceof HTMLSelectElement) target.dataset.surface = surface.value;
+      if (density instanceof HTMLSelectElement) target.dataset.density = density.value;
+
+      updatePart("eyebrow", "[data-minimal-eyebrow-visible]", "[data-minimal-eyebrow]");
+      updatePart("summary", "[data-minimal-summary-visible]", "[data-minimal-summary]");
+      updatePart("primary-action", "[data-minimal-primary-visible]", "[data-minimal-primary-label]");
+      updatePart("secondary-action", "[data-minimal-secondary-visible]", "[data-minimal-secondary-label]");
+
+      const actions = target.querySelector("[data-hero-actions]");
+      if (actions instanceof HTMLElement) {
+        actions.hidden = !Array.from(actions.querySelectorAll("[data-hero-part]")).some((action) => !action.hidden);
+      }
+    };
+
+    options.addEventListener("change", updatePreview);
+    options.querySelectorAll("input[type='text'], textarea").forEach((control) => control.addEventListener("input", updatePreview));
+    updatePreview();
+  });
+</script>

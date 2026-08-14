@@ -5,11 +5,10 @@ import ShowcaseAnchorNav from "../../components/showcase/ShowcaseAnchorNav.astro
 import ShowcaseSection from "../../components/showcase/ShowcaseSection.astro";
 import ShowcaseExample from "../../components/showcase/ShowcaseExample.astro";
 import ShowcaseEmptyState from "../../components/showcase/ShowcaseEmptyState.astro";
-import MinimalHero from "../../components/layout/heroes/MinimalHero.astro";
+import MinimalHeroPreview from "../../components/showcase/MinimalHeroPreview.astro";
 import FloatingCardHero from "../../components/layout/heroes/FloatingCardHero.astro";
 import HeroDisplayOptions from "../../components/layout/heroes/HeroDisplayOptions.astro";
 import ImageOverlayHeroPreview from "../../components/showcase/ImageOverlayHeroPreview.astro";
-import DetailModal from "../../components/interactions/display/DetailModal.astro";
 import LearningObjectivesHero from "../../components/layout/heroes/LearningObjectivesHero.astro";
 import ScenarioOpenerHero from "../../components/layout/heroes/ScenarioOpenerHero.astro";
 import SplitHero from "../../components/layout/heroes/SplitHero.astro";
@@ -122,107 +121,7 @@ const productExamples = [
         </ShowcaseExample>
 
         <ShowcaseExample id="centered-minimal-hero" title="Hero 3: Minimal hero" purpose="Creates a prominent, image-free course or module opening through typography, space and a controlled surface.">
-          <HeroDisplayOptions
-            previewId="minimal-hero-primary-preview"
-            options={[
-              {
-                id: "alignment",
-                label: "Alignment",
-                type: "segmented",
-                value: "center",
-                targetAttribute: "alignment",
-                options: [
-                  { label: "Center", value: "center" },
-                  { label: "Left", value: "left" },
-                ],
-              },
-              {
-                id: "density",
-                label: "Density",
-                type: "select",
-                value: "standard",
-                targetAttribute: "density",
-                options: [
-                  { label: "Compact", value: "compact" },
-                  { label: "Standard", value: "standard" },
-                  { label: "Spacious", value: "spacious" },
-                ],
-              },
-              { part: "eyebrow", label: "Context label" },
-              { part: "summary", label: "Supporting text" },
-              { part: "primary-action", label: "Primary action" },
-              { part: "secondary-action", label: "Secondary action" },
-            ]}
-          />
-          <div class="showcase-guidance-control">
-            <DetailModal
-              id="minimal-hero-guidance"
-              triggerLabel="Minimal Hero guidance"
-              triggerIcon="information"
-              triggerIconOnly={true}
-              triggerVariant="secondary"
-              heading="Minimal Hero guidance"
-            >
-              <ul class="di-dialog__list">
-                <li>Use Minimal Hero for a prominent text-first course, module or major thematic opening. Keep the message concise and use Display scale selectively.</li>
-                <li>Choose Image Overlay Hero when a local image adds useful learning or visual context. Choose Section Divider or Chapter Opener for lighter transitions inside a longer course.</li>
-                <li>Use a brand surface deliberately and avoid giving every section a hero. An eyebrow is optional; include it only when it adds meaningful context such as a module or topic label.</li>
-              </ul>
-            </DetailModal>
-          </div>
-          <div class="minimal-hero-system">
-            <section class="minimal-hero-system__specimen" aria-labelledby="minimal-hero-centered-label">
-              <h5 id="minimal-hero-centered-label">Centered, neutral</h5>
-              <MinimalHero
-                previewId="minimal-hero-primary-preview"
-                headingId="minimal-hero-primary-heading"
-                eyebrow="Module 03"
-                title="A practical introduction to confident decisions."
-                summary="Use this calm, text-first opening when the course needs focus without visual context."
-                surface="neutral"
-                actions={[
-                  { href: "/showcase/display-interactions", label: "Start" },
-                  { href: "/showcase/icons", label: "Review", variant: "secondary" },
-                ]}
-              />
-            </section>
-            <section class="minimal-hero-system__specimen" aria-labelledby="minimal-hero-left-label">
-              <h5 id="minimal-hero-left-label">Left aligned, display</h5>
-              <MinimalHero
-                headingId="minimal-hero-left-heading"
-                title="Make every customer conversation easier to follow."
-                summary="Set a clear expectation before learners move into the practical guidance and examples."
-                alignment="left"
-                headingScale="display"
-                surface="neutral"
-                actions={[{ href: "#content-sections", label: "Review" }]}
-              />
-            </section>
-            <section class="minimal-hero-system__specimen" aria-labelledby="minimal-hero-brand-centered-label">
-              <h5 id="minimal-hero-brand-centered-label">Centered, brand surface</h5>
-              <MinimalHero
-                headingId="minimal-hero-brand-centered-heading"
-                eyebrow="Customer experience"
-                title="Small details build lasting trust."
-                summary="A bold, image-free opener for a focused course or major module transition."
-                headingScale="display"
-                density="spacious"
-                surface="primary"
-                actions={[{ href: "#processes-comparisons", label: "Start" }]}
-              />
-            </section>
-            <section class="minimal-hero-system__specimen" aria-labelledby="minimal-hero-brand-left-label">
-              <h5 id="minimal-hero-brand-left-label">Left aligned, compact</h5>
-              <MinimalHero
-                headingId="minimal-hero-brand-left-heading"
-                title="Confirm the next safe action."
-                summary="Use a compact brand surface for an important internal section break."
-                alignment="left"
-                density="compact"
-                surface="accent"
-              />
-            </section>
-          </div>
+          <MinimalHeroPreview previewId="minimal-hero-preview" />
         </ShowcaseExample>
 
         <ShowcaseExample id="floating-card-hero" title="Hero 4: Floating card hero" purpose="Keeps the message readable while a larger image provides course context.">
