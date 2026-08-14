@@ -1,6 +1,6 @@
 # Hero Variants
 
-Status: Individual hero statuses are recorded in the Showcase registry. Image Overlay Hero is In Review; Minimal Hero and the remaining hero variants are Draft.
+Status: Individual hero statuses are recorded in the Showcase registry. Image Overlay Hero and Minimal Hero are In Review; the remaining hero variants are Draft.
 
 ## Purpose
 
@@ -25,7 +25,7 @@ Each showcase preview has native controls for its optional eyebrow, supporting t
 
 ## Minimal Hero
 
-Status: Draft
+Status: In Review
 
 Use Minimal Hero for a prominent text-first opening where imagery would not add useful learning or visual context. It supports `alignment="center" | "left"`, `headingScale="standard" | "display"`, `density="compact" | "standard" | "spacious"`, and the controlled `default`, `neutral`, `primary`, `secondary`, `accent` and `light` surfaces. The component applies the matching foreground and action treatment for the selected surface.
 

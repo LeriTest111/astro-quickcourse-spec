@@ -20,6 +20,11 @@
   --showcase-rhythm-section-content: 1.5rem;
   --showcase-rhythm-content-block: 1.25rem;
   --showcase-rhythm-example-stack: 2.5rem;
+  --showcase-control-label-size: 0.8rem;
+  --showcase-control-label-weight: 750;
+  --showcase-control-text-size: 0.875rem;
+  --showcase-control-text-weight: 600;
+  --showcase-control-height: 2.5rem;
   color-scheme: light;
   font-family: "Arial Nova", Arial, Helvetica, sans-serif;
   font-synthesis: none;
@@ -2261,10 +2266,20 @@ html[data-showcase-view="approved"] [data-showcase-item]:not([data-showcase-stat
   align-items: center;
   gap: 0.45rem;
   color: #334155;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   font-weight: 800;
   list-style: none;
   padding: 0.5rem 0.75rem;
+}
+
+.showcase-preview-options summary:focus-visible {
+  outline: 3px solid #6c2c84;
+  outline-offset: 2px;
+}
+
+.showcase-preview-options :focus-visible {
+  outline: 3px solid #6c2c84;
+  outline-offset: 2px;
 }
 
 .showcase-preview-options summary::-webkit-details-marker {
@@ -2306,17 +2321,20 @@ html[data-showcase-view="approved"] [data-showcase-item]:not([data-showcase-stat
 
 .showcase-preview-options__label {
   color: #334155;
-  font-size: 0.85rem;
-  font-weight: 800;
+  font-size: var(--showcase-control-label-size);
+  font-weight: var(--showcase-control-label-weight);
+  line-height: 1.3;
 }
 
 .showcase-preview-options select {
-  min-height: 2.5rem;
+  min-height: var(--showcase-control-height);
   border: 1px solid #cbd5e1;
   border-radius: 0.45rem;
   background: #ffffff;
   color: #111827;
-  font-weight: 700;
+  font-size: var(--showcase-control-text-size);
+  font-weight: var(--showcase-control-text-weight);
+  line-height: 1.3;
   padding-inline: 0.65rem;
 }
 
@@ -2334,12 +2352,13 @@ html[data-showcase-view="approved"] [data-showcase-item]:not([data-showcase-stat
 .showcase-preview-options__toggle {
   position: relative;
   display: inline-flex;
-  min-height: 2.25rem;
+  min-height: var(--showcase-control-height);
   align-items: center;
   gap: 0.45rem;
   color: #334155;
-  font-size: 0.9rem;
-  font-weight: 800;
+  font-size: var(--showcase-control-text-size);
+  font-weight: var(--showcase-control-text-weight);
+  line-height: 1.3;
 }
 
 .showcase-preview-options__segmented input {
@@ -2349,7 +2368,7 @@ html[data-showcase-view="approved"] [data-showcase-item]:not([data-showcase-stat
 
 .showcase-preview-options__segmented span {
   border-radius: 0.35rem;
-  padding: 0.45rem 0.65rem;
+  padding: 0.55rem 0.65rem;
 }
 
 .showcase-preview-options__segmented input:checked + span {
@@ -2358,7 +2377,7 @@ html[data-showcase-view="approved"] [data-showcase-item]:not([data-showcase-stat
 }
 
 .showcase-preview-options__segmented input:focus-visible + span {
-  outline: 3px solid #93c5fd;
+  outline: 3px solid #6c2c84;
   outline-offset: 2px;
 }
 
@@ -2386,8 +2405,9 @@ html[data-showcase-view="approved"] [data-showcase-item]:not([data-showcase-stat
   border-radius: 0.35rem;
   background: #ffffff;
   color: #334155;
-  font-size: 0.85rem;
-  font-weight: 800;
+  font-size: var(--showcase-control-text-size);
+  font-weight: var(--showcase-control-text-weight);
+  line-height: 1.3;
   padding: 0.4rem 0.55rem;
 }
 
@@ -2405,7 +2425,7 @@ html[data-showcase-view="approved"] [data-showcase-item]:not([data-showcase-stat
 }
 
 .showcase-preview-options__swatches input:focus-visible + span {
-  outline: 3px solid #93c5fd;
+  outline: 3px solid #6c2c84;
   outline-offset: 2px;
 }
 
@@ -2415,8 +2435,9 @@ html[data-showcase-view="approved"] [data-showcase-item]:not([data-showcase-stat
   display: grid;
   gap: 0.35rem;
   color: #334155;
-  font-size: 0.85rem;
-  font-weight: 800;
+  font-size: var(--showcase-control-label-size);
+  font-weight: var(--showcase-control-label-weight);
+  line-height: 1.3;
 }
 
 .showcase-preview-options__colour-input input {
@@ -2443,7 +2464,9 @@ html[data-showcase-view="approved"] [data-showcase-item]:not([data-showcase-stat
   background: #ffffff;
   color: #111827;
   font: inherit;
+  font-size: var(--showcase-control-text-size);
   font-weight: 500;
+  line-height: 1.4;
   padding: 0.55rem 0.65rem;
 }
 
@@ -2458,7 +2481,6 @@ html[data-showcase-view="approved"] [data-showcase-item]:not([data-showcase-stat
 }
 
 .showcase-preview-options__toggle {
-  min-height: 2.5rem;
   border: 1px solid #cbd5e1;
   border-radius: 0.45rem;
   background: #ffffff;
