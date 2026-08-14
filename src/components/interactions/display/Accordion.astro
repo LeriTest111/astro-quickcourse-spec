@@ -134,14 +134,24 @@ const groupName = behavior === "single" ? `${id}-group` : undefined;
     const animations = new WeakMap<HTMLDetailsElement, Animation>();
     const duration = 220;
 
+    function resetPanelStyles(content: HTMLElement) {
+      content.style.removeProperty("height");
+      content.style.removeProperty("opacity");
+      content.style.removeProperty("overflow");
+    }
+
     function finishAnimation(item: HTMLDetailsElement, open: boolean) {
       const animation = animations.get(item);
-      animation?.cancel();
+      if (animation) {
+        animation.onfinish = null;
+        animation.oncancel = null;
+        animation.cancel();
+      }
       animations.delete(item);
       item.open = open;
       item.dataset.accordionAnimating = "false";
       const content = item.querySelector<HTMLElement>(".di-accordion__content");
-      if (content) content.style.removeProperty("overflow");
+      if (content) resetPanelStyles(content);
     }
 
     function animateItem(item: HTMLDetailsElement, open: boolean) {
@@ -151,7 +161,12 @@ const groupName = behavior === "single" ? `${id}-group` : undefined;
         return;
       }
 
-      animations.get(item)?.cancel();
+      const existingAnimation = animations.get(item);
+      if (existingAnimation) {
+        existingAnimation.onfinish = null;
+        existingAnimation.oncancel = null;
+        existingAnimation.cancel();
+      }
       item.dataset.accordionAnimating = "true";
       if (open) item.open = true;
       content.style.overflow = "clip";
@@ -167,7 +182,7 @@ const groupName = behavior === "single" ? `${id}-group` : undefined;
       animations.set(item, animation);
       animation.onfinish = () => finishAnimation(item, open);
       animation.oncancel = () => {
-        content.style.removeProperty("overflow");
+        resetPanelStyles(content);
         item.dataset.accordionAnimating = "false";
       };
     }

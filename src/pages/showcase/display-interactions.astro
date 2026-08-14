@@ -17,7 +17,6 @@ import Timeline from "../../components/interactions/display/Timeline.astro";
 import ProcessExplorer from "../../components/interactions/display/ProcessExplorer.astro";
 import ExpandableImage from "../../components/interactions/display/ExpandableImage.astro";
 import DetailModal from "../../components/interactions/display/DetailModal.astro";
-import QuickCourseIcon from "../../components/ui/QuickCourseIcon.astro";
 import type { FlipCardItem } from "../../components/interactions/display/flip-card-types";
 import { displayInteractionAnchors } from "../../data/showcase";
 import { getShowcaseItem } from "../../data/showcase-registry";
@@ -83,18 +82,27 @@ const hasVisibleItems = Object.keys(sectionItems).some((id) => sectionVisible(id
     {sectionVisible("reveal-content") && <ShowcaseSection id="reveal-content" title="Reveal content" description="Patterns for optional details, secondary layers and supporting context.">
       <div class="showcase-example-stack">
         {visible("accordion") && <ShowcaseExample id="accordion" title="Accordion" purpose="Reveals supporting answers without showing every detail at once." status={status("accordion")}>
-          <aside class="di-accordion-guidance" aria-labelledby="accordion-guidance-heading">
-            <QuickCourseIcon name="information" context="heading" />
-            <div>
-              <h4 id="accordion-guidance-heading">Accordion guidance</h4>
-              <p>Use accordions for optional or supporting content, not required sequential instructions. Choose independent panels for reference content and single-open panels for prominent or visual content. Horizontal image-led accordions become vertical on mobile.</p>
-            </div>
-          </aside>
+          <div class="showcase-icon-information-controls">
+            <DetailModal
+              id="accordion-usage-guidance"
+              triggerLabel="Accordion usage guidance"
+              triggerIcon="information"
+              triggerIconOnly={true}
+              triggerVariant="secondary"
+              heading="Accordion usage guidance"
+            >
+              <ul class="di-dialog__list">
+                <li>Use Accordion for optional explanations, supporting examples, FAQs and reference detail. Keep required instructions, critical safety content and sequential procedures visible in the main course flow.</li>
+                <li>Independent panels suit content learners may compare or revisit. Single-open panels suit more prominent, image-led or visually contained reference content.</li>
+                <li>Use the horizontal image-led pattern only for three to five concise, related perspectives. It becomes a normal vertical accordion on mobile.</li>
+                <li>Use meaningful summary text and alt text. The full summary is the disclosure control; content icons remain stationary while the right-side chevron communicates open state.</li>
+              </ul>
+            </DetailModal>
+          </div>
           <div class="di-accordion-showcase-stack">
             <section class="di-accordion-showcase-specimen" aria-labelledby="accordion-independent-heading">
               <div class="di-accordion-showcase-specimen__header">
                 <h4 id="accordion-independent-heading">Vertical accordion - independent</h4>
-                <p>Use the default multiple-open behaviour when learners may need to compare optional reference answers.</p>
               </div>
               <Accordion
                 id="customer-question-accordion"
@@ -110,7 +118,6 @@ const hasVisibleItems = Object.keys(sectionItems).some((id) => sectionVisible(id
               <section class="di-accordion-development" aria-labelledby="accordion-presentation-variations-heading">
                 <div class="di-accordion-development__header">
                   <h5 id="accordion-presentation-variations-heading">Presentation variations</h5>
-                  <p>Development view: governed typography, density, surface and header-content options use the same vertical system.</p>
                 </div>
                 <div class="di-accordion-development__grid">
                   <Accordion
@@ -157,7 +164,6 @@ const hasVisibleItems = Object.keys(sectionItems).some((id) => sectionVisible(id
             <section class="di-accordion-showcase-specimen" aria-labelledby="accordion-contained-heading">
               <div class="di-accordion-showcase-specimen__header">
                 <h4 id="accordion-contained-heading">Vertical contained accordion - single open</h4>
-                <p>Use contained panels for a more prominent reference block. The open item can still be closed.</p>
               </div>
               <Accordion
                 id="returns-policy-accordion"
@@ -176,7 +182,6 @@ const hasVisibleItems = Object.keys(sectionItems).some((id) => sectionVisible(id
             <section class="di-accordion-showcase-specimen" aria-labelledby="accordion-media-heading">
               <div class="di-accordion-showcase-specimen__header">
                 <h4 id="accordion-media-heading">Image + text accordion</h4>
-                <p>Use panel media when the image supports the optional explanation, not merely as decoration.</p>
               </div>
               <Accordion
                 id="display-review-accordion"
@@ -203,7 +208,6 @@ const hasVisibleItems = Object.keys(sectionItems).some((id) => sectionVisible(id
               <section class="di-accordion-development" aria-labelledby="accordion-image-resilience-heading">
                 <div class="di-accordion-development__header">
                   <h5 id="accordion-image-resilience-heading">Richer Image + Text content</h5>
-                  <p>Development view: a slightly richer panel remains readable without becoming a nested interaction.</p>
                 </div>
                 <Accordion
                   id="product-story-accordion"
@@ -239,7 +243,6 @@ const hasVisibleItems = Object.keys(sectionItems).some((id) => sectionVisible(id
             <section class="di-accordion-showcase-specimen" aria-labelledby="accordion-surface-heading">
               <div class="di-accordion-showcase-specimen__header">
                 <h4 id="accordion-surface-heading">Surface accordion</h4>
-                <p>A cohesive information surface can distinguish supplementary support without using a different colour for every item.</p>
               </div>
               <Accordion
                 id="service-recovery-accordion"
@@ -248,14 +251,13 @@ const hasVisibleItems = Object.keys(sectionItems).some((id) => sectionVisible(id
                 presentation="surface"
                 surface="information"
                 items={[
-                  { id: "listen", label: "TIP", title: "Listen for the practical concern", content: "Let the customer explain the immediate issue before offering a policy or process detail.", callout: { label: "Keep it focused", text: "A short acknowledgement can show that you have understood without making promises too early." } },
-                  { id: "explain", label: "REFERENCE", title: "Explain the available next step", content: "Use the relevant policy or process to explain what you can do now and when the customer can expect another update." },
+                  { id: "listen", title: "Listen for the practical concern", content: "Let the customer explain the immediate issue before offering a policy or process detail." },
+                  { id: "explain", title: "Explain the available next step", content: "Use the relevant policy or process to explain what you can do now and when the customer can expect another update." },
                 ]}
               />
               <section class="di-accordion-development" aria-labelledby="accordion-surface-variation-heading">
                 <div class="di-accordion-development__header">
                   <h5 id="accordion-surface-variation-heading">Accent surface variation</h5>
-                  <p>Development view: a stronger heading and restrained accent surface for concise supporting context.</p>
                 </div>
                 <Accordion
                   id="conversation-support-accordion"
@@ -276,7 +278,6 @@ const hasVisibleItems = Object.keys(sectionItems).some((id) => sectionVisible(id
             <section class="di-accordion-showcase-specimen" aria-labelledby="accordion-horizontal-heading">
               <div class="di-accordion-showcase-specimen__header">
                 <h4 id="accordion-horizontal-heading">Horizontal image-led accordion</h4>
-                <p>Use three to five concise visual perspectives on larger screens. It becomes a normal vertical accordion on mobile.</p>
               </div>
               <Accordion
                 id="store-perspectives-accordion"
