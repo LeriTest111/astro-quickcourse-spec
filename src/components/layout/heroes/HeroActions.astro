@@ -3,14 +3,15 @@ import type { HeroAction } from "./hero-types";
 
 interface Props {
   actions: HeroAction[];
+  tone?: "default" | "inverse";
 }
 
-const { actions } = Astro.props;
+const { actions, tone = "default" } = Astro.props;
 ---
 
 {
   actions.length > 0 && (
-    <div class="hero-actions" data-hero-actions>
+    <div class:list={["hero-actions", tone === "inverse" && "hero-actions--inverse"]} data-hero-actions>
       {actions.map((action) => (
         <a
           class:list={[

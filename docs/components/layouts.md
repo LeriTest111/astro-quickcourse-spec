@@ -6,15 +6,15 @@ Eyebrows are optional. Use them only when the label adds context that the headin
 
 Showcase page labels and counts should stay restrained. Do not add page-level component counts, visible `Section index` headings or example-count eyebrows to make a page feel complete. Category pages may keep quiet anchor navigation, and major groups should be separated through spacing, dividers and subtle neutral surface changes.
 
-Hero examples use the shared Showcase-only `Options` disclosure for optional preview controls. The Image Overlay Hero adds controlled overlay, text-treatment, title-emphasis and temporary content-testing options. These controls are review tooling and are not part of reusable production layout components.
+Hero examples use the shared Showcase-only `Options` disclosure for optional preview controls. Image Overlay Hero adds controlled overlay, text-treatment, title-emphasis and temporary content-testing options. Minimal Hero uses controlled alignment, heading scale, density and surface options. These controls are review tooling and are not part of reusable production layout components.
 
 Sticky Side Navigation has been removed from the reusable layout library and Showcase. Production Quick Courses should remain single-page experiences with navigation that targets topics or section anchors within the same page.
 
 ## Existing Heroes
 
-Status: Draft
+Status: Individual hero statuses are recorded in the Showcase registry.
 
-Purpose: introduce a module, course or scenario with one of six opener variants: `ImageOverlayHero`, `SplitHero`, `CenteredMinimalHero`, `FloatingCardHero`, `LearningObjectivesHero` and `ScenarioOpenerHero`.
+Purpose: introduce a module, course or scenario with one of six opener variants: `ImageOverlayHero`, `SplitHero`, `MinimalHero`, `FloatingCardHero`, `LearningObjectivesHero` and `ScenarioOpenerHero`.
 
 Recommended use: course starts, module starts and scenario starts.
 

@@ -592,7 +592,7 @@ dialog::backdrop {
 
 .showcase-hero,
 .showcase-hero-split,
-.showcase-hero-minimal,
+.showcase-minimal-hero,
 .showcase-hero-floating,
 .showcase-hero-objectives,
 .showcase-hero-scenario {
@@ -803,7 +803,6 @@ dialog::backdrop {
 }
 
 .showcase-hero-split__content,
-.showcase-hero-minimal__content,
 .showcase-hero-scenario__content {
   padding: 2rem 1.5rem;
 }
@@ -814,26 +813,168 @@ dialog::backdrop {
   object-fit: cover;
 }
 
-.showcase-hero-minimal {
+.showcase-minimal-hero {
+  --minimal-hero-background: #ffffff;
+  --minimal-hero-foreground: #111827;
+  --minimal-hero-muted: #4b5563;
+  --minimal-hero-focus: #6c2c84;
   display: grid;
-  place-items: center;
-  min-height: 24rem;
-  background: #f3f4f6;
-  text-align: center;
+  background: var(--minimal-hero-background);
+  color: var(--minimal-hero-foreground);
 }
 
-.showcase-hero-minimal__content {
-  max-width: 48rem;
+.showcase-minimal-hero[data-surface="neutral"] {
+  --minimal-hero-background: #f3f4f6;
+}
+
+.showcase-minimal-hero[data-surface="primary"] {
+  --minimal-hero-background: var(--showcase-ci-plum);
+  --minimal-hero-foreground: #ffffff;
+  --minimal-hero-muted: rgba(255, 255, 255, 0.9);
+  --minimal-hero-focus: #ffffff;
+}
+
+.showcase-minimal-hero[data-surface="secondary"] {
+  --minimal-hero-background: var(--showcase-ci-steel);
+  --minimal-hero-foreground: var(--showcase-ci-on-light);
+  --minimal-hero-muted: #27364a;
+}
+
+.showcase-minimal-hero[data-surface="accent"] {
+  --minimal-hero-background: var(--showcase-ci-clay);
+  --minimal-hero-foreground: var(--showcase-ci-on-light);
+  --minimal-hero-muted: #3d3030;
+}
+
+.showcase-minimal-hero[data-surface="light"] {
+  --minimal-hero-background: var(--showcase-ci-ivory);
+}
+
+.showcase-minimal-hero__content {
+  width: min(100%, 48rem);
   padding: 3.5rem 1.5rem;
 }
 
-.showcase-hero-minimal .hero-title,
-.showcase-hero-minimal .hero-summary {
+.showcase-minimal-hero[data-alignment="center"] {
+  justify-items: center;
+  text-align: center;
+}
+
+.showcase-minimal-hero[data-alignment="left"] {
+  justify-items: start;
+  text-align: left;
+}
+
+.showcase-minimal-hero[data-alignment="left"] .showcase-minimal-hero__content {
+  width: min(100%, 54rem);
+}
+
+.showcase-minimal-hero[data-density="compact"] .showcase-minimal-hero__content {
+  padding-block: 2rem;
+}
+
+.showcase-minimal-hero[data-density="spacious"] .showcase-minimal-hero__content {
+  padding-block: 5rem;
+}
+
+.showcase-minimal-hero__eyebrow,
+.showcase-minimal-hero__title,
+.showcase-minimal-hero__summary {
+  margin: 0;
+  color: inherit;
+  overflow-wrap: anywhere;
+}
+
+.showcase-minimal-hero__eyebrow {
+  color: var(--minimal-hero-muted);
+  font-size: 0.875rem;
+  font-weight: 800;
+  line-height: 1.35;
+}
+
+.showcase-minimal-hero__title {
+  max-width: 20ch;
+  margin-top: 0.75rem;
+  font-size: 2.25rem;
+  line-height: 1.08;
+}
+
+.showcase-minimal-hero__eyebrow + .showcase-minimal-hero__title {
+  margin-top: 0.7rem;
+}
+
+.showcase-minimal-hero[data-heading-scale="display"] .showcase-minimal-hero__title {
+  max-width: 15ch;
+  font-size: 3rem;
+  line-height: 1.02;
+}
+
+.showcase-minimal-hero__summary {
+  max-width: 58ch;
+  margin-top: 1rem;
+  color: var(--minimal-hero-muted);
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+.showcase-minimal-hero[data-alignment="center"] .showcase-minimal-hero__title,
+.showcase-minimal-hero[data-alignment="center"] .showcase-minimal-hero__summary {
   margin-inline: auto;
 }
 
-.showcase-hero-minimal .hero-actions {
+.showcase-minimal-hero .hero-actions {
+  margin-top: 1.5rem;
+}
+
+.showcase-minimal-hero[data-alignment="center"] .hero-actions {
   justify-content: center;
+}
+
+.showcase-minimal-hero :focus-visible {
+  outline: 3px solid var(--minimal-hero-focus);
+  outline-offset: 3px;
+}
+
+.hero-actions--inverse .hero-action {
+  border-color: #ffffff;
+  background: #ffffff;
+  color: #1e293b;
+}
+
+.hero-actions--inverse .hero-action:hover {
+  border-color: #f3f4f6;
+  background: #f3f4f6;
+  color: #1e293b;
+}
+
+.hero-actions--inverse .hero-action--secondary {
+  background: transparent;
+  color: #ffffff;
+}
+
+.hero-actions--inverse .hero-action--secondary:hover {
+  border-color: #ffffff;
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+}
+
+.minimal-hero-system {
+  display: grid;
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.minimal-hero-system__specimen {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.minimal-hero-system__specimen > h5 {
+  margin: 0;
+  color: #475569;
+  font-size: 0.95rem;
+  font-weight: 800;
+  line-height: 1.35;
 }
 
 .showcase-hero-floating {
@@ -966,6 +1107,26 @@ dialog::backdrop {
 
   .hero-title {
     font-size: 2.75rem;
+  }
+
+  .showcase-minimal-hero__content {
+    padding: 4.5rem 3rem;
+  }
+
+  .showcase-minimal-hero[data-density="compact"] .showcase-minimal-hero__content {
+    padding-block: 2.75rem;
+  }
+
+  .showcase-minimal-hero[data-density="spacious"] .showcase-minimal-hero__content {
+    padding-block: 6.5rem;
+  }
+
+  .showcase-minimal-hero__title {
+    font-size: 3.25rem;
+  }
+
+  .showcase-minimal-hero[data-heading-scale="display"] .showcase-minimal-hero__title {
+    font-size: 4.5rem;
   }
 
   .showcase-hero-split {

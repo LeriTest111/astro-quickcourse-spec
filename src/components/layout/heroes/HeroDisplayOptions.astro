@@ -2,9 +2,13 @@
 import PreviewOptions from "../../showcase/PreviewOptions.astro";
 
 type DisplayOption = {
-  part: "eyebrow" | "summary" | "primary-action" | "secondary-action";
+  id?: string;
   label: string;
-  checked?: boolean;
+  type?: "select" | "segmented" | "toggle";
+  value?: string | boolean;
+  part?: "eyebrow" | "summary" | "primary-action" | "secondary-action";
+  targetAttribute?: string;
+  options?: { label: string; value: string }[];
 };
 
 interface Props {
@@ -18,11 +22,17 @@ const { previewId, options } = Astro.props;
 <PreviewOptions
   targetId={`hero-preview-${previewId}`}
   targetSelector={`[data-hero-preview="${previewId}"]`}
-  options={options.map((option) => ({
-    id: option.part,
-    label: option.label,
-    type: "toggle",
-    value: option.checked ?? true,
-    targetPart: option.part,
-  }))}
+  options={options.map((option) => {
+    const type = option.type ?? "toggle";
+
+    return {
+      id: option.id ?? option.part ?? option.label.toLowerCase().replaceAll(" ", "-"),
+      label: option.label,
+      type,
+      value: option.value ?? true,
+      targetAttribute: option.targetAttribute,
+      targetPart: option.part,
+      options: option.options,
+    };
+  })}
 />

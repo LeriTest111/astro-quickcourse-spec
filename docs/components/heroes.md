@@ -1,6 +1,6 @@
 # Hero Variants
 
-Status: Individual hero statuses are recorded in the Showcase registry. Image Overlay Hero is In Review; the remaining hero variants are Draft.
+Status: Individual hero statuses are recorded in the Showcase registry. Image Overlay Hero is In Review; Minimal Hero and the remaining hero variants are Draft.
 
 ## Purpose
 
@@ -10,7 +10,7 @@ Heroes introduce a module, course, or scenario. Choose the layout that gives the
 
 - `ImageOverlayHero`: Full-width local image with controlled Dark, Light or Brand colour overlays and an optional eyebrow and description.
 - `SplitHero`: Text and actions alongside an image; it stacks with text first on narrow screens.
-- `CenteredMinimalHero`: Neutral, image-free opening with optional actions.
+- `MinimalHero`: Text-first opening with controlled center or left alignment, Standard or Display title scale, Compact, Standard or Spacious density, and approved light or brand surfaces.
 - `FloatingCardHero`: Large image with a solid text card that overlays on wider screens and flows below the image on narrow screens.
 - `LearningObjectivesHero`: Module context, introduction, two to five objectives, and a start action.
 - `ScenarioOpenerHero`: Scenario context, situation, learner challenge, and an enter action. An optional local image can be supplied.
@@ -22,6 +22,16 @@ Most hero variants use `HeroActions` through an `actions` prop. Each action need
 ## Showcase Display Options
 
 Each showcase preview has native checkbox controls for its optional eyebrow, supporting text, and available actions. The controls use a small shared Astro script to toggle the rendered elements in place. They are for reviewing variants only and do not need to ship with a course.
+
+## Minimal Hero
+
+Status: Draft
+
+Use Minimal Hero for a prominent text-first opening where imagery would not add useful learning or visual context. It supports `alignment="center" | "left"`, `headingScale="standard" | "display"`, `density="compact" | "standard" | "spacious"`, and the controlled `default`, `neutral`, `primary`, `secondary`, `accent` and `light` surfaces. The component applies the matching foreground and action treatment for the selected surface.
+
+`eyebrow`, `summary` and `actions` are optional. Supply zero, one or two actions only; actions use `HeroActions` and retain the standard primary and secondary variants. Centered actions are centred, while left-aligned actions follow the course content edge. Titles and summaries use governed readable measures and wrap naturally without fixed heights.
+
+Minimal Hero has no image, media slot, JavaScript or hero-specific animation. Use Image Overlay Hero when a local image earns its place, and Section Divider or Chapter Opener for a lighter structural transition within a longer course. Brand surfaces and Display scale are strongest when used selectively rather than on every section.
 
 ## Image Overlay Hero
 

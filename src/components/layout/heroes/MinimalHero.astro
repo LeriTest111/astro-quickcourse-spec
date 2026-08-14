@@ -1,0 +1,62 @@
+---
+import HeroActions from "./HeroActions.astro";
+import type {
+  HeroAction,
+  MinimalHeroAlignment,
+  MinimalHeroDensity,
+  MinimalHeroHeadingScale,
+  MinimalHeroSurface,
+} from "./hero-types";
+import type { HeadingLevel } from "../../layouts/layout-types";
+
+interface Props {
+  headingId: string;
+  title: string;
+  previewId?: string;
+  eyebrow?: string;
+  summary?: string;
+  actions?: HeroAction[];
+  alignment?: MinimalHeroAlignment;
+  headingScale?: MinimalHeroHeadingScale;
+  density?: MinimalHeroDensity;
+  surface?: MinimalHeroSurface;
+  headingLevel?: HeadingLevel;
+}
+
+const {
+  headingId,
+  title,
+  previewId,
+  eyebrow,
+  summary,
+  actions = [],
+  alignment = "center",
+  headingScale = "standard",
+  density = "standard",
+  surface = "default",
+  headingLevel = 2,
+} = Astro.props;
+
+const HeadingTag = `h${headingLevel}` as const;
+const trimmedEyebrow = eyebrow?.trim();
+const trimmedSummary = summary?.trim();
+const visibleActions = actions.slice(0, 2);
+const inverseActions = surface === "primary";
+---
+
+<section
+  class="showcase-minimal-hero"
+  data-hero-preview={previewId}
+  data-alignment={alignment}
+  data-heading-scale={headingScale}
+  data-density={density}
+  data-surface={surface}
+  aria-labelledby={headingId}
+>
+  <div class="showcase-minimal-hero__content">
+    {trimmedEyebrow && <p class="showcase-minimal-hero__eyebrow" data-hero-part="eyebrow">{trimmedEyebrow}</p>}
+    <HeadingTag id={headingId} class="showcase-minimal-hero__title">{title}</HeadingTag>
+    {trimmedSummary && <p class="showcase-minimal-hero__summary" data-hero-part="summary">{trimmedSummary}</p>}
+    <HeroActions actions={visibleActions} tone={inverseActions ? "inverse" : "default"} />
+  </div>
+</section>
