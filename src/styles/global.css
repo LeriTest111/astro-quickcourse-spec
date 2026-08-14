@@ -417,6 +417,200 @@ dialog::backdrop {
   font-weight: 800;
 }
 
+/* Internal planning surface: compact enough for scanning, with generous reading space. */
+.kit-workboard-summary {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+  margin-top: 2rem;
+}
+
+.kit-workboard-summary a {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: end;
+  gap: 0.2rem 0.75rem;
+  min-height: 6.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  background: #fff;
+  color: #334155;
+  padding: 1rem;
+  text-decoration: none;
+}
+
+.kit-workboard-summary a:hover {
+  border-color: #94a3b8;
+  background: #f8fafc;
+}
+
+.kit-workboard-summary a:focus-visible,
+.kit-workboard-entry__link:focus-visible {
+  outline: 3px solid #6c2c84;
+  outline-offset: 3px;
+}
+
+.kit-workboard-summary a span:first-child {
+  grid-column: 1 / -1;
+  color: #475569;
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.kit-workboard-summary strong {
+  color: #111827;
+  font-size: 1.75rem;
+  line-height: 1;
+}
+
+.kit-workboard-summary span:last-child {
+  align-self: end;
+  color: #64748b;
+  font-size: 0.85rem;
+}
+
+.kit-workboard-horizons {
+  display: grid;
+  gap: 3rem;
+  margin-top: 3rem;
+}
+
+.kit-workboard-horizon {
+  min-width: 0;
+}
+
+.kit-workboard-horizon__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1rem;
+  border-bottom: 1px solid #d1d5db;
+  padding-bottom: 1rem;
+}
+
+.kit-workboard-horizon__header h2,
+.kit-workboard-horizon__header p {
+  margin: 0;
+}
+
+.kit-workboard-horizon__header h2 {
+  color: #111827;
+  font-size: 1.5rem;
+}
+
+.kit-workboard-horizon__header p {
+  max-width: 65ch;
+  margin-top: 0.35rem;
+  color: #64748b;
+}
+
+.kit-workboard-horizon__count {
+  display: grid;
+  min-width: 2.5rem;
+  min-height: 2.5rem;
+  place-items: center;
+  border: 1px solid #cbd5e1;
+  border-radius: 999px;
+  background: #f8fafc;
+  color: #334155;
+  font-weight: 800;
+}
+
+.kit-workboard-list {
+  display: grid;
+  gap: 1rem;
+  margin: 1.25rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.kit-workboard-entry {
+  display: grid;
+  gap: 0.9rem;
+  min-width: 0;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  background: #fff;
+  padding: 1.25rem;
+}
+
+.kit-workboard-entry__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.kit-workboard-entry__area {
+  margin: 0 0 0.25rem;
+  color: #64748b;
+  font-size: 0.85rem;
+  font-weight: 750;
+}
+
+.kit-workboard-entry h3 {
+  margin: 0;
+  color: #111827;
+  font-size: 1.15rem;
+}
+
+.kit-workboard-entry__status {
+  border: 1px solid #cbd5e1;
+  border-radius: 999px;
+  background: #f8fafc;
+  color: #475569;
+  font-size: 0.8rem;
+  font-weight: 750;
+  line-height: 1.2;
+  padding: 0.4rem 0.55rem;
+}
+
+.kit-workboard-entry__summary,
+.kit-workboard-entry__next,
+.kit-workboard-entry__dependency {
+  max-width: 78ch;
+  margin: 0;
+  color: #475569;
+  line-height: 1.6;
+}
+
+.kit-workboard-entry__next strong,
+.kit-workboard-entry__dependency strong {
+  color: #111827;
+}
+
+.kit-workboard-entry__link {
+  display: inline-flex;
+  width: fit-content;
+  min-height: 2.5rem;
+  align-items: center;
+  gap: 0.4rem;
+  color: #6c2c84;
+  font-weight: 750;
+  text-decoration: none;
+}
+
+.kit-workboard-entry__link:hover {
+  text-decoration: underline;
+}
+
+.kit-workboard-empty {
+  margin: 1.25rem 0 0;
+  border: 1px dashed #cbd5e1;
+  border-radius: 0.5rem;
+  background: #fff;
+  color: #64748b;
+  padding: 1rem;
+}
+
+@media (min-width: 640px) {
+  .kit-workboard-summary {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
 .showcase-workflow-mode,
 .showcase-workflow-link {
   display: flex;
@@ -1741,7 +1935,8 @@ dialog::backdrop {
 
 html[data-showcase-view="development"] [data-showcase-item][data-showcase-status="approved"],
 html[data-showcase-view="development"] [data-showcase-item][data-showcase-status="deprecated"],
-html[data-showcase-view="approved"] [data-showcase-item]:not([data-showcase-status="approved"]) {
+html[data-showcase-view="approved"] [data-showcase-item]:not([data-showcase-status="approved"]),
+html[data-showcase-view="approved"] [data-showcase-development-only] {
   display: none;
 }
 

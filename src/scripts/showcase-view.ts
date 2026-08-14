@@ -50,6 +50,12 @@ function updateCategoryCounts(view: ShowcaseView) {
   });
 }
 
+function updateDevelopmentOnlyContent(view: ShowcaseView) {
+  document.querySelectorAll<HTMLElement>("[data-showcase-development-only]").forEach((element) => {
+    element.hidden = view === "approved";
+  });
+}
+
 function updateSectionsAndEmptyStates() {
   document.querySelectorAll<HTMLElement>("[data-showcase-section]").forEach((section) => {
     const items = Array.from(section.querySelectorAll<HTMLElement>("[data-showcase-item]"));
@@ -94,6 +100,7 @@ function applyView(view: ShowcaseView) {
   });
 
   document.querySelectorAll<HTMLAnchorElement>("[data-showcase-view-link]").forEach((link) => setViewLink(link, view));
+  updateDevelopmentOnlyContent(view);
   updateCategoryCounts(view);
   updateSectionsAndEmptyStates();
   clearIncompatibleFragment();

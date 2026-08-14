@@ -16,6 +16,7 @@ Production Quick Courses remain single-page experiences. The Showcase routes are
 - `/showcase/typography`: type stack and readable content standards.
 - `/showcase/icons`: controlled semantic icon vocabulary and usage guidance.
 - `/showcase/workflow/`: plain-language governance guide for the Quick Course Kit process.
+- `/showcase/workboard/`: internal development workboard for current and future Kit work.
 
 ## Navigation
 
@@ -23,7 +24,7 @@ Shared Showcase navigation lives outside production-course navigation. In the Sh
 
 Category pages may include quiet local anchor links for direct review. These links do not need a visible `Section index` heading or page-level component counts.
 
-The workflow page is intentionally not included in the main navbar because it is supporting project-governance content, not a component category. It is linked from the Showcase homepage and supports both collection views.
+The workflow page is intentionally not included in the main navbar because it is supporting project-governance content, not a component category. The Workboard is included in the internal development navigation and is hidden in the Approved view.
 
 The Layouts page includes stable anchor links such as:
 

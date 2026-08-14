@@ -11,7 +11,7 @@ const shortNavLabels: Record<string, string> = {
   "display-interactions": "Interactions",
   "assessment-interactions": "Assessments",
 };
-const navItems = [{ label: "Home", href: "/", slug: "home" }, ...showcaseCategories].map((item) => ({
+const navItems = [{ label: "Home", href: "/", slug: "home" }, ...showcaseCategories, { label: "Workboard", href: "/showcase/workboard/", slug: "workboard", developmentOnly: true }].map((item) => ({
   ...item,
   label: shortNavLabels[item.slug] ?? item.label,
 }));
@@ -29,7 +29,7 @@ const navItems = [{ label: "Home", href: "/", slug: "home" }, ...showcaseCategor
     <nav class="showcase-topbar__nav" aria-label="Showcase navigation">
       <ul>
         {navItems.map((item) => (
-          <li>
+          <li data-showcase-development-only={item.developmentOnly ? "true" : undefined}>
             <a href={item.href} data-showcase-view-link aria-current={item.slug === activeCategory ? "page" : undefined}>
               {item.label}
             </a>
@@ -45,7 +45,7 @@ const navItems = [{ label: "Home", href: "/", slug: "home" }, ...showcaseCategor
       <nav aria-label="Showcase mobile navigation">
         <ul>
           {navItems.map((item) => (
-            <li>
+            <li data-showcase-development-only={item.developmentOnly ? "true" : undefined}>
               <a href={item.href} data-showcase-view-link aria-current={item.slug === activeCategory ? "page" : undefined}>
                 {item.label}
               </a>

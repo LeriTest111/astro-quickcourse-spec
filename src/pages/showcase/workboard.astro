@@ -1,0 +1,77 @@
+---
+import ShowcaseLayout from "../../layouts/ShowcaseLayout.astro";
+import ShowcasePageHeader from "../../components/showcase/ShowcasePageHeader.astro";
+import QuickCourseIcon from "../../components/ui/QuickCourseIcon.astro";
+import { getWorkboardItems, workboardHorizons } from "../../data/workboard";
+
+const counts = Object.fromEntries(workboardHorizons.map((horizon) => [horizon.id, getWorkboardItems(horizon.id).length]));
+---
+
+<ShowcaseLayout
+  pageTitle="Kit Workboard | Quick Course Kit"
+  description="Internal workboard for the Astro Quick Course Kit Showcase."
+  activeCategory="workboard"
+>
+  <div data-showcase-development-only>
+    <ShowcasePageHeader
+      eyebrow="Internal Kit development"
+      title="Kit Workboard"
+      description="A repository-owned view of current Kit work, upcoming priorities, deliberately postponed improvements and ideas to explore. This is planning context for the Kit and for AI/Codex, not learner-facing course content."
+    />
+
+    <section class="kit-workboard-summary" aria-label="Workboard summary">
+      {workboardHorizons.map((horizon) => (
+        <a href={`#workboard-${horizon.id}`}>
+          <span>{horizon.label}</span>
+          <strong>{counts[horizon.id]}</strong>
+          <span>{counts[horizon.id] === 1 ? "item" : "items"}</span>
+        </a>
+      ))}
+    </section>
+
+    <div class="kit-workboard-horizons">
+      {workboardHorizons.map((horizon) => {
+        const items = getWorkboardItems(horizon.id);
+
+        return (
+          <section id={`workboard-${horizon.id}`} class="kit-workboard-horizon scroll-mt-28" aria-labelledby={`workboard-${horizon.id}-heading`}>
+            <header class="kit-workboard-horizon__header">
+              <div>
+                <h2 id={`workboard-${horizon.id}-heading`}>{horizon.label}</h2>
+                <p>{horizon.description}</p>
+              </div>
+              <span class="kit-workboard-horizon__count">{items.length}</span>
+            </header>
+
+            {items.length > 0 ? (
+              <ol class="kit-workboard-list">
+                {items.map((item) => (
+                  <li class="kit-workboard-entry">
+                    <div class="kit-workboard-entry__header">
+                      <div>
+                        <p class="kit-workboard-entry__area">{item.area}</p>
+                        <h3>{item.title}</h3>
+                      </div>
+                      {item.status && <span class="kit-workboard-entry__status">{item.status}</span>}
+                    </div>
+                    <p class="kit-workboard-entry__summary">{item.summary}</p>
+                    <p class="kit-workboard-entry__next"><strong>Next:</strong> {item.nextAction}</p>
+                    {item.dependency && <p class="kit-workboard-entry__dependency"><strong>Dependency:</strong> {item.dependency}</p>}
+                    {item.showcaseHref && (
+                      <a class="kit-workboard-entry__link" href={item.showcaseHref}>
+                        <QuickCourseIcon name="next" context="button" decorative />
+                        Open in Showcase
+                      </a>
+                    )}
+                  </li>
+                ))}
+              </ol>
+            ) : (
+              <p class="kit-workboard-empty">Nothing queued for {horizon.label}.</p>
+            )}
+          </section>
+        );
+      })}
+    </div>
+  </div>
+</ShowcaseLayout>
