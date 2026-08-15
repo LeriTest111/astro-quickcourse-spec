@@ -8,6 +8,11 @@ export type ShowcaseCategory =
   | "typography"
   | "icons";
 
+export interface ShowcaseProductionMapping {
+  entries: string[];
+  runtimeDependencies?: string[];
+}
+
 export interface ShowcaseRegistryItem {
   id: string;
   name: string;
@@ -24,6 +29,7 @@ export interface ShowcaseRegistryItem {
   reviewRound?: string;
   reviewAudience?: string[];
   reviewFocus?: string;
+  production?: ShowcaseProductionMapping;
 }
 
 export const showcaseViews: ShowcaseView[] = ["development", "approved"];
@@ -61,9 +67,9 @@ export const statusTones: Record<ShowcaseStatus, string> = {
 };
 
 export const showcaseRegistry: ShowcaseRegistryItem[] = [
-  { id: "image-overlay-hero", name: "Image overlay hero", category: "layouts", status: "approved", version: "0.2.0", reviewFocus: "Review overlay treatments, brand-colour contrast, title emphasis and long-content behaviour." },
+  { id: "image-overlay-hero", name: "Image overlay hero", category: "layouts", status: "approved", version: "0.2.0", reviewFocus: "Review overlay treatments, brand-colour contrast, title emphasis and long-content behaviour.", production: { entries: ["src/components/layout/heroes/ImageOverlayHero.astro"] } },
   { id: "split-hero", name: "Split hero", category: "layouts", status: "draft", version: "0.1.0" },
-  { id: "centered-minimal-hero", name: "Minimal Hero", category: "layouts", status: "approved", version: "0.3.0", reviewFocus: "Review the centred and left-aligned compositions, controlled surfaces, density scale and the single configurable Showcase specimen." },
+  { id: "centered-minimal-hero", name: "Minimal Hero", category: "layouts", status: "approved", version: "0.3.0", reviewFocus: "Review the centred and left-aligned compositions, controlled surfaces, density scale and the single configurable Showcase specimen.", production: { entries: ["src/components/layout/heroes/MinimalHero.astro"] } },
   { id: "floating-card-hero", name: "Floating card hero", category: "layouts", status: "draft", version: "0.1.0" },
   { id: "learning-objectives-hero", name: "Learning objectives hero", category: "layouts", status: "draft", version: "0.1.0" },
   { id: "scenario-opener-hero", name: "Scenario opener hero", category: "layouts", status: "draft", version: "0.1.0" },
@@ -81,7 +87,7 @@ export const showcaseRegistry: ShowcaseRegistryItem[] = [
   { id: "section-divider", name: "Section Divider or Chapter Opener", category: "layouts", status: "concept", version: "0.1.0" },
   { id: "summary-section", name: "Summary Layout", category: "layouts", status: "concept", version: "0.1.0" },
   { id: "accordion", name: "Accordion", category: "display-interactions", status: "draft", version: "0.1.0" },
-  { id: "flip-cards", name: "Quick Course Flip Card System", category: "display-interactions", status: "approved", version: "0.2.0" },
+  { id: "flip-cards", name: "Quick Course Flip Card System", category: "display-interactions", status: "approved", version: "0.2.0", production: { entries: ["src/components/interactions/display/FlipCards.astro"] } },
   { id: "hotspot-reveal", name: "Click-to-Reveal Hotspots", category: "display-interactions", status: "draft", version: "0.1.0" },
   {
     id: "guided-product-explorer",
@@ -95,11 +101,11 @@ export const showcaseRegistry: ShowcaseRegistryItem[] = [
   },
   { id: "detail-modal", name: "Supporting-Detail Modal or Panel", category: "display-interactions", status: "concept", version: "0.1.0" },
   { id: "tabs", name: "Tabs", category: "display-interactions", status: "draft", version: "0.1.0" },
-  { id: "carousel", name: "Quick Course Carousel System", category: "display-interactions", status: "approved", version: "0.1.0" },
+  { id: "carousel", name: "Quick Course Carousel System", category: "display-interactions", status: "approved", version: "0.1.0", production: { entries: ["src/components/interactions/display/Carousel.astro"], runtimeDependencies: ["embla-carousel"] } },
   { id: "process-explorer", name: "Process Explorer", category: "display-interactions", status: "draft", version: "0.1.0" },
   { id: "timeline", name: "Timeline", category: "display-interactions", status: "draft", version: "0.1.0" },
   { id: "expandable-image", name: "Expandable Image", category: "display-interactions", status: "concept", version: "0.1.0" },
-  { id: "multiple-choice-feedback", name: "Multiple-choice feedback", category: "assessment-interactions", status: "approved", version: "0.1.0" },
+  { id: "multiple-choice-feedback", name: "Multiple-choice feedback", category: "assessment-interactions", status: "approved", version: "0.1.0", production: { entries: ["src/components/interactions/ChoiceQuestion.astro"] } },
   {
     id: "drag-and-drop",
     name: "Drag and Drop",
@@ -129,6 +135,7 @@ export const showcaseRegistry: ShowcaseRegistryItem[] = [
     reviewRound: "Video Review 01",
     reviewAudience: ["Visual Design", "Instructional Design"],
     reviewFocus: "Review the native player presentation, poster treatment, responsive sizing and suitability as the default Quick Course video pattern.",
+    production: { entries: ["src/components/multimedia/VideoSection.astro"] },
   },
   { id: "video-with-transcript", name: "Video with Transcript", category: "multimedia", status: "concept", version: "0.1.0" },
   {
@@ -140,9 +147,10 @@ export const showcaseRegistry: ShowcaseRegistryItem[] = [
     reviewRound: "Video Review 01",
     reviewAudience: ["Visual Design", "Instructional Design"],
     reviewFocus: "Review the chapter-panel layout, compact spacing, active-state clarity, scrolling behaviour and suitability for longer instructional videos.",
+    production: { entries: ["src/components/multimedia/VideoChapters.astro"] },
   },
-  { id: "type-scale", name: "Quick Course Typography System", category: "typography", status: "approved", version: "0.2.0" },
-  { id: "icon-set", name: "Quick Course Icon System", category: "icons", status: "approved", version: "0.2.0", reviewFocus: "Review the semantic vocabulary, Material Symbols Sharp consistency, controlled context treatments and AI-safe accessibility guidance." },
+  { id: "type-scale", name: "Quick Course Typography System", category: "typography", status: "approved", version: "0.2.0", production: { entries: ["src/components/typography/TypeText.astro", "src/components/typography/TextLayout.astro", "src/components/typography/QuoteBlock.astro", "src/components/typography/StatisticBlock.astro", "src/components/typography/DefinitionList.astro"] } },
+  { id: "icon-set", name: "Quick Course Icon System", category: "icons", status: "approved", version: "0.2.0", reviewFocus: "Review the semantic vocabulary, Material Symbols Sharp consistency, controlled context treatments and AI-safe accessibility guidance.", production: { entries: ["src/components/ui/QuickCourseIcon.astro"] } },
 ];
 
 export function shouldShowShowcaseItem(item: ShowcaseRegistryItem, view: ShowcaseView) {

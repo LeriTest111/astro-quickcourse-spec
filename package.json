@@ -8,6 +8,8 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "build:kit-manifest": "node scripts/build-kit-manifest.mjs",
+    "build:kit-release": "node scripts/build-kit-release.mjs",
     "build:scorm": "astro build && node scripts/build-scorm.mjs",
     "preview": "astro preview",
     "astro": "astro"

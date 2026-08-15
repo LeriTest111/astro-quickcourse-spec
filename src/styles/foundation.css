@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+@plugin "daisyui";
+
+@theme {  --font-sans: "Arial Nova", Arial, Helvetica, sans-serif;}
+
+:root {  --showcase-ci-plum: #6c2c84;  --showcase-ci-steel: #7b92ac;  --showcase-ci-blush: #debfc6;  --showcase-ci-ivory: #fdf3e0;  --showcase-ci-clay: #d29f91;  --showcase-ci-on-light: #1e293b;  --qc-carousel-surface-blue: color-mix(in srgb, var(--showcase-ci-steel) 20%, #ffffff);  --qc-carousel-surface-plum: color-mix(in srgb, var(--showcase-ci-plum) 12%, #ffffff);  --qc-carousel-surface-warm: var(--showcase-ci-ivory);  --qc-carousel-surface-green: #e6eee8;  --showcase-rhythm-heading-body: 0.5rem;  --showcase-rhythm-section-content: 1.5rem;  --showcase-rhythm-content-block: 1.25rem;  --showcase-rhythm-example-stack: 2.5rem;  color-scheme: light;  font-family: "Arial Nova", Arial, Helvetica, sans-serif;  font-synthesis: none;  text-rendering: optimizeLegibility;  background: #f8fafc;  color: #111827;}
+
+html {  scroll-behavior: smooth;  scroll-padding-top: 7rem;}
+
+body {  min-height: 100vh;  margin: 0;  font-family: inherit;  font-size: var(--qc-type-body-size, 1rem);  line-height: var(--qc-type-body-line-height, 1.6);  background: #f8fafc;}
+
+button,
+input,
+select,
+textarea {
+font: inherit;
+}
+
+a[href],button:not(:disabled),summary,[data-clickable="true"] {  cursor: pointer;}
+
+button:disabled,
+[aria-disabled="true"] {
+cursor: not-allowed;
+}
+
+h1,
+h2,
+h3,
+h4 {
+line-height: 1.2;  font-weight: 700;
+}
+
+a {  text-underline-offset: 0.18em;}
+
+small,
+figcaption,
+caption {
+font-size: 0.875rem;  line-height: 1.5;
+}
+
+:focus-visible {  outline: 3px solid #2563eb;  outline-offset: 3px;}
+
+.skip-link {  position: absolute;  left: 1rem;  top: 1rem;  z-index: 50;  transform: translateY(-150%);  border-radius: 0.5rem;  background: #111827;  color: #ffffff;  padding: 0.65rem 0.9rem;}
+
+.skip-link:focus {  transform: translateY(0);}
+
+dialog::backdrop {  background: rgba(15, 23, 42, 0.4);}
+
+@media (prefers-reduced-motion: reduce) {
+html {    scroll-behavior: auto;  }
+
+*,
+*::before,
+*::after {
+transition-duration: 0.01ms !important;    animation-duration: 0.01ms !important;    animation-iteration-count: 1 !important;
+}
+}
+
+:root {  --qc-font-serif: Georgia, "Times New Roman", Times, serif;  --qc-font-mono: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", Menlo, monospace;  --qc-type-default: #1e293b;  --qc-type-muted: #526073;  --qc-type-strong: #111827;  --qc-type-accent: #6c2c84;  --qc-type-primary: #6c2c84;  --qc-type-secondary: #48627f;  --qc-type-success: #166534;  --qc-type-warning: #7a4814;  --qc-type-error: #b91c1c;  --qc-type-surface-muted: #eef2f5;  --qc-type-surface-light: #fdf3e0;  --qc-type-surface-accent: #d29f91;  --qc-type-rule: #cbd5e1;  --qc-type-body-size: 1.125rem;  --qc-type-body-line-height: 1.55;  --qc-type-measure-narrow: 42rem;  --qc-type-measure-standard: 54rem;  --qc-type-measure-wide: 72rem;  --qc-type-section-space: clamp(4rem, 7vw, 5.75rem);  --qc-type-section-padding: clamp(2rem, 4vw, 2.75rem);  --qc-type-section-heading-intro: 0.65rem;  --qc-type-intro-specimen: clamp(2rem, 3.5vw, 2.5rem);  --qc-type-specimen-title-description: 0.5rem;  --qc-type-description-example: clamp(1.25rem, 2vw, 1.5rem);  --qc-type-specimen-gap: clamp(2rem, 4vw, 2.75rem);  --qc-type-prose-gap: 1.25rem;}
