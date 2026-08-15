@@ -61,9 +61,9 @@ export const statusTones: Record<ShowcaseStatus, string> = {
 };
 
 export const showcaseRegistry: ShowcaseRegistryItem[] = [
-  { id: "image-overlay-hero", name: "Image overlay hero", category: "layouts", status: "in-review", version: "0.2.0", reviewFocus: "Review overlay treatments, brand-colour contrast, title emphasis and long-content behaviour." },
+  { id: "image-overlay-hero", name: "Image overlay hero", category: "layouts", status: "approved", version: "0.2.0", reviewFocus: "Review overlay treatments, brand-colour contrast, title emphasis and long-content behaviour." },
   { id: "split-hero", name: "Split hero", category: "layouts", status: "draft", version: "0.1.0" },
-  { id: "centered-minimal-hero", name: "Minimal Hero", category: "layouts", status: "in-review", version: "0.3.0", reviewFocus: "Review the centred and left-aligned compositions, controlled surfaces, density scale and the single configurable Showcase specimen." },
+  { id: "centered-minimal-hero", name: "Minimal Hero", category: "layouts", status: "approved", version: "0.3.0", reviewFocus: "Review the centred and left-aligned compositions, controlled surfaces, density scale and the single configurable Showcase specimen." },
   { id: "floating-card-hero", name: "Floating card hero", category: "layouts", status: "draft", version: "0.1.0" },
   { id: "learning-objectives-hero", name: "Learning objectives hero", category: "layouts", status: "draft", version: "0.1.0" },
   { id: "scenario-opener-hero", name: "Scenario opener hero", category: "layouts", status: "draft", version: "0.1.0" },
@@ -81,7 +81,7 @@ export const showcaseRegistry: ShowcaseRegistryItem[] = [
   { id: "section-divider", name: "Section Divider or Chapter Opener", category: "layouts", status: "concept", version: "0.1.0" },
   { id: "summary-section", name: "Summary Layout", category: "layouts", status: "concept", version: "0.1.0" },
   { id: "accordion", name: "Accordion", category: "display-interactions", status: "draft", version: "0.1.0" },
-  { id: "flip-cards", name: "Quick Course Flip Card System", category: "display-interactions", status: "in-review", version: "0.2.0" },
+  { id: "flip-cards", name: "Quick Course Flip Card System", category: "display-interactions", status: "approved", version: "0.2.0" },
   { id: "hotspot-reveal", name: "Click-to-Reveal Hotspots", category: "display-interactions", status: "draft", version: "0.1.0" },
   {
     id: "guided-product-explorer",
@@ -95,11 +95,11 @@ export const showcaseRegistry: ShowcaseRegistryItem[] = [
   },
   { id: "detail-modal", name: "Supporting-Detail Modal or Panel", category: "display-interactions", status: "concept", version: "0.1.0" },
   { id: "tabs", name: "Tabs", category: "display-interactions", status: "draft", version: "0.1.0" },
-  { id: "carousel", name: "Quick Course Carousel System", category: "display-interactions", status: "in-review", version: "0.1.0" },
+  { id: "carousel", name: "Quick Course Carousel System", category: "display-interactions", status: "approved", version: "0.1.0" },
   { id: "process-explorer", name: "Process Explorer", category: "display-interactions", status: "draft", version: "0.1.0" },
   { id: "timeline", name: "Timeline", category: "display-interactions", status: "draft", version: "0.1.0" },
   { id: "expandable-image", name: "Expandable Image", category: "display-interactions", status: "concept", version: "0.1.0" },
-  { id: "multiple-choice-feedback", name: "Multiple-choice feedback", category: "assessment-interactions", status: "in-review", version: "0.1.0" },
+  { id: "multiple-choice-feedback", name: "Multiple-choice feedback", category: "assessment-interactions", status: "approved", version: "0.1.0" },
   {
     id: "drag-and-drop",
     name: "Drag and Drop",
@@ -124,7 +124,7 @@ export const showcaseRegistry: ShowcaseRegistryItem[] = [
     id: "standard-video",
     name: "Standard Video",
     category: "multimedia",
-    status: "in-review",
+    status: "approved",
     version: "0.2.0",
     reviewRound: "Video Review 01",
     reviewAudience: ["Visual Design", "Instructional Design"],
@@ -135,14 +135,14 @@ export const showcaseRegistry: ShowcaseRegistryItem[] = [
     id: "video-with-chapters",
     name: "Video with Chapters",
     category: "multimedia",
-    status: "in-review",
+    status: "approved",
     version: "0.2.0",
     reviewRound: "Video Review 01",
     reviewAudience: ["Visual Design", "Instructional Design"],
     reviewFocus: "Review the chapter-panel layout, compact spacing, active-state clarity, scrolling behaviour and suitability for longer instructional videos.",
   },
-  { id: "type-scale", name: "Quick Course Typography System", category: "typography", status: "in-review", version: "0.2.0" },
-  { id: "icon-set", name: "Quick Course Icon System", category: "icons", status: "in-review", version: "0.2.0", reviewFocus: "Review the semantic vocabulary, Material Symbols Sharp consistency, controlled context treatments and AI-safe accessibility guidance." },
+  { id: "type-scale", name: "Quick Course Typography System", category: "typography", status: "approved", version: "0.2.0" },
+  { id: "icon-set", name: "Quick Course Icon System", category: "icons", status: "approved", version: "0.2.0", reviewFocus: "Review the semantic vocabulary, Material Symbols Sharp consistency, controlled context treatments and AI-safe accessibility guidance." },
 ];
 
 export function shouldShowShowcaseItem(item: ShowcaseRegistryItem, view: ShowcaseView) {
