@@ -121,6 +121,14 @@ function assertVersion(version) {
   }
 }
 
+function installedPackageVersion(packageName) {
+  const packagePath = path.join(root, "node_modules", ...packageName.split("/"), "package.json");
+  if (!fs.existsSync(packagePath)) {
+    throw new Error(`Cannot determine installed release dependency version for ${packageName}.`);
+  }
+  return JSON.parse(fs.readFileSync(packagePath, "utf8")).version;
+}
+
 function writeJson(filePath, value) {
   fs.writeFileSync(filePath, `${JSON.stringify(value, null, 2)}\n`);
 }
@@ -214,20 +222,18 @@ const { packageExports: componentExports, entryExports } = createPublicExports(s
 const releaseDependencies = {};
 
 for (const dependency of externalDependencies) {
-  const version = sourcePackage.dependencies?.[dependency];
-  if (!version) {
+  if (!sourcePackage.dependencies?.[dependency]) {
     throw new Error(`Released source imports ${dependency}, but it is not a Kit package dependency.`);
   }
-  releaseDependencies[dependency] = version;
+  releaseDependencies[dependency] = installedPackageVersion(dependency);
 }
 
 const releasePeerDependencies = {};
 for (const dependency of stylePeerDependencies) {
-  const version = sourcePackage.dependencies?.[dependency];
-  if (!version) {
+  if (!sourcePackage.dependencies?.[dependency]) {
     throw new Error(`Release build peer dependency is missing from the Kit package: ${dependency}`);
   }
-  releasePeerDependencies[dependency] = version;
+  releasePeerDependencies[dependency] = installedPackageVersion(dependency);
 }
 
 for (const component of sourceManifest.components) {

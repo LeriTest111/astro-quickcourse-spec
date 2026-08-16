@@ -27,7 +27,7 @@ The generated package currently uses the provisional local-only name `@quick-cou
 
 A future Course Starter will consume one specific generated release through a pinned local `file:` dependency. The Starter, rather than this workbench, will provide the full consumption proof.
 
-The release package lists source dependencies required by released components and peer build requirements for Astro, Tailwind and DaisyUI. It excludes Showcase CSS, Showcase pages/components, Workboard data, lifecycle registry code and review tooling. Never edit generated release files manually; regenerate them from the Kit source instead.
+The release package lists source dependencies required by released components and pins the Kit's installed peer build requirements for Astro, Tailwind and DaisyUI. It excludes Showcase CSS, Showcase pages/components, Workboard data, lifecycle registry code and review tooling. Never edit generated release files manually; regenerate them from the Kit source instead.
 
 ## Exclusions And SCORM
 

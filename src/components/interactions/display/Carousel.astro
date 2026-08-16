@@ -254,7 +254,11 @@ const slideLabel = (slide: CarouselSlide, index: number) => slide.title ? `${sli
     document.querySelectorAll<HTMLElement>("[data-qc-carousel]").forEach((root) => cleanups.get(root)?.());
   }
 
-  initialiseAll();
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initialiseAll, { once: true });
+  } else {
+    initialiseAll();
+  }
   document.addEventListener("astro:page-load", initialiseAll);
   document.addEventListener("astro:before-swap", destroyAll);
 </script>

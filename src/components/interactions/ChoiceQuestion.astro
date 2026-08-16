@@ -254,6 +254,10 @@ const inputType = selectionMode === "single" ? "radio" : "checkbox";
     document.querySelectorAll<HTMLElement>("[data-choice-question]").forEach(initialiseChoiceQuestion);
   }
 
-  initialiseAllChoiceQuestions();
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initialiseAllChoiceQuestions, { once: true });
+  } else {
+    initialiseAllChoiceQuestions();
+  }
   document.addEventListener("astro:page-load", initialiseAllChoiceQuestions);
 </script>
